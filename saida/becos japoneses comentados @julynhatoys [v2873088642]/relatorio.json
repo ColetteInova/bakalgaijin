@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-23T08:32:33",
+  "gerado_em": "2026-09-23T09:24:52",
   "metricas": {
     "video_id": "2873088642",
     "title": "becos japoneses comentados @julynhatoys",
@@ -9,18 +9,18 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/1d819639288c8a680ef2_bakagaijinlive_316452665202_1789303348//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7744,
     "duration_label": "2h09min",
-    "views": 18111,
+    "views": 18113,
     "views_label": "18.1k",
     "likes_estimado": 217,
     "likes_label": "217",
     "comentarios": 5015,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 28.889,
+    "taxa_engajamento": 28.885,
     "followers_canal": 248253,
     "comparacao_canal": {
-      "mediana_views": 20717,
-      "media_views": 25439.0,
-      "mediana_pares": 29103.0,
+      "mediana_views": 20718,
+      "media_views": 25440.7,
+      "mediana_pares": 29104.5,
       "views_vs_mediana_pct": -12.6,
       "views_vs_media_pct": -28.8,
       "views_vs_pares_pct": -37.8,
@@ -72076,7 +72076,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 28.889% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 28.885% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

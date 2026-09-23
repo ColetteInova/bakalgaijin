@@ -45,5 +45,13 @@ echo "==> Analisando: $DIR"
 "$PY" scripts/preparar.py "$DIR"
 
 echo ""
+echo "==> Cortando trechos virais (subpasta cortes/)"
+"$PY" scripts/cortar.py "$DIR"
+
+echo ""
+echo "==> Atualizando dashboard com os cortes gerados"
+"$PY" scripts/preparar.py "$DIR"
+
+echo ""
 echo "Concluído! Saída em: $DIR"
 ls -lah "$DIR"

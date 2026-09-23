@@ -1747,7 +1747,15 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     )
     srt_file = next((f for f in input_files if f.lower().endswith(".srt")), None)
 
-    files_json = _json.dumps({"video": video_file, "audio": audio_file, "srt": srt_file})
+    # cortes físicos (gerados por scripts/cortar.py em <pasta>/cortes/)
+    cortes_dir = FOLDER / "cortes"
+    corte_files: list[str] = []
+    if cortes_dir.is_dir():
+        corte_files = sorted(p.name for p in cortes_dir.iterdir() if p.suffix.lower() == ".mp4")
+
+    files_json = _json.dumps(
+        {"video": video_file, "audio": audio_file, "srt": srt_file, "cortes": corte_files}
+    )
     cues_json = _json.dumps(
         [{"s": b["start"], "e": b["end"], "t": b["text"]} for b in (srt_blocks or [])],
         ensure_ascii=False,
@@ -1825,12 +1833,15 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     display: inline-block; margin: 3px 6px 3px 0; padding: 4px 10px;
     background: #0f172a; border: 1px solid var(--border); border-radius: 8px; font-size: .78rem;
   }
-  .player-wrap { position: sticky; top: 12px; z-index: 50; }
+  .player-wrap { position: sticky; top: 12px; z-index: 50; width: 100%; max-width: 960px; margin: 0 auto; }
   .player {
     background: #000; border: 1px solid var(--border); border-radius: 12px;
     overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,.5);
+    width: 100%; margin: 0 auto;
   }
-  video, audio { width: 100%; display: block; background: #000; }
+  video, audio { width: 100%; height: auto; display: block; margin: 0 auto; background: #000; }
+  video { aspect-ratio: 16/9; object-fit: contain; }
+  .player video { object-fit: contain; }
   .media-error {
     background: #1e293b; color: #fbbf24; padding: 18px; text-align: center;
     font-size: .82rem; display: none;
@@ -1873,7 +1884,9 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .comment-feed .cuser { color: #cbd5e1; font-weight: 600; }
   .comment-feed li.new { animation: fadein .25s ease; }
   @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .corte-player { display:flex; flex-direction:column; align-items:center; width:100%; }
   .corte-player video, .corte-player audio { width:100%; display:block; border-radius:8px; background:#000; }
+  .corte-player video { aspect-ratio:16/9; object-fit:contain; }
   .corte-player audio { height:40px; }
   .chapters-bar { display:flex; gap:6px; overflow-x:auto; padding:4px 0; flex-wrap:nowrap; }
   .chapter-chip {
@@ -1910,7 +1923,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     <button class="btn active" id="modeVideo" onclick="setPlayerMode('video')">🎬 Vídeo</button>
     <button class="btn" id="modeAudio" onclick="setPlayerMode('audio')">🎧 Somente Áudio</button>
   </div>
-  <div class="grid two">
+  <div class="grid two" style="max-width:960px;margin:0 auto">
     <div class="player-wrap" id="videoWrap">
       <div class="player">
         <video id="videoPlayer" controls playsinline></video>
@@ -3078,28 +3091,32 @@ function renderCapitulos(ct) {
 }
 
 function renderCortes(ct) {
-  document.getElementById("cortes").innerHTML = ct.cortes_virais.map((c,i) =>
-    `<div class="card" style="margin-bottom:10px">
+  const cortes = FILES.cortes || [];
+  document.getElementById("cortes").innerHTML = ct.cortes_virais.map((c,i) => {
+    const corteFile = cortes[i] || null;
+    const videoSrc = corteFile ? "cortes/" + corteFile : (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
+    const audioSrc = FILES.audio ? `${FILES.audio}#t=${c.inicio_sec},${c.fim_sec}` : null;
+    return `<div class="card" style="margin-bottom:10px">
        <div class="label">Corte ${i+1} · ${c.inicio}–${c.fim} · ${c.duracao_min}min</div>
        <div class="quote">${esc(c.justificativa)}</div>
        <div class="grid two" style="margin-top:10px;gap:10px">
-         ${FILES.video ? `
+         ${videoSrc ? `
          <div class="corte-player">
-           <div class="muted" style="margin-bottom:4px">🎬 Vídeo</div>
+           <div class="muted" style="margin-bottom:4px">🎬 Vídeo${corteFile ? " (arquivo cortado)" : ""}</div>
            <video class="corte-video" controls preload="none"
-             src="${FILES.video}#t=${c.inicio_sec},${c.fim_sec}"
+             src="${videoSrc}"
              onplay="pauseOthers(this,'video')"></video>
          </div>` : ''}
-         ${FILES.audio ? `
+         ${audioSrc ? `
          <div class="corte-player">
            <div class="muted" style="margin-bottom:4px">🎧 Áudio</div>
            <audio class="corte-audio" controls preload="none"
-             src="${FILES.audio}#t=${c.inicio_sec},${c.fim_sec}"
+             src="${audioSrc}"
              onplay="pauseOthers(this,'audio')"></audio>
          </div>` : ''}
        </div>
-     </div>`
-  ).join("") || "<div class='muted'>Sem cortes identificados.</div>";
+     </div>`;
+  }).join("") || "<div class='muted'>Sem cortes identificados.</div>";
 }
 
 function pauseOthers(el, kind) {
@@ -3675,7 +3692,7 @@ def write_index(saida_dir: Path) -> None:
   .support-card:hover {{ transform:translateY(-4px); border-color:var(--gold); box-shadow:0 14px 40px rgba(245,158,11,.2); }}
   .support-img {{ width:100%; height:150px; background:#0b0f1a; display:flex; align-items:center; justify-content:center; overflow:hidden; }}
   .support-img img {{ width:100%; height:100%; object-fit:cover; display:block; }}
-  .support-img img.logo {{ object-fit:contain; width:70%; height:70%; }}
+  .support-img img.logo {{ object-fit:cover; width:100%; height:100%; }}
   .support-body {{ padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }}
   .support-title {{ font-weight:800; font-size:1rem; color:#f1f5f9; }}
   .support-desc {{ font-size:.8rem; color:var(--muted); line-height:1.5; flex:1; }}

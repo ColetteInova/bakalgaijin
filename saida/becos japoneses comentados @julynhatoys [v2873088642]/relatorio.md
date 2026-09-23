@@ -13,7 +13,7 @@
 | Likes (estimado) | 217 |
 | Comentários | 5015 |
 | Taxa de likes | 1.198% |
-| Taxa de engajamento | 28.889% |
+| Taxa de engajamento | 28.885% |
 | Duração | 2h09min |
 
 ## 2. Comparação com o Canal
