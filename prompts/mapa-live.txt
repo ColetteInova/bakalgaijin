@@ -1,0 +1,82 @@
+PROMPT REUTILIZÁVEL — MAPA DA LIVE (Baka Gaijin)
+===================================================
+
+Quando eu pedir "faça o mapa", "monta o mapa", "mapa da live" (ou similar),
+siga EXATAMENTE estas regras, sem precisar que eu repita.
+
+OBJETIVO
+--------
+Gerar um mapa interativo mostrando por onde o Baka Gaijin passou durante a
+live, com UM MARCO (marker) A CADA 10 MINUTOS de live, usando imagens reais
+extraídas da própria live.
+
+REGRAS PRINCIPAIS
+-----------------
+1. CADÊNCIA: 1 marker a cada 10 minutos de live.
+   - Ex.: 0:00, 10:00, 20:00, 30:00 ... até o final (2h09min => ~13 marcos).
+   - Cada marker vira um "ponto" da rota do Baka.
+
+2. IMAGENS: usar frames REAIS extraídos do vídeo da live.
+   - Se o VOD tiver `video.mp4` na pasta `saida/<nome-do-vod>/`, extrair 1 frame
+     por bloco de 10 min com ffmpeg (1 frame no início de cada bloco).
+   - Se não houver vídeo, usar o thumbnail oficial do VOD (campo
+     `metricas.thumbnail` do relatorio.json) ou avatar do canal.
+   - Comando de extração:
+     ffmpeg -hide_banner -loglevel error -ss <SEGUNDOS> \
+       -i "saida/<vod>/video.mp4" -frames:v 1 -vf scale=640:-1 -q:v 3 \
+       "saida/<vod>/mapa/marco_<MM>.jpg" -y
+
+3. LOCALIZAÇÃO: as coordenadas são APROXIMADAS (não há GPS na live).
+   - Usar a região real da live. Ex.: lives de beco => Shinjuku / Kabukichō,
+     Tóquio (~35.69, 139.70).
+   - Interpolar os marcos ao longo de uma rota plausível dentro dessa região.
+   - Se a transcrição citar lugares (estação, torre, beco, loja...), ancorar os
+     marcos mais próximos nesses pontos.
+
+4. MAPA: Leaflet 1.9.4 + OpenStreetMap (gratuito, sem chave de API).
+   - CDNs:
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+5. ONDE INSERIR: DENTRO do `dashboard.html`, LOGO ABAIXO dos players principais
+   (após o grid de vídeo/áudio e ANTES da seção "Replay dos Comentários").
+   - NÃO criar página separada.
+   - Tema escuro igual ao dashboard (fundo #1e293b, borda #334155, acento #a855f7).
+
+6. CONTEÚDO DE CADA MARCO (popup e chip):
+   - Nome/hora (ex.: "10:00", "20:00" ou marco nomeado quando citado).
+   - Frame (img) da live.
+   - Citação do que foi falado NAQUELE instante (pegar do `audio.srt`/`audio.txt`
+     o trecho mais próximo do timestamp).
+   - Clique => pula o player do dashboard para aquele segundo e dá play.
+
+7. INTEGRAÇÃO COM O PLAYER DO DASHBOARD:
+   - Funções JS: MAP_STOPS[], initLiveMap(), jumpToStop(s), mapFitAll().
+   - jumpToStop: `media.el.currentTime = s.sec; media.el.play();` + flyTo + popup.
+   - Chamar initLiveMap() DEPOIS de render().
+   - O player de vídeo usa id `videoPlayer` (e o de áudio `audioPlayer`).
+
+8. ÍNDICE: adicionar link/badge "🗾 mapa" no card do VOD em `saida/index.html`.
+
+9. TESTAR: abrir o dashboard no navegador e validar:
+   - mapa renderiza (tiles + N markers = N blocos de 10 min);
+   - clicar num marco pula o player para o tempo certo;
+   - sem erros de console.
+
+ATENÇÃO — PERSISTÊNCIA
+----------------------
+`dashboard.html` e `saida/index.html` são REGENERADOS por
+`python3 scripts/preparar.py` (o HTML é gerado dentro do próprio script).
+Portanto:
+- Sempre que o `preparar.py` rodar de novo, o mapa é apagado.
+- Ao "fazer o mapa", se o dashboard atual NÃO tiver o mapa (foi regenerado),
+  re-injetar todo o bloco do mapa de novo.
+- Para tornar permanente de verdade, editar `scripts/preparar.py` para incluir
+  a geração do mapa automaticamente.
+
+REFERÊNCIA (como já foi feito antes)
+------------------------------------
+- Exemplo implementado: "becos japoneses comentados @julynhatoys [v2873088642]".
+- Frames salvos em: saida/<vod>/mapa/*.jpg
+- Marcos usados (exemplo): torre Kabukichō, beco do pó, beco das lanternas,
+  jardim vertical, estação, plataforma do trem.
