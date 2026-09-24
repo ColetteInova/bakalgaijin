@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-23T08:32:28",
+  "gerado_em": "2026-09-24T07:15:04",
   "metricas": {
     "video_id": "2871566138",
     "title": "DE VORTA AO JAPAO",
@@ -9,21 +9,21 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37489,
-    "views_label": "37.5k",
-    "likes_estimado": 449,
-    "likes_label": "449",
+    "views": 37558,
+    "views_label": "37.6k",
+    "likes_estimado": 450,
+    "likes_label": "450",
     "comentarios": 8726,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 24.474,
-    "followers_canal": 248253,
+    "taxa_engajamento": 24.432,
+    "followers_canal": 248246,
     "comparacao_canal": {
-      "mediana_views": 20717,
-      "media_views": 25439.0,
-      "mediana_pares": 19414.0,
-      "views_vs_mediana_pct": 81.0,
-      "views_vs_media_pct": 47.4,
-      "views_vs_pares_pct": 93.1,
+      "mediana_views": 20933,
+      "media_views": 25561.0,
+      "mediana_pares": 19562.5,
+      "views_vs_mediana_pct": 79.4,
+      "views_vs_media_pct": 46.9,
+      "views_vs_pares_pct": 92.0,
       "n_videos_canal": 3
     }
   },
@@ -80,7 +80,7 @@
           "baka vai",
           "baka volta",
           "baka qual",
-          "japão baka"
+          "baka como"
         ],
         "n_comentarios": 1555,
         "pct": 17.8
@@ -103,8 +103,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "quando vai",
-          "vai fazer"
+          "vai fazer",
+          "quando vai"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -114,8 +114,8 @@
         "palavras_chave": [
           "live",
           "live gravada",
-          "faz live",
-          "fazer live"
+          "fazer live",
+          "faz live"
         ],
         "n_comentarios": 375,
         "pct": 4.3
@@ -90802,12 +90802,12 @@
       "receita_por_minuto": 1.287,
       "projecao_3h": 231.66,
       "projecao_2h": 154.44,
-      "usd_brl": 5.1122,
-      "receita_liquida_brl": 1067.33,
-      "receita_subs_brl": 2117.32,
-      "receita_bits_brl": 8.69,
-      "projecao_3h_brl": 1184.29,
-      "projecao_2h_brl": 789.53
+      "usd_brl": 5.1169,
+      "receita_liquida_brl": 1068.31,
+      "receita_subs_brl": 2119.27,
+      "receita_bits_brl": 8.7,
+      "projecao_3h_brl": 1185.38,
+      "projecao_2h_brl": 790.25
     },
     "sent_series": {
       "positivo": [
@@ -114674,7 +114674,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 37.5k views está acima da mediana do canal em 81.0% (mediana 20.7k)."
+      "acao": "VOD com 37.6k views está acima da mediana do canal em 79.4% (mediana 20.9k)."
     },
     {
       "titulo": "Clima do chat",
@@ -114686,7 +114686,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.474% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.432% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

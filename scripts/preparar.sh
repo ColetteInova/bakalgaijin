@@ -35,22 +35,41 @@ if [ ! -d "$DIR" ]; then
   exit 1
 fi
 
-PY=".venv-ia/bin/python"
-if [ ! -x "$PY" ]; then
-  echo "Ambiente .venv-ia não encontrado. Rode: python3 -m venv .venv-ia && .venv-ia/bin/pip install requests" >&2
+PY=""
+for candidate in ".venv-ia/bin/python" "$(command -v python3 2>/dev/null)"; do
+  if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+    PY="$candidate"
+    break
+  fi
+done
+if [ -z "$PY" ]; then
+  echo "Python 3 não encontrado." >&2
   exit 1
 fi
+
+# Chave DeepSeek: obrigatória para geolocalizar os marcos do mapa.
+# Rode com: DEEPSEEK_API_KEY="sk-..." ./scripts/preparar.sh <pasta>
+if [ -z "${DEEPSEEK_API_KEY:-}" ]; then
+  echo "⚠️  DEEPSEEK_API_KEY não definida — o mapa usará rota aproximada (sem DeepSeek)." >&2
+fi
+export DEEPSEEK_API_KEY
 
 echo "==> Analisando: $DIR"
 "$PY" scripts/preparar.py "$DIR"
 
-echo ""
-echo "==> Cortando trechos virais (subpasta cortes/)"
-"$PY" scripts/cortar.py "$DIR"
+CORTES_DIR="$DIR/cortes"
+if [ ! -d "$CORTES_DIR" ] || [ -z "$(ls -A "$CORTES_DIR" 2>/dev/null)" ]; then
+  echo ""
+  echo "==> Cortando trechos virais (subpasta cortes/)"
+  "$PY" scripts/cortar.py "$DIR"
 
-echo ""
-echo "==> Atualizando dashboard com os cortes gerados"
-"$PY" scripts/preparar.py "$DIR"
+  echo ""
+  echo "==> Atualizando dashboard com os cortes gerados"
+  "$PY" scripts/preparar.py "$DIR"
+else
+  echo ""
+  echo "==> Cortes já existem em cortes/ — pulando corte e re-run"
+fi
 
 echo ""
 echo "Concluído! Saída em: $DIR"

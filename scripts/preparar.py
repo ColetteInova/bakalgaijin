@@ -23,6 +23,7 @@ import math
 import os
 import re
 import statistics
+import subprocess
 import sys
 import urllib.request
 from collections import Counter
@@ -34,6 +35,41 @@ from pathlib import Path
 
 TWITCH_GQL_URL = "https://gql.twitch.tv/gql"
 TWITCH_CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
+
+# DeepSeek (API OpenAI-compatível) — usado para nomear/geolocalizar os marcos do mapa.
+# Chave via env var DEEPSEEK_API_KEY (sem chave => fallback determinístico em Shinjuku).
+DEEPSEEK_API_URL = os.environ.get("DEEPSEEK_API_URL", "https://api.deepseek.com/chat/completions")
+DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+
+
+def _deepseek_chat(messages: list[dict], max_tokens: int = 2000) -> str | None:
+    """Chama a API DeepSeek (formato OpenAI). Retorna o texto ou None em erro."""
+    if not DEEPSEEK_API_KEY:
+        return None
+    body = json.dumps(
+        {
+            "model": DEEPSEEK_MODEL,
+            "messages": messages,
+            "temperature": 0.3,
+            "max_tokens": max_tokens,
+        }
+    ).encode("utf-8")
+    req = urllib.request.Request(
+        DEEPSEEK_API_URL,
+        data=body,
+        headers={
+            "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=90) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"]
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] DeepSeek indisponível ({exc}) — usando rota aproximada.", file=sys.stderr)
+        return None
 
 # Categorias de sentimento (classificação determinística + LLM opcional)
 SENTIMENT_CATEGORIES = [
@@ -481,9 +517,9 @@ def classify_sentiment(text: str) -> tuple[str, float]:
         scores["neutro/pergunta"] += 3
 
     # emojis
-    if any(e in text for e in ("❤", "♥", "👍", "🙏", "🔥", "😍")):
+    if any(e in text for e in ("❤", "♥", "👍", "🙏", "fa-solid fa-fire", "😍")):
         scores["positivo"] += 1
-    if any(e in text for e in ("😂", "🤣", "😆", "💀")):
+    if any(e in text for e in ("fa-solid fa-face-laugh-squint", "🤣", "😆", "💀")):
         scores["engraçado"] += 2
     if any(e in text for e in ("😡", "🤬", "😤")):
         scores["frustrado"] += 2
@@ -1728,6 +1764,213 @@ def write_csv(comments: list[dict], path: Path) -> None:
             )
 
 
+# --------------------------------------------------------------------------- #
+# Mapa da live (marcos a cada 10 min) — extração de frames + geolocalização
+# --------------------------------------------------------------------------- #
+
+MAP_STOP_INTERVAL = 600  # 10 minutos
+
+# Fallback determinístico: base em Shinjuku/Kabukichō (usado sem DEEPSEEK_API_KEY
+# ou se a API falhar). Os marcos são interpolados numa rota plausível pela região.
+MAP_FALLBACK_BASE = {"lat": 35.6932, "lng": 139.7030}
+MAP_FALLBACK_NAMED = [
+    (792, "Torrezão do Kabukichō", 35.6955, 139.7010),
+    (1199, "Beco do pó", 35.6940, 139.7025),
+    (2043, "Beco das lanternas", 35.6930, 139.7045),
+    (6062, "Jardim vertical", 35.6910, 139.7018),
+    (6521, "Estação (área iluminada)", 35.6900, 139.7006),
+    (7539, "Plataforma do trem", 35.6897, 139.7005),
+]
+
+MAP_COLORS = [
+    "#ec4899", "#f97316", "#f59e0b", "#84cc16", "#22c55e",
+    "#2dd4bf", "#3b82f6", "#6366f1", "#a855f7", "#d946ef",
+    "#f43f5e", "#eab308", "#14b8a6",
+]
+
+
+def _quote_at(blocks: list[dict], seconds: int, window: int = 90) -> str:
+    """Frase falada mais próxima de `seconds` (dentro de ±window segundos)."""
+    best: dict | None = None
+    for b in blocks:
+        if abs(b["start"] - seconds) <= window:
+            if best is None or abs(b["start"] - seconds) < abs(best["start"] - seconds):
+                best = b
+    return best["text"] if best else ""
+
+
+def _extract_map_frames(folder: Path, video_file: str | None, stops: list[dict]) -> None:
+    """Extrai 1 frame por marco via ffmpeg (se houver vídeo).
+
+    O vídeo não muda entre execuções: se a pasta mapa/ já tem os frames,
+    não roda ffmpeg de novo.
+    """
+    if not video_file:
+        return
+    out_dir = folder / "mapa"
+    existing = [p for p in out_dir.glob("marco_*.jpg")] if out_dir.is_dir() else []
+    if len(existing) >= len(stops):
+        print(f"  ✓ Mapa: {len(existing)} frames já extraídos — pulando ffmpeg")
+        return
+    out_dir.mkdir(exist_ok=True)
+    src = folder / video_file
+    for s in stops:
+        fname = f"marco_{int(s['sec']):04d}.jpg"
+        dest = out_dir / fname
+        if dest.exists():
+            continue
+        try:
+            subprocess.run(
+                [
+                    "ffmpeg", "-hide_banner", "-loglevel", "error",
+                    "-ss", str(max(0, s["sec"])),
+                    "-i", str(src),
+                    "-frames:v", "1",
+                    "-vf", "scale=640:-1",
+                    "-q:v", "3",
+                    str(dest),
+                    "-y",
+                ],
+                check=False,
+                timeout=60,
+            )
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] ffmpeg falhou em {s['sec']}s: {exc}", file=sys.stderr)
+
+
+def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
+    """Usa a API DeepSeek para nomear/posicionar os marcos; fallback local se falhar.
+
+    O vídeo não muda, então o resultado é cacheado em mapa/geoloc.json.
+    O retorno é uma lista de {sec, nome, lat, lng, cor} na MESMA ordem.
+    """
+    # âncoras nomeadas do fallback para casar com marcos próximos
+    anchors = MAP_FALLBACK_NAMED
+    cache_file = folder / "mapa" / "geoloc.json"
+
+    def apply(by_sec: dict) -> None:
+        for s in stops:
+            hit = by_sec.get(str(int(s["sec"])))
+            if hit and isinstance(hit, dict):
+                s["nome"] = hit.get("nome", s["nome"])
+                s["lat"] = hit.get("lat", s["lat"])
+                s["lng"] = hit.get("lng", s["lng"])
+
+    # 1) cache: se já geolocalizou antes, reusa (o vídeo não muda)
+    if cache_file.exists():
+        try:
+            cached = json.loads(cache_file.read_text(encoding="utf-8"))
+            keys = {int(k) for k in cached if str(k).isdigit()}
+            if isinstance(cached, dict) and {int(s["sec"]) for s in stops} <= keys:
+                apply(cached)
+                print(f"  ✓ Mapa: geoloc em cache ({len(stops)} marcos) — pulando DeepSeek")
+                return stops
+        except Exception:  # noqa: BLE001
+            pass
+
+    if DEEPSEEK_API_KEY:
+        prompt_lines = [
+            "Você recebe a transcrição de uma live (passeio) do Baka Gaijin em Tóquio (Shinjuku/Kabukichō).",
+            "Para CADA instante abaixo, responda com UMA linha JSON com:",
+            '{"sec": <segundos>, "nome": "<lugar curto>", "lat": <float>, "lng": <float>, "confianca": "alta|media|baixa"}',
+            "Regras:",
+            "- lat/lng devem ser plausíveis para Shinjuku (35.68–35.71, 139.69–139.71).",
+            "- Se a fala cita um lugar claro (estação, torre, beco, loja, gato 3D, Godzilla...), ancore nele.",
+            "- Se não houver lugar claro, interpole ao longo de uma rota de passeio por Shinjuku.",
+            "- Responda APENAS o JSON array, sem comentários.",
+            "",
+        ]
+        for s in stops:
+            q = s.get("frase") or "(sem fala)"
+            prompt_lines.append(f"{s['sec']}s ({fmt_ts(s['sec'])}): {q}")
+        prompt = "\n".join(prompt_lines)
+
+        try:
+            resp = _deepseek_chat(
+                [
+                    {"role": "system", "content": "Você é um geolocalizador de lives de Tóquio. Responda apenas JSON válido."},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=2500,
+            )
+            if resp:
+                m = re.search(r"\[[\s\S]*\]", resp)
+                if m:
+                    arr = json.loads(m.group(0))
+                    by_sec = {}
+                    for item in arr:
+                        try:
+                            sec = int(item["sec"])
+                            lat = float(item.get("lat") or 0)
+                            lng = float(item.get("lng") or 0)
+                            if 35.65 <= lat <= 35.73 and 139.68 <= lng <= 139.73:
+                                by_sec[str(sec)] = {
+                                    "nome": str(item.get("nome") or f"{fmt_ts(sec)}"),
+                                    "lat": lat,
+                                    "lng": lng,
+                                }
+                        except Exception:  # noqa: BLE001
+                            continue
+                    if by_sec:
+                        apply(by_sec)
+                        cache_file.parent.mkdir(exist_ok=True)
+                        cache_file.write_text(
+                            json.dumps(by_sec, ensure_ascii=False, indent=2), encoding="utf-8"
+                        )
+                        print(f"  ✓ DeepSeek geolocalizou {len(by_sec)}/{len(stops)} marcos (cache salvo)")
+                        return stops
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] DeepSeek (geoloc) falhou: {exc}", file=sys.stderr)
+
+    # fallback: âncoras nomeadas + interpolação
+    for s in stops:
+        sec = int(s["sec"])
+        anchor = min(anchors, key=lambda a: abs(a[0] - sec))
+        if abs(anchor[0] - sec) <= 180:
+            s["nome"] = anchor[1]
+            s["lat"], s["lng"] = anchor[2], anchor[3]
+        else:
+            # interpola entre base e âncora mais próxima
+            s["nome"] = fmt_ts(sec)
+            t = min(1.0, sec / 7744)
+            s["lat"] = MAP_FALLBACK_BASE["lat"] - t * 0.004
+            s["lng"] = MAP_FALLBACK_BASE["lng"] + (0.002 if (sec // 600) % 2 == 0 else -0.001)
+    return stops
+
+
+def build_map_stops(blocks: list[dict], duration_seconds: int) -> list[dict]:
+    """Gera os marcos (1 a cada 10 min) com posição fallback. Barato e determinístico."""
+    if duration_seconds <= 0:
+        duration_seconds = 7744
+    secs = list(range(5, duration_seconds, MAP_STOP_INTERVAL))
+    if secs and secs[-1] < duration_seconds - 300:
+        secs.append(min(duration_seconds - 60, duration_seconds - 1))
+    stops: list[dict] = []
+    for i, sec in enumerate(secs):
+        stops.append(
+            {
+                "sec": sec,
+                "nome": fmt_ts(sec),
+                "frase": _quote_at(blocks, sec),
+                "lat": MAP_FALLBACK_BASE["lat"],
+                "lng": MAP_FALLBACK_BASE["lng"],
+                "cor": MAP_COLORS[i % len(MAP_COLORS)],
+                "img": f"mapa/marco_{int(sec):04d}.jpg",
+            }
+        )
+    return stops
+
+
+def ensure_map_assets(folder: Path, video_file: str | None, stops: list[dict]) -> list[dict]:
+    """Etapas pesadas do mapa, executadas 1x (o vídeo não muda).
+
+    - frames ffmpeg: pulados se a pasta mapa/ já estiver populada;
+    - geoloc DeepSeek: carregada do cache mapa/geoloc.json quando existir.
+    """
+    _extract_map_frames(folder, video_file, stops)
+    return _geolocate_stops(folder, stops)
+
+
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
     """Página HTML auto-contida (dados embutidos) com players + análise."""
     import json as _json
@@ -1762,6 +2005,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     )
     data_inline = _json.dumps(report, ensure_ascii=False).replace("</", "<\\/")
 
+    # marcos do mapa (1 a cada 10 min) — frames + geoloc só rodam 1x (cache)
+    duration = int((report.get("metricas") or {}).get("duration_seconds") or 0)
+    map_stops = build_map_stops(srt_blocks or [], duration)
+    map_stops = ensure_map_assets(FOLDER, video_file, map_stops)
+    map_stops_json = _json.dumps(map_stops, ensure_ascii=False)
+
     html = r"""<!doctype html>
 <html lang="pt-BR">
 <head>
@@ -1770,6 +2019,9 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 <title>Dashboard — Análise de VOD</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 <script>
   tailwind.config = { corePlugins: { preflight: false } };
 </script>
@@ -1833,7 +2085,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     display: inline-block; margin: 3px 6px 3px 0; padding: 4px 10px;
     background: #0f172a; border: 1px solid var(--border); border-radius: 8px; font-size: .78rem;
   }
-  .player-wrap { position: sticky; top: 12px; z-index: 50; width: 100%; max-width: 960px; margin: 0 auto; }
+  .player-wrap { position: sticky; top: 12px; z-index: 50; width: 100%; margin: 0; }
+  .player-area { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .player-video-shell { width: 100%; max-width: 960px; margin: 0 auto; }
+  @media (min-width: 961px) {
+    .player-video-shell { width: 960px; }
+  }
   .player {
     background: #000; border: 1px solid var(--border); border-radius: 12px;
     overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,.5);
@@ -1910,6 +2167,76 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
+
+  /* ---- mapa da live ---- */
+  #liveMap { height: 420px; width: 100%; background: #0f172a; border-radius: 12px; z-index: 0; }
+  .map-shell { position: relative; }
+  .map-legend {
+    position:absolute; bottom:12px; left:12px; z-index:1000; max-width:250px;
+    background:rgba(15,23,42,.92); border:1px solid var(--border); border-radius:10px;
+    padding:8px 10px; font-size:.7rem; color:var(--muted); pointer-events:none;
+  }
+  .map-legend b { color:#e2e8f0; }
+  .map-stops { display:flex; flex-wrap:wrap; gap:8px; }
+  .map-stop {
+    display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+    background:var(--panel2); border:1px solid var(--border); border-radius:999px;
+    padding:5px 12px; font-size:.75rem; color:#cbd5e1; transition:all .15s ease;
+  }
+  .map-stop:hover { background:#263449; transform:translateY(-1px); border-color:var(--accent); }
+  .map-stop.active { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent); }
+  .map-stop .dot { width:9px; height:9px; border-radius:50%; flex:none; }
+  .leaflet-popup-content-wrapper {
+    background:#1e293b; color:#e2e8f0; border:1px solid var(--border); border-radius:12px;
+  }
+  .leaflet-popup-tip { background:#1e293b; }
+  .leaflet-popup-content { margin:12px 14px; }
+  .pop { min-width:210px; }
+  .pop img { width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:8px; display:block; }
+  .pop .pt { font-size:.84rem; font-weight:800; margin-bottom:2px; }
+  .pop .pts { font-size:.7rem; color:var(--accent); margin-bottom:5px; }
+  .pop .pq { font-size:.75rem; color:var(--muted); font-style:italic; margin-bottom:6px; }
+  .leaflet-control-zoom a { background:#1e293b; color:#e2e8f0; border-color:var(--border); }
+  .leaflet-control-zoom a:hover { background:#263449; }
+
+  /* ---- player com a mesma altura do mapa ---- */
+  .player-video { height: 420px; }
+  .player-video video { height: 100%; width: 100%; object-fit: contain; }
+
+  /* ---- índice da página (TOC) — menu horizontal fixo no topo ---- */
+  .toc {
+    position: sticky; top: 0; z-index: 60;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(15,23,42,.96); border: 1px solid var(--border);
+    border-bottom: 1px solid #334155;
+    border-radius: 0 0 12px 12px; padding: 8px 12px; margin: 0 -24px 20px;
+    backdrop-filter: blur(8px);
+  }
+  .toc-label {
+    flex: none; display: flex; align-items: center; gap: 6px;
+    font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); white-space: nowrap;
+  }
+  .toc-nav {
+    display: flex; align-items: center; gap: 4px; overflow-x: auto;
+    scrollbar-width: thin; padding: 4px 2px;
+  }
+  .toc-nav::-webkit-scrollbar { height: 6px; }
+  .toc a {
+    flex: 0 0 auto; display: flex; align-items: center; gap: 6px;
+    font-size: .72rem; color: #cbd5e1; text-decoration: none;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 999px; padding: 5px 11px; transition: all .15s ease;
+  }
+  .toc a i { font-size: .8rem; flex: none; color: var(--accent); width: 14px; text-align: center; }
+  .toc a:hover { background:#263449; border-color: var(--accent); transform: translateY(-1px); color:#fff; }
+
+  /* ---- seções colapsáveis ---- */
+  h2.topic-heading { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; }
+  h2.topic-heading .chev { transition: transform .2s ease; font-size: .7rem; color: var(--muted); flex: none; width: 14px; }
+  h2.topic-heading.collapsed .chev { transform: rotate(-90deg); }
+  .section-body { overflow: hidden; }
+  .section-body.hidden { display: none; }
 </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
@@ -1918,17 +2245,21 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <h1 id="title" class="text-2xl font-bold tracking-tight bg-gradient-to-r from-purple-300 via-slate-100 to-indigo-300 bg-clip-text text-transparent">Análise de VOD</h1>
   <div class="sub" id="subtitle">Carregando…</div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Player de Vídeo &amp; Áudio</h2>
+  <nav class="toc" id="toc"></nav>
+
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="player">Player de Vídeo &amp; Áudio</h2>
   <div style="display:flex;gap:8px;margin-bottom:12px">
     <button class="btn active" id="modeVideo" onclick="setPlayerMode('video')">🎬 Vídeo</button>
     <button class="btn" id="modeAudio" onclick="setPlayerMode('audio')">🎧 Somente Áudio</button>
   </div>
-  <div class="grid two" style="max-width:960px;margin:0 auto">
+  <div class="player-area">
     <div class="player-wrap" id="videoWrap">
-      <div class="player">
-        <video id="videoPlayer" controls playsinline></video>
-        <div class="media-error" id="videoError"></div>
-        <div class="subtitle-overlay" id="videoSubs"></div>
+      <div class="player-video-shell">
+        <div class="player player-video">
+          <video id="videoPlayer" controls playsinline></video>
+          <div class="media-error" id="videoError"></div>
+          <div class="subtitle-overlay" id="videoSubs"></div>
+        </div>
       </div>
       <div class="player timeline">
         <input type="range" class="timebar" id="videoSeek" min="0" max="100" step="0.1" value="0" />
@@ -1943,10 +2274,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       </div>
     </div>
     <div class="player-wrap" id="audioWrap">
-      <div class="player" style="padding:12px">
-        <audio id="audioPlayer" controls style="border-radius:8px"></audio>
-        <div class="media-error" id="audioError"></div>
-        <div class="subtitle-overlay" style="position:static;transform:none;width:100%;max-width:none;margin-top:10px" id="audioSubs"></div>
+      <div class="player-video-shell">
+        <div class="player player-video" style="display:flex;align-items:center;justify-content:center;padding:12px">
+          <audio id="audioPlayer" controls style="border-radius:8px;width:100%"></audio>
+          <div class="media-error" id="audioError"></div>
+          <div class="subtitle-overlay" style="position:static;transform:none;width:100%;max-width:none;margin-top:10px" id="audioSubs"></div>
+        </div>
       </div>
       <div class="player timeline">
         <input type="range" class="timebar" id="audioSeek" min="0" max="100" step="0.1" value="0" />
@@ -1960,7 +2293,24 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     </div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Replay dos Comentários (ao vivo)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="mapa"><i class="fa-solid fa-map-location-dot"></i> Mapa da Live — onde o Baka passou</h2>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+      <span class="muted" id="mapInfo">Trajeto reconstruído (posições aproximadas). Clique num marco para pular o player.</span>
+      <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
+    </div>
+    <div class="grid two">
+      <div class="map-shell"><div id="liveMap"></div>
+        <div class="map-legend"><b>Legenda</b><br/>🟣 rota (aprox.) · ⭐ marcos a cada 10 min</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="map-stops" id="mapStops"></div>
+        <div class="muted" id="mapNow">Escolha um marco para assistir o trecho.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="replay">Replay dos Comentários (ao vivo)</h2>
   <div class="card">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
       <button class="btn active" id="btnFeed" onclick="toggleFeed()">Feed: ON</button>
@@ -1973,121 +2323,121 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     <ul class="comment-feed" id="feed"></ul>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Métricas de Performance</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="kpis">Métricas de Performance</h2>
   <div class="grid cards" id="kpis"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Comparação com o Canal</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="bench">Comparação com o Canal</h2>
   <div class="grid cards" id="bench"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Sentimento dos Comentários</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="sent">Sentimento dos Comentários</h2>
   <div class="grid two">
     <div class="card"><canvas id="chartSent"></canvas></div>
     <div class="card" id="sentTable"></div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Temas dos Comentários</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="temas">Temas dos Comentários</h2>
   <div class="grid two">
     <div class="card"><canvas id="chartThemes"></canvas></div>
     <div class="card" id="themesList"></div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Resumo do Conteúdo</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="resumo">Resumo do Conteúdo</h2>
   <div id="resumo"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Capítulos Automáticos</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="capitulos">Capítulos Automáticos</h2>
   <div id="capitulos"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Fala vs. Chat (por minuto)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="fala-chat">Fala vs. Chat (por minuto)</h2>
   <div id="engKpis" style="margin-bottom:14px"></div>
   <div class="grid two">
     <div class="card"><canvas id="chartFalaChat"></canvas></div>
     <div class="card" id="engPicos"></div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Sentimento ao Longo do Tempo</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="sent-tempo">Sentimento ao Longo do Tempo</h2>
   <div class="card" style="margin-bottom:14px"><canvas id="chartSentimento"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Risadas &amp; Perguntas por Minuto</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="risadas">Risadas &amp; Perguntas por Minuto</h2>
   <div class="card" style="margin-bottom:14px"><canvas id="chartRisadas"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Nuvem de Palavras (fala + chat)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="wordcloud">Nuvem de Palavras (fala + chat)</h2>
   <div class="card" id="wordcloud" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:120px"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Heatmap: Minuto × Sentimento</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="heatmap">Heatmap: Minuto × Sentimento</h2>
   <div class="card" id="heatmap" style="overflow-x:auto"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Segmentos da Live (quartos)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="segmentos">Segmentos da Live (quartos)</h2>
   <div class="card"><canvas id="chartSegmentos"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Usuários Únicos &amp; Top Comentaristas</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="usuarios">Usuários Únicos &amp; Top Comentaristas</h2>
   <div class="grid two">
     <div class="card"><canvas id="chartUsuarios"></canvas></div>
     <div class="card" id="topUsuarios"></div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Sentimento por Tema (cruzamento)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="sent-tema">Sentimento por Tema (cruzamento)</h2>
   <div class="card"><canvas id="chartSentTema"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Retenção de Audiência (estimada)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="retencao">Retenção de Audiência (estimada)</h2>
   <div class="card"><canvas id="chartRetencao"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Monetização &amp; Comandos</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="monetizacao">Monetização &amp; Comandos</h2>
   <div class="grid two">
     <div class="card"><canvas id="chartMonetizacao"></canvas></div>
     <div class="card" id="comandosList"></div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Previsão de Receita</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="receita">Previsão de Receita</h2>
   <div id="previsaoReceita" style="margin-bottom:14px"></div>
   <div class="card"><canvas id="chartTiers"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Correlação Defasada (fala → chat com lag)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="lag">Correlação Defasada (fala → chat com lag)</h2>
   <div class="card"><canvas id="chartLag"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Radar do Streamer</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="radar">Radar do Streamer</h2>
   <div class="card"><canvas id="chartRadar"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Velocidade do Chat (média móvel 5min)</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="velocidade">Velocidade do Chat (média móvel 5min)</h2>
   <div class="card"><canvas id="chartVelocidade"></canvas></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Distribuição de Interação &amp; Emojis</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="interacao">Distribuição de Interação &amp; Emojis</h2>
   <div class="grid two">
     <div class="card"><canvas id="chartInteracao"></canvas></div>
     <div class="card" id="emojisList"></div>
   </div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Tópicos Falados vs. Comentados</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="topicos">Tópicos Falados vs. Comentados</h2>
   <div class="grid two" id="topicosGrid"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Frases Completas Faladas vs. Comentadas</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="frases">Frases Completas Faladas vs. Comentadas</h2>
   <div class="grid two" id="frasesGrid"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Ganchos de Conteúdo</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="ganchos">Ganchos de Conteúdo</h2>
   <div id="ganchos"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Top Palavrões</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="alertas">Top Palavrões</h2>
   <div id="alertas"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Ranking de Bordões</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="bordoes">Ranking de Bordões</h2>
   <div id="bordoes"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Resumo em 1 minuto</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="resumo1min">Resumo em 1 minuto</h2>
   <div id="resumo1min"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Perguntas Frequentes</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="perguntas">Perguntas Frequentes</h2>
   <div id="perguntasFreq"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Cortes Virais Sugeridos</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="cortes">Cortes Virais Sugeridos</h2>
   <div id="cortes"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Comentário Mais Popular</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="popular">Comentário Mais Popular</h2>
   <div id="popular"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Comentários Relevantes por Sentimento</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="comentarios">Comentários Relevantes por Sentimento</h2>
   <div class="filters" id="sentFilters"></div>
   <div id="comments"></div>
 
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4">Todos os Participantes do Chat</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="participantes">Todos os Participantes do Chat</h2>
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
       <input id="participanteBusca" class="btn" style="flex:1;text-align:left" placeholder="Filtrar participante..." oninput="renderParticipantes()" />
@@ -2101,6 +2451,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 const DATA = __DATA_INLINE__;
 const FILES = __FILES_JSON__;
 const CUES = __CUES_JSON__;
+const MAP_STOPS = __MAP_STOPS_JSON__;
 const SENT = ["positivo","neutro","neutro/pergunta","negativo","engraçado","frustrado","inspirado","confuso"];
 const COLORS = {
   positivo:"#22c55e", neutro:"#94a3b8", "neutro/pergunta":"#2dd4bf",
@@ -2425,6 +2776,85 @@ function setPlayerMode(mode) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// MAPA DA LIVE (Leaflet + OpenStreetMap) — marcos a cada 10 min
+// ---------------------------------------------------------------------------
+let liveMap = null;
+let mapMarkers = {};
+
+function initLiveMap() {
+  const el = document.getElementById("liveMap");
+  if (!el || typeof L === "undefined" || !MAP_STOPS || !MAP_STOPS.length) return;
+  liveMap = L.map(el, { zoomControl: true }).setView(
+    [MAP_STOPS[0].lat, MAP_STOPS[0].lng], 16
+  );
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "&copy; OpenStreetMap"
+  }).addTo(liveMap);
+
+  const route = MAP_STOPS.map(s => [s.lat, s.lng]);
+  L.polyline(route, { color:"#a855f7", weight:4, opacity:.75, dashArray:"6,8" }).addTo(liveMap);
+
+  function iconFor(color) {
+    return L.divIcon({
+      className: "",
+      html: `<div style="width:22px;height:22px;border-radius:50% 50% 50% 0;background:${color};
+        border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.6);transform:rotate(-45deg);
+        display:flex;align-items:center;justify-content:center">
+        <div style="transform:rotate(45deg);font-size:10px">⭐</div></div>`,
+      iconSize: [22, 22], iconAnchor: [11, 22], popupAnchor: [0, -20]
+    });
+  }
+
+  MAP_STOPS.forEach((s, i) => {
+    const m = L.marker([s.lat, s.lng], { icon: iconFor(s.cor) }).addTo(liveMap);
+    m.bindPopup(`<div class="pop">
+      <img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />
+      <div class="pt">${esc(s.nome)}</div>
+      <div class="pts">⏱ ${fmtClock(s.sec)} · na live</div>
+      <div class="pq">${esc(s.frase || "")}</div></div>`);
+    m.on("click", () => jumpToStop(s));
+    mapMarkers[i] = m;
+  });
+
+  renderMapStops();
+  mapFitAll();
+}
+
+function renderMapStops() {
+  const wrap = document.getElementById("mapStops");
+  if (!wrap) return;
+  wrap.innerHTML = MAP_STOPS.map((s, i) =>
+    `<button class="map-stop" id="mapstop-${i}" onclick="jumpToStop(MAP_STOPS[${i}])">
+      <span class="dot" style="background:${s.cor}"></span>
+      <span>${i + 1}. ${esc(s.nome)}</span>
+      <span class="muted">${fmtClock(s.sec)}</span>
+    </button>`
+  ).join("");
+}
+
+function jumpToStop(s) {
+  const media = (V.el && FILES.video) ? V : ((A.el && FILES.audio) ? A : null);
+  if (media && media.el) {
+    setPlayerMode(FILES.video ? "video" : "audio");
+    media.el.currentTime = s.sec;
+    media.el.play && media.el.play().catch(() => {});
+  }
+  if (liveMap) {
+    liveMap.flyTo([s.lat, s.lng], Math.max(liveMap.getZoom(), 17), { duration: .5 });
+  }
+  document.querySelectorAll(".map-stop").forEach(x => x.classList.remove("active"));
+  const chip = document.querySelector(`.map-stop[onclick*="MAP_STOPS[${MAP_STOPS.indexOf(s)}]"]`);
+  if (chip) chip.classList.add("active");
+  document.getElementById("mapNow").textContent = `▶ ${s.nome} — ${fmtClock(s.sec)}`;
+}
+
+function mapFitAll() {
+  if (!liveMap || !MAP_STOPS.length) return;
+  liveMap.fitBounds(L.latLngBounds(MAP_STOPS.map(s => [s.lat, s.lng])), { padding: [30, 30] });
+}
+
 function fmtDataBR(iso) {
   if (!iso) return "—";
   const m = String(iso).slice(0,10).match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -2432,11 +2862,109 @@ function fmtDataBR(iso) {
   return `${m[3]}/${m[2]}/${m[1]}`;
 }
 
+// ---------------------------------------------------------------------------
+// TOC (índice da página) + seções colapsáveis
+// ---------------------------------------------------------------------------
+const SECTION_TITLES = [
+  ["player", "fa-solid fa-clapperboard", "Player de Vídeo & Áudio"],
+  ["mapa", "fa-solid fa-map-location-dot", "Mapa da Live"],
+  ["replay", "fa-solid fa-comments", "Replay dos Comentários"],
+  ["kpis", "fa-solid fa-chart-column", "Métricas de Performance"],
+  ["bench", "fa-solid fa-chart-line", "Comparação com o Canal"],
+  ["sent", "fa-solid fa-face-smile", "Sentimento dos Comentários"],
+  ["temas", "fa-solid fa-tags", "Temas dos Comentários"],
+  ["resumo", "fa-solid fa-file-lines", "Resumo do Conteúdo"],
+  ["capitulos", "fa-solid fa-layer-group", "Capítulos Automáticos"],
+  ["fala-chat", "fa-solid fa-volume-high", "Fala vs. Chat"],
+  ["sent-tempo", "fa-solid fa-arrow-trend-down", "Sentimento ao Longo do Tempo"],
+  ["risadas", "fa-solid fa-face-laugh-squint", "Risadas & Perguntas"],
+  ["wordcloud", "fa-solid fa-cloud", "Nuvem de Palavras"],
+  ["heatmap", "fa-solid fa-fire", "Heatmap Minuto × Sentimento"],
+  ["segmentos", "fa-solid fa-puzzle-piece", "Segmentos da Live"],
+  ["usuarios", "fa-solid fa-users", "Usuários & Top Comentaristas"],
+  ["sent-tema", "fa-solid fa-bullseye", "Sentimento por Tema"],
+  ["retencao", "fa-solid fa-signal", "Retenção de Audiência"],
+  ["monetizacao", "fa-solid fa-sack-dollar", "Monetização & Comandos"],
+  ["receita", "fa-solid fa-money-bill-trend-up", "Previsão de Receita"],
+  ["lag", "fa-solid fa-stopwatch", "Correlação Defasada"],
+  ["radar", "fa-solid fa-satellite-dish", "Radar do Streamer"],
+  ["velocidade", "fa-solid fa-bolt", "Velocidade do Chat"],
+  ["interacao", "fa-solid fa-shuffle", "Distribuição de Interação & Emojis"],
+  ["topicos", "fa-solid fa-brain", "Tópicos Falados vs. Comentados"],
+  ["frases", "fa-solid fa-comments", "Frases Faladas vs. Comentadas"],
+  ["ganchos", "fa-solid fa-wand-magic-sparkles", "Ganchos de Conteúdo"],
+  ["alertas", "fa-solid fa-triangle-exclamation", "Top Palavrões"],
+  ["bordoes", "fa-solid fa-bullhorn", "Ranking de Bordões"],
+  ["resumo1min", "fa-solid fa-stopwatch", "Resumo em 1 minuto"],
+  ["perguntas", "fa-solid fa-circle-question", "Perguntas Frequentes"],
+  ["cortes", "fa-solid fa-scissors", "Cortes Virais Sugeridos"],
+  ["popular", "fa-solid fa-star", "Comentário Mais Popular"],
+  ["comentarios", "fa-solid fa-scroll", "Comentários Relevantes"],
+  ["participantes", "fa-solid fa-user-group", "Participantes do Chat"],
+];
+
+function buildToc() {
+  const toc = document.getElementById("toc");
+  if (!toc) return;
+  const links = SECTION_TITLES.map(([id, ico, label]) =>
+    `<a href="#${id}"><i class="${ico}"></i><span>${label}</span></a>`
+  ).join("");
+  toc.innerHTML = `<span class="toc-label"><i class="fa-solid fa-bars"></i> Índice</span><nav class="toc-nav">${links}</nav>`;
+}
+
+function wrapSections() {
+  // Agrupa cada <h2> (e o conteúdo até o próximo h2) numa section colapsável,
+  // exceto os h2 do cabeçalho/player que já estão marcados como seções.
+  const container = document.querySelector(".max-w-7xl");
+  if (!container) return;
+  const h2s = Array.from(container.querySelectorAll(":scope > h2, :scope > section > h2"));
+  // se já houver sections colapsadas de edição anterior, recomeça do zero
+  h2s.forEach(h => {
+    if (h.id && h.id !== "title") {
+      h.classList.add("topic-heading");
+      if (!h.querySelector(".chev")) {
+        h.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-chevron-down chev"></i>');
+      }
+    }
+  });
+  // aplica collapse apenas nos h2 com id já existentes no mapa de títulos
+  SECTION_TITLES.forEach(([id]) => {
+    const h = document.getElementById(id);
+    if (!h) return;
+    h.classList.add("topic-heading");
+    if (!h.querySelector(".chev")) {
+      h.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-chevron-down chev"></i>');
+    }
+    // reúne todos os irmãos seguintes até o próximo h2
+    const group = document.createElement("div");
+    group.className = "section-body";
+    let node = h.nextElementSibling;
+    while (node && node.tagName !== "H2") {
+      const next = node.nextElementSibling;
+      group.appendChild(node);
+      node = next;
+    }
+    h.after(group);
+    h.addEventListener("click", () => toggleSection(id));
+  });
+}
+
+function toggleSection(id) {
+  const h = document.getElementById(id);
+  const body = h ? h.nextElementSibling : null;
+  if (!h || !body || !body.classList.contains("section-body")) return;
+  const collapsed = h.classList.toggle("collapsed");
+  body.classList.toggle("hidden", collapsed);
+}
+
 function render() {
   const m = R.metricas, ca = R.comentarios, ct = R.conteudo;
   document.getElementById("title").textContent = "Análise — " + m.title;
   document.getElementById("subtitle").textContent =
     m.channel + " · " + m.category + " · " + m.duration_label + " · publicado " + fmtDataBR(m.created_at);
+
+  buildToc();
+  wrapSections();
 
   initPlayers();
 
@@ -3156,6 +3684,7 @@ function renderComments() {
 }
 
 render();
+initLiveMap();
 </script>
 </body>
 </html>
@@ -3165,6 +3694,7 @@ render();
         html.replace("__DATA_INLINE__", data_inline)
         .replace("__FILES_JSON__", files_json)
         .replace("__CUES_JSON__", cues_json)
+        .replace("__MAP_STOPS_JSON__", map_stops_json)
     )
     path.write_text(html, encoding="utf-8")
 
@@ -3297,497 +3827,6 @@ def main() -> None:
     dash_path = folder / "dashboard.html"
     write_dashboard(report, dash_path, blocks)
     print(f"  ✓ {dash_path.name}")
-
-    # 9) atualiza o índice da pasta saida/
-    write_index(folder.parent)
-    print(f"  ✓ index.html (índice de análises)")
-
-
-def write_index(saida_dir: Path) -> None:
-    """Gera saida/index.html — site single-page fan-made do Baka Gaijin."""
-    import json as _json
-
-    episodes: list[dict] = []
-    all_bordoes: Counter = Counter()
-    all_usuarios: Counter = Counter()
-    all_emojis: Counter = Counter()
-    channel_name = "Baka Gaijin"
-    followers = 0
-    total_views = 0
-    total_comments = 0
-    total_duration = 0
-
-    # perfil do canal (banner + descrição + redes sociais) via Twitch GQL
-    channel_profile = fetch_channel_profile("bakagaijinlive")
-    channel_banner = channel_profile.get("banner") or ""
-    channel_desc = channel_profile.get("description") or ""
-    channel_socials = channel_profile.get("socials") or []
-    if channel_desc:
-        channel_name = "Baka Gaijin"  # mantém nome do site; desc vira tagline
-
-    for child in sorted(saida_dir.iterdir()):
-        if not child.is_dir():
-            continue
-        rel = child / "relatorio.json"
-        dash = child / "dashboard.html"
-        if not rel.exists() or not dash.exists():
-            continue
-        try:
-            data = _json.loads(rel.read_text(encoding="utf-8"))
-        except Exception:  # noqa: BLE001
-            continue
-        m = data.get("metricas") or {}
-        e = data.get("engajamento") or {}
-        ca = data.get("comentarios") or {}
-        ct = data.get("conteudo") or {}
-
-        channel_name = m.get("channel") or channel_name
-        followers = m.get("followers_canal") or followers
-        total_views += m.get("views") or 0
-        total_comments += m.get("comentarios") or 0
-        total_duration += m.get("duration_seconds") or 0
-
-        episodes.append(
-            {
-                "folder": child.name,
-                "title": m.get("title") or child.name,
-                "thumbnail": m.get("thumbnail") or "",
-                "views": m.get("views") or 0,
-                "views_label": m.get("views_label") or str(m.get("views") or 0),
-                "comments": m.get("comentarios") or 0,
-                "duration": m.get("duration_label") or "",
-                "duration_seconds": m.get("duration_seconds") or 0,
-                "created_at": (m.get("created_at") or "")[:10],
-                "cortes": len(ct.get("cortes_virais") or []),
-                "sentimento": max((ca.get("sentimentos") or []), key=lambda s: s.get("n", 0)).get("categoria") if ca.get("sentimentos") else "neutro",
-                "palavras_min": (e.get("palavras_por_minuto")),
-                "mensagens_min": (e.get("mensagens_por_minuto")),
-                "receita": (e.get("previsao") or {}).get("receita_liquida"),
-                "taxa_engajamento": m.get("taxa_engajamento"),
-                "taxa_likes": m.get("taxa_likes"),
-                "likes_label": m.get("likes_label"),
-            }
-        )
-        for b in e.get("bordoes", []):
-            all_bordoes[b["frase"]] += b.get("n", 0)
-        for u in e.get("top_usuarios", []):
-            all_usuarios[u["usuario"]] += u.get("n", 0)
-        for em in e.get("top_emojis", []):
-            all_emojis[em["emoji"]] += em.get("n", 0)
-
-    # ordena episódios por data de lançamento (mais recente primeiro)
-    episodes.sort(key=lambda x: (x.get("created_at") or ""), reverse=True)
-
-    # agregações finais
-    top_bordoes = [
-        {"frase": p, "n": n}
-        for p, n in sorted(all_bordoes.items(), key=lambda x: -x[1])
-        if n >= 5 and len(p) >= 6
-    ][:12]
-    top_usuarios = [
-        {"usuario": u, "n": n}
-        for u, n in sorted(all_usuarios.items(), key=lambda x: -x[1])
-    ][:12]
-    top_emojis = [
-        {"emoji": e, "n": n}
-        for e, n in sorted(all_emojis.items(), key=lambda x: -x[1])
-    ][:10]
-
-    def _fmt_num(n: float) -> str:
-        if n >= 1_000_000:
-            return f"{n/1_000_000:.1f}M"
-        if n >= 1_000:
-            return f"{n/1_000:.0f}k"
-        return f"{n:,.0f}"
-
-    def _fmt_dur(sec: float) -> str:
-        h = int(sec) // 3600
-        m = (int(sec) % 3600) // 60
-        return f"{h}h{str(m).zfill(2)}"
-
-    followers_label = _fmt_num(followers)
-    total_views_label = _fmt_num(total_views)
-    total_dur_label = _fmt_dur(total_duration)
-
-    # --- cards de episódios ---
-    def _esc(s: str) -> str:
-        return (
-            str(s)
-            .replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace('"', "&quot;")
-        )
-
-    def _fmt_data(iso: str) -> str:
-        if not iso:
-            return ""
-        try:
-            y, mo, d = iso.split("-")
-            meses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
-            return f"{int(d)} {meses[int(mo)-1]} {y}"
-        except Exception:  # noqa: BLE001
-            return iso
-
-    episode_cards = []
-    for i, ep in enumerate(episodes):
-        thumb = (
-            f'<div class="ep-thumb"><img src="{ep["thumbnail"]}" alt="{_esc(ep["title"])}" loading="lazy" onerror="this.style.display=\'none\'" />'
-            f'<span class="ep-dur">{_esc(ep["duration"])}</span></div>'
-            if ep["thumbnail"]
-            else f'<div class="ep-thumb" style="display:flex;align-items:center;justify-content:center;color:#475569;font-size:2rem">🎬</div>'
-        )
-        eng = ep.get("taxa_engajamento")
-        eng_bar = (
-            f'<div class="ep-eng"><div class="ep-eng-fill" style="width:{min(100, eng * 3):.0f}%"></div></div>'
-            f'<div class="ep-eng-label">🔥 {eng:.1f}% engajamento</div>'
-            if eng is not None
-            else ""
-        )
-        episode_cards.append(
-            f"""
-        <a href="{ep['folder']}/dashboard.html" class="ep-card">
-          {thumb}
-          <div class="ep-body">
-            <div class="ep-top">
-              <span class="ep-date">📅 {_esc(_fmt_data(ep['created_at']))}</span>
-              <span class="ep-rank">#{i+1}</span>
-            </div>
-            <div class="ep-title">{_esc(ep['title'])}</div>
-            <div class="ep-stats">
-              <div class="ep-stat"><span class="k">👁 {ep['views_label']}</span><span class="v">views</span></div>
-              <div class="ep-stat"><span class="k">💬 {_fmt_num(ep['comments'])}</span><span class="v">comentários</span></div>
-              <div class="ep-stat"><span class="k">👍 {ep.get('likes_label') or '—'}</span><span class="v">likes</span></div>
-              <div class="ep-stat"><span class="k">✂️ {ep['cortes']}</span><span class="v">cortes</span></div>
-            </div>
-            {eng_bar}
-            <div class="ep-tags">
-              {f'<span class="ep-chip ep-chip-sent">{_esc(ep["sentimento"])}</span>' if ep['sentimento'] else ''}
-              {f'<span class="ep-chip">🗣 {ep["palavras_min"]:.0f} pal/min</span>' if ep.get('palavras_min') else ''}
-              {f'<span class="ep-chip">💸 ${ep["receita"]:.0f}</span>' if ep.get('receita') else ''}
-            </div>
-          </div>
-        </a>"""
-        )
-
-    # --- bordões ---
-    bordao_html = "".join(
-        f'<span class="bordao">"{_esc(b["frase"])}" <em>×{b["n"]}</em></span>'
-        for b in top_bordoes
-    )
-
-    # --- top usuários ---
-    usuarios_html = "".join(
-        f'<div class="fan-row"><span class="fan-rank">#{i+1}</span><span class="fan-name">{_esc(u["usuario"])}</span><span class="fan-count">{u["n"]} msgs</span></div>'
-        for i, u in enumerate(top_usuarios)
-    )
-
-    # --- emojis ---
-    emojis_html = "".join(
-        f'<span class="emoji-chip">{e["emoji"]} <em>×{e["n"]}</em></span>'
-        for e in top_emojis
-    )
-
-    # --- apoio ao Baka Gaijin ---
-    support_links = _scrape_support()
-    support_html = "".join(
-        f"""
-        <a href="{_esc(l['url'])}" target="_blank" rel="noopener" class="support-card">
-          <div class="support-img">
-            <img src="{_esc(l['img'])}" alt="{_esc(l['titulo'])}" loading="lazy"
-                 class="{_esc('logo' if l['id'] == 'livepix' else '')}"
-                 onerror="this.parentElement.innerHTML='<span style=&quot;font-size:3rem&quot;>{l['emoji']}</span>'" />
-          </div>
-          <div class="support-body">
-            <div class="support-title">{l['emoji']} {_esc(l['titulo'])}</div>
-            <div class="support-desc">{_esc(l['desc'])}</div>
-            <span class="support-cta">{_esc(l['cta'])} →</span>
-          </div>
-        </a>"""
-        for l in support_links
-    )
-
-    # --- redes sociais ("Encontre o Baka na net") ---
-    SOCIAL_ICONS = {
-        "youtube": "▶️",
-        "instagram": "📸",
-        "discord": "💬",
-        "twitter": "🐦",
-        "x": "𝕏",
-        "tiktok": "🎵",
-        "twitch": "🎮",
-        "link": "🔗",
-    }
-    SOCIAL_LABELS = {
-        "youtube": "YouTube",
-        "instagram": "Instagram",
-        "discord": "Discord",
-        "twitter": "Twitter",
-        "x": "X",
-        "tiktok": "TikTok",
-        "twitch": "Twitch",
-    }
-    # garante Twitch sempre presente
-    socials = list(channel_socials)
-    if not any(s.get("name") == "twitch" for s in socials):
-        socials.append({"name": "twitch", "url": "https://www.twitch.tv/bakagaijinlive"})
-    socials_html = "".join(
-        f'<a href="{_esc(s["url"])}" target="_blank" rel="noopener" class="social-chip">'
-        f'{SOCIAL_ICONS.get(s["name"], "🔗")} {_esc(SOCIAL_LABELS.get(s["name"], s["name"].capitalize()))}</a>'
-        for s in socials
-        if s.get("url")
-    )
-
-    # banner de fundo do herói (mesmo do perfil da Twitch)
-    hero_bg = (
-        f"background-image:url('{_esc(channel_banner)}'); background-size:cover; background-position:center;"
-        if channel_banner
-        else ""
-    )
-
-    html = f"""<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Baka Gaijin — Fan Page 🇯🇵</title>
-<style>
-  :root {{
-    --bg:#0b0f1a; --panel:#141a2e; --panel2:#1a2138; --border:#26304d;
-    --text:#eef2ff; --muted:#8b96b5; --accent:#a855f7; --accent2:#ec4899; --gold:#f59e0b;
-  }}
-  * {{ box-sizing:border-box; margin:0; padding:0; }}
-  body {{
-    font-family:-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg);
-    color:var(--text); min-height:100vh; line-height:1.6; overflow-x:hidden;
-  }}
-  a {{ text-decoration:none; color:inherit; }}
-
-  /* HERO */
-  .hero {{
-    position:relative; text-align:center; padding:64px 20px 48px;
-    background-color:#0b0f1a;
-    background-size:cover; background-position:center;
-    border-bottom:1px solid var(--border);
-    overflow:hidden;
-  }}
-  .hero::before {{
-    content:""; position:absolute; inset:0; z-index:0;
-    background:
-      radial-gradient(ellipse at 50% -20%, rgba(168,85,247,.45), transparent 60%),
-      radial-gradient(ellipse at 80% 10%, rgba(236,72,153,.25), transparent 50%),
-      linear-gradient(180deg, rgba(11,15,26,.55), rgba(11,15,26,.92));
-  }}
-  .hero > * {{ position:relative; z-index:1; }}
-  .hero-flag {{ font-size:3rem; margin-bottom:8px; }}
-  .hero h1 {{
-    font-size:2.6rem; font-weight:900; letter-spacing:-.02em;
-    background:linear-gradient(90deg,#d8b4fe,#f0abfc,#fca5a5,#fde68a);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }}
-  .hero .sub {{ color:var(--muted); font-size:1rem; margin-top:8px; }}
-  .hero-badges {{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }}
-  .hero-badge {{
-    background:var(--panel2); border:1px solid var(--border); border-radius:999px;
-    padding:8px 18px; font-size:.85rem; color:#cbd5e1;
-  }}
-  .hero-badge strong {{ color:var(--gold); }}
-
-  /* REDES SOCIAIS */
-  .socials {{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }}
-  .social-chip {{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--panel2); border:1px solid var(--border); border-radius:999px;
-    padding:9px 18px; font-size:.88rem; font-weight:600; color:#e2e8f0;
-    transition:transform .15s ease, border-color .15s ease, background .15s ease;
-  }}
-  .social-chip:hover {{
-    transform:translateY(-2px); border-color:var(--accent); background:#212a45;
-  }}
-
-  /* STATS */
-  .stats {{ max-width:1000px; margin:0 auto; padding:32px 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }}
-  .stat {{
-    background:var(--panel); border:1px solid var(--border); border-radius:14px;
-    padding:18px; text-align:center;
-  }}
-  .stat .v {{ font-size:1.6rem; font-weight:800; color:#fff; }}
-  .stat .l {{ font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-top:4px; }}
-
-  .section {{ max-width:1000px; margin:0 auto; padding:8px 20px 32px; }}
-  .section-title {{
-    display:flex; align-items:center; gap:10px; font-size:1.3rem; font-weight:800;
-    margin-bottom:18px;
-  }}
-  .section-title .bar {{ flex:1; height:1px; background:var(--border); }}
-
-  /* EPISODES */
-  .eps {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }}
-  .ep-card {{
-    background:var(--panel); border:1px solid var(--border); border-radius:16px;
-    overflow:hidden; display:block; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-  }}
-  .ep-card:hover {{ transform:translateY(-4px); border-color:var(--accent); box-shadow:0 14px 40px rgba(168,85,247,.25); }}
-  .ep-thumb {{ position:relative; width:100%; height:160px; overflow:hidden; background:#0b0f1a; }}
-  .ep-thumb img {{ width:100%; height:100%; object-fit:cover; display:block; }}
-  .ep-dur {{
-    position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,.75); color:#fff;
-    font-size:.72rem; font-weight:700; padding:3px 8px; border-radius:6px; backdrop-filter:blur(4px);
-  }}
-  .ep-body {{ padding:14px; }}
-  .ep-top {{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }}
-  .ep-date {{ font-size:.72rem; color:var(--muted); }}
-  .ep-rank {{
-    font-size:.72rem; font-weight:800; color:var(--gold);
-    background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.3);
-    padding:2px 8px; border-radius:999px;
-  }}
-  .ep-title {{ font-weight:700; font-size:.95rem; color:#f1f5f9; line-height:1.35; min-height:2.6em; margin-bottom:10px; }}
-  .ep-stats {{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }}
-  .ep-stat {{
-    display:flex; flex-direction:column; background:var(--panel2);
-    border:1px solid var(--border); border-radius:10px; padding:8px 10px;
-  }}
-  .ep-stat .k {{ font-weight:700; font-size:.88rem; color:#fff; }}
-  .ep-stat .v {{ font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }}
-  .ep-eng {{ height:6px; background:#0f172a; border-radius:999px; overflow:hidden; margin-bottom:4px; }}
-  .ep-eng-fill {{ height:100%; background:linear-gradient(90deg,#f59e0b,#ef4444); border-radius:999px; }}
-  .ep-eng-label {{ font-size:.68rem; color:var(--muted); margin-bottom:8px; }}
-  .ep-tags {{ display:flex; gap:6px; flex-wrap:wrap; }}
-  .ep-chip {{
-    font-size:.68rem; padding:3px 9px; border-radius:999px;
-    background:#0f172a; border:1px solid var(--border); color:#cbd5e1;
-  }}
-  .ep-chip-sent {{ background:#3b0764; border-color:#7c3aed; color:#e9d5ff; }}
-
-  /* BORDÕES */
-  .bordoes {{ display:flex; flex-wrap:wrap; gap:10px; }}
-  .bordao {{
-    background:var(--panel2); border:1px solid var(--border); border-radius:999px;
-    padding:8px 16px; font-size:.85rem; color:#e2e8f0;
-  }}
-  .bordao em {{ color:var(--gold); font-style:normal; font-size:.72rem; margin-left:4px; }}
-
-  /* FÃS */
-  .fans {{ background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:12px; display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:6px; }}
-  .fan-row {{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; background:var(--panel2); }}
-  .fan-rank {{ color:var(--gold); font-weight:800; font-size:.8rem; width:26px; }}
-  .fan-name {{ flex:1; font-size:.85rem; color:#e2e8f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }}
-  .fan-count {{ font-size:.72rem; color:var(--muted); }}
-
-  .emojis {{ display:flex; flex-wrap:wrap; gap:10px; }}
-  .emoji-chip {{
-    background:var(--panel2); border:1px solid var(--border); border-radius:14px;
-    padding:10px 16px; font-size:1.3rem; text-align:center;
-  }}
-  .emoji-chip em {{ display:block; font-style:normal; font-size:.7rem; color:var(--muted); }}
-
-  /* APOIO */
-  .support {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }}
-  .support-card {{
-    display:flex; flex-direction:column; background:var(--panel);
-    border:1px solid var(--border); border-radius:16px; overflow:hidden;
-    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-  }}
-  .support-card:hover {{ transform:translateY(-4px); border-color:var(--gold); box-shadow:0 14px 40px rgba(245,158,11,.2); }}
-  .support-img {{ width:100%; height:150px; background:#0b0f1a; display:flex; align-items:center; justify-content:center; overflow:hidden; }}
-  .support-img img {{ width:100%; height:100%; object-fit:cover; display:block; }}
-  .support-img img.logo {{ object-fit:cover; width:100%; height:100%; }}
-  .support-body {{ padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }}
-  .support-title {{ font-weight:800; font-size:1rem; color:#f1f5f9; }}
-  .support-desc {{ font-size:.8rem; color:var(--muted); line-height:1.5; flex:1; }}
-  .support-cta {{
-    display:inline-block; text-align:center; margin-top:8px;
-    background:linear-gradient(90deg,var(--accent),var(--accent2));
-    color:#fff; font-weight:800; font-size:.85rem; padding:10px 16px; border-radius:10px;
-    transition:filter .15s ease;
-  }}
-  .support-cta:hover {{ filter:brightness(1.15); }}
-
-  .footer {{
-    text-align:center; padding:32px 20px 48px; color:var(--muted); font-size:.78rem;
-    border-top:1px solid var(--border);
-  }}
-  .footer .heart {{ color:var(--accent2); }}
-  .disclaimer {{
-    max-width:700px; margin:16px auto 0; font-size:.7rem; color:#64748b; line-height:1.6;
-  }}
-  .empty {{ text-align:center; padding:60px 20px; color:var(--muted); }}
-</style>
-</head>
-<body>
-  <header class="hero" style="{hero_bg}">
-    <div class="hero-flag">🇯🇵</div>
-    <h1>Baka Gaijin</h1>
-    <div class="sub">{_esc(channel_desc) if channel_desc else "Fan page dedicada ao mestre dos becos japoneses"} — @bakagaijinlive</div>
-    <div class="hero-badges">
-      <span class="hero-badge">👥 <strong>{followers_label}</strong> seguidores</span>
-      <span class="hero-badge">🎬 <strong>{len(episodes)}</strong> lives analisadas</span>
-      <span class="hero-badge">📍 Becos de Tóquio</span>
-    </div>
-  </header>
-
-  <section class="section" style="padding-top:20px">
-    <div class="section-title">🌐 Encontre o Baka na net <span class="bar"></span></div>
-    <div class="socials">
-      {socials_html if socials_html else '<a href="https://www.twitch.tv/bakagaijinlive" target="_blank" class="social-chip">🎮 Twitch</a>'}
-    </div>
-  </section>
-
-  <section class="stats">
-    <div class="stat"><div class="v">{total_views_label}</div><div class="l">Views totais</div></div>
-    <div class="stat"><div class="v">{total_comments:,}</div><div class="l">Comentários</div></div>
-    <div class="stat"><div class="v">{total_dur_label}</div><div class="l">Conteúdo analisado</div></div>
-    <div class="stat"><div class="v">🏆</div><div class="l">Comunidade</div></div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">💜 Apoie o Baka Gaijin <span class="bar"></span></div>
-    <div class="support">
-      {support_html if support_html else '<span>Sem dados</span>'}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">📺 Lives Analisadas <span class="bar"></span></div>
-    <div class="eps">
-      {''.join(episode_cards) if episode_cards else '<div class="empty">Nenhuma live analisada ainda.</div>'}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">💬 Bordões Mais Repetidos <span class="bar"></span></div>
-    <div class="bordoes">
-      {bordao_html if bordao_html else '<span class="bordao">Sem dados</span>'}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">🏅 Top Bakalovers <span class="bar"></span></div>
-    <div class="fans">
-      {usuarios_html if usuarios_html else '<span>Sem dados</span>'}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">🔥 Reações do Chat <span class="bar"></span></div>
-    <div class="emojis">
-      {emojis_html if emojis_html else '<span>Sem dados</span>'}
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div>Feito com <span class="heart">♥</span> pela comunidade — <strong>Baka Gaijin</strong></div>
-    <div class="disclaimer">
-      Esta é uma página de fãs dedicada ao Baka Gaijin. Todos os dados foram extraídos de lives públicas da Twitch.
-      "Baka Gaijin" e todo o conteúdo das lives pertencem ao seu criador. Os dashboards analíticos foram gerados automaticamente
-      para estudo e divulgação do conteúdo.
-    </div>
-  </footer>
-</body>
-</html>
-"""
-    (saida_dir / "index.html").write_text(html, encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Relatório de Análise — DE VORTA AO JAPAO
 
-- **Canal:** BakaGaijinLive (248.3k seguidores)
+- **Canal:** BakaGaijinLive (248.2k seguidores)
 - **Categoria:** Just Chatting
 - **Publicado em:** 11/09/2026
 - **Duração:** 2h42min
@@ -9,22 +9,22 @@
 
 | Métrica | Valor |
 | --- | --- |
-| Views | 37.5k |
-| Likes (estimado) | 449 |
+| Views | 37.6k |
+| Likes (estimado) | 450 |
 | Comentários | 8726 |
 | Taxa de likes | 1.198% |
-| Taxa de engajamento | 24.474% |
+| Taxa de engajamento | 24.432% |
 | Duração | 2h42min |
 
 ## 2. Comparação com o Canal
 
 | Indicador | Valor | Variação |
 | --- | --- | --- |
-| Mediana de views do canal | 20.7k | — |
-| Média de views do canal | 25.4k | — |
-| Mediana dos pares (outros VODs) | 19.4k | — |
-| Este VOD vs. mediana | 37.5k | 81.0% |
-| Este VOD vs. média | 37.5k | 47.4% |
+| Mediana de views do canal | 20.9k | — |
+| Média de views do canal | 25.6k | — |
+| Mediana dos pares (outros VODs) | 19.6k | — |
+| Este VOD vs. mediana | 37.6k | 79.4% |
+| Este VOD vs. média | 37.6k | 46.9% |
 
 ## 3. Sentimento dos Comentários
 
@@ -46,7 +46,7 @@
 | baka voltou | 17.8% | baka, baka voltou, baka vai, baka volta |
 | voltou japão | 6.2% | japão, voltou, voltou japão, volta japão |
 | vai ficar | 5.8% | vai, ficar, vai ficar, vai voltar |
-| live gravada | 4.3% | live, live gravada, faz live, fazer live |
+| live gravada | 4.3% | live, live gravada, fazer live, faz live |
 | voltou morar | 3.3% | morar, voltar, voltou morar |
 | bom dia | 2.0% | dia, bom, bom dia |
 | quanto tempo | 2.0% | quanto, tempo, fica, quanto tempo |

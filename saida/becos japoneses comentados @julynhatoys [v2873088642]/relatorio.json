@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-23T09:24:52",
+  "gerado_em": "2026-09-24T07:52:27",
   "metricas": {
     "video_id": "2873088642",
     "title": "becos japoneses comentados @julynhatoys",
@@ -9,19 +9,19 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/1d819639288c8a680ef2_bakagaijinlive_316452665202_1789303348//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7744,
     "duration_label": "2h09min",
-    "views": 18113,
-    "views_label": "18.1k",
-    "likes_estimado": 217,
-    "likes_label": "217",
+    "views": 18195,
+    "views_label": "18.2k",
+    "likes_estimado": 218,
+    "likes_label": "218",
     "comentarios": 5015,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 28.885,
-    "followers_canal": 248253,
+    "taxa_engajamento": 28.761,
+    "followers_canal": 248246,
     "comparacao_canal": {
-      "mediana_views": 20718,
-      "media_views": 25440.7,
-      "mediana_pares": 29104.5,
-      "views_vs_mediana_pct": -12.6,
+      "mediana_views": 20935,
+      "media_views": 25562.7,
+      "mediana_pares": 29246.5,
+      "views_vs_mediana_pct": -13.1,
       "views_vs_media_pct": -28.8,
       "views_vs_pares_pct": -37.8,
       "n_videos_canal": 3
@@ -32,13 +32,13 @@
     "sentimentos": [
       {
         "categoria": "positivo",
-        "n": 310,
-        "pct": 6.2
+        "n": 308,
+        "pct": 6.1
       },
       {
         "categoria": "neutro",
-        "n": 2975,
-        "pct": 59.3
+        "n": 2977,
+        "pct": 59.4
       },
       {
         "categoria": "neutro/pergunta",
@@ -2387,7 +2387,7 @@
         "usuario": "pulchram12",
         "nome": "pulchram12",
         "texto": "Live começa nunca 🔥🔥🔥",
-        "sentimento": "positivo",
+        "sentimento": "neutro",
         "confianca": 1.0
       },
       {
@@ -44887,7 +44887,7 @@
         "usuario": "morttusdornitska",
         "nome": "morttusdornitska",
         "texto": "@otaku_maliguino goias mencionado 🔥",
-        "sentimento": "positivo",
+        "sentimento": "neutro",
         "confianca": 1.0
       },
       {
@@ -53039,12 +53039,12 @@
       "receita_por_minuto": 0.572,
       "projecao_3h": 102.96,
       "projecao_2h": 68.64,
-      "usd_brl": 5.1122,
-      "receita_liquida_brl": 377.48,
-      "receita_subs_brl": 739.79,
+      "usd_brl": 5.1169,
+      "receita_liquida_brl": 377.83,
+      "receita_subs_brl": 740.47,
       "receita_bits_brl": 7.57,
-      "projecao_3h_brl": 526.35,
-      "projecao_2h_brl": 350.9
+      "projecao_3h_brl": 526.84,
+      "projecao_2h_brl": 351.22
     },
     "sent_series": {
       "positivo": [
@@ -53057,7 +53057,7 @@
         4,
         2,
         3,
-        3,
+        2,
         8,
         9,
         9,
@@ -53168,7 +53168,7 @@
         1,
         5,
         0,
-        1,
+        0,
         0,
         20,
         3,
@@ -53189,7 +53189,7 @@
         19,
         14,
         18,
-        19,
+        20,
         58,
         36,
         20,
@@ -53300,7 +53300,7 @@
         11,
         18,
         16,
-        36,
+        37,
         22,
         50,
         42,
@@ -54216,8 +54216,8 @@
       {
         "minuto": 9,
         "inicio": "9:00",
-        "positivo": 3,
-        "neutro": 19,
+        "positivo": 2,
+        "neutro": 20,
         "neutro/pergunta": 0,
         "negativo": 0,
         "engraçado": 0,
@@ -55548,8 +55548,8 @@
       {
         "minuto": 120,
         "inicio": "2:00:00",
-        "positivo": 1,
-        "neutro": 36,
+        "positivo": 0,
+        "neutro": 37,
         "neutro/pergunta": 0,
         "negativo": 0,
         "engraçado": 6,
@@ -59804,13 +59804,13 @@
         "dist": [
           {
             "sentimento": "positivo",
-            "n": 12,
-            "pct": 7.9
+            "n": 11,
+            "pct": 7.2
           },
           {
             "sentimento": "neutro",
-            "n": 76,
-            "pct": 50.0
+            "n": 77,
+            "pct": 50.7
           },
           {
             "sentimento": "neutro/pergunta",
@@ -72064,11 +72064,11 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 18.1k views está abaixo da mediana do canal em 12.6% (mediana 20.7k)."
+      "acao": "VOD com 18.2k views está abaixo da mediana do canal em 13.1% (mediana 20.9k)."
     },
     {
       "titulo": "Clima do chat",
-      "acao": "Sentimento dominante: neutro (59.3% dos comentários). Use esse tom para orientar thumbs e a narrativa dos cortes."
+      "acao": "Sentimento dominante: neutro (59.4% dos comentários). Use esse tom para orientar thumbs e a narrativa dos cortes."
     },
     {
       "titulo": "Corte viral nº 1",
@@ -72076,7 +72076,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 28.885% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 28.761% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",
