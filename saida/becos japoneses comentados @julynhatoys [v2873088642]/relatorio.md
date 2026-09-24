@@ -3,7 +3,7 @@
 - **Canal:**  (0 seguidores)
 - **Categoria:** 
 - **Publicado em:** —
-- **Duração:** 0min
+- **Duração:** 2h09min
 
 ## 1. Métricas de Performance
 
@@ -14,7 +14,7 @@
 | Comentários | 5015 |
 | Taxa de likes | 0.0% |
 | Taxa de engajamento | 0.0% |
-| Duração | 0min |
+| Duração | 2h09min |
 
 ## 2. Comparação com o Canal
 
@@ -108,6 +108,30 @@
 - `1:43:03` — A gente não sabe a história por trás, a gente não pode julgar
 
 ## 6. Cortes Virais Sugeridos (1–3 min)
+
+**Corte 1: 10:30–13:30 (3.0min)**
+> Janela 10:30–13:30 concentra 46 mensagens de chat e alto uso das palavras-chave do vídeo.
+> Trecho: _A gente tem que levar a casa lá._
+
+**Corte 2: 56:20–59:20 (3.0min)**
+> Janela 56:20–59:20 concentra 56 mensagens de chat e alto uso das palavras-chave do vídeo.
+> Trecho: _Poxa, cara!_
+
+**Corte 3: 1:03:20–1:06:20 (3.0min)**
+> Janela 1:03:20–1:06:20 concentra 42 mensagens de chat e alto uso das palavras-chave do vídeo.
+> Trecho: __
+
+**Corte 4: 1:12:00–1:15:00 (3.0min)**
+> Janela 1:12:00–1:15:00 concentra 38 mensagens de chat e alto uso das palavras-chave do vídeo.
+> Trecho: _O carro do lixo._
+
+**Corte 5: 1:41:10–1:44:10 (3.0min)**
+> Janela 1:41:10–1:44:10 concentra 37 mensagens de chat e alto uso das palavras-chave do vídeo.
+> Trecho: __
+
+**Corte 6: 2:05:50–2:08:50 (3.0min)**
+> Janela 2:05:50–2:08:50 concentra 54 mensagens de chat e alto uso das palavras-chave do vídeo.
+> Trecho: _Mano, o próximo trem aqui_
 
 ## 7. Comentário Mais Popular
 

@@ -1,30 +1,30 @@
 {
-  "gerado_em": "2026-09-24T08:19:37",
+  "gerado_em": "2026-09-24T08:53:03",
   "metricas": {
     "video_id": "2871566138",
-    "title": "DE VORTA AO JAPAO",
-    "channel": "BakaGaijinLive",
-    "category": "Just Chatting",
-    "created_at": "2026-09-11T21:06:18Z",
-    "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
+    "title": "",
+    "channel": "",
+    "category": "",
+    "created_at": "",
+    "thumbnail": "",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37559,
-    "views_label": "37.6k",
-    "likes_estimado": 450,
-    "likes_label": "450",
+    "views": 0,
+    "views_label": "0",
+    "likes_estimado": 0,
+    "likes_label": "0",
     "comentarios": 8726,
-    "taxa_likes": 1.198,
-    "taxa_engajamento": 24.431,
-    "followers_canal": 248246,
+    "taxa_likes": 0.0,
+    "taxa_engajamento": 0.0,
+    "followers_canal": null,
     "comparacao_canal": {
-      "mediana_views": 20937,
-      "media_views": 25563.7,
-      "mediana_pares": 19566.0,
-      "views_vs_mediana_pct": 79.4,
-      "views_vs_media_pct": 46.9,
-      "views_vs_pares_pct": 92.0,
-      "n_videos_canal": 3
+      "mediana_views": 0,
+      "media_views": 0,
+      "mediana_pares": 0,
+      "views_vs_mediana_pct": null,
+      "views_vs_media_pct": null,
+      "views_vs_pares_pct": null,
+      "n_videos_canal": 0
     }
   },
   "comentarios": {
@@ -103,8 +103,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "quando vai",
-          "vai fazer"
+          "vai fazer",
+          "quando vai"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -102951,7 +102951,7 @@
       "humor": 48.0,
       "interatividade": 100,
       "monetizacao": 95.1,
-      "engajamento": 100,
+      "engajamento": 0.0,
       "audiencia": 39.5,
       "risco": 100
     },
@@ -103084,52 +103084,44 @@
     ],
     "bordoes": [
       {
-        "frase": "que é que",
-        "n": 222
+        "frase": "bom dia",
+        "n": 27
       },
       {
-        "frase": "que é que é",
-        "n": 220
+        "frase": "faz o l",
+        "n": 5
       },
       {
-        "frase": "é que é que",
-        "n": 218
+        "frase": "live gravada",
+        "n": 5
       },
       {
-        "frase": "como é que",
-        "n": 25
+        "frase": "voltou a morar ai",
+        "n": 5
       },
       {
-        "frase": "que é isso",
-        "n": 21
+        "frase": "do nada",
+        "n": 4
       },
       {
-        "frase": "deixa eu ver",
-        "n": 21
+        "frase": "meu deus",
+        "n": 4
       },
       {
-        "frase": "vou ter que",
-        "n": 21
+        "frase": "boa noite",
+        "n": 4
       },
       {
-        "frase": "que eu vou",
-        "n": 16
+        "frase": "nem fudendo",
+        "n": 3
       },
       {
-        "frase": "é isso aqui",
-        "n": 16
+        "frase": "é verdade",
+        "n": 3
       },
       {
-        "frase": "o que é isso",
-        "n": 15
-      },
-      {
-        "frase": "eu acho que",
-        "n": 13
-      },
-      {
-        "frase": "que é isso aqui",
-        "n": 13
+        "frase": "salve baka",
+        "n": 3
       }
     ],
     "resumo_1min": [
@@ -114673,10 +114665,6 @@
   },
   "insights": [
     {
-      "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 37.6k views está acima da mediana do canal em 79.4% (mediana 20.9k)."
-    },
-    {
       "titulo": "Clima do chat",
       "acao": "Sentimento dominante: neutro (59.6% dos comentários). Use esse tom para orientar thumbs e a narrativa dos cortes."
     },
@@ -114686,7 +114674,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.431% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 0.0% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

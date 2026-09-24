@@ -1,30 +1,30 @@
-# Relatório de Análise — DE VORTA AO JAPAO
+# Relatório de Análise — 
 
-- **Canal:** BakaGaijinLive (248.2k seguidores)
-- **Categoria:** Just Chatting
-- **Publicado em:** 11/09/2026
+- **Canal:**  (0 seguidores)
+- **Categoria:** 
+- **Publicado em:** —
 - **Duração:** 2h42min
 
 ## 1. Métricas de Performance
 
 | Métrica | Valor |
 | --- | --- |
-| Views | 37.6k |
-| Likes (estimado) | 450 |
+| Views | 0 |
+| Likes (estimado) | 0 |
 | Comentários | 8726 |
-| Taxa de likes | 1.198% |
-| Taxa de engajamento | 24.431% |
+| Taxa de likes | 0.0% |
+| Taxa de engajamento | 0.0% |
 | Duração | 2h42min |
 
 ## 2. Comparação com o Canal
 
 | Indicador | Valor | Variação |
 | --- | --- | --- |
-| Mediana de views do canal | 20.9k | — |
-| Média de views do canal | 25.6k | — |
-| Mediana dos pares (outros VODs) | 19.6k | — |
-| Este VOD vs. mediana | 37.6k | 79.4% |
-| Este VOD vs. média | 37.6k | 46.9% |
+| Mediana de views do canal | 0 | — |
+| Média de views do canal | 0 | — |
+| Mediana dos pares (outros VODs) | 0 | — |
+| Este VOD vs. mediana | 0 | None% |
+| Este VOD vs. média | 0 | None% |
 
 ## 3. Sentimento dos Comentários
 

@@ -314,6 +314,46 @@ def parse_srt_to_blocks(text: str) -> list[dict]:
     return blocks
 
 
+def probe_video_duration(video_path: Path) -> int:
+    """Duração do vídeo em segundos via ffprobe (0 se indisponível)."""
+    try:
+        out = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=noprint_wrappers=1:nokey=1", str(video_path)],
+            capture_output=True, text=True, timeout=120,
+        )
+        if out.returncode == 0 and out.stdout.strip():
+            return int(float(out.stdout.strip()))
+    except Exception:  # noqa: BLE001
+        pass
+    return 0
+
+
+def infer_duration_seconds(folder: Path, blocks: list[dict], comments: list[dict]) -> int:
+    """Estima a duração da live quando a API da Twitch não responde.
+
+    Ordem: ffprobe no vídeo local -> fim do último bloco do SRT -> maior offset de comentário.
+    """
+    # 1) vídeo local (mais preciso)
+    for name in ("video.mp4", "video.webm", "video.mov", "video.m4v"):
+        vpath = folder / name
+        if vpath.exists():
+            dur = probe_video_duration(vpath)
+            if dur > 0:
+                return dur
+    # 2) fim da transcrição
+    if blocks:
+        last_end = max(b["end"] for b in blocks)
+        if last_end > 0:
+            return last_end + 60
+    # 3) último comentário
+    if comments:
+        max_off = max(c.get("offset") or 0 for c in comments)
+        if max_off > 0:
+            return max_off + 60
+    return 0
+
+
 # --------------------------------------------------------------------------- #
 # 1) Métricas de performance
 # --------------------------------------------------------------------------- #
@@ -1082,20 +1122,29 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
         if len(alertas) >= 10:
             break
 
-    # --- ranking de bordões: frases de 2-4 palavras que se repetem na fala ---
+    # --- ranking de bordões: frases completas que o chat repete (2-4 palavras) ---
+    CHAT_BORDAO_NOISE = re.compile(
+        r"subscribed|prime|tier|consecutive|watch streak|sparked|dinodance|they ve"
+    )
     phrase_freq = Counter()
-    for b in blocks:
-        words = [w for w in clean_text(b["text"]).split() if w]
-        for n in (3, 4):
-            for i in range(len(words) - n + 1):
-                phrase = " ".join(words[i:i + n])
-                if phrase and phrase not in CATCHPHRASE_STOP and len(phrase) >= 8:
-                    phrase_freq[phrase] += 1
+    for c in comments_analysis["comentarios"]:
+        text = clean_text(c["texto"])
+        if CHAT_BORDAO_NOISE.search(text):
+            continue
+        words = [w for w in text.split() if w]
+        if 2 <= len(words) <= 4:
+            phrase_freq[" ".join(words)] += 1
+
+    def _is_noise_bordao(p: str) -> bool:
+        # remove timestamps/sequências numéricas ("11 30", "10", etc.)
+        stripped = re.sub(r"[\d:.\s]", "", p)
+        return len(stripped) < 3
+
     bordoes = [
         {"frase": p, "n": n}
-        for p, n in phrase_freq.most_common(12)
-        if n > 10 and not p.isdigit()
-    ]
+        for p, n in phrase_freq.most_common(20)
+        if n >= 3 and not _is_noise_bordao(p)
+    ][:10]
 
     # --- resumo em 1 minuto: 1 fala por trecho espaçado ---
     resumo_1min = []
@@ -2863,7 +2912,6 @@ function jumpToStop(s) {
   if (media && media.el) {
     setPlayerMode(FILES.video ? "video" : "audio");
     media.el.currentTime = s.sec;
-    media.el.play && media.el.play().catch(() => {});
   }
   if (liveMap) {
     liveMap.flyTo([s.lat, s.lng], Math.max(liveMap.getZoom(), 17), { duration: .5 });
@@ -3832,6 +3880,14 @@ def main() -> None:
         print(f"  Blocos de transcrição: {len(blocks)}")
     else:
         print("  [!] audio.srt não encontrado — análise de conteúdo limitada", file=sys.stderr)
+
+    # 5.1) se a API da Twitch não respondeu (duration 0), infere a duração dos arquivos locais
+    if not metrics.get("duration_seconds"):
+        dur = infer_duration_seconds(folder, blocks, comments)
+        if dur > 0:
+            metrics["duration_seconds"] = dur
+            metrics["duration_label"] = fmt_dur(dur)
+            print(f"  Duração inferida dos arquivos locais: {fmt_dur(dur)}")
 
     content = build_content_analysis(blocks, comments_analysis, metrics)
 
