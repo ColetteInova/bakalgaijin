@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-24T08:53:03",
+  "gerado_em": "2026-09-24T09:01:28",
   "metricas": {
     "video_id": "2871566138",
     "title": "",
@@ -80,7 +80,7 @@
           "baka vai",
           "baka volta",
           "baka qual",
-          "baka como"
+          "japão baka"
         ],
         "n_comentarios": 1555,
         "pct": 17.8
@@ -102957,54 +102957,74 @@
     },
     "ganchos": [
       {
-        "inicio": "0:00",
-        "tipo": "pergunta",
-        "trecho": "O que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é que é "
-      },
-      {
-        "inicio": "1:00",
-        "tipo": "pergunta",
-        "trecho": "O que é isso?"
-      },
-      {
-        "inicio": "2:00",
-        "tipo": "pergunta",
-        "trecho": "A CIDADE NO BRASIL"
-      },
-      {
-        "inicio": "3:00",
+        "inicio": "30:00",
+        "minuto": 30,
         "tipo": "piada",
-        "trecho": "E aí"
+        "trecho": "que saudades",
+        "descricao": "Baka derruba lanternas amarelas e compara com abelha, criando caos cômico no meio da live em Tóquio."
       },
       {
-        "inicio": "4:00",
+        "inicio": "40:00",
+        "minuto": 40,
         "tipo": "pergunta",
-        "trecho": "A CIDADE NO BRASIL"
+        "trecho": "Que passeio, José? Desculpa",
+        "descricao": "Ele critica japoneses atravessando fora da faixa às 6h, quebrando o mito da civilidade nipônica."
       },
       {
-        "inicio": "5:00",
-        "tipo": "pergunta",
-        "trecho": "E aí"
-      },
-      {
-        "inicio": "6:00",
+        "inicio": "50:00",
+        "minuto": 50,
         "tipo": "piada",
-        "trecho": "Vocês são os ameba"
+        "trecho": "É, tudo cafona, né?",
+        "descricao": "Baka zoa produtos aleatórios tipo pokebolas e Narutos, com piada sobre 'quem tem cu tem medo'."
       },
       {
-        "inicio": "7:00",
+        "inicio": "1:00:00",
+        "minuto": 60,
         "tipo": "piada",
-        "trecho": "bom dia para minha família, bom dia pra você também,"
+        "trecho": "Aí é foda",
+        "descricao": "Ele brinca que trouxe a chuva do Brasil pro Japão e se chama de cunhudo, gerando risada."
       },
       {
-        "inicio": "8:00",
+        "inicio": "1:10:00",
+        "minuto": 70,
         "tipo": "piada",
-        "trecho": "Vai ter chuva viu"
+        "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
+        "descricao": "Baka se agacha como japonês e aceita que parece lésbica, misturando autodepreciação e cultura local."
       },
       {
-        "inicio": "9:00",
-        "tipo": "pergunta",
-        "trecho": "Eu durmo tipo"
+        "inicio": "1:20:00",
+        "minuto": 80,
+        "tipo": "piada",
+        "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
+        "descricao": "Ele filosofa sobre setembro chuvoso e um velho varrendo na chuva, criando momento poético e engraçado."
+      },
+      {
+        "inicio": "1:30:00",
+        "minuto": 90,
+        "tipo": "piada",
+        "trecho": "Olha só, hein",
+        "descricao": "Baka zoa 'social credits' e visto negado por atravessar fora da faixa, satirizando burocracia japonesa."
+      },
+      {
+        "inicio": "1:40:00",
+        "minuto": 100,
+        "tipo": "piada",
+        "trecho": "Esse cara é bonitinho, me deixou passar",
+        "descricao": "Ele planeja andar até Harajuku e compara a si mesmo com maluco religioso do centro, gerando caos."
+      },
+      {
+        "inicio": "1:50:00",
+        "minuto": 110,
+        "tipo": "piada",
+        "trecho": "Acho que não vai ter nada aberto ainda",
+        "descricao": "Baka inventa 'Sexo 3.5' e reclama de dor nas cócoras, misturando referências absurdas e cansaço."
+      },
+      {
+        "inicio": "2:00:00",
+        "minuto": 120,
+        "tipo": "piada",
+        "trecho": "Ah é? Vamos ver",
+        "descricao": "Ele celebra 2h de live, sente saudade de coxinha e teme ditadura por não poder filmar, fechando com drama."
       }
     ],
     "alertas": [

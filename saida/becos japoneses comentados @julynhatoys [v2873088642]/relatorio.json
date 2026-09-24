@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-24T08:53:04",
+  "gerado_em": "2026-09-24T09:01:32",
   "metricas": {
     "video_id": "2873088642",
     "title": "",
@@ -60865,54 +60865,74 @@
     },
     "ganchos": [
       {
-        "inicio": "1:00",
+        "inicio": "30:00",
+        "minuto": 30,
         "tipo": "pergunta",
-        "trecho": "A gente vai lá no chão."
+        "trecho": "Olha o sapo.",
+        "descricao": "Confusão sobre idades e hotel vira meme instantâneo com a galera zoando as idades erradas."
       },
       {
-        "inicio": "2:00",
+        "inicio": "37:00",
+        "minuto": 37,
         "tipo": "piada",
-        "trecho": "A CIDADE NO BRASIL"
+        "trecho": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco",
+        "descricao": "Piada sobre por que as pessoas gostam de desgraça, culpando o Datena, gera risada garantida."
       },
       {
-        "inicio": "4:00",
+        "inicio": "44:00",
+        "minuto": 44,
         "tipo": "pergunta",
-        "trecho": "A CIDADE NO BRASIL"
+        "trecho": "Mas quando está o México",
+        "descricao": "Achado hilário de uma cartinha de Pokémon imitando racismo, com reação de choque e deboche."
       },
       {
-        "inicio": "6:00",
-        "tipo": "pergunta",
-        "trecho": ""
-      },
-      {
-        "inicio": "7:00",
-        "tipo": "pergunta",
-        "trecho": ""
-      },
-      {
-        "inicio": "8:00",
-        "tipo": "pergunta",
-        "trecho": ""
-      },
-      {
-        "inicio": "9:00",
-        "tipo": "pergunta",
-        "trecho": ""
-      },
-      {
-        "inicio": "10:00",
+        "inicio": "51:00",
+        "minuto": 51,
         "tipo": "piada",
-        "trecho": "A gente tem que levar a casa lá."
+        "trecho": "Caralho, Júlia.",
+        "descricao": "História de assalto com fuga de patinete em Itaquera vira momento de incredulidade e riso."
       },
       {
-        "inicio": "11:00",
+        "inicio": "58:00",
+        "minuto": 58,
         "tipo": "piada",
-        "trecho": "Comerá essa aí."
+        "trecho": "Pronto, aqui não cai, legal",
+        "descricao": "Julinha surtando no jogo enquanto todos gritam 'vai embora' cria caos divertido e clipável."
       },
       {
-        "inicio": "12:00",
+        "inicio": "1:05:00",
+        "minuto": 65,
         "tipo": "piada",
-        "trecho": "Que loucura."
+        "trecho": "Sai fora, Gita.",
+        "descricao": "Julinha viciada no jogo e 'cheatando' gera zoação sobre suas skills e tempo sem sair de casa."
+      },
+      {
+        "inicio": "1:12:00",
+        "minuto": 72,
+        "tipo": "piada",
+        "trecho": "O carro do lixo.",
+        "descricao": "Troca de pau acidental e pergunta sobre dinheiro vira momento de riso e confusão total."
+      },
+      {
+        "inicio": "1:19:00",
+        "minuto": 79,
+        "tipo": "piada",
+        "trecho": "É, vamos aqui.",
+        "descricao": "Confusão com 'táxi-free' e gringo rende piada sobre agir como turista em Tóquio."
+      },
+      {
+        "inicio": "1:26:00",
+        "minuto": 86,
+        "tipo": "pergunta",
+        "trecho": "Você deu show, tá ligado?",
+        "descricao": "Pergunta se são atração turística no Beco gera reflexão engraçada sobre a fama local."
+      },
+      {
+        "inicio": "1:33:00",
+        "minuto": 93,
+        "tipo": "piada",
+        "trecho": "A vaca está na cesta do nada",
+        "descricao": "Piada sobre foto ruim e lencinho do Brasil com capivara no capuz arranca risadas."
       }
     ],
     "alertas": [

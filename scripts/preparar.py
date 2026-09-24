@@ -963,6 +963,64 @@ LAUGH_MARKERS = ["kkk", "haha", "rsrs", "lol", "lul", "racho", "ri ", "risada", 
 CATCHPHRASE_STOP = {"eai", "e ai", "né", "ne", "tá", "ta", "legal", "verdade", "calma"}
 
 
+def _describe_ganchos(ganchos: list[dict], blocks: list[dict]) -> list[dict]:
+    """Adiciona uma descrição em linguagem natural a cada gancho/piada.
+
+    Usa DeepSeek (quando DEEPSEEK_API_KEY está definida) com o contexto dos ~3
+    minutos ao redor do gancho; sem chave, usa o trecho transcrito como descrição.
+    """
+    if not ganchos:
+        return ganchos
+
+    # contexto de fala ao redor de cada gancho (2 min antes, 1 min depois)
+    def _contexto(m: int) -> str:
+        parts = []
+        for b in blocks:
+            bm = b["start"] // 60
+            if m - 2 <= bm <= m + 1:
+                parts.append(b["text"])
+            if bm > m + 1:
+                break
+        return " ".join(parts)[:600]
+
+    if DEEPSEEK_API_KEY:
+        try:
+            prompt_lines = [
+                "Você recebe ganchos de conteúdo (piada, pergunta, história ou revelação) de uma live do Baka Gaijin em Tóquio.",
+                "Para CADA gancho, escreva UMA linha JSON com:",
+                '{"minuto": <int>, "descricao": "<1 frase explicando o que acontece e por que é um bom gancho/clip>"}',
+                "Regras: escreva em português, tom direto e divertido, até ~25 palavras por descrição.",
+                "Responda APENAS o JSON array, sem comentários.",
+                "",
+            ]
+            for g in ganchos:
+                prompt_lines.append(f"{g['minuto']} ({g['inicio']}, tipo={g['tipo']}): {_contexto(g['minuto'])}")
+            prompt = "\n".join(prompt_lines)
+
+            resp = _deepseek_chat(
+                [{"role": "system", "content": "Você descreve clipes de live em português, em 1 frase curta."},
+                 {"role": "user", "content": prompt}],
+                max_tokens=2000,
+            )
+            if resp:
+                m = re.search(r"\[[\s\S]*\]", resp)
+                if m:
+                    arr = json.loads(m.group(0))
+                    desc = {int(item.get("minuto", -1)): str(item.get("descricao", "")) for item in arr}
+                    for g in ganchos:
+                        d = desc.get(g["minuto"])
+                        if d:
+                            g["descricao"] = d
+                    return ganchos
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] DeepSeek (ganchos) falhou: {exc}", file=sys.stderr)
+
+    # fallback: usa o próprio trecho como descrição
+    for g in ganchos:
+        g.setdefault("descricao", g.get("trecho", ""))
+    return ganchos
+
+
 def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metrics: dict) -> dict:
     """Calcula KPIs de engajamento por minuto, correlacionando fala e chat."""
     duration = metrics.get("duration_seconds", 0) or 0
@@ -1086,24 +1144,52 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
     frases_comentadas = _dedup(chat_phrases)
 
     # --- ganchos de conteúdo: piadas/risadas, perguntas, histórias, revelações ---
+    # janela: de 30min após o início até 30min antes do fim (evita começo/fim frios)
     ganchos = []
-    for m in range(total_minutes):
+    inicio_ganchos = min(30, total_minutes)
+    fim_ganchos = max(inicio_ganchos, total_minutes - 30)
+    janela = max(1, fim_ganchos - inicio_ganchos)
+
+    def _tag_gancho(m: int) -> str | None:
         words = " ".join(b["text"] for b in blocks if b["start"] // 60 == m)
         low = words.lower()
-        tag = None
         if laughs_per_min.get(m, 0) >= 3 or any(x in low for x in LAUGH_MARKERS):
-            tag = "piada"
-        elif questions_per_min.get(m, 0) >= 2 or low.count("?") >= 2:
-            tag = "pergunta"
-        elif any(x in low for x in ("história", "historia", "aconteceu", "lembro", "antigamente", "uma vez")):
-            tag = "história"
-        elif any(x in low for x in ("revelação", "revelacao", "segredo", "na verdade", "vou falar", "descobri")):
-            tag = "revelação"
-        if tag:
-            snippet = next((b["text"] for b in blocks if b["start"] // 60 == m and b["text"].strip()), "")
-            ganchos.append({"inicio": fmt_ts(m * 60), "tipo": tag, "trecho": snippet[:140]})
-        if len(ganchos) >= 10:
+            return "piada"
+        if questions_per_min.get(m, 0) >= 2 or low.count("?") >= 2:
+            return "pergunta"
+        if any(x in low for x in ("história", "historia", "aconteceu", "lembro", "antigamente", "uma vez")):
+            return "história"
+        if any(x in low for x in ("revelação", "revelacao", "segredo", "na verdade", "vou falar", "descobri")):
+            return "revelação"
+        return None
+
+    # coleta 1 gancho a cada ~10% da janela (espalha no miolo da live)
+    N_GANCHOS = 10
+    step = max(1, janela // N_GANCHOS)
+    used: set[int] = set()
+    for slot in range(inicio_ganchos, fim_ganchos, step):
+        best_tag = None
+        best_snippet = ""
+        best_m = None
+        # procura o melhor minuto dentro deste slot
+        for m in range(slot, min(slot + step, fim_ganchos)):
+            if m in used:
+                continue
+            tag = _tag_gancho(m)
+            if tag:
+                snippet = next((b["text"] for b in blocks if b["start"] // 60 == m and b["text"].strip()), "")
+                if best_m is None:
+                    best_m, best_tag, best_snippet = m, tag, snippet
+                else:
+                    break  # primeiro já serve; mantém distribuição
+        if best_m is not None:
+            used.add(best_m)
+            ganchos.append({"inicio": fmt_ts(best_m * 60), "minuto": best_m, "tipo": best_tag, "trecho": best_snippet[:140]})
+        if len(ganchos) >= N_GANCHOS:
             break
+
+    # descreve cada gancho/piada em linguagem natural (via DeepSeek, se disponível)
+    ganchos = _describe_ganchos(ganchos, blocks)
 
     # --- alertas de risco: menções sensíveis + aumento de mensagens ---
     alertas = []
@@ -2375,7 +2461,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         </a>
       </div>
     </div>
-    <div class="streetview-shell" id="streetviewShell" style="display:none">
+    <div class="streetview-shell" id="streetviewShell">
       <div class="sv-title"><i class="fa-solid fa-street-view"></i> Street View: <span id="streetviewTitle"></span></div>
       <iframe id="streetviewFrame" title="Google Street View" loading="lazy" allowfullscreen></iframe>
     </div>
@@ -2731,10 +2817,12 @@ function wireMedia(media, id, barId, timeId, overlayId, labelId){
     updateSubs(media, overlayId, labelId);
     updateSeek(media, barId, timeId);
     pumpFeed();
+    updateWalker(media.el.currentTime);
   });
   el.addEventListener("seeked", () => {
     updateSubs(media, overlayId, labelId);
     updateSeek(media, barId, timeId);
+    updateWalker(media.el.currentTime);
     if (media.el) {
       const t = media.el.currentTime;
       const before = allUpTo(t);
@@ -2852,6 +2940,37 @@ function setPlayerMode(mode) {
 // ---------------------------------------------------------------------------
 let liveMap = null;
 let mapMarkers = {};
+let walkerMarker = null;
+
+function walkerIcon() {
+  return L.divIcon({
+    className: "",
+    html: `<div style="width:30px;height:30px;border-radius:50% 50% 50% 0;background:#22c55e;
+      border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.7);transform:rotate(-45deg);
+      display:flex;align-items:center;justify-content:center">
+      <div style="transform:rotate(45deg);font-size:14px">🚶</div></div>`,
+    iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -28]
+  });
+}
+
+function updateWalker(t) {
+  if (!liveMap || !walkerMarker || !MAP_STOPS || !MAP_STOPS.length) return;
+  let lat, lng;
+  if (t <= MAP_STOPS[0].sec) {
+    lat = MAP_STOPS[0].lat; lng = MAP_STOPS[0].lng;
+  } else if (t >= MAP_STOPS[MAP_STOPS.length - 1].sec) {
+    const last = MAP_STOPS[MAP_STOPS.length - 1];
+    lat = last.lat; lng = last.lng;
+  } else {
+    let i = 0;
+    while (i < MAP_STOPS.length - 2 && MAP_STOPS[i + 1].sec <= t) i++;
+    const a = MAP_STOPS[i], b = MAP_STOPS[i + 1];
+    const f = (t - a.sec) / Math.max(1, b.sec - a.sec);
+    lat = a.lat + (b.lat - a.lat) * f;
+    lng = a.lng + (b.lng - a.lng) * f;
+  }
+  walkerMarker.setLatLng([lat, lng]);
+}
 
 function initLiveMap() {
   const el = document.getElementById("liveMap");
@@ -2866,6 +2985,11 @@ function initLiveMap() {
 
   const route = MAP_STOPS.map(s => [s.lat, s.lng]);
   L.polyline(route, { color:"#a855f7", weight:4, opacity:.75, dashArray:"6,8" }).addTo(liveMap);
+
+  walkerMarker = L.marker([MAP_STOPS[0].lat, MAP_STOPS[0].lng], {
+    icon: walkerIcon(), zIndexOffset: 1000
+  }).addTo(liveMap);
+  walkerMarker.bindTooltip("Você está aqui (player)", { direction: "top", offset: [0, -18] });
 
   function iconFor(color) {
     return L.divIcon({
@@ -2893,6 +3017,7 @@ function initLiveMap() {
 
   renderMapStops();
   mapFitAll();
+  if (MAP_STOPS[0]) showStreetView(MAP_STOPS[0]);
 }
 
 function renderMapStops() {
@@ -3176,6 +3301,7 @@ function renderEngajamento() {
     (eng.ganchos || []).map(g =>
       `<div class="quote" style="border-left-color:${tipos[g.tipo] || "#a855f7"}">
         <strong>${esc(g.inicio)}</strong> · <span class="tag" style="background:${tipos[g.tipo] || "#a855f7"}">${esc(g.tipo)}</span>
+        ${g.descricao ? `<div>${esc(g.descricao)}</div>` : ""}
         <div class="muted">${esc(g.trecho)}</div>
       </div>`
     ).join("") || "<div class='muted'>Sem ganchos identificados.</div>";
