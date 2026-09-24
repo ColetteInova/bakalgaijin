@@ -58,7 +58,10 @@ echo "==> Analisando: $DIR"
 "$PY" scripts/preparar.py "$DIR"
 
 CORTES_DIR="$DIR/cortes"
-if [ ! -d "$CORTES_DIR" ] || [ -z "$(ls -A "$CORTES_DIR" 2>/dev/null)" ]; then
+if [ "${SKIP_CORTES:-0}" = "1" ]; then
+  echo ""
+  echo "==> SKIP_CORTES=1 — pulando corte de trechos virais"
+elif [ ! -d "$CORTES_DIR" ] || [ -z "$(ls -A "$CORTES_DIR" 2>/dev/null)" ]; then
   echo ""
   echo "==> Cortando trechos virais (subpasta cortes/)"
   "$PY" scripts/cortar.py "$DIR"

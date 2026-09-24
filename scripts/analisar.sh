@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# analisar.sh — Extrai áudio de um vídeo e transcreve com MLX Whisper.
+# analisar.sh — Extrai áudio de um vídeo, copia o vídeo como video.mp4 para a
+# pasta de saída e transcreve com MLX Whisper.
 # Uso: ./scripts/analisar.sh <video.mp4> [modelo] [idioma]
 # Idiomas: pt (padrão), ja, en, es...
 # Modelos sugeridos (todos no repo mlx-community):
@@ -43,11 +44,17 @@ OUTDIR="saida/$STEM"
 mkdir -p "$OUTDIR"
 
 WAV="$OUTDIR/audio.wav"
+VIDEO_MP4="$OUTDIR/video.mp4"
 
-echo "==> [1/2] Extraindo áudio (16kHz mono) de: $VIDEO"
+echo "==> [1/4] Extraindo áudio (16kHz mono) de: $VIDEO"
 ffmpeg -y -i "$VIDEO" -vn -ar 16000 -ac 1 -c:a pcm_s16le "$WAV" -loglevel error
 
-echo "==> [2/3] Transcrevendo com mlx-whisper ($MODEL, idioma=$LANG)"
+echo "==> [2/4] Copiando vídeo para video.mp4 em: $OUTDIR"
+if [ "$VIDEO" != "$VIDEO_MP4" ]; then
+  cp -f "$VIDEO" "$VIDEO_MP4"
+fi
+
+echo "==> [3/4] Transcrevendo com mlx-whisper ($MODEL, idioma=$LANG)"
 "$WHISPER_BIN" "$WAV" \
   --model "$MODEL" \
   --language "$LANG" \
@@ -57,7 +64,7 @@ echo "==> [2/3] Transcrevendo com mlx-whisper ($MODEL, idioma=$LANG)"
   --no-speech-threshold 0.6 \
   --hallucination-silence-threshold 0.5
 
-echo "==> [3/3] Removendo repetições/alucinações do .srt"
+echo "==> [4/4] Removendo repetições/alucinações do .srt"
 SRT="$OUTDIR/audio.srt"
 if [ -f "$SRT" ]; then
   "$PY" scripts/limpar_srt.py "$SRT"

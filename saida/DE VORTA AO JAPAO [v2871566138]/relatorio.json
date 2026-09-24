@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-24T07:15:04",
+  "gerado_em": "2026-09-24T08:19:37",
   "metricas": {
     "video_id": "2871566138",
     "title": "DE VORTA AO JAPAO",
@@ -9,18 +9,18 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37558,
+    "views": 37559,
     "views_label": "37.6k",
     "likes_estimado": 450,
     "likes_label": "450",
     "comentarios": 8726,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 24.432,
+    "taxa_engajamento": 24.431,
     "followers_canal": 248246,
     "comparacao_canal": {
-      "mediana_views": 20933,
-      "media_views": 25561.0,
-      "mediana_pares": 19562.5,
+      "mediana_views": 20937,
+      "media_views": 25563.7,
+      "mediana_pares": 19566.0,
       "views_vs_mediana_pct": 79.4,
       "views_vs_media_pct": 46.9,
       "views_vs_pares_pct": 92.0,
@@ -37,7 +37,7 @@
       },
       {
         "categoria": "neutro",
-        "n": 5199,
+        "n": 5200,
         "pct": 59.6
       },
       {
@@ -52,7 +52,7 @@
       },
       {
         "categoria": "engraçado",
-        "n": 1248,
+        "n": 1247,
         "pct": 14.3
       },
       {
@@ -103,8 +103,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "vai fazer",
-          "quando vai"
+          "quando vai",
+          "vai fazer"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -114,8 +114,8 @@
         "palavras_chave": [
           "live",
           "live gravada",
-          "fazer live",
-          "faz live"
+          "faz live",
+          "fazer live"
         ],
         "n_comentarios": 375,
         "pct": 4.3
@@ -57898,7 +57898,7 @@
         "usuario": "mun1zvictor",
         "nome": "Mun1zVictor",
         "texto": "Muito estranho assistir sua live tomando, parece que tu tá me vendo pelado quando tu vira a câmera 😳😂",
-        "sentimento": "engraçado",
+        "sentimento": "neutro",
         "confianca": 1.0
       },
       {
@@ -91080,7 +91080,7 @@
         29,
         37,
         36,
-        14,
+        15,
         28,
         42,
         29,
@@ -91575,7 +91575,7 @@
         9,
         5,
         5,
-        13,
+        12,
         7,
         8,
         7,
@@ -93384,10 +93384,10 @@
         "minuto": 104,
         "inicio": "1:44:00",
         "positivo": 3,
-        "neutro": 14,
+        "neutro": 15,
         "neutro/pergunta": 0,
         "negativo": 1,
-        "engraçado": 13,
+        "engraçado": 12,
         "frustrado": 0,
         "inspirado": 0,
         "confuso": 7
@@ -101834,8 +101834,8 @@
           },
           {
             "sentimento": "neutro",
-            "n": 131,
-            "pct": 44.7
+            "n": 132,
+            "pct": 45.1
           },
           {
             "sentimento": "neutro/pergunta",
@@ -101849,8 +101849,8 @@
           },
           {
             "sentimento": "engraçado",
-            "n": 31,
-            "pct": 10.6
+            "n": 30,
+            "pct": 10.2
           },
           {
             "sentimento": "frustrado",
@@ -114686,7 +114686,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.432% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.431% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

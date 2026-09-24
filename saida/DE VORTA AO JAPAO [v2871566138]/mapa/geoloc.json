@@ -1,0 +1,87 @@
+{
+  "5": {
+    "nome": "Shinjuku Station East Exit",
+    "lat": 35.691,
+    "lng": 139.7005
+  },
+  "605": {
+    "nome": "Kabukicho Ichibangai",
+    "lat": 35.695,
+    "lng": 139.7015
+  },
+  "1205": {
+    "nome": "Don Quijote Shinjuku",
+    "lat": 35.6945,
+    "lng": 139.701
+  },
+  "1805": {
+    "nome": "Kabukicho Street",
+    "lat": 35.6955,
+    "lng": 139.702
+  },
+  "2405": {
+    "nome": "Shinjuku Golden Gai",
+    "lat": 35.6935,
+    "lng": 139.7045
+  },
+  "3005": {
+    "nome": "Shinjuku Golden Gai",
+    "lat": 35.6938,
+    "lng": 139.7048
+  },
+  "3605": {
+    "nome": "Shinjuku Omoide Yokocho",
+    "lat": 35.693,
+    "lng": 139.6995
+  },
+  "4205": {
+    "nome": "Shinjuku West Exit",
+    "lat": 35.6905,
+    "lng": 139.6985
+  },
+  "4805": {
+    "nome": "Shinjuku West Exit",
+    "lat": 35.69,
+    "lng": 139.698
+  },
+  "5405": {
+    "nome": "Shinjuku Station South Exit",
+    "lat": 35.689,
+    "lng": 139.7
+  },
+  "6005": {
+    "nome": "Shinjuku South Exit",
+    "lat": 35.6885,
+    "lng": 139.7005
+  },
+  "6605": {
+    "nome": "Shinjuku East Exit",
+    "lat": 35.6915,
+    "lng": 139.701
+  },
+  "7205": {
+    "nome": "Shinjuku East Exit",
+    "lat": 35.692,
+    "lng": 139.7015
+  },
+  "7805": {
+    "nome": "Kabukicho Ichibangai",
+    "lat": 35.695,
+    "lng": 139.7015
+  },
+  "8405": {
+    "nome": "Kabukicho Street",
+    "lat": 35.6955,
+    "lng": 139.702
+  },
+  "9005": {
+    "nome": "Shinjuku Golden Gai",
+    "lat": 35.6935,
+    "lng": 139.7045
+  },
+  "9605": {
+    "nome": "Shinjuku Golden Gai",
+    "lat": 35.6938,
+    "lng": 139.7048
+  }
+}

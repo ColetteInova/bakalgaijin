@@ -345,22 +345,14 @@ async function startServer() {
       const count = await collectCommentsToFile(videoId, folder);
       pipeline.commentsCount = count;
 
-      // 2) transcrição (analisar.sh no arquivo original -> gera audio.wav + audio.srt na pasta certa)
+      // 2) transcrição + cópia do vídeo (analisar.sh gera audio.wav/audio.srt e copia video.mp4 para a pasta)
       pipeline.step = "transcribe";
       pipeline.stepLabel = "Transcrevendo áudio com MLX Whisper (pode demorar)...";
       await runScript("scripts/analisar.sh", [sourceVideo]);
 
-      // 3) copia o vídeo para dentro da pasta de análise (player do dashboard)
-      pipeline.step = "copy";
-      pipeline.stepLabel = "Copiando vídeo para a pasta de análise...";
-      const videoTarget = path.join(folder, "video.mp4");
-      if (sourceVideo !== videoTarget && !fs.existsSync(videoTarget)) {
-        fs.copyFileSync(sourceVideo, videoTarget);
-      }
-
-      // 4) análise (preparar.sh)
+      // 3) análise (preparar.sh usa o video.mp4 da pasta para o dashboard e os cortes)
       pipeline.step = "analyze";
-      pipeline.stepLabel = "Gerando relatório e dashboard...";
+      pipeline.stepLabel = "Gerando relatório, dashboard e cortes...";
       await runScript("scripts/preparar.sh", [folderName]);
 
       pipeline.status = "done";

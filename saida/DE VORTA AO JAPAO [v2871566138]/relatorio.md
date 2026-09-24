@@ -13,7 +13,7 @@
 | Likes (estimado) | 450 |
 | Comentários | 8726 |
 | Taxa de likes | 1.198% |
-| Taxa de engajamento | 24.432% |
+| Taxa de engajamento | 24.431% |
 | Duração | 2h42min |
 
 ## 2. Comparação com o Canal
@@ -31,10 +31,10 @@
 | Categoria | N | % |
 | --- | --- | --- |
 | positivo | 584 | 6.7% |
-| neutro | 5199 | 59.6% |
+| neutro | 5200 | 59.6% |
 | neutro/pergunta | 0 | 0.0% |
 | negativo | 40 | 0.5% |
-| engraçado | 1248 | 14.3% |
+| engraçado | 1247 | 14.3% |
 | frustrado | 79 | 0.9% |
 | inspirado | 12 | 0.1% |
 | confuso | 1564 | 17.9% |
@@ -46,7 +46,7 @@
 | baka voltou | 17.8% | baka, baka voltou, baka vai, baka volta |
 | voltou japão | 6.2% | japão, voltou, voltou japão, volta japão |
 | vai ficar | 5.8% | vai, ficar, vai ficar, vai voltar |
-| live gravada | 4.3% | live, live gravada, fazer live, faz live |
+| live gravada | 4.3% | live, live gravada, faz live, fazer live |
 | voltou morar | 3.3% | morar, voltar, voltou morar |
 | bom dia | 2.0% | dia, bom, bom dia |
 | quanto tempo | 2.0% | quanto, tempo, fica, quanto tempo |

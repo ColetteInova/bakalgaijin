@@ -1094,7 +1094,7 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
     bordoes = [
         {"frase": p, "n": n}
         for p, n in phrase_freq.most_common(12)
-        if n >= 3 and not p.isdigit()
+        if n > 10 and not p.isdigit()
     ]
 
     # --- resumo em 1 minuto: 1 fala por trecho espaçado ---
@@ -2196,6 +2196,21 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .pop .pt { font-size:.84rem; font-weight:800; margin-bottom:2px; }
   .pop .pts { font-size:.7rem; color:var(--accent); margin-bottom:5px; }
   .pop .pq { font-size:.75rem; color:var(--muted); font-style:italic; margin-bottom:6px; }
+  .pop .pgm {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .74rem; color: #93c5fd; text-decoration: none; margin-top: 2px;
+  }
+  .pop .pgm:hover { color: #bfdbfe; text-decoration: underline; }
+  .gmaps-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .streetview-shell { margin-top: 14px; }
+  .streetview-shell .sv-title {
+    font-size: .78rem; color: var(--muted); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .streetview-shell .sv-title i { color: var(--accent); }
+  .streetview-shell iframe {
+    width: 100%; height: 340px; border: 0; border-radius: 12px; background: #0f172a;
+  }
   .leaflet-control-zoom a { background:#1e293b; color:#e2e8f0; border-color:var(--border); }
   .leaflet-control-zoom a:hover { background:#263449; }
 
@@ -2209,7 +2224,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     display: flex; align-items: center; gap: 10px;
     background: rgba(15,23,42,.96); border: 1px solid var(--border);
     border-bottom: 1px solid #334155;
-    border-radius: 0 0 12px 12px; padding: 8px 12px; margin: 0 -24px 20px;
+    border-radius: 0; padding: 8px 24px; margin: 0 0 20px;
     backdrop-filter: blur(8px);
   }
   .toc-label {
@@ -2240,12 +2255,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+  <nav class="toc" id="toc"></nav>
+
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
   <a href="../index.html" class="back-link">← Voltar ao índice</a>
   <h1 id="title" class="text-2xl font-bold tracking-tight bg-gradient-to-r from-purple-300 via-slate-100 to-indigo-300 bg-clip-text text-transparent">Análise de VOD</h1>
   <div class="sub" id="subtitle">Carregando…</div>
-
-  <nav class="toc" id="toc"></nav>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="player">Player de Vídeo &amp; Áudio</h2>
   <div style="display:flex;gap:8px;margin-bottom:12px">
@@ -2306,7 +2321,14 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="map-stops" id="mapStops"></div>
         <div class="muted" id="mapNow">Escolha um marco para assistir o trecho.</div>
+        <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
+          <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
+        </a>
       </div>
+    </div>
+    <div class="streetview-shell" id="streetviewShell" style="display:none">
+      <div class="sv-title"><i class="fa-solid fa-street-view"></i> Street View: <span id="streetviewTitle"></span></div>
+      <iframe id="streetviewFrame" title="Google Street View" loading="lazy" allowfullscreen></iframe>
     </div>
   </div>
 
@@ -2324,10 +2346,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   </div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="kpis">Métricas de Performance</h2>
-  <div class="grid cards" id="kpis"></div>
+  <div class="grid cards" id="kpisBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="bench">Comparação com o Canal</h2>
-  <div class="grid cards" id="bench"></div>
+  <div class="grid cards" id="benchBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="sent">Sentimento dos Comentários</h2>
   <div class="grid two">
@@ -2342,10 +2364,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   </div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="resumo">Resumo do Conteúdo</h2>
-  <div id="resumo"></div>
+  <div id="resumoBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="capitulos">Capítulos Automáticos</h2>
-  <div id="capitulos"></div>
+  <div id="capitulosBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="fala-chat">Fala vs. Chat (por minuto)</h2>
   <div id="engKpis" style="margin-bottom:14px"></div>
@@ -2361,10 +2383,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <div class="card" style="margin-bottom:14px"><canvas id="chartRisadas"></canvas></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="wordcloud">Nuvem de Palavras (fala + chat)</h2>
-  <div class="card" id="wordcloud" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:120px"></div>
+  <div class="card" id="wordcloudBody" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:120px"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="heatmap">Heatmap: Minuto × Sentimento</h2>
-  <div class="card" id="heatmap" style="overflow-x:auto"></div>
+  <div class="card" id="heatmapBody" style="overflow-x:auto"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="segmentos">Segmentos da Live (quartos)</h2>
   <div class="card"><canvas id="chartSegmentos"></canvas></div>
@@ -2413,25 +2435,25 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <div class="grid two" id="frasesGrid"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="ganchos">Ganchos de Conteúdo</h2>
-  <div id="ganchos"></div>
+  <div id="ganchosBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="alertas">Top Palavrões</h2>
-  <div id="alertas"></div>
+  <div id="alertasBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="bordoes">Ranking de Bordões</h2>
-  <div id="bordoes"></div>
+  <div id="bordoesBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="resumo1min">Resumo em 1 minuto</h2>
-  <div id="resumo1min"></div>
+  <div id="resumo1minBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="perguntas">Perguntas Frequentes</h2>
   <div id="perguntasFreq"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="cortes">Cortes Virais Sugeridos</h2>
-  <div id="cortes"></div>
+  <div id="cortesBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="popular">Comentário Mais Popular</h2>
-  <div id="popular"></div>
+  <div id="popularBody"></div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="comentarios">Comentários Relevantes por Sentimento</h2>
   <div class="filters" id="sentFilters"></div>
@@ -2443,7 +2465,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       <input id="participanteBusca" class="btn" style="flex:1;text-align:left" placeholder="Filtrar participante..." oninput="renderParticipantes()" />
       <span class="muted" id="participanteCount"></span>
     </div>
-    <div class="participantes" id="participantes"></div>
+    <div class="participantes" id="participantesBody"></div>
   </div>
   </div>
 
@@ -2813,7 +2835,9 @@ function initLiveMap() {
       <img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />
       <div class="pt">${esc(s.nome)}</div>
       <div class="pts">⏱ ${fmtClock(s.sec)} · na live</div>
-      <div class="pq">${esc(s.frase || "")}</div></div>`);
+      <div class="pq">${esc(s.frase || "")}</div>
+      <a class="pgm" href="https://www.google.com/maps?q=${s.lat},${s.lng}" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Abrir no Google Maps</a>
+    </div>`);
     m.on("click", () => jumpToStop(s));
     mapMarkers[i] = m;
   });
@@ -2848,6 +2872,23 @@ function jumpToStop(s) {
   const chip = document.querySelector(`.map-stop[onclick*="MAP_STOPS[${MAP_STOPS.indexOf(s)}]"]`);
   if (chip) chip.classList.add("active");
   document.getElementById("mapNow").textContent = `▶ ${s.nome} — ${fmtClock(s.sec)}`;
+  showStreetView(s);
+}
+
+function showStreetView(s) {
+  const link = document.getElementById("mapGmapsLink");
+  const shell = document.getElementById("streetviewShell");
+  const frame = document.getElementById("streetviewFrame");
+  const title = document.getElementById("streetviewTitle");
+  if (link) {
+    link.href = `https://www.google.com/maps?q=${s.lat},${s.lng}`;
+    link.style.display = "";
+  }
+  if (shell && frame) {
+    frame.src = `https://maps.google.com/maps?q=${s.lat},${s.lng}&layer=c&cbll=${s.lat},${s.lng}&output=svembed`;
+    shell.style.display = "";
+    if (title) title.textContent = `${s.nome} · ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}`;
+  }
 }
 
 function mapFitAll() {
@@ -2976,12 +3017,12 @@ function render() {
     {label:"Engajamento", value:m.taxa_engajamento+"%"},
     {label:"Duração", value:m.duration_label},
   ];
-  document.getElementById("kpis").innerHTML = kpis.map(k =>
+  document.getElementById("kpisBody").innerHTML = kpis.map(k =>
     `<div class="card"><div class="label">${k.label}</div><div class="value">${k.value}</div></div>`
   ).join("");
 
   const b = m.comparacao_canal;
-  document.getElementById("bench").innerHTML = [
+  document.getElementById("benchBody").innerHTML = [
     {label:"Mediana do canal", value:fmt(b.mediana_views), d:""},
     {label:"Média do canal", value:fmt(b.media_views), d:""},
     {label:"Mediana dos pares", value:fmt(b.mediana_pares), d:""},
@@ -3003,7 +3044,7 @@ function render() {
 }
 
 function renderParticipantes() {
-  const el = document.getElementById("participantes");
+  const el = document.getElementById("participantesBody");
   const countEl = document.getElementById("participanteCount");
   if (!el) return;
   const all = (R.engajamento && R.engajamento.todos_participantes) || [];
@@ -3083,7 +3124,7 @@ function renderEngajamento() {
 
   // Ganchos
   const tipos = { piada: "#f97316", pergunta: "#3b82f6", "história": "#eab308", "revelação": "#ec4899" };
-  document.getElementById("ganchos").innerHTML =
+  document.getElementById("ganchosBody").innerHTML =
     (eng.ganchos || []).map(g =>
       `<div class="quote" style="border-left-color:${tipos[g.tipo] || "#a855f7"}">
         <strong>${esc(g.inicio)}</strong> · <span class="tag" style="background:${tipos[g.tipo] || "#a855f7"}">${esc(g.tipo)}</span>
@@ -3092,7 +3133,7 @@ function renderEngajamento() {
     ).join("") || "<div class='muted'>Sem ganchos identificados.</div>";
 
   // Alertas
-  document.getElementById("alertas").innerHTML =
+  document.getElementById("alertasBody").innerHTML =
     (eng.alertas || []).map(a =>
       `<div class="quote" style="border-left-color:#ef4444">
         <strong>${esc(a.inicio)}</strong> · termos: ${a.termos.map(t => esc(t)).join(", ")}
@@ -3101,7 +3142,7 @@ function renderEngajamento() {
     ).join("") || "<div class='muted'>Nenhum alerta de risco detectado.</div>";
 
   // Bordões
-  document.getElementById("bordoes").innerHTML =
+  document.getElementById("bordoesBody").innerHTML =
     (eng.bordoes || []).map((b, i) =>
       `<div class="quote" style="border-left-color:#2dd4bf">
         <strong>#${i+1}</strong> "${esc(b.frase)}" <span class="muted">× ${b.n}</span>
@@ -3109,7 +3150,7 @@ function renderEngajamento() {
     ).join("") || "<div class='muted'>Sem bordões recorrentes.</div>";
 
   // Resumo em 1 minuto
-  document.getElementById("resumo1min").innerHTML =
+  document.getElementById("resumo1minBody").innerHTML =
     (eng.resumo_1min || []).map(r =>
       `<div class="quote"><strong>${esc(r.inicio)}</strong> — ${esc(r.texto)}</div>`
     ).join("") || "<div class='muted'>Sem resumo.</div>";
@@ -3183,7 +3224,7 @@ function renderRisadas(eng) {
 }
 
 function renderWordcloud(eng) {
-  const el = document.getElementById("wordcloud");
+  const el = document.getElementById("wordcloudBody");
   if (!el) return;
   const words = eng.wordcloud || [];
   if (!words.length) { el.innerHTML = "<span class='muted'>Sem palavras.</span>"; return; }
@@ -3196,7 +3237,7 @@ function renderWordcloud(eng) {
 }
 
 function renderHeatmap(eng) {
-  const el = document.getElementById("heatmap");
+  const el = document.getElementById("heatmapBody");
   if (!el) return;
   const hm = eng.heatmap || [];
   if (!hm.length) { el.innerHTML = "<span class='muted'>Sem dados.</span>"; return; }
@@ -3600,7 +3641,7 @@ function renderThemes(ca) {
 }
 
 function renderResumo(ct) {
-  document.getElementById("resumo").innerHTML =
+  document.getElementById("resumoBody").innerHTML =
     `<div class="card"><div class="label">Palavras-chave</div><p style="margin-top:6px">${esc((ct.palavras_chave||[]).join(", "))}</p></div>` +
     ct.momentos_chave.slice(0,8).map(mo =>
       `<div class="quote"><strong>${esc(mo.timestamp)}</strong> — ${esc(mo.texto)}</div>`
@@ -3609,7 +3650,7 @@ function renderResumo(ct) {
 
 function renderCapitulos(ct) {
   const caps = ct.capitulos || [];
-  document.getElementById("capitulos").innerHTML =
+  document.getElementById("capitulosBody").innerHTML =
     caps.map(ch =>
       `<div class="quote" style="border-left-color:#22c55e">
         <strong>${esc(ch.inicio)}–${esc(ch.fim)}</strong> — ${esc(ch.titulo)}
@@ -3620,7 +3661,7 @@ function renderCapitulos(ct) {
 
 function renderCortes(ct) {
   const cortes = FILES.cortes || [];
-  document.getElementById("cortes").innerHTML = ct.cortes_virais.map((c,i) => {
+  document.getElementById("cortesBody").innerHTML = ct.cortes_virais.map((c,i) => {
     const corteFile = cortes[i] || null;
     const videoSrc = corteFile ? "cortes/" + corteFile : (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
     const audioSrc = FILES.audio ? `${FILES.audio}#t=${c.inicio_sec},${c.fim_sec}` : null;
@@ -3659,8 +3700,8 @@ function pauseOthers(el, kind) {
 
 function renderPopular(ca) {
   const p = ca.comentario_mais_popular;
-  if (!p) { document.getElementById("popular").innerHTML = "<div class='muted'>Sem dados.</div>"; return; }
-  document.getElementById("popular").innerHTML =
+  if (!p) { document.getElementById("popularBody").innerHTML = "<div class='muted'>Sem dados.</div>"; return; }
+  document.getElementById("popularBody").innerHTML =
     `<div class="quote">[${p.timestamp}] <strong>${esc(p.usuario)}</strong>: ${esc(p.texto)}</div>`;
 }
 

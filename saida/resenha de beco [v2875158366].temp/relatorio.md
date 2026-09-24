@@ -1,40 +1,40 @@
-# Relatório de Análise — resenha de beco
+# Relatório de Análise — 
 
-- **Canal:** BakaGaijinLive (248.3k seguidores)
-- **Categoria:** Just Chatting
-- **Publicado em:** 15/09/2026
-- **Duração:** 2h54min
+- **Canal:**  (0 seguidores)
+- **Categoria:** 
+- **Publicado em:** —
+- **Duração:** 0min
 
 ## 1. Métricas de Performance
 
 | Métrica | Valor |
 | --- | --- |
-| Views | 20.7k |
-| Likes (estimado) | 248 |
+| Views | 0 |
+| Likes (estimado) | 0 |
 | Comentários | 7540 |
-| Taxa de likes | 1.197% |
-| Taxa de engajamento | 37.592% |
-| Duração | 2h54min |
+| Taxa de likes | 0.0% |
+| Taxa de engajamento | 0.0% |
+| Duração | 0min |
 
 ## 2. Comparação com o Canal
 
 | Indicador | Valor | Variação |
 | --- | --- | --- |
-| Mediana de views do canal | 20.7k | — |
-| Média de views do canal | 25.4k | — |
-| Mediana dos pares (outros VODs) | 27.8k | — |
-| Este VOD vs. mediana | 20.7k | 0.0% |
-| Este VOD vs. média | 20.7k | -18.6% |
+| Mediana de views do canal | 0 | — |
+| Média de views do canal | 0 | — |
+| Mediana dos pares (outros VODs) | 0 | — |
+| Este VOD vs. mediana | 0 | None% |
+| Este VOD vs. média | 0 | None% |
 
 ## 3. Sentimento dos Comentários
 
 | Categoria | N | % |
 | --- | --- | --- |
 | positivo | 444 | 5.9% |
-| neutro | 4721 | 62.6% |
+| neutro | 4722 | 62.6% |
 | neutro/pergunta | 0 | 0.0% |
 | negativo | 40 | 0.5% |
-| engraçado | 1049 | 13.9% |
+| engraçado | 1048 | 13.9% |
 | frustrado | 53 | 0.7% |
 | inspirado | 18 | 0.2% |
 | confuso | 1215 | 16.1% |
@@ -118,30 +118,6 @@
 - `2:39:11` — Ele está na verdade incentivando o cara a fumar e jogar no chão
 
 ## 6. Cortes Virais Sugeridos (1–3 min)
-
-**Corte 1: 7:30–10:30 (3.0min)**
-> Janela 7:30–10:30 concentra 61 mensagens de chat e alto uso das palavras-chave do vídeo.
-> Trecho: __
-
-**Corte 2: 55:50–58:50 (3.0min)**
-> Janela 55:50–58:50 concentra 49 mensagens de chat e alto uso das palavras-chave do vídeo.
-> Trecho: _Olha aí_
-
-**Corte 3: 1:24:40–1:27:40 (3.0min)**
-> Janela 1:24:40–1:27:40 concentra 42 mensagens de chat e alto uso das palavras-chave do vídeo.
-> Trecho: _Bons tempos, mano_
-
-**Corte 4: 1:36:30–1:39:30 (3.0min)**
-> Janela 1:36:30–1:39:30 concentra 44 mensagens de chat e alto uso das palavras-chave do vídeo.
-> Trecho: _A caneta azul está vindo aí para unificar as Coreias, é verdade_
-
-**Corte 5: 1:41:10–1:44:10 (3.0min)**
-> Janela 1:41:10–1:44:10 concentra 50 mensagens de chat e alto uso das palavras-chave do vídeo.
-> Trecho: _Gosto dessa vibe Animal Planet_
-
-**Corte 6: 2:50:50–2:53:50 (3.0min)**
-> Janela 2:50:50–2:53:50 concentra 49 mensagens de chat e alto uso das palavras-chave do vídeo.
-> Trecho: _Deixa ele ser bom, porque ele nem tá bom._
 
 ## 7. Comentário Mais Popular
 
