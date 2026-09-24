@@ -46,7 +46,7 @@
 | baka voltou | 17.8% | baka, baka voltou, baka vai, baka volta |
 | voltou japão | 6.2% | japão, voltou, voltou japão, volta japão |
 | vai ficar | 5.8% | vai, ficar, vai ficar, vai voltar |
-| live gravada | 4.3% | live, live gravada, faz live, fazer live |
+| live gravada | 4.3% | live, live gravada, fazer live, faz live |
 | voltou morar | 3.3% | morar, voltar, voltou morar |
 | bom dia | 2.0% | dia, bom, bom dia |
 | quanto tempo | 2.0% | quanto, tempo, fica, quanto tempo |

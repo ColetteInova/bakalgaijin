@@ -2226,6 +2226,15 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   @media (min-width: 961px) {
     .player-video-shell { width: 960px; }
   }
+  .player-map-wrap { display: block; }
+  .player-map-wrap .pm-col { min-width: 0; }
+  @media (min-width: 1200px) {
+    .player-map-wrap { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.15fr); gap: 20px; align-items: start; }
+    .player-map-wrap .player-video-shell { width: 100%; }
+    .player-map-wrap .grid.two { grid-template-columns: 1fr; }
+    .player-map-wrap #liveMap { height: 380px; }
+    .player-map-wrap #mapa, .player-map-wrap #player { margin-top: 0; }
+  }
   .player {
     background: #000; border: 1px solid var(--border); border-radius: 12px;
     overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,.5);
@@ -2397,6 +2406,8 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <h1 id="title" class="text-2xl font-bold tracking-tight bg-gradient-to-r from-purple-300 via-slate-100 to-indigo-300 bg-clip-text text-transparent">Análise de VOD</h1>
   <div class="sub" id="subtitle">Carregando…</div>
 
+  <div class="player-map-wrap">
+  <div class="pm-col">
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="player">Player de Vídeo &amp; Áudio</h2>
   <div style="display:flex;gap:8px;margin-bottom:12px">
     <button class="btn active" id="modeVideo" onclick="setPlayerMode('video')">🎬 Vídeo</button>
@@ -2442,7 +2453,9 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       </div>
     </div>
   </div>
+  </div>
 
+  <div class="pm-col">
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="mapa"><i class="fa-solid fa-map-location-dot"></i> Mapa da Live — onde o Baka passou</h2>
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
@@ -2462,9 +2475,22 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       </div>
     </div>
     <div class="streetview-shell" id="streetviewShell">
-      <div class="sv-title"><i class="fa-solid fa-street-view"></i> Street View: <span id="streetviewTitle"></span></div>
-      <iframe id="streetviewFrame" title="Google Street View" loading="lazy" allowfullscreen></iframe>
+      <div class="sv-title">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span id="streetviewTitle"></span>
+        <span style="display:inline-flex;gap:6px;margin-left:auto">
+          <button class="btn active" id="svMapBtn" onclick="setStreetMode('map')" title="Arraste o bonequinho para o Street View">
+            <i class="fa-solid fa-map"></i> Mapa (arraste o bonequinho)
+          </button>
+          <button class="btn" id="svPanBtn" onclick="setStreetMode('pan')" title="Street View direto">
+            <i class="fa-solid fa-street-view"></i> Street View
+          </button>
+        </span>
+      </div>
+      <iframe id="streetviewFrame" title="Google Maps — arraste o bonequinho para o Street View" loading="lazy" allowfullscreen></iframe>
     </div>
+  </div>
+  </div>
   </div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="replay">Replay dos Comentários (ao vivo)</h2>
@@ -3048,17 +3074,38 @@ function jumpToStop(s) {
   showStreetView(s);
 }
 
+let streetMode = "map";
+
+function setStreetMode(mode) {
+  streetMode = mode;
+  const btnMap = document.getElementById("svMapBtn");
+  const btnPan = document.getElementById("svPanBtn");
+  if (btnMap && btnPan) {
+    btnMap.classList.toggle("active", mode === "map");
+    btnPan.classList.toggle("active", mode === "pan");
+  }
+  const s = window._currentStop;
+  if (s) showStreetView(s);
+}
+
 function showStreetView(s) {
   const link = document.getElementById("mapGmapsLink");
   const shell = document.getElementById("streetviewShell");
   const frame = document.getElementById("streetviewFrame");
   const title = document.getElementById("streetviewTitle");
+  window._currentStop = s;
   if (link) {
     link.href = `https://www.google.com/maps?q=${s.lat},${s.lng}`;
     link.style.display = "";
   }
   if (shell && frame) {
-    frame.src = `https://maps.google.com/maps?q=${s.lat},${s.lng}&layer=c&cbll=${s.lat},${s.lng}&output=svembed`;
+    if (streetMode === "pan") {
+      // Street View direto (sem bonequinho)
+      frame.src = `https://maps.google.com/maps?q=${s.lat},${s.lng}&layer=c&cbll=${s.lat},${s.lng}&output=svembed`;
+    } else {
+      // Mapa interativo completo (tem o bonequinho arrastável no canto inferior direito)
+      frame.src = `https://www.google.com/maps?q=${s.lat},${s.lng}&z=17&output=embed`;
+    }
     shell.style.display = "";
     if (title) title.textContent = `${s.nome} · ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}`;
   }
@@ -3131,7 +3178,7 @@ function wrapSections() {
   // exceto os h2 do cabeçalho/player que já estão marcados como seções.
   const container = document.querySelector(".max-w-7xl");
   if (!container) return;
-  const h2s = Array.from(container.querySelectorAll(":scope > h2, :scope > section > h2"));
+  const h2s = Array.from(container.querySelectorAll(":scope > h2, :scope > section > h2, :scope > .player-map-wrap .pm-col > h2"));
   // se já houver sections colapsadas de edição anterior, recomeça do zero
   h2s.forEach(h => {
     if (h.id && h.id !== "title") {
