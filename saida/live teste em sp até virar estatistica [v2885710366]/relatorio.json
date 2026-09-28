@@ -1,5 +1,7 @@
 {
-  "gerado_em": "2026-09-28T11:21:15",
+  "gerado_em": "2026-09-28T14:00:23",
+  "local": "sao-paulo",
+  "local_label": "São Paulo",
   "metricas": {
     "video_id": "2885710366",
     "title": "live teste em sp até virar estatistica",
@@ -9,21 +11,21 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/c8d05a80c8452022531d_bakagaijinlive_319151009140_1790533506//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7554,
     "duration_label": "2h05min",
-    "views": 11392,
-    "views_label": "11.4k",
-    "likes_estimado": 136,
-    "likes_label": "136",
+    "views": 11457,
+    "views_label": "11.5k",
+    "likes_estimado": 137,
+    "likes_label": "137",
     "comentarios": 6373,
-    "taxa_likes": 1.194,
-    "taxa_engajamento": 57.137,
-    "followers_canal": 248265,
+    "taxa_likes": 1.196,
+    "taxa_engajamento": 56.821,
+    "followers_canal": 248263,
     "comparacao_canal": {
-      "mediana_views": 20201.5,
-      "media_views": 22400.0,
-      "mediana_pares": 21893,
-      "views_vs_mediana_pct": -43.6,
-      "views_vs_media_pct": -49.1,
-      "views_vs_pares_pct": -48.0,
+      "mediana_views": 20210.0,
+      "media_views": 22421.0,
+      "mediana_pares": 21900,
+      "views_vs_mediana_pct": -43.3,
+      "views_vs_media_pct": -48.9,
+      "views_vs_pares_pct": -47.7,
       "n_videos_canal": 4
     }
   },
@@ -89,8 +91,8 @@
           "faz live",
           "fazer live",
           "live boa",
-          "live brasil",
-          "live gravada"
+          "live gravada",
+          "live brasil"
         ],
         "n_comentarios": 360,
         "pct": 5.6
@@ -74175,70 +74177,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Vai se fuder",
-        "descricao": "Vai se fuder"
+        "descricao": "Ele reclama que não nasceu pra andar de carrinho de bebê em Tóquio, com mochila caindo e vergonha de filmar."
       },
       {
         "inicio": "36:00",
         "minuto": 36,
         "tipo": "piada",
         "trecho": "Eu cheguei na conclusão que deve ser porque eu não paguei o imposto do cacique cobra coral, né?",
-        "descricao": "Eu cheguei na conclusão que deve ser porque eu não paguei o imposto do cacique cobra coral, né?"
+        "descricao": "Ele confunde um inscrito com um cara do submundo e farma aura no meio da rua em novo ciclo."
       },
       {
         "inicio": "42:00",
         "minuto": 42,
         "tipo": "piada",
         "trecho": "Vem tudo aqui pra baixo",
-        "descricao": "Vem tudo aqui pra baixo"
+        "descricao": "Trancado num percurso, ele filosofa que Deus escreve certo por linhas tortas e acha lixo do Brasil no Japão."
       },
       {
         "inicio": "48:00",
         "minuto": 48,
         "tipo": "piada",
         "trecho": "Voltou ou não?",
-        "descricao": "Voltou ou não?"
+        "descricao": "Ele vê samurai e geisha, cria climão e cogita ir andando até a Praça da Sé sem óculos."
       },
       {
         "inicio": "54:00",
         "minuto": 54,
         "tipo": "pergunta",
         "trecho": "Bem-vindo ao Inferno 2, é mais ou menos isso",
-        "descricao": "Bem-vindo ao Inferno 2, é mais ou menos isso"
+        "descricao": "Ele pergunta se vale tentar entrar num lugar lotado e lembra que já foi expulso de maneiras inacreditáveis no próprio país."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Esse que é o bairro japonês?",
-        "descricao": "Esse que é o bairro japonês?"
+        "descricao": "Ele manda estrelinha, quase dá zoom numa mina chorando e decide que filmar intimidade alheia é nada a ver."
       },
       {
         "inicio": "1:06:00",
         "minuto": 66,
         "tipo": "pergunta",
         "trecho": "A lata toda mole, rapaz",
-        "descricao": "A lata toda mole, rapaz"
+        "descricao": "Ele foge de loja chique, vê senhorinha assustada e admite que quase entrou tentado num lugar suspeito."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "pergunta",
         "trecho": "Eu queria entrar ali, mas vai cair também, né?",
-        "descricao": "Eu queria entrar ali, mas vai cair também, né?"
+        "descricao": "Ele culpa ataques de guerra por derrubar o sinal e volta por tudo que já passou, tudo off, sem áudio."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "Ficou chovendo a viagem inteira lá que eu fui pro Japão",
-        "descricao": "Ficou chovendo a viagem inteira lá que eu fui pro Japão"
+        "descricao": "Ele quase cai, vê pôr do sol, ouve pagode no Japão e chama de hibridação cultural enquanto falam chinês do lado."
       },
       {
         "inicio": "1:24:00",
         "minuto": 84,
         "tipo": "piada",
         "trecho": "Logo depois de dar o autógrafo",
-        "descricao": "Logo depois de dar o autógrafo"
+        "descricao": "Um fã chamado Davi aparece do Canandiru, segura a live e quase estraga o livro com letra feia."
       }
     ],
     "alertas": [
@@ -82449,7 +82451,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 11.4k views está abaixo da mediana do canal em 43.6% (mediana 20.2k)."
+      "acao": "VOD com 11.5k views está abaixo da mediana do canal em 43.3% (mediana 20.2k)."
     },
     {
       "titulo": "Clima do chat",
@@ -82461,7 +82463,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 57.137% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 56.821% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

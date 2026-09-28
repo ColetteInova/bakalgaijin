@@ -111,7 +111,9 @@ class RangeHandler(http.server.SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     http.server.ThreadingHTTPServer.allow_reuse_address = True
     server = http.server.ThreadingHTTPServer(("0.0.0.0", PORT), RangeHandler)
-    print(f"Servindo {ROOT} em http://localhost:{PORT} (com suporte a Range)")
+    actual_port = server.server_address[1]
+    print(f"Servindo {ROOT} em http://localhost:{actual_port} (com suporte a Range)")
+    print(f"Índice: http://localhost:{actual_port}/index.html")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

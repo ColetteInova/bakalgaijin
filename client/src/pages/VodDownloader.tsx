@@ -1,28 +1,28 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  AlertTriangle,
-  ArrowLeft,
-  CheckCircle2,
-  Clock,
-  Download,
-  FileJson,
-  FileSpreadsheet,
-  FileText,
-  Film,
-  Loader2,
-  MessageSquare,
-  Music,
-  RefreshCw,
-  Search,
-  Twitch,
-  User,
-  X,
-} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+    AlertTriangle,
+    ArrowLeft,
+    CheckCircle2,
+    Clock,
+    Download,
+    FileJson,
+    FileSpreadsheet,
+    FileText,
+    Film,
+    Loader2,
+    MessageSquare,
+    Music,
+    RefreshCw,
+    Search,
+    Twitch,
+    User,
+    X,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Link } from "wouter";
 
@@ -66,6 +66,21 @@ interface DoneItem {
   date: string;
 }
 
+interface PreparedFolder {
+  folder: string;
+  local: string;
+  hasComments: boolean;
+  commentsCount?: number;
+  hasSrt: boolean;
+  hasVideo: boolean;
+  hasReport: boolean;
+  hasDashboard: boolean;
+  cortes: number;
+  mapFrames: number;
+  hasGeoloc: boolean;
+  reportMtime: number;
+}
+
 interface VodComment {
   id: string;
   offset: number;
@@ -95,6 +110,8 @@ const QUALITY_OPTIONS = [
 ];
 
 const TWITCH_VOD_REGEX = /twitch\.tv\/videos\/(\d+)/;
+const vodTabClassName =
+  "data-[state=inactive]:text-slate-300 disabled:opacity-100 disabled:text-slate-400 data-[state=active]:bg-purple-600 data-[state=active]:text-white";
 
 function formatDuration(seconds?: number) {
   if (!seconds) return "—";
@@ -122,6 +139,13 @@ export default function VodDownloader() {
       return [];
     }
   });
+  const [vodLocals, setVodLocals] = useState<Record<string, string>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("vod-locals") || "{}");
+    } catch {
+      return {};
+    }
+  });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchJobs = useCallback(async () => {
@@ -144,9 +168,47 @@ export default function VodDownloader() {
     };
   }, [fetchJobs]);
 
+  const fetchHistory = useCallback(async () => {
+    try {
+      const res = await fetch("/api/vod/history");
+      if (!res.ok) return;
+      const server: DoneItem[] = await res.json();
+      let local: DoneItem[] = [];
+      try {
+        local = JSON.parse(localStorage.getItem("vod-history") || "[]");
+      } catch {
+        local = [];
+      }
+      const missing = local.filter((l) => !server.some((s) => s.filename === l.filename));
+      if (missing.length > 0) {
+        await fetch("/api/vod/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items: missing }),
+        }).catch(() => {});
+      }
+      const merged = [...server];
+      for (const item of missing) {
+        if (!merged.some((m) => m.filename === item.filename)) merged.unshift(item);
+      }
+      setHistory(merged);
+      localStorage.setItem("vod-history", JSON.stringify(merged));
+    } catch {
+      // sem servidor: mantém o histórico local (localStorage) como fallback
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
+
   useEffect(() => {
     localStorage.setItem("vod-history", JSON.stringify(history));
   }, [history]);
+
+  useEffect(() => {
+    localStorage.setItem("vod-locals", JSON.stringify(vodLocals));
+  }, [vodLocals]);
 
   useEffect(() => {
     const justFinished = jobs.filter(
@@ -157,18 +219,10 @@ export default function VodDownloader() {
         !history.some((h) => h.filename === j.filename)
     );
     if (justFinished.length > 0) {
-      setHistory((prev) => [
-        ...justFinished.map((j) => ({
-          filename: j.filename!,
-          title: j.title,
-          quality: j.quality,
-          date: new Date().toLocaleString("pt-BR"),
-        })),
-        ...prev,
-      ]);
       toast.success(`${justFinished.length} download(s) concluído(s)!`);
+      fetchHistory();
     }
-  }, [jobs, history]);
+  }, [jobs, history, fetchHistory]);
 
   const searchVod = async () => {
     if (!url.trim()) {
@@ -244,8 +298,65 @@ export default function VodDownloader() {
     }
   };
 
-  const clearHistory = () => {
+  // ---- Episódios já preparados (pastas em saida/) ----
+  const [prepared, setPrepared] = useState<PreparedFolder[]>([]);
+  const [loadingPrepared, setLoadingPrepared] = useState(false);
+
+  const fetchPrepared = useCallback(async () => {
+    setLoadingPrepared(true);
+    try {
+      const res = await fetch("/api/vod/prepared");
+      if (!res.ok) return;
+      const data: PreparedFolder[] = await res.json();
+      setPrepared(data);
+    } catch {
+      // ignore
+    } finally {
+      setLoadingPrepared(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPrepared();
+  }, [fetchPrepared]);
+
+  // quando um job de episódio termina, atualiza a lista de preparados
+  const prevRunningRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const running = new Set(
+      jobs.filter((j) => j.status === "running" && j.pipeline?.folder).map((j) => j.id)
+    );
+    const finished = Array.from(prevRunningRef.current).filter((id) => !running.has(id));
+    prevRunningRef.current = running;
+    if (finished.length > 0) fetchPrepared();
+  }, [jobs, fetchPrepared]);
+
+  const runPreparedStep = async (folder: string, step: string, local?: string) => {
+    try {
+      const res = await fetch("/api/vod/prepare-folder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder, step, local }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao iniciar etapa");
+      toast.success("Etapa iniciada! Acompanhe o progresso em Downloads.");
+      fetchJobs();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao iniciar etapa");
+    }
+  };
+
+  const folderRunning = (folder: string) =>
+    jobs.some((j) => j.status === "running" && j.pipeline?.folder === folder);
+
+  const clearHistory = async () => {
     setHistory([]);
+    try {
+      await fetch("/api/vod/history", { method: "DELETE" });
+    } catch {
+      // servidor indisponível: limpa só localmente
+    }
     toast.info("Histórico limpo.");
   };
 
@@ -254,7 +365,7 @@ export default function VodDownloader() {
       const res = await fetch("/api/vod/prepare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename: item.filename }),
+        body: JSON.stringify({ filename: item.filename, local: vodLocals[item.filename] ?? "auto" }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar preparação");
@@ -367,14 +478,18 @@ export default function VodDownloader() {
 
       <main className="container max-w-5xl mx-auto px-4 py-6 flex-1 flex flex-col gap-6">
         <Tabs defaultValue="download" className="flex flex-col gap-6">
-          <TabsList className="w-full max-w-md mx-auto grid grid-cols-2 bg-slate-900 border border-slate-800">
-            <TabsTrigger value="download" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+          <TabsList className="w-full max-w-2xl mx-auto grid grid-cols-3 bg-slate-900 border border-slate-800">
+            <TabsTrigger value="download" className={vodTabClassName}>
               <Download className="w-4 h-4 mr-2" />
               Baixar VOD
             </TabsTrigger>
-            <TabsTrigger value="comments" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+            <TabsTrigger value="comments" className={vodTabClassName}>
               <MessageSquare className="w-4 h-4 mr-2" />
               Comentários
+            </TabsTrigger>
+            <TabsTrigger value="prepared" className={vodTabClassName}>
+              <CheckCircle2 className="w-4 h-4 mr-2" />
+              Preparados
             </TabsTrigger>
           </TabsList>
 
@@ -645,6 +760,18 @@ export default function VodDownloader() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
+                    <select
+                      value={vodLocals[item.filename] ?? "auto"}
+                      onChange={(e) =>
+                        setVodLocals((prev) => ({ ...prev, [item.filename]: e.target.value }))
+                      }
+                      className="h-8 rounded-lg bg-slate-950/70 border border-slate-700 px-2 text-xs text-slate-200 outline-none focus:border-purple-500"
+                      title="Local da live: o DeepSeek descobre sozinho pela legenda e comentários, ou você escolhe"
+                    >
+                      <option value="auto">Auto (DeepSeek)</option>
+                      <option value="japao">Japão</option>
+                      <option value="sao-paulo">São Paulo</option>
+                    </select>
                     <Button
                       variant="outline"
                       size="sm"
@@ -788,6 +915,163 @@ export default function VodDownloader() {
                 <p className="text-xs text-slate-500 mt-4">
                   Coleta todos os comentários do chat do VOD e permite baixar em <code className="text-slate-300">.txt</code>, <code className="text-slate-300">.csv</code> ou <code className="text-slate-300">.json</code>, com timestamp de cada mensagem.
                 </p>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="prepared" className="flex flex-col gap-6 mt-0">
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl ring-1 ring-white/5">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                  Episódios preparados
+                </h3>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-slate-400">{prepared.length} episódio(s)</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={fetchPrepared}
+                    className="h-7 px-2 text-xs text-slate-400 hover:text-slate-200"
+                  >
+                    {loadingPrepared ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
+                    <span className="ml-1">Atualizar</span>
+                  </Button>
+                </div>
+              </div>
+
+              {prepared.length === 0 ? (
+                <p className="text-xs text-slate-500 py-4 text-center">
+                  Nenhum episódio preparado ainda. Cada pasta em <code className="text-slate-300">./saida</code> é um episódio.
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  {prepared.map((p) => {
+                    const running = folderRunning(p.folder);
+                    const statusChips: { ok: boolean; label: string }[] = [
+                      { ok: p.hasComments, label: `chat ${p.commentsCount ?? ""}` },
+                      { ok: p.hasSrt, label: "srt" },
+                      { ok: p.hasReport, label: "relatório" },
+                      { ok: p.hasDashboard, label: "dashboard" },
+                      { ok: p.cortes > 0, label: `cortes ${p.cortes}` },
+                      { ok: p.mapFrames > 0, label: `mapa ${p.mapFrames}` },
+                      { ok: p.hasGeoloc, label: "geoloc" },
+                    ];
+                    return (
+                      <div
+                        key={p.folder}
+                        className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="text-sm text-slate-200 font-medium truncate">{p.folder}</p>
+                            <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                              {statusChips.map((c) => (
+                                <span
+                                  key={c.label}
+                                  className={`text-[10px] px-1.5 py-0.5 rounded border ${
+                                    c.ok
+                                      ? "bg-emerald-950/50 border-emerald-800/50 text-emerald-300"
+                                      : "bg-slate-900 border-slate-700 text-slate-500"
+                                  }`}
+                                >
+                                  {c.label}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <select
+                              value={p.local}
+                              onChange={(e) => runPreparedStep(p.folder, "local", e.target.value)}
+                              disabled={running}
+                              className="h-8 rounded-lg bg-slate-950/70 border border-slate-700 px-2 text-xs text-slate-200 outline-none focus:border-purple-500 disabled:opacity-50"
+                              title="Onde o Baka está nesta live"
+                            >
+                              <option value="auto">Auto (DeepSeek)</option>
+                              <option value="japao">Japão</option>
+                              <option value="sao-paulo">São Paulo</option>
+                            </select>
+                            {p.hasDashboard && (
+                              <a
+                                href={`/saida/${encodeURIComponent(p.folder)}/dashboard.html`}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600/15 hover:bg-purple-600/25 border border-purple-600/30 text-purple-300 text-xs font-medium transition-colors"
+                                title="Abrir dashboard"
+                              >
+                                Abrir
+                              </a>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          {running ? (
+                            <span className="inline-flex items-center gap-1.5 text-xs text-purple-300">
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" /> processando...
+                            </span>
+                          ) : (
+                            <>
+                              <Button
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "tudo")}
+                                className="h-7 px-3 text-xs bg-purple-600 hover:bg-purple-700 text-white font-medium"
+                                title="Reprocessa tudo: comentários, transcrição, cortes e análise completa"
+                              >
+                                <RefreshCw className="w-3.5 h-3.5 mr-1" />
+                                Reprocessar tudo
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "analise")}
+                                className="h-7 px-2.5 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+                                title="Refaz análise completa (relatório, dashboard e cortes)"
+                              >
+                                Análise
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "cortes")}
+                                className="h-7 px-2.5 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+                                title="Refaz cortes virais (ffmpeg)"
+                              >
+                                Cortes
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "mapa")}
+                                className="h-7 px-2.5 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+                                title="Refaz geolocalização do mapa (DeepSeek)"
+                              >
+                                Mapa
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "comentarios")}
+                                className="h-7 px-2.5 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+                                title="Re-coleta comentários do VOD"
+                              >
+                                Chat
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "transcricao")}
+                                className="h-7 px-2.5 text-xs border-slate-700 text-slate-300 hover:bg-slate-800"
+                                title="Re-transcreve áudio (MLX Whisper, demorado)"
+                              >
+                                Áudio
+                              </Button>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               )}
             </div>
           </TabsContent>

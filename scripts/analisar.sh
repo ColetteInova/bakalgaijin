@@ -41,6 +41,12 @@ fi
 BASE="$(basename "$VIDEO")"
 STEM="${BASE%.*}"
 OUTDIR="saida/$STEM"
+# Se o vídeo já está dentro de saida/<pasta>/, usa essa pasta como saída
+case "$VIDEO" in
+  saida/*|*/saida/*)
+    OUTDIR="$(dirname "$VIDEO")"
+    ;;
+esac
 mkdir -p "$OUTDIR"
 
 WAV="$OUTDIR/audio.wav"

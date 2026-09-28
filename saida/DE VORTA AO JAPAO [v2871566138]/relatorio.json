@@ -1,30 +1,32 @@
 {
-  "gerado_em": "2026-09-28T10:53:39",
+  "gerado_em": "2026-09-28T11:45:25",
+  "local": "japao",
+  "local_label": "Japão (Tóquio)",
   "metricas": {
     "video_id": "2871566138",
-    "title": "",
-    "channel": "",
-    "category": "",
-    "created_at": "",
-    "thumbnail": "",
+    "title": "DE VORTA AO JAPAO",
+    "channel": "BakaGaijinLive",
+    "category": "Just Chatting",
+    "created_at": "2026-09-11T21:06:18Z",
+    "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 0,
-    "views_label": "0",
-    "likes_estimado": 0,
-    "likes_label": "0",
+    "views": 37805,
+    "views_label": "37.8k",
+    "likes_estimado": 453,
+    "likes_label": "453",
     "comentarios": 8726,
-    "taxa_likes": 0.0,
-    "taxa_engajamento": 0.0,
-    "followers_canal": null,
+    "taxa_likes": 1.198,
+    "taxa_engajamento": 24.28,
+    "followers_canal": 248265,
     "comparacao_canal": {
-      "mediana_views": 0,
-      "media_views": 0,
-      "mediana_pares": 0,
-      "views_vs_mediana_pct": null,
-      "views_vs_media_pct": null,
-      "views_vs_pares_pct": null,
-      "n_videos_canal": 0
+      "mediana_views": 20202.0,
+      "media_views": 22403.0,
+      "mediana_pares": 18511,
+      "views_vs_mediana_pct": 87.1,
+      "views_vs_media_pct": 68.7,
+      "views_vs_pares_pct": 104.2,
+      "n_videos_canal": 4
     }
   },
   "comentarios": {
@@ -80,7 +82,7 @@
           "baka vai",
           "baka volta",
           "baka qual",
-          "baka como"
+          "japão baka"
         ],
         "n_comentarios": 1555,
         "pct": 17.8
@@ -103,8 +105,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "vai fazer",
-          "quando vai"
+          "quando vai",
+          "vai fazer"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -114,8 +116,8 @@
         "palavras_chave": [
           "live",
           "live gravada",
-          "faz live",
-          "fazer live"
+          "fazer live",
+          "faz live"
         ],
         "n_comentarios": 375,
         "pct": 4.3
@@ -90802,12 +90804,12 @@
       "receita_por_minuto": 1.287,
       "projecao_3h": 231.66,
       "projecao_2h": 154.44,
-      "usd_brl": 5.0,
-      "receita_liquida_brl": 1043.9,
-      "receita_subs_brl": 2070.85,
-      "receita_bits_brl": 8.5,
-      "projecao_3h_brl": 1158.3,
-      "projecao_2h_brl": 772.2
+      "usd_brl": 5.1895,
+      "receita_liquida_brl": 1083.46,
+      "receita_subs_brl": 2149.34,
+      "receita_bits_brl": 8.82,
+      "projecao_3h_brl": 1202.2,
+      "projecao_2h_brl": 801.47
     },
     "sent_series": {
       "positivo": [
@@ -102951,7 +102953,7 @@
       "humor": 48.0,
       "interatividade": 100,
       "monetizacao": 95.1,
-      "engajamento": 0.0,
+      "engajamento": 100,
       "audiencia": 39.5,
       "risco": 100
     },
@@ -102961,70 +102963,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "que saudades",
-        "descricao": "que saudades"
+        "descricao": "Baka derruba lanternas e chama de 'lanterna abelha', criando caos cômico na rua."
       },
       {
         "inicio": "40:00",
         "minuto": 40,
         "tipo": "pergunta",
         "trecho": "Que passeio, José? Desculpa",
-        "descricao": "Que passeio, José? Desculpa"
+        "descricao": "Ele se choca com japoneses atravessando fora da faixa às 6h, quebrando o mito da civilidade."
       },
       {
         "inicio": "50:00",
         "minuto": 50,
         "tipo": "piada",
         "trecho": "É, tudo cafona, né?",
-        "descricao": "É, tudo cafona, né?"
+        "descricao": "Ele zoa produtos aleatórios tipo pokebolas e Narutos, com piada de 'quem tem cu tem medo'."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Aí é foda",
-        "descricao": "Aí é foda"
+        "descricao": "Baka culpa a chuva do Brasil no Japão e se chama de cunhudo, puro suco de vergonha alheia."
       },
       {
         "inicio": "1:10:00",
         "minuto": 70,
         "tipo": "piada",
         "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
-        "descricao": "E outra pra punhetinha, porque eu também sou filho de Deus."
+        "descricao": "Ele se agacha como japonês e é confundido com lésbica, gerando confusão e risadas."
       },
       {
         "inicio": "1:20:00",
         "minuto": 80,
         "tipo": "piada",
         "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
-        "descricao": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano"
+        "descricao": "Ele filosofa sobre setembro chuvoso e um velho varrendo na chuva, com clima de solidão."
       },
       {
         "inicio": "1:30:00",
         "minuto": 90,
         "tipo": "piada",
         "trecho": "Olha só, hein",
-        "descricao": "Olha só, hein"
+        "descricao": "Piada sobre 'social credits' negando visto por atravessar fora do sinal, crítica ao GTA 6."
       },
       {
         "inicio": "1:40:00",
         "minuto": 100,
         "tipo": "piada",
         "trecho": "Esse cara é bonitinho, me deixou passar",
-        "descricao": "Esse cara é bonitinho, me deixou passar"
+        "descricao": "Ele planeja andar até Harajuku e compara a si mesmo com maluco religioso do centro."
       },
       {
         "inicio": "1:50:00",
         "minuto": 110,
         "tipo": "piada",
         "trecho": "Acho que não vai ter nada aberto ainda",
-        "descricao": "Acho que não vai ter nada aberto ainda"
+        "descricao": "Ele inventa 'Sexo 3.5: O Retorno do Bilal' e reclama de dor nas cócoras, caos total."
       },
       {
         "inicio": "2:00:00",
         "minuto": 120,
         "tipo": "piada",
         "trecho": "Ah é? Vamos ver",
-        "descricao": "Ah é? Vamos ver"
+        "descricao": "Ele se surpreende com 2h de live, zoa restrição de fotos e teme 'baixa ditadura' no Japão."
       }
     ],
     "alertas": [
@@ -114685,6 +114687,10 @@
   },
   "insights": [
     {
+      "titulo": "Desempenho de views vs. canal",
+      "acao": "VOD com 37.8k views está acima da mediana do canal em 87.1% (mediana 20.2k)."
+    },
+    {
       "titulo": "Clima do chat",
       "acao": "Sentimento dominante: neutro (59.6% dos comentários). Use esse tom para orientar thumbs e a narrativa dos cortes."
     },
@@ -114694,7 +114700,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 0.0% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.28% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

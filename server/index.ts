@@ -61,6 +61,53 @@ interface VodJob {
 
 const jobs = new Map<string, VodJob>();
 
+// Histórico de downloads concluídos, persistido em arquivo para sobreviver a reinícios
+interface HistoryItem {
+  filename: string;
+  title: string;
+  quality: string;
+  date: string;
+}
+
+const HISTORY_FILE = path.join(ROOT_DIR, ".vod-history.json");
+
+function loadHistory(): HistoryItem[] {
+  try {
+    if (fs.existsSync(HISTORY_FILE)) {
+      const data = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8"));
+      if (Array.isArray(data)) {
+        return data.filter((h) => h && typeof h.filename === "string");
+      }
+    }
+  } catch {
+    // arquivo corrompido: começa vazio
+  }
+  return [];
+}
+
+function saveHistory(items: HistoryItem[]) {
+  try {
+    fs.writeFileSync(HISTORY_FILE, JSON.stringify(items, null, 2), "utf8");
+  } catch {
+    // falha ao gravar não deve derrubar o servidor
+  }
+}
+
+function addToHistory(job: VodJob) {
+  if (!job.filename || !job.quality) return;
+  if (history.some((h) => h.filename === job.filename)) return;
+  history.unshift({
+    filename: job.filename,
+    title: job.title,
+    quality: job.quality,
+    date: new Date().toLocaleString("pt-BR"),
+  });
+  if (history.length > 200) history.length = 200;
+  saveHistory(history);
+}
+
+const history: HistoryItem[] = loadHistory();
+
 interface VodComment {
   id: string;
   offset: number;
@@ -251,6 +298,32 @@ function runScript(script: string, args: string[], onLine?: (line: string) => vo
     child.on("exit", (code) => {
       if (code === 0) resolve();
       else reject(new Error(errTail.trim() || `Script ${script} saiu com código ${code}`));
+    });
+  });
+}
+
+// Roda um script Python (.venv-ia ou python3 do sistema) e retorna quando terminar.
+const PY_BIN = path.join(ROOT_DIR, ".venv-ia", "bin", "python");
+
+function runPython(args: string[], onLine?: (line: string) => void): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const bin = fs.existsSync(PY_BIN) ? PY_BIN : "python3";
+    const child = spawn(bin, args, {
+      cwd: ROOT_DIR,
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let errTail = "";
+    const flush = (chunk: Buffer) => {
+      const text = chunk.toString();
+      if (onLine) onLine(text);
+      errTail = (errTail + text).slice(-3000);
+    };
+    child.stdout.on("data", flush);
+    child.stderr.on("data", flush);
+    child.on("error", (err) => reject(err));
+    child.on("exit", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(errTail.trim() || `Python ${args[0]} saiu com código ${code}`));
     });
   });
 }
@@ -461,6 +534,121 @@ async function startServer() {
     }
   }
 
+  // Re-executa UMA etapa do pré-processamento de um episódio já preparado (pasta em saida/).
+  // Etapas: tudo, analise, cortes, mapa, comentarios, transcricao, local (muda a cidade do Baka).
+  async function runPreparedFolderStep(
+    job: VodJob,
+    folderPath: string,
+    step: string,
+    local?: string
+  ) {
+    const pipeline = job.pipeline!;
+    const folderName = path.basename(folderPath);
+    try {
+      if (step === "local") {
+        const localFile = path.join(folderPath, "local.json");
+        if (!local || local === "auto") {
+          fs.rmSync(localFile, { force: true });
+        } else if (local === "japao" || local === "sao-paulo") {
+          fs.writeFileSync(localFile, JSON.stringify({ local }, null, 2), "utf8");
+        }
+        // invalida o cache de geoloc para re-geolocalizar na nova cidade
+        fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
+        pipeline.stepLabel = "Re-geolocalizando o mapa na nova cidade...";
+        await runPython(["scripts/preparar.py", folderPath]);
+      } else if (step === "comentarios") {
+        pipeline.stepLabel = "Coletando comentários do VOD...";
+        let videoId: string | null = null;
+        const commentsFile = path.join(folderPath, "comentarios.json");
+        if (fs.existsSync(commentsFile)) {
+          try {
+            videoId = JSON.parse(fs.readFileSync(commentsFile, "utf8")).videoId || null;
+          } catch {
+            // tenta inferir pelo nome da pasta
+          }
+        }
+        if (!videoId) {
+          const m = folderName.match(/\[v(\d+)\]/i);
+          videoId = m ? m[1] : null;
+        }
+        if (!videoId) throw new Error("Não foi possível identificar o videoId deste episódio");
+        const count = await collectCommentsToFile(videoId, folderPath);
+        pipeline.commentsCount = count;
+      } else if (step === "transcricao") {
+        pipeline.stepLabel = "Re-transcrevendo áudio com MLX Whisper (pode demorar)...";
+        const videoFile = ["video.mp4", "video.webm", "video.mov", "video.m4v"]
+          .map((f) => path.join(folderPath, f))
+          .find((f) => fs.existsSync(f));
+        if (!videoFile) throw new Error("Nenhum vídeo (video.mp4 etc.) na pasta do episódio");
+        await runScript("scripts/analisar.sh", [videoFile]);
+      } else if (step === "tudo") {
+        // reprocessa tudo: comentários -> transcrição -> cortes + análise completa
+        let videoId: string | null = null;
+        const commentsFile = path.join(folderPath, "comentarios.json");
+        if (fs.existsSync(commentsFile)) {
+          try {
+            videoId = JSON.parse(fs.readFileSync(commentsFile, "utf8")).videoId || null;
+          } catch {
+            // tenta inferir pelo nome da pasta
+          }
+        }
+        if (!videoId) {
+          const m = folderName.match(/\[v(\d+)\]/i);
+          videoId = m ? m[1] : null;
+        }
+        if (videoId) {
+          pipeline.stepLabel = "Baixando comentários do VOD...";
+          const count = await collectCommentsToFile(videoId, folderPath);
+          pipeline.commentsCount = count;
+        }
+
+        const videoFile = ["video.mp4", "video.webm", "video.mov", "video.m4v"]
+          .map((f) => path.join(folderPath, f))
+          .find((f) => fs.existsSync(f));
+        if (videoFile) {
+          pipeline.stepLabel = "Re-transcrevendo áudio com MLX Whisper (pode demorar)...";
+          await runScript("scripts/analisar.sh", [videoFile]);
+        }
+
+        pipeline.stepLabel = "Refazendo cortes e análise completa...";
+        fs.rmSync(path.join(folderPath, "cortes"), { recursive: true, force: true });
+        await runScript("scripts/preparar.sh", [folderName]);
+      } else if (step === "cortes") {
+        pipeline.stepLabel = "Refazendo cortes virais com ffmpeg...";
+        await runPython(["scripts/cortar.py", "--force", folderPath]);
+        pipeline.stepLabel = "Atualizando dashboard com os cortes...";
+        await runPython(["scripts/preparar.py", folderPath]);
+      } else if (step === "mapa") {
+        pipeline.stepLabel = "Refazendo geolocalização do mapa...";
+        fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
+        await runPython(["scripts/preparar.py", folderPath]);
+      } else {
+        // "analise": fluxo completo do preparar.sh (relatório, dashboard e cortes se faltarem)
+        pipeline.stepLabel = "Refazendo análise completa (relatório, dashboard, cortes)...";
+        await runScript("scripts/preparar.sh", [folderName]);
+      }
+
+      pipeline.status = "done";
+      pipeline.step = "done";
+      pipeline.stepLabel = "Concluído!";
+      pipeline.finishedAt = Date.now();
+      if (job.status === "running") {
+        job.status = "done";
+        job.percent = 100;
+      }
+    } catch (err) {
+      pipeline.status = "error";
+      pipeline.step = "error";
+      pipeline.stepLabel = "Erro";
+      pipeline.error = err instanceof Error ? err.message : "Falha no processamento";
+      pipeline.finishedAt = Date.now();
+      if (job.status === "running") {
+        job.status = "error";
+        job.error = pipeline.error;
+      }
+    }
+  }
+
   function launchDownload(job: VodJob, extraArgs: string[] = []) {
     const q = job.quality && QUALITY_ARGS[job.quality] ? job.quality : "1080p";
 
@@ -526,6 +714,7 @@ async function startServer() {
         if (!job.filename) {
           job.filename = job.title;
         }
+        addToHistory(job);
         // Após baixar o vídeo (não áudio), roda o fluxo completo automaticamente
         if (job.quality !== "audio") {
           runPostDownloadPipeline(job);
@@ -609,9 +798,43 @@ async function startServer() {
     res.json(Array.from(jobs.values()).map(serializeJob));
   });
 
+  // Histórico de downloads concluídos (persistido em .vod-history.json)
+  app.get("/api/vod/history", (_req, res) => {
+    res.json(history);
+  });
+
+  // Limpa o histórico persistido
+  app.delete("/api/vod/history", (_req, res) => {
+    history.length = 0;
+    saveHistory(history);
+    res.json({ ok: true });
+  });
+
+  // Migração: adiciona itens de histórico vindos do cliente (ex.: localStorage antigo)
+  app.post("/api/vod/history", (req, res) => {
+    const { items } = (req.body ?? {}) as { items?: HistoryItem[] };
+    if (!Array.isArray(items)) {
+      res.status(400).json({ error: "items deve ser uma lista" });
+      return;
+    }
+    for (const item of items) {
+      if (!item || typeof item.filename !== "string") continue;
+      if (history.some((h) => h.filename === item.filename)) continue;
+      history.unshift({
+        filename: item.filename,
+        title: item.title ?? "",
+        quality: item.quality ?? "",
+        date: item.date ?? "",
+      });
+    }
+    if (history.length > 200) history.length = 200;
+    saveHistory(history);
+    res.json(history);
+  });
+
   // Re-roda a preparação (comentários -> transcrição -> análise) de um vídeo já baixado
   app.post("/api/vod/prepare", (req, res) => {
-    const { filename } = (req.body ?? {}) as { filename?: string };
+    const { filename, local } = (req.body ?? {}) as { filename?: string; local?: string };
     if (!filename || typeof filename !== "string") {
       res.status(400).json({ error: "Nome de arquivo é obrigatório" });
       return;
@@ -625,6 +848,19 @@ async function startServer() {
     if (!fs.existsSync(target)) {
       res.status(404).json({ error: `Arquivo não encontrado: ${path.basename(filename)}` });
       return;
+    }
+
+    // Persiste a escolha do local da live (japao/sao-paulo) na pasta do vídeo;
+    // "auto" apaga a escolha anterior para o DeepSeek redetectar pela fala/comentários.
+    if (local && ["japao", "sao-paulo", "auto"].includes(local)) {
+      const folder = path.join(SAIDA_DIR, folderNameFromFile(target));
+      const localFile = path.join(folder, "local.json");
+      if (local === "auto") {
+        fs.rmSync(localFile, { force: true });
+      } else {
+        fs.mkdirSync(folder, { recursive: true });
+        fs.writeFileSync(localFile, JSON.stringify({ local }, null, 2), "utf8");
+      }
     }
 
     const id = crypto.randomUUID();
@@ -645,6 +881,132 @@ async function startServer() {
     jobs.set(id, job);
 
     runPreparePipeline(job);
+
+    res.json({ id });
+  });
+
+  // Lista os episódios já preparados (pastas em saida/) com o status de cada etapa
+  app.get("/api/vod/prepared", (_req, res) => {
+    const folders = fs
+      .readdirSync(SAIDA_DIR, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => {
+        const folderPath = path.join(SAIDA_DIR, d.name);
+        const has = (f: string) => fs.existsSync(path.join(folderPath, f));
+        const statOf = (f: string) => {
+          try {
+            return fs.statSync(path.join(folderPath, f)).mtimeMs;
+          } catch {
+            return 0;
+          }
+        };
+
+        let local = "auto";
+        if (has("local.json")) {
+          try {
+            local = JSON.parse(fs.readFileSync(path.join(folderPath, "local.json"), "utf8")).local || "auto";
+          } catch {
+            // mantém "auto"
+          }
+        }
+
+        let commentsCount: number | undefined;
+        if (has("comentarios.json")) {
+          try {
+            commentsCount = (JSON.parse(fs.readFileSync(path.join(folderPath, "comentarios.json"), "utf8")).comments || []).length;
+          } catch {
+            // sem contagem
+          }
+        }
+
+        const cortesDir = path.join(folderPath, "cortes");
+        let cortes = 0;
+        if (fs.existsSync(cortesDir)) {
+          cortes = fs.readdirSync(cortesDir).filter((f) => f.toLowerCase().endsWith(".mp4")).length;
+        }
+
+        const mapaDir = path.join(folderPath, "mapa");
+        let mapFrames = 0;
+        if (fs.existsSync(mapaDir)) {
+          mapFrames = fs.readdirSync(mapaDir).filter((f) => f.startsWith("marco_")).length;
+        }
+
+        return {
+          folder: d.name,
+          local,
+          hasComments: has("comentarios.json"),
+          commentsCount,
+          hasSrt: has("audio.srt"),
+          hasVideo: ["video.mp4", "video.webm", "video.mov", "video.m4v"].some(has),
+          hasReport: has("relatorio.json"),
+          hasDashboard: has("dashboard.html"),
+          cortes,
+          mapFrames,
+          hasGeoloc: has(path.join("mapa", "geoloc.json")),
+          reportMtime: statOf("relatorio.json"),
+        };
+      })
+      .sort((a, b) => b.reportMtime - a.reportMtime);
+    res.json(folders);
+  });
+
+  // Re-executa UMA etapa de um episódio já preparado.
+  // step: analise | cortes | mapa | comentarios | transcricao | local
+  app.post("/api/vod/prepare-folder", (req, res) => {
+    const { folder, step, local } = (req.body ?? {}) as {
+      folder?: string;
+      step?: string;
+      local?: string;
+    };
+    if (!folder || path.basename(folder) !== folder) {
+      res.status(400).json({ error: "Pasta inválida" });
+      return;
+    }
+    const folderPath = path.join(SAIDA_DIR, folder);
+    if (!folderPath.startsWith(SAIDA_DIR + path.sep)) {
+      res.status(400).json({ error: "Pasta fora de ./saida" });
+      return;
+    }
+    if (!fs.existsSync(folderPath)) {
+      res.status(404).json({ error: `Pasta não encontrada: ${folder}` });
+      return;
+    }
+    const validSteps = ["tudo", "analise", "cortes", "mapa", "comentarios", "transcricao", "local"];
+    if (!step || !validSteps.includes(step)) {
+      res.status(400).json({ error: `Etapa inválida. Use: ${validSteps.join(", ")}` });
+      return;
+    }
+    if (step === "local" && local && !["japao", "sao-paulo", "auto"].includes(local)) {
+      res.status(400).json({ error: "Local inválido. Use: japao, sao-paulo ou auto" });
+      return;
+    }
+
+    const id = crypto.randomUUID();
+    const job: VodJob = {
+      id,
+      url: "",
+      title: `[${step}] ${folder}`,
+      quality: "",
+      status: "running",
+      percent: 0,
+      speed: "",
+      eta: "",
+      downloadedBytes: "",
+      totalBytes: "",
+      startedAt: Date.now(),
+      filename: folderPath,
+    };
+    const pipeline: PipelineState = {
+      status: "running",
+      step: "start",
+      stepLabel: "Preparando...",
+      startedAt: Date.now(),
+      folder,
+    };
+    job.pipeline = pipeline;
+    jobs.set(id, job);
+
+    runPreparedFolderStep(job, folderPath, step, local);
 
     res.json({ id });
   });

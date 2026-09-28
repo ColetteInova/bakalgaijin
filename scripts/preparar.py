@@ -18,6 +18,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import math
 import os
@@ -1905,17 +1906,46 @@ def write_csv(comments: list[dict], path: Path) -> None:
 
 MAP_STOP_INTERVAL = 600  # 10 minutos
 
-# Fallback determinístico: base em Shinjuku/Kabukichō (usado sem DEEPSEEK_API_KEY
-# ou se a API falhar). Os marcos são interpolados numa rota plausível pela região.
-MAP_FALLBACK_BASE = {"lat": 35.6932, "lng": 139.7030}
-MAP_FALLBACK_NAMED = [
-    (792, "Torrezão do Kabukichō", 35.6955, 139.7010),
-    (1199, "Beco do pó", 35.6940, 139.7025),
-    (2043, "Beco das lanternas", 35.6930, 139.7045),
-    (6062, "Jardim vertical", 35.6910, 139.7018),
-    (6521, "Estação (área iluminada)", 35.6900, 139.7006),
-    (7539, "Plataforma do trem", 35.6897, 139.7005),
-]
+# Configurações de mapa por cidade: base/âncoras do fallback determinístico,
+# limites de lat/lng usados para validar a resposta do DeepSeek e textos do prompt.
+MAP_CITIES = {
+    "japao": {
+        "label": "Japão (Tóquio)",
+        "base": {"lat": 35.6932, "lng": 139.7030},
+        "named": [
+            (792, "Torrezão do Kabukichō", 35.6955, 139.7010),
+            (1199, "Beco do pó", 35.6940, 139.7025),
+            (2043, "Beco das lanternas", 35.6930, 139.7045),
+            (6062, "Jardim vertical", 35.6910, 139.7018),
+            (6521, "Estação (área iluminada)", 35.6900, 139.7006),
+            (7539, "Plataforma do trem", 35.6897, 139.7005),
+        ],
+        "bounds": {"lat": (35.65, 35.73), "lng": (139.68, 139.73)},
+        "prompt_place": "Tóquio (Shinjuku/Kabukichō)",
+        "prompt_bounds": "Shinjuku (lat 35.68–35.71, lng 139.69–139.71)",
+        "prompt_route": "uma rota de passeio por Shinjuku",
+    },
+    "sao-paulo": {
+        "label": "São Paulo",
+        "base": {"lat": -23.5505, "lng": -46.6333},
+        "named": [
+            (792, "Avenida Paulista", -23.5614, -46.6559),
+            (1199, "Praça da Sé", -23.5505, -46.6333),
+            (2043, "Beco do Batman", -23.5559, -46.6866),
+            (6062, "Estação da Luz", -23.5347, -46.6355),
+            (6521, "Minhocão", -23.5415, -46.6440),
+            (7539, "Mercado Municipal", -23.5414, -46.6298),
+        ],
+        "bounds": {"lat": (-23.62, -23.48), "lng": (-46.75, -46.55)},
+        "prompt_place": "São Paulo (centro)",
+        "prompt_bounds": "São Paulo (lat -23.62 a -23.48, lng -46.75 a -46.55)",
+        "prompt_route": "uma rota de passeio pelo centro de São Paulo",
+    },
+}
+
+# Compatibilidade: fallback padrão = Japão
+MAP_FALLBACK_BASE = MAP_CITIES["japao"]["base"]
+MAP_FALLBACK_NAMED = MAP_CITIES["japao"]["named"]
 
 MAP_COLORS = [
     "#ec4899", "#f97316", "#f59e0b", "#84cc16", "#22c55e",
@@ -1973,14 +2003,186 @@ def _extract_map_frames(folder: Path, video_file: str | None, stops: list[dict])
             print(f"  [!] ffmpeg falhou em {s['sec']}s: {exc}", file=sys.stderr)
 
 
-def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
+def load_local(folder: Path) -> str:
+    """Local da live: env VOD_LOCAL > <pasta>/local.json > 'auto'."""
+    env = os.environ.get("VOD_LOCAL", "").strip().lower()
+    if env in ("japao", "sao-paulo", "auto"):
+        return env
+    local_file = folder / "local.json"
+    if local_file.exists():
+        try:
+            value = str(json.loads(local_file.read_text(encoding="utf-8")).get("local", "")).lower()
+            if value in ("japao", "sao-paulo", "auto"):
+                return value
+        except Exception:  # noqa: BLE001
+            pass
+    return "auto"
+
+
+def detect_location(folder: Path, blocks: list[dict], comments: list[dict]) -> str:
+    """DeepSeek descobre se a live foi no Japão ou em São Paulo pela fala, comentários e frames do vídeo."""
+    if not DEEPSEEK_API_KEY:
+        return "japao"
+
+    fala: list[str] = []
+    if blocks:
+        step = max(1, len(blocks) // 50)
+        for b in blocks[::step][:50]:
+            fala.append(f"[{fmt_ts(b['start'])}] {b['text'][:120]}")
+    chat: list[str] = []
+    if comments:
+        step = max(1, len(comments) // 40)
+        for c in comments[::step][:40]:
+            chat.append((c.get("text") or "")[:80])
+
+    frames = _collect_location_frames(folder)
+    thumb = _collect_thumb(folder)
+
+    prompt = (
+        "Com base na transcrição, nos comentários e nas imagens do vídeo de uma live do streamer Baka Gaijin, "
+        "diga se a live aconteceu no Japão (Tóquio) ou em São Paulo (Brasil).\n"
+        "A primeira imagem é a thumbnail do VOD; as demais são frames da live.\n"
+        "Dicas visuais: Japão = letreiros com kanji, máquinas de venda, ruas estreitas, konbini, calçadas japonesas; "
+        "São Paulo = letreiros em português, placas de carro Mercosul, postes e mobiliário brasileiro, pix/lojas BR.\n"
+        "Dicas de texto: Japão = Shinjuku, Kabukicho, iene, conveniência, trem, Akihabara, japonês; "
+        "São Paulo = Paulista, metrô, real/reais, Brasil, bairros brasileiros.\n"
+        "Responda APENAS 'japao' ou 'sao-paulo'.\n\n"
+        "TRANSCRIÇÃO (trechos):\n" + "\n".join(fala) + "\n\n"
+        "COMENTÁRIOS (amostra):\n" + "\n".join(chat)
+    )
+
+    def _ask(content) -> str | None:
+        return _deepseek_chat(
+            [
+                {"role": "system", "content": "Você identifica a cidade de lives. Responda apenas 'japao' ou 'sao-paulo'."},
+                {"role": "user", "content": content},
+            ],
+            max_tokens=10,
+        )
+
+    def _parse(resp: str | None) -> str | None:
+        if not resp:
+            return None
+        r = resp.strip().lower()
+        if "sao" in r or "paulo" in r or "brasil" in r or r.startswith("sp"):
+            return "sao-paulo"
+        if "jap" in r or "toquio" in r or "tokyo" in r or "tokio" in r or "shinjuku" in r:
+            return "japao"
+        return None
+
+    # 1) com imagens (thumbnail + frames), se houver
+    if frames or thumb:
+        try:
+            content = [{"type": "text", "text": prompt}]
+            if thumb:
+                content.append({"type": "image_url", "image_url": {"url": thumb}})
+            for f in frames[:4]:
+                content.append({"type": "image_url", "image_url": {"url": _img_data_uri(f)}})
+            result = _parse(_ask(content))
+            if result:
+                print(f"  ✓ DeepSeek (visão + texto) detectou: {result}")
+                return result
+            print("  [!] DeepSeek (visão) não decidiu — tentando só texto", file=sys.stderr)
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] DeepSeek (visão) falhou: {exc} — tentando só texto", file=sys.stderr)
+
+    # 2) só texto (fallback)
+    try:
+        result = _parse(_ask(prompt))
+        if result:
+            return result
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] DeepSeek (detecção de local) falhou: {exc}", file=sys.stderr)
+    return "japao"
+
+
+def _img_data_uri(path: Path) -> str:
+    return "data:image/jpeg;base64," + base64.b64encode(path.read_bytes()).decode("ascii")
+
+
+def _collect_thumb(folder: Path) -> str | None:
+    """Baixa a thumbnail do VOD na Twitch (data URI) para o DeepSeek analisar o local."""
+    video_id = None
+    m = re.search(r"\[v(\d+)\]", folder.name)
+    if m:
+        video_id = m.group(1)
+    else:
+        cf = folder / "comentarios.json"
+        if cf.exists():
+            try:
+                video_id = json.loads(cf.read_text(encoding="utf-8")).get("videoId")
+            except Exception:  # noqa: BLE001
+                pass
+    if not video_id:
+        return None
+    try:
+        meta = fetch_video_metrics(video_id)
+        url = (meta or {}).get("thumbnail")
+        if not url:
+            return None
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            raw = resp.read()
+        if not raw:
+            return None
+        return "data:image/jpeg;base64," + base64.b64encode(raw).decode("ascii")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] Thumbnail do VOD indisponível: {exc}", file=sys.stderr)
+        return None
+
+
+def _collect_location_frames(folder: Path) -> list[Path]:
+    """Frames do vídeo para análise visual: reusa marcos do mapa ou extrai alguns novos (cache em mapa/)."""
+    video_file = next(
+        (folder / n for n in ("video.mp4", "video.webm", "video.mov", "video.m4v") if (folder / n).exists()),
+        None,
+    )
+    if not video_file:
+        return []
+
+    mapa_dir = folder / "mapa"
+    existing = sorted(mapa_dir.glob("marco_*.jpg")) if mapa_dir.is_dir() else []
+    if existing:
+        step = max(1, len(existing) // 4)
+        return existing[::step][:4]
+
+    # extrai 4 frames espaçados (cache em mapa/local_NN.jpg)
+    frames: list[Path] = []
+    dur = probe_video_duration(video_file) or 7200
+    mapa_dir.mkdir(exist_ok=True)
+    for i in range(1, 5):
+        t = int(dur * i / 5)
+        dest = mapa_dir / f"local_{i:02d}.jpg"
+        if dest.exists():
+            frames.append(dest)
+            continue
+        try:
+            subprocess.run(
+                [
+                    "ffmpeg", "-hide_banner", "-loglevel", "error",
+                    "-ss", str(t), "-i", str(video_file),
+                    "-frames:v", "1", "-vf", "scale=512:-1", "-q:v", "4",
+                    str(dest), "-y",
+                ],
+                check=False,
+                timeout=60,
+            )
+            if dest.exists():
+                frames.append(dest)
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] ffmpeg (frame local) falhou: {exc}", file=sys.stderr)
+    return frames
+
+
+def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
     """Usa a API DeepSeek para nomear/posicionar os marcos; fallback local se falhar.
 
-    O vídeo não muda, então o resultado é cacheado em mapa/geoloc.json.
+    O vídeo não muda, então o resultado é cacheado em mapa/geoloc.json
+    (o cache é invalidado se o local da live mudar).
     O retorno é uma lista de {sec, nome, lat, lng, cor} na MESMA ordem.
     """
-    # âncoras nomeadas do fallback para casar com marcos próximos
-    anchors = MAP_FALLBACK_NAMED
+    city = MAP_CITIES.get(local, MAP_CITIES["japao"])
+    anchors = city["named"]
     cache_file = folder / "mapa" / "geoloc.json"
 
     def apply(by_sec: dict) -> None:
@@ -1991,12 +2193,17 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
                 s["lat"] = hit.get("lat", s["lat"])
                 s["lng"] = hit.get("lng", s["lng"])
 
-    # 1) cache: se já geolocalizou antes, reusa (o vídeo não muda)
+    # 1) cache: se já geolocalizou antes (mesmo local), reusa (o vídeo não muda)
     if cache_file.exists():
         try:
             cached = json.loads(cache_file.read_text(encoding="utf-8"))
+            cached_local = str(cached.get("local", "japao"))
             keys = {int(k) for k in cached if str(k).isdigit()}
-            if isinstance(cached, dict) and {int(s["sec"]) for s in stops} <= keys:
+            if (
+                isinstance(cached, dict)
+                and cached_local == local
+                and {int(s["sec"]) for s in stops} <= keys
+            ):
                 apply(cached)
                 print(f"  ✓ Mapa: geoloc em cache ({len(stops)} marcos) — pulando DeepSeek")
                 return stops
@@ -2005,13 +2212,13 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
 
     if DEEPSEEK_API_KEY:
         prompt_lines = [
-            "Você recebe a transcrição de uma live (passeio) do Baka Gaijin em Tóquio (Shinjuku/Kabukichō).",
+            f"Você recebe a transcrição de uma live (passeio) do Baka Gaijin em {city['prompt_place']}.",
             "Para CADA instante abaixo, responda com UMA linha JSON com:",
             '{"sec": <segundos>, "nome": "<lugar curto>", "lat": <float>, "lng": <float>, "confianca": "alta|media|baixa"}',
             "Regras:",
-            "- lat/lng devem ser plausíveis para Shinjuku (35.68–35.71, 139.69–139.71).",
-            "- Se a fala cita um lugar claro (estação, torre, beco, loja, gato 3D, Godzilla...), ancore nele.",
-            "- Se não houver lugar claro, interpole ao longo de uma rota de passeio por Shinjuku.",
+            f"- lat/lng devem ser plausíveis para {city['prompt_bounds']}.",
+            "- Se a fala cita um lugar claro (estação, torre, beco, loja, praça...), ancore nele.",
+            f"- Se não houver lugar claro, interpole ao longo de {city['prompt_route']}.",
             "- Responda APENAS o JSON array, sem comentários.",
             "",
         ]
@@ -2023,7 +2230,7 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
         try:
             resp = _deepseek_chat(
                 [
-                    {"role": "system", "content": "Você é um geolocalizador de lives de Tóquio. Responda apenas JSON válido."},
+                    {"role": "system", "content": f"Você é um geolocalizador de lives em {city['prompt_place']}. Responda apenas JSON válido."},
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=2500,
@@ -2033,12 +2240,14 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
                 if m:
                     arr = json.loads(m.group(0))
                     by_sec = {}
+                    lat_lo, lat_hi = city["bounds"]["lat"]
+                    lng_lo, lng_hi = city["bounds"]["lng"]
                     for item in arr:
                         try:
                             sec = int(item["sec"])
                             lat = float(item.get("lat") or 0)
                             lng = float(item.get("lng") or 0)
-                            if 35.65 <= lat <= 35.73 and 139.68 <= lng <= 139.73:
+                            if lat_lo <= lat <= lat_hi and lng_lo <= lng <= lng_hi:
                                 by_sec[str(sec)] = {
                                     "nome": str(item.get("nome") or f"{fmt_ts(sec)}"),
                                     "lat": lat,
@@ -2050,7 +2259,8 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
                         apply(by_sec)
                         cache_file.parent.mkdir(exist_ok=True)
                         cache_file.write_text(
-                            json.dumps(by_sec, ensure_ascii=False, indent=2), encoding="utf-8"
+                            json.dumps({"local": local, **by_sec}, ensure_ascii=False, indent=2),
+                            encoding="utf-8",
                         )
                         print(f"  ✓ DeepSeek geolocalizou {len(by_sec)}/{len(stops)} marcos (cache salvo)")
                         return stops
@@ -2058,6 +2268,7 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
             print(f"  [!] DeepSeek (geoloc) falhou: {exc}", file=sys.stderr)
 
     # fallback: âncoras nomeadas + interpolação
+    base = city["base"]
     for s in stops:
         sec = int(s["sec"])
         anchor = min(anchors, key=lambda a: abs(a[0] - sec))
@@ -2068,13 +2279,15 @@ def _geolocate_stops(folder: Path, stops: list[dict]) -> list[dict]:
             # interpola entre base e âncora mais próxima
             s["nome"] = fmt_ts(sec)
             t = min(1.0, sec / 7744)
-            s["lat"] = MAP_FALLBACK_BASE["lat"] - t * 0.004
-            s["lng"] = MAP_FALLBACK_BASE["lng"] + (0.002 if (sec // 600) % 2 == 0 else -0.001)
+            s["lat"] = base["lat"] - t * 0.004
+            s["lng"] = base["lng"] + (0.002 if (sec // 600) % 2 == 0 else -0.001)
     return stops
 
 
-def build_map_stops(blocks: list[dict], duration_seconds: int) -> list[dict]:
+def build_map_stops(blocks: list[dict], duration_seconds: int, local: str = "japao") -> list[dict]:
     """Gera os marcos (1 a cada 10 min) com posição fallback. Barato e determinístico."""
+    city = MAP_CITIES.get(local, MAP_CITIES["japao"])
+    base = city["base"]
     if duration_seconds <= 0:
         duration_seconds = 7744
     secs = list(range(5, duration_seconds, MAP_STOP_INTERVAL))
@@ -2087,8 +2300,8 @@ def build_map_stops(blocks: list[dict], duration_seconds: int) -> list[dict]:
                 "sec": sec,
                 "nome": fmt_ts(sec),
                 "frase": _quote_at(blocks, sec),
-                "lat": MAP_FALLBACK_BASE["lat"],
-                "lng": MAP_FALLBACK_BASE["lng"],
+                "lat": base["lat"],
+                "lng": base["lng"],
                 "cor": MAP_COLORS[i % len(MAP_COLORS)],
                 "img": f"mapa/marco_{int(sec):04d}.jpg",
             }
@@ -2096,14 +2309,14 @@ def build_map_stops(blocks: list[dict], duration_seconds: int) -> list[dict]:
     return stops
 
 
-def ensure_map_assets(folder: Path, video_file: str | None, stops: list[dict]) -> list[dict]:
+def ensure_map_assets(folder: Path, video_file: str | None, stops: list[dict], local: str) -> list[dict]:
     """Etapas pesadas do mapa, executadas 1x (o vídeo não muda).
 
     - frames ffmpeg: pulados se a pasta mapa/ já estiver populada;
     - geoloc DeepSeek: carregada do cache mapa/geoloc.json quando existir.
     """
     _extract_map_frames(folder, video_file, stops)
-    return _geolocate_stops(folder, stops)
+    return _geolocate_stops(folder, stops, local)
 
 
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
@@ -2142,8 +2355,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 
     # marcos do mapa (1 a cada 10 min) — frames + geoloc só rodam 1x (cache)
     duration = int((report.get("metricas") or {}).get("duration_seconds") or 0)
-    map_stops = build_map_stops(srt_blocks or [], duration)
-    map_stops = ensure_map_assets(FOLDER, video_file, map_stops)
+    map_local = report.get("local") or "japao"
+    map_label = MAP_CITIES.get(map_local, MAP_CITIES["japao"])["label"]
+    map_stops = build_map_stops(srt_blocks or [], duration, map_local)
+    map_stops = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
     map_stops_json = _json.dumps(map_stops, ensure_ascii=False)
 
     html = r"""<!doctype html>
@@ -2369,34 +2584,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .player-video { height: 420px; }
   .player-video video { height: 100%; width: 100%; object-fit: contain; }
 
-  /* ---- índice da página (TOC) — menu horizontal fixo no topo ---- */
-  .toc {
-    position: sticky; top: 0; z-index: 60;
-    display: flex; align-items: center; gap: 10px;
-    background: rgba(15,23,42,.96); border: 1px solid var(--border);
-    border-bottom: 1px solid #334155;
-    border-radius: 0; padding: 8px 24px; margin: 0 0 20px;
-    backdrop-filter: blur(8px);
-  }
-  .toc-label {
-    flex: none; display: flex; align-items: center; gap: 6px;
-    font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--accent); white-space: nowrap;
-  }
-  .toc-nav {
-    display: flex; align-items: center; gap: 4px; overflow-x: auto;
-    scrollbar-width: thin; padding: 4px 2px;
-  }
-  .toc-nav::-webkit-scrollbar { height: 6px; }
-  .toc a {
-    flex: 0 0 auto; display: flex; align-items: center; gap: 6px;
-    font-size: .72rem; color: #cbd5e1; text-decoration: none;
-    background: var(--panel); border: 1px solid var(--border);
-    border-radius: 999px; padding: 5px 11px; transition: all .15s ease;
-  }
-  .toc a i { font-size: .8rem; flex: none; color: var(--accent); width: 14px; text-align: center; }
-  .toc a:hover { background:#263449; border-color: var(--accent); transform: translateY(-1px); color:#fff; }
-
   /* ---- seções colapsáveis ---- */
   h2.topic-heading { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; }
   h2.topic-heading .chev { transition: transform .2s ease; font-size: .7rem; color: var(--muted); flex: none; width: 14px; }
@@ -2406,8 +2593,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
-  <nav class="toc" id="toc"></nav>
-
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
   <a href="../index.html" class="back-link">← Voltar ao índice</a>
   <h1 id="title" class="text-2xl font-bold tracking-tight bg-gradient-to-r from-purple-300 via-slate-100 to-indigo-300 bg-clip-text text-transparent">Análise de VOD</h1>
@@ -2473,10 +2658,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   </div>
 
   <div class="pm-col">
-  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="mapa"><i class="fa-solid fa-map-location-dot"></i> Mapa da Live — onde o Baka passou</h2>
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="mapa"><i class="fa-solid fa-map-location-dot"></i> Mapa da Live — onde o Baka passou <span class="muted" style="font-weight:400">(__MAP_LABEL__)</span></h2>
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
-      <span class="muted" id="mapInfo">Trajeto reconstruído (posições aproximadas). Clique num marco para pular o player.</span>
+      <span class="muted" id="mapInfo">Trajeto reconstruído em __MAP_LABEL__ (posições aproximadas). Clique num marco para pular o player.</span>
       <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
     </div>
     <div class="grid two">
@@ -2510,6 +2695,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   </div>
   </div>
 
+  <div id="replayPlacement"></div>
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="replay">Replay dos Comentários (ao vivo)</h2>
   <div class="card">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
@@ -3226,15 +3412,6 @@ const SECTION_TITLES = [
   ["participantes", "fa-solid fa-user-group", "Participantes do Chat"],
 ];
 
-function buildToc() {
-  const toc = document.getElementById("toc");
-  if (!toc) return;
-  const links = SECTION_TITLES.map(([id, ico, label]) =>
-    `<a href="#${id}"><i class="${ico}"></i><span>${label}</span></a>`
-  ).join("");
-  toc.innerHTML = `<span class="toc-label"><i class="fa-solid fa-bars"></i> Índice</span><nav class="toc-nav">${links}</nav>`;
-}
-
 function wrapSections() {
   // Agrupa cada <h2> (e o conteúdo até o próximo h2) numa section colapsável,
   // exceto os h2 do cabeçalho/player que já estão marcados como seções.
@@ -3280,13 +3457,27 @@ function toggleSection(id) {
   body.classList.toggle("hidden", collapsed);
 }
 
+const replayDesktopQuery = window.matchMedia("(min-width: 1200px)");
+function syncReplayPlacement() {
+  const heading = document.getElementById("replay");
+  const placeholder = document.getElementById("replayPlacement");
+  const playerColumn = document.querySelector(".player-map-wrap > .pm-col");
+  if (!heading || !placeholder || !playerColumn) return;
+
+  const content = heading.nextElementSibling;
+  if (!content) return;
+  if (replayDesktopQuery.matches) playerColumn.append(heading, content);
+  else placeholder.after(heading, content);
+}
+
 function render() {
   const m = R.metricas, ca = R.comentarios, ct = R.conteudo;
   document.getElementById("title").textContent = "Análise — " + m.title;
   document.getElementById("subtitle").textContent =
     m.channel + " · " + m.category + " · " + m.duration_label + " · publicado " + fmtDataBR(m.created_at);
 
-  buildToc();
+  syncReplayPlacement();
+  replayDesktopQuery.addEventListener("change", syncReplayPlacement);
   wrapSections();
 
   initPlayers();
@@ -4019,6 +4210,10 @@ initLiveMap();
         .replace("__FILES_JSON__", files_json)
         .replace("__CUES_JSON__", cues_json)
         .replace("__MAP_STOPS_JSON__", map_stops_json)
+        .replace(
+            "__MAP_LABEL__",
+            str(map_label).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"),
+        )
     )
     path.write_text(html, encoding="utf-8")
 
@@ -4116,6 +4311,20 @@ def main() -> None:
     else:
         print("  [!] audio.srt não encontrado — análise de conteúdo limitada", file=sys.stderr)
 
+    # 5.0) local da live (Japão ou São Paulo): escolha explícita > detecção por DeepSeek
+    local = load_local(folder)
+    if local == "auto":
+        local = detect_location(folder, blocks, comments)
+        try:
+            (folder / "local.json").write_text(
+                json.dumps({"local": local, "auto_detectado": True}, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except Exception:  # noqa: BLE001
+            pass
+    local_label = MAP_CITIES.get(local, MAP_CITIES["japao"])["label"]
+    print(f"  Local da live: {local_label}")
+
     # 5.1) se a API da Twitch não respondeu (duration 0), infere a duração dos arquivos locais
     if not metrics.get("duration_seconds"):
         dur = infer_duration_seconds(folder, blocks, comments)
@@ -4136,6 +4345,8 @@ def main() -> None:
     # 8) monta o relatório (o "banco de dados")
     report = {
         "gerado_em": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+        "local": local,
+        "local_label": local_label,
         "metricas": metrics,
         "comentarios": comments_analysis,
         "conteudo": content,

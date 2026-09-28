@@ -1,92 +1,93 @@
 {
+  "local": "japao",
   "5": {
-    "nome": "Shinjuku Station East Exit",
-    "lat": 35.6912,
-    "lng": 139.7005
+    "nome": "Estação de Shinjuku",
+    "lat": 35.6896,
+    "lng": 139.7006
   },
   "605": {
-    "nome": "Kabukicho Ichibangai",
-    "lat": 35.695,
-    "lng": 139.7016
+    "nome": "Kabukichō",
+    "lat": 35.6938,
+    "lng": 139.7034
   },
   "1205": {
-    "nome": "Shinjuku Golden Gai",
-    "lat": 35.6938,
-    "lng": 139.7045
+    "nome": "Rua Yasukuni-dori",
+    "lat": 35.693,
+    "lng": 139.702
   },
   "1805": {
-    "nome": "Hanazono Shrine",
-    "lat": 35.6935,
-    "lng": 139.7055
+    "nome": "Beco Omoide Yokochō",
+    "lat": 35.693,
+    "lng": 139.6995
   },
   "2405": {
-    "nome": "Shinjuku Sanchome",
-    "lat": 35.692,
-    "lng": 139.705
+    "nome": "Restaurante em Kabukichō",
+    "lat": 35.6945,
+    "lng": 139.704
   },
   "3005": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Rua Central Kabukichō",
+    "lat": 35.6948,
+    "lng": 139.7035
   },
   "3605": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Cruzamento de Shinjuku",
+    "lat": 35.691,
+    "lng": 139.7005
   },
   "4205": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Godzilla Head",
+    "lat": 35.695,
+    "lng": 139.701
   },
   "4805": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Prédio em Shinjuku",
+    "lat": 35.6925,
+    "lng": 139.699
   },
   "5405": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Loja de conveniência",
+    "lat": 35.6935,
+    "lng": 139.7025
   },
   "6005": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Loja de doces",
+    "lat": 35.694,
+    "lng": 139.703
   },
   "6605": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Rua movimentada",
+    "lat": 35.692,
+    "lng": 139.7015
   },
   "7205": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Beco estreito",
+    "lat": 35.6932,
+    "lng": 139.6998
   },
   "7805": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Praça em Shinjuku",
+    "lat": 35.6905,
+    "lng": 139.7
   },
   "8405": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Rua Yasukuni-dori",
+    "lat": 35.693,
+    "lng": 139.702
   },
   "9005": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Kabukichō",
+    "lat": 35.6938,
+    "lng": 139.7034
   },
   "9605": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Beco Omoide Yokochō",
+    "lat": 35.693,
+    "lng": 139.6995
   },
   "10205": {
-    "nome": "Shinjuku Gyoen",
-    "lat": 35.6852,
-    "lng": 139.71
+    "nome": "Estação de Shinjuku",
+    "lat": 35.6896,
+    "lng": 139.7006
   }
 }

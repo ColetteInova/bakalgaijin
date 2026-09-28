@@ -1,30 +1,32 @@
 {
-  "gerado_em": "2026-09-28T10:53:40",
+  "gerado_em": "2026-09-28T11:45:30",
+  "local": "japao",
+  "local_label": "Japão (Tóquio)",
   "metricas": {
     "video_id": "2873088642",
-    "title": "",
-    "channel": "",
-    "category": "",
-    "created_at": "",
-    "thumbnail": "",
+    "title": "becos japoneses comentados @julynhatoys",
+    "channel": "BakaGaijinLive",
+    "category": "Just Chatting",
+    "created_at": "2026-09-13T12:42:33Z",
+    "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/1d819639288c8a680ef2_bakagaijinlive_316452665202_1789303348//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7744,
     "duration_label": "2h09min",
-    "views": 0,
-    "views_label": "0",
-    "likes_estimado": 0,
-    "likes_label": "0",
+    "views": 18511,
+    "views_label": "18.5k",
+    "likes_estimado": 222,
+    "likes_label": "222",
     "comentarios": 5015,
-    "taxa_likes": 0.0,
-    "taxa_engajamento": 0.0,
-    "followers_canal": null,
+    "taxa_likes": 1.199,
+    "taxa_engajamento": 28.291,
+    "followers_canal": 248265,
     "comparacao_canal": {
-      "mediana_views": 0,
-      "media_views": 0,
-      "mediana_pares": 0,
-      "views_vs_mediana_pct": null,
-      "views_vs_media_pct": null,
-      "views_vs_pares_pct": null,
-      "n_videos_canal": 0
+      "mediana_views": 20202.0,
+      "media_views": 22403.0,
+      "mediana_pares": 21893,
+      "views_vs_mediana_pct": -8.4,
+      "views_vs_media_pct": -17.4,
+      "views_vs_pares_pct": -15.4,
+      "n_videos_canal": 4
     }
   },
   "comentarios": {
@@ -53039,12 +53041,12 @@
       "receita_por_minuto": 0.572,
       "projecao_3h": 102.96,
       "projecao_2h": 68.64,
-      "usd_brl": 5.0,
-      "receita_liquida_brl": 369.2,
-      "receita_subs_brl": 723.55,
-      "receita_bits_brl": 7.4,
-      "projecao_3h_brl": 514.8,
-      "projecao_2h_brl": 343.2
+      "usd_brl": 5.1895,
+      "receita_liquida_brl": 383.19,
+      "receita_subs_brl": 750.97,
+      "receita_bits_brl": 7.68,
+      "projecao_3h_brl": 534.31,
+      "projecao_2h_brl": 356.21
     },
     "sent_series": {
       "positivo": [
@@ -60859,7 +60861,7 @@
       "humor": 100,
       "interatividade": 100,
       "monetizacao": 57.8,
-      "engajamento": 0.0,
+      "engajamento": 100,
       "audiencia": 33.7,
       "risco": 100
     },
@@ -60869,70 +60871,70 @@
         "minuto": 30,
         "tipo": "pergunta",
         "trecho": "Olha o sapo.",
-        "descricao": "Olha o sapo."
+        "descricao": "Confusão sobre idades vira debate caótico e hilário, com direito a '18 só de Senai' e pizza imaginária."
       },
       {
         "inicio": "37:00",
         "minuto": 37,
         "tipo": "piada",
         "trecho": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco",
-        "descricao": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco"
+        "descricao": "Teoria conspiratória culpa Datena por pessoas gostarem de desgraça, misturando enchentes e visualizações."
       },
       {
         "inicio": "44:00",
         "minuto": 44,
         "tipo": "pergunta",
         "trecho": "Mas quando está o México",
-        "descricao": "Mas quando está o México"
+        "descricao": "Acham carta de Pokémon falsa e brincam com 'racismo é paia' e medo de eletrocutar, puro caos."
       },
       {
         "inicio": "51:00",
         "minuto": 51,
         "tipo": "piada",
         "trecho": "Caralho, Júlia.",
-        "descricao": "Caralho, Júlia."
+        "descricao": "Piada sobre loja de vestido e assalto de patinete em 4 minutos, com direito a 'aqui eu aceito'."
       },
       {
         "inicio": "58:00",
         "minuto": 58,
         "tipo": "piada",
         "trecho": "Pronto, aqui não cai, legal",
-        "descricao": "Pronto, aqui não cai, legal"
+        "descricao": "Julinha joga pra caralho e gritaria toma conta, com 'calma lá' e 'agora jogou muito'."
       },
       {
         "inicio": "1:05:00",
         "minuto": 65,
         "tipo": "piada",
         "trecho": "Sai fora, Gita.",
-        "descricao": "Sai fora, Gita."
+        "descricao": "Julinha viciada em jogos, 'cheatando' e gritando 'conteúdo', enquanto foge de barata."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "piada",
         "trecho": "O carro do lixo.",
-        "descricao": "O carro do lixo."
+        "descricao": "Troca de pau, óculos e dinheiro: confusão total com 'segura aqui meu pau' e risadas."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "É, vamos aqui.",
-        "descricao": "É, vamos aqui."
+        "descricao": "Táxi-free, flashback e 'fire in the hole': bate 169 e comemora com 'humildos'."
       },
       {
         "inicio": "1:26:00",
         "minuto": 86,
         "tipo": "pergunta",
         "trecho": "Você deu show, tá ligado?",
-        "descricao": "Você deu show, tá ligado?"
+        "descricao": "Perguntam se são atração do Beco, e procuram lanterna de lamen em Tóquio."
       },
       {
         "inicio": "1:33:00",
         "minuto": 93,
         "tipo": "piada",
         "trecho": "A vaca está na cesta do nada",
-        "descricao": "A vaca está na cesta do nada"
+        "descricao": "Foto com lencinho do Brasil e capivara no capuz, e crítica 'ficou uma merda' vira piada."
       }
     ],
     "alertas": [
@@ -72075,6 +72077,10 @@
   },
   "insights": [
     {
+      "titulo": "Desempenho de views vs. canal",
+      "acao": "VOD com 18.5k views está abaixo da mediana do canal em 8.4% (mediana 20.2k)."
+    },
+    {
       "titulo": "Clima do chat",
       "acao": "Sentimento dominante: neutro (59.4% dos comentários). Use esse tom para orientar thumbs e a narrativa dos cortes."
     },
@@ -72084,7 +72090,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 0.0% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 28.291% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

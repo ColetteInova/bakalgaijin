@@ -118,3 +118,6 @@ client/public/__manus__/version.json
 
 .venv-ai/**
 .venv-ia/*
+
+# Histórico de downloads persistido pelo servidor
+.vod-history.json

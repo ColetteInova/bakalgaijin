@@ -32,6 +32,9 @@ trap 'kill 0' EXIT INT TERM
 echo "Iniciando servidor (porta 3001)..."
 pnpm dev:server &
 
+echo "Iniciando servidor dos VODs (porta automática)..."
+python3 -u scripts/servir.py 0 &
+
 echo "Iniciando frontend (porta 3000)..."
 pnpm dev
 
