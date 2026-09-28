@@ -12,6 +12,7 @@ import {
   Loader2,
   MessageSquare,
   Music,
+  RefreshCw,
   Search,
   Twitch,
   User,
@@ -149,7 +150,11 @@ export default function VodDownloader() {
 
   useEffect(() => {
     const justFinished = jobs.filter(
-      (j) => j.status === "done" && j.filename && !history.some((h) => h.filename === j.filename)
+      (j) =>
+        j.status === "done" &&
+        j.filename &&
+        j.quality &&
+        !history.some((h) => h.filename === j.filename)
     );
     if (justFinished.length > 0) {
       setHistory((prev) => [
@@ -242,6 +247,22 @@ export default function VodDownloader() {
   const clearHistory = () => {
     setHistory([]);
     toast.info("Histórico limpo.");
+  };
+
+  const reprepare = async (item: DoneItem) => {
+    try {
+      const res = await fetch("/api/vod/prepare", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: item.filename }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao iniciar preparação");
+      toast.success("Preparação iniciada! Acompanhe o progresso em Downloads.");
+      fetchJobs();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao iniciar preparação");
+    }
   };
 
   // ---- Comentários do VOD ----
@@ -445,9 +466,11 @@ export default function VodDownloader() {
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-slate-200 truncate">{job.title}</p>
                       <div className="flex items-center gap-2 mt-1 text-xs text-slate-400">
-                        <Badge variant="secondary" className="bg-purple-950/60 text-purple-300 border-purple-800 text-[10px] px-1.5">
-                          {formatQuality(job.quality)}
-                        </Badge>
+                        {job.quality && (
+                          <Badge variant="secondary" className="bg-purple-950/60 text-purple-300 border-purple-800 text-[10px] px-1.5">
+                            {formatQuality(job.quality)}
+                          </Badge>
+                        )}
                         {job.status === "running" && job.eta && <span>ETA: {job.eta}</span>}
                         {job.status === "running" && job.speed && <span>{job.speed}</span>}
                       </div>
@@ -621,13 +644,32 @@ export default function VodDownloader() {
                       {formatQuality(item.quality)} · {item.date}
                     </p>
                   </div>
-                  <a
-                    href={`/downloads/${encodeURIComponent(item.filename)}`}
-                    className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/15 hover:bg-emerald-600/25 border border-emerald-600/30 text-emerald-400 text-xs font-medium transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    Baixar
-                  </a>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => reprepare(item)}
+                      disabled={jobs.some((j) => j.status === "running" && j.filename === item.filename)}
+                      className="h-8 px-3 text-xs border-purple-500/40 text-purple-300 hover:bg-purple-950/40"
+                      title="Refazer preparação (comentários, transcrição e análise) com este vídeo já baixado"
+                    >
+                      <RefreshCw
+                        className={`w-3.5 h-3.5 mr-1 ${
+                          jobs.some((j) => j.status === "running" && j.filename === item.filename)
+                            ? "animate-spin"
+                            : ""
+                        }`}
+                      />
+                      Preparar
+                    </Button>
+                    <a
+                      href={`/downloads/${encodeURIComponent(item.filename)}`}
+                      className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/15 hover:bg-emerald-600/25 border border-emerald-600/30 text-emerald-400 text-xs font-medium transition-colors"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Baixar
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>

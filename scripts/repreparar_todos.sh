@@ -3,7 +3,7 @@
 #
 # Uso: ./scripts/repreparar_todos.sh
 # Opções:
-#   DEEPSEEK_API_KEY="sk-..." ./scripts/repreparar_todos.sh   (geolocaliza marcos do mapa)
+#   DEEPSEEK_API_KEY="sk-..." ./scripts/repreparar_todos.sh   (mapa e textos do índice)
 #   SKIP_CORTES=1 ./scripts/repreparar_todos.sh               (pula o corte de trechos virais)
 #
 # Percorre cada subpasta de saida/ que tenha os pré-requisitos
@@ -34,6 +34,7 @@ echo "==> Re-preparando ${#PASTAS[@]} vídeo(s) de $SAIDA_DIR/"
 OK=0
 FALHAS=0
 PULADOS=0
+export SKIP_INDEX_UPDATE=1
 
 for DIR in "${PASTAS[@]}"; do
   PASTA="${DIR#$SAIDA_DIR/}"
@@ -61,6 +62,15 @@ for DIR in "${PASTAS[@]}"; do
     FALHAS=$((FALHAS + 1))
   fi
 done
+
+echo ""
+echo "==> Atualizando índice geral com os VODs preparados"
+if python3 scripts/atualizar_index.py; then
+  echo "==> Índice atualizado: $SAIDA_DIR/index.html"
+else
+  echo "!! Falha ao atualizar $SAIDA_DIR/index.html" >&2
+  FALHAS=$((FALHAS + 1))
+fi
 
 echo ""
 echo "Concluído! OK=$OK Falhas=$FALHAS Pulados=$PULADOS"

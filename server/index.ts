@@ -15,6 +15,20 @@ const SAIDA_DIR = path.join(ROOT_DIR, "saida");
 fs.mkdirSync(DOWNLOADS_DIR, { recursive: true });
 fs.mkdirSync(SAIDA_DIR, { recursive: true });
 
+// Carrega variáveis do .env (ex.: DEEPSEEK_API_KEY) para os scripts de análise
+function loadDotEnv() {
+  const envPath = path.join(ROOT_DIR, ".env");
+  if (!fs.existsSync(envPath)) return;
+  for (const line of fs.readFileSync(envPath, "utf8").split("\n")) {
+    const match = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/);
+    if (!match) continue;
+    const key = match[1];
+    const value = match[2].replace(/^["']|["']$/g, "");
+    if (process.env[key] === undefined) process.env[key] = value;
+  }
+}
+loadDotEnv();
+
 interface PipelineState {
   status: "idle" | "running" | "done" | "error";
   step: string;
@@ -263,6 +277,12 @@ function extractVideoId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+// Extrai o videoId do nome do arquivo baixado, ex.: "... [v2885710366].mp4"
+function extractVideoIdFromFilename(filePath: string): string | null {
+  const match = path.basename(filePath).match(/\[v(\d+)\]/i);
+  return match ? match[1] : null;
+}
+
 // Deriva o nome da pasta saida/ a partir do nome do arquivo baixado
 // ex.: "DE VORTA AO JAPAO [v2871566138].mp4" -> "DE VORTA AO JAPAO [v2871566138]"
 function folderNameFromFile(filePath: string): string {
@@ -365,6 +385,79 @@ async function startServer() {
       pipeline.stepLabel = "Erro no pipeline";
       pipeline.error = err instanceof Error ? err.message : "Falha no processamento";
       pipeline.finishedAt = Date.now();
+    }
+  }
+
+  // Re-roda o fluxo de preparação (comentários -> transcrição -> análise)
+  // usando um vídeo já baixado, refazendo apenas as etapas que faltam.
+  async function runPreparePipeline(job: VodJob) {
+    const pipeline: PipelineState = {
+      status: "running",
+      step: "start",
+      stepLabel: "Preparando...",
+      startedAt: Date.now(),
+    };
+    job.pipeline = pipeline;
+
+    try {
+      const sourceVideo = job.filename;
+      if (!sourceVideo || !fs.existsSync(sourceVideo)) {
+        throw new Error("Arquivo de vídeo baixado não encontrado");
+      }
+
+      const folderName = folderNameFromFile(sourceVideo);
+      const folder = path.join(SAIDA_DIR, folderName);
+      fs.mkdirSync(folder, { recursive: true });
+      pipeline.folder = folderName;
+
+      const videoId = extractVideoIdFromFilename(sourceVideo) || extractVideoId(job.url);
+      pipeline.videoId = videoId ?? undefined;
+
+      // 1) comentários (re-coleta apenas se ainda não existir)
+      if (videoId) {
+        pipeline.step = "comments";
+        pipeline.stepLabel = "Baixando comentários do VOD...";
+        if (!fs.existsSync(path.join(folder, "comentarios.json"))) {
+          const count = await collectCommentsToFile(videoId, folder);
+          pipeline.commentsCount = count;
+        }
+      }
+
+      // 2) transcrição (refaz apenas se audio.srt ainda não existir)
+      if (!fs.existsSync(path.join(folder, "audio.srt"))) {
+        pipeline.step = "transcribe";
+        pipeline.stepLabel = "Transcrevendo áudio com MLX Whisper (pode demorar)...";
+        await runScript("scripts/analisar.sh", [sourceVideo]);
+      }
+
+      // 3) análise (sempre refaz)
+      pipeline.step = "analyze";
+      pipeline.stepLabel = "Gerando relatório, dashboard e cortes...";
+      await runScript("scripts/preparar.sh", [folderName]);
+
+      // 4) refaz a preparação de todos os vídeos antigos (repreparar_todos.sh)
+      pipeline.step = "reprepare_all";
+      pipeline.stepLabel = "Refazendo preparação de todos os vídeos antigos...";
+      await runScript("scripts/repreparar_todos.sh", []);
+
+      pipeline.status = "done";
+      pipeline.step = "done";
+      pipeline.stepLabel = "Concluído!";
+      pipeline.finishedAt = Date.now();
+      if (job.status === "running") {
+        job.status = "done";
+        job.percent = 100;
+      }
+    } catch (err) {
+      pipeline.status = "error";
+      pipeline.step = "error";
+      pipeline.stepLabel = "Erro no pipeline";
+      pipeline.error = err instanceof Error ? err.message : "Falha no processamento";
+      pipeline.finishedAt = Date.now();
+      if (job.status === "running") {
+        job.status = "error";
+        job.error = pipeline.error;
+      }
     }
   }
 
@@ -514,6 +607,46 @@ async function startServer() {
   // List jobs
   app.get("/api/vod/jobs", (_req, res) => {
     res.json(Array.from(jobs.values()).map(serializeJob));
+  });
+
+  // Re-roda a preparação (comentários -> transcrição -> análise) de um vídeo já baixado
+  app.post("/api/vod/prepare", (req, res) => {
+    const { filename } = (req.body ?? {}) as { filename?: string };
+    if (!filename || typeof filename !== "string") {
+      res.status(400).json({ error: "Nome de arquivo é obrigatório" });
+      return;
+    }
+
+    const target = path.isAbsolute(filename) ? path.resolve(filename) : path.join(DOWNLOADS_DIR, filename);
+    if (!target.startsWith(DOWNLOADS_DIR + path.sep) && target !== DOWNLOADS_DIR) {
+      res.status(400).json({ error: "Arquivo fora da pasta ./downloads" });
+      return;
+    }
+    if (!fs.existsSync(target)) {
+      res.status(404).json({ error: `Arquivo não encontrado: ${path.basename(filename)}` });
+      return;
+    }
+
+    const id = crypto.randomUUID();
+    const job: VodJob = {
+      id,
+      url: "",
+      title: `[preparar] ${path.basename(target)}`,
+      quality: "",
+      status: "running",
+      percent: 0,
+      speed: "",
+      eta: "",
+      downloadedBytes: "",
+      totalBytes: "",
+      startedAt: Date.now(),
+      filename: target,
+    };
+    jobs.set(id, job);
+
+    runPreparePipeline(job);
+
+    res.json({ id });
   });
 
   // Start collecting all comments of a VOD

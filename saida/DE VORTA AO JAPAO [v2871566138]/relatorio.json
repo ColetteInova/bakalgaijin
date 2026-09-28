@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-24T09:09:23",
+  "gerado_em": "2026-09-28T10:53:39",
   "metricas": {
     "video_id": "2871566138",
     "title": "",
@@ -80,7 +80,7 @@
           "baka vai",
           "baka volta",
           "baka qual",
-          "japão baka"
+          "baka como"
         ],
         "n_comentarios": 1555,
         "pct": 17.8
@@ -103,8 +103,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "quando vai",
-          "vai fazer"
+          "vai fazer",
+          "quando vai"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -114,8 +114,8 @@
         "palavras_chave": [
           "live",
           "live gravada",
-          "fazer live",
-          "faz live"
+          "faz live",
+          "fazer live"
         ],
         "n_comentarios": 375,
         "pct": 4.3
@@ -90802,12 +90802,12 @@
       "receita_por_minuto": 1.287,
       "projecao_3h": 231.66,
       "projecao_2h": 154.44,
-      "usd_brl": 5.1169,
-      "receita_liquida_brl": 1068.31,
-      "receita_subs_brl": 2119.27,
-      "receita_bits_brl": 8.7,
-      "projecao_3h_brl": 1185.38,
-      "projecao_2h_brl": 790.25
+      "usd_brl": 5.0,
+      "receita_liquida_brl": 1043.9,
+      "receita_subs_brl": 2070.85,
+      "receita_bits_brl": 8.5,
+      "projecao_3h_brl": 1158.3,
+      "projecao_2h_brl": 772.2
     },
     "sent_series": {
       "positivo": [
@@ -102961,70 +102961,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "que saudades",
-        "descricao": "Baka derruba lanternas e fala 'check this out', criando caos cômico em Tóquio."
+        "descricao": "que saudades"
       },
       {
         "inicio": "40:00",
         "minuto": 40,
         "tipo": "pergunta",
         "trecho": "Que passeio, José? Desculpa",
-        "descricao": "Ele se choca com japoneses atravessando fora da faixa às 6h, quebrando o mito da civilidade."
+        "descricao": "Que passeio, José? Desculpa"
       },
       {
         "inicio": "50:00",
         "minuto": 50,
         "tipo": "piada",
         "trecho": "É, tudo cafona, né?",
-        "descricao": "Baka zoa produtos aleatórios tipo 'pokebolas Narutos' e solta 'quem tem cu tem medo'."
+        "descricao": "É, tudo cafona, né?"
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Aí é foda",
-        "descricao": "Ele brinca que trouxe a chuva do Brasil pro Japão e se chama de 'cunhudo'."
+        "descricao": "Aí é foda"
       },
       {
         "inicio": "1:10:00",
         "minuto": 70,
         "tipo": "piada",
         "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
-        "descricao": "Baka se agacha como japonês e reclama que parece lésbica sem óculos, puro improviso."
+        "descricao": "E outra pra punhetinha, porque eu também sou filho de Deus."
       },
       {
         "inicio": "1:20:00",
         "minuto": 80,
         "tipo": "piada",
         "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
-        "descricao": "Ele filosofa sobre setembro chuvoso e um velho varrendo na chuva, com clima de solidão."
+        "descricao": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano"
       },
       {
         "inicio": "1:30:00",
         "minuto": 90,
         "tipo": "piada",
         "trecho": "Olha só, hein",
-        "descricao": "Baka zoa 'social credits' e reclama que GTA 6 não terá feature de fimose, decepção total."
+        "descricao": "Olha só, hein"
       },
       {
         "inicio": "1:40:00",
         "minuto": 100,
         "tipo": "piada",
         "trecho": "Esse cara é bonitinho, me deixou passar",
-        "descricao": "Ele planeja andar até Harajuku e compara a si mesmo com loucos religiosos do centro."
+        "descricao": "Esse cara é bonitinho, me deixou passar"
       },
       {
         "inicio": "1:50:00",
         "minuto": 110,
         "tipo": "piada",
         "trecho": "Acho que não vai ter nada aberto ainda",
-        "descricao": "Baka inventa 'Sexo 3.5: O Retorno do Bilal' e reclama de dor nas cócoras na chuva."
+        "descricao": "Acho que não vai ter nada aberto ainda"
       },
       {
         "inicio": "2:00:00",
         "minuto": 120,
         "tipo": "piada",
         "trecho": "Ah é? Vamos ver",
-        "descricao": "Ele se surpreende com 2h de live, zoa restrição de fotos e teme 'baixa ditadura' no Japão."
+        "descricao": "Ah é? Vamos ver"
       }
     ],
     "alertas": [

@@ -2222,6 +2222,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   }
   .player-wrap { position: sticky; top: 12px; z-index: 50; width: 100%; margin: 0; }
   .player-area { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .player-wrap > .player.timeline { margin-top: 10px; }
   .player-video-shell { width: 100%; max-width: 960px; margin: 0 auto; }
   @media (min-width: 961px) {
     .player-video-shell { width: 960px; }
@@ -2234,6 +2235,14 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     .player-map-wrap .grid.two { grid-template-columns: 1fr; }
     .player-map-wrap #liveMap { height: 380px; }
     .player-map-wrap #mapa, .player-map-wrap #player { margin-top: 0; }
+  }
+  /* botão de layout: só aparece no desktop (onde o grid de 2 colunas existe) */
+  .layout-toggle { display: none; }
+  @media (min-width: 1200px) {
+    .layout-toggle { display: inline-flex; align-items: center; gap: 6px; }
+    .player-map-wrap.layout-stacked { display: block; }
+    .player-map-wrap.layout-stacked .player-video-shell { width: 100%; max-width: 960px; }
+    .player-map-wrap.layout-stacked #liveMap { height: 420px; }
   }
   .player {
     background: #000; border: 1px solid var(--border); border-radius: 12px;
@@ -2289,14 +2298,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .corte-player video, .corte-player audio { width:100%; display:block; border-radius:8px; background:#000; }
   .corte-player video { aspect-ratio:16/9; object-fit:contain; }
   .corte-player audio { height:40px; }
-  .chapters-bar { display:flex; gap:6px; overflow-x:auto; padding:4px 0; flex-wrap:nowrap; }
-  .chapter-chip {
-    flex:0 0 auto; display:inline-block; cursor:pointer; white-space:nowrap;
-    background:var(--panel); border:1px solid var(--border); border-radius:999px;
-    padding:4px 12px; font-size:.72rem; color:#cbd5e1; transition:all .15s ease;
+  .chapter-menu { display:flex; align-items:center; gap:8px; min-width:0; padding-top:2px; }
+  .chapter-menu label { color:var(--muted); font-size:.75rem; white-space:nowrap; }
+  .chapter-menu select {
+    flex:1; min-width:0; max-width:100%; background:var(--panel); color:var(--text);
+    border:1px solid var(--border); border-radius:8px; padding:7px 10px; font-size:.78rem;
   }
-  .chapter-chip:hover { background:#263449; transform:translateY(-1px); }
-  .chapter-chip.active { background:var(--accent); border-color:var(--accent); color:#fff; }
   .participantes { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:6px; max-height:480px; overflow-y:auto; }
   .participante {
     display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:10px;
@@ -2412,6 +2419,9 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <div style="display:flex;gap:8px;margin-bottom:12px">
     <button class="btn active" id="modeVideo" onclick="setPlayerMode('video')">🎬 Vídeo</button>
     <button class="btn" id="modeAudio" onclick="setPlayerMode('audio')">🎧 Somente Áudio</button>
+    <button type="button" class="btn layout-toggle" id="layoutBtn" onclick="toggleLayout()" aria-pressed="false" title="Alterna a disposição do player e do mapa entre colunas e linhas">
+      <i class="fa-solid fa-table-columns"></i> Layout: <span id="layoutLabel">colunas</span>
+    </button>
   </div>
   <div class="player-area">
     <div class="player-wrap" id="videoWrap">
@@ -2428,10 +2438,16 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
           <span class="muted" id="videoTime">0:00 / 0:00</span>
           <button class="btn" onclick="setPlaybackRate(-0.5)">-0.5×</button>
           <button class="btn" onclick="setPlaybackRate(0.5)">+0.5×</button>
+          <span class="muted" id="videoRate" title="Velocidade de reprodução">1×</span>
           <button class="btn active" id="btnCc" onclick="toggleCaptions()">Legendas: ON</button>
           <span class="segment"><span class="tag neutro" id="videoNowLabel">—</span><span class="muted">agora</span></span>
         </div>
-        <div class="chapters-bar" id="chaptersBar"></div>
+        <div class="chapter-menu" id="chaptersMenu" style="display:none">
+          <label for="chapterSelect">Capítulo</label>
+          <select id="chapterSelect" aria-label="Ir para capítulo" onchange="if (this.value !== '') seekChapter(Number(this.value))">
+            <option value="">Ir para capítulo…</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="player-wrap" id="audioWrap">
@@ -2448,6 +2464,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
           <span class="muted" id="audioTime">0:00 / 0:00</span>
           <button class="btn" onclick="setPlaybackRate(-0.5)">-0.5×</button>
           <button class="btn" onclick="setPlaybackRate(0.5)">+0.5×</button>
+          <span class="muted" id="audioRate" title="Velocidade de reprodução">1×</span>
           <span class="segment"><span class="tag neutro" id="audioNowLabel">—</span><span class="muted">agora</span></span>
         </div>
       </div>
@@ -2645,8 +2662,9 @@ let R = DATA;
 let currentSent = "todos";
 
 /* ---- players / legendas / replay ---- */
-const V = { el: null, start: 0, rate: 1 };
-const A = { el: null, start: 0, rate: 1 };
+const V = { el: null, start: 0 };
+const A = { el: null, start: 0 };
+let playbackRate = 1;
 let captionsOn = true;
 let feedOn = true;
 let feedTimer = null;
@@ -2695,22 +2713,39 @@ function updateSeek(media, barId, timeId){
   const bar = document.getElementById(barId);
   const time = document.getElementById(timeId);
   if (!media.el || !bar || !time) return;
-  if (media.el.duration) bar.max = String(media.el.duration);
-  if (!bar.matches(":active")) bar.value = String(media.el.currentTime);
-  time.textContent = fmtClock(media.el.currentTime) + " / " + fmtClock(media.el.duration || 0);
+  const d = media.el.duration;
+  if (isFinite(d) && d > 0) bar.max = String(d);
+  if (!bar._drag) bar.value = String(media.el.currentTime);
+  time.textContent = fmtClock(media.el.currentTime) + " / " + fmtClock(isFinite(d) ? d : 0);
 }
 
 function syncSeekBar(barId, seconds){
   const bar = document.getElementById(barId);
-  if (bar && !bar.matches(":active")) bar.value = String(seconds);
+  if (bar && !bar._drag) bar.value = String(seconds);
+}
+
+function activeMedia(){
+  if (V.el && !V.el.paused) return V;
+  if (A.el && !A.el.paused) return A;
+  return (FILES.video && V.el) ? V : A;
+}
+
+function updateRateLabels(){
+  const label = playbackRate.toFixed(1).replace(".0", "") + "×";
+  const lv = document.getElementById("videoRate");
+  const la = document.getElementById("audioRate");
+  if (lv) lv.textContent = label;
+  if (la) la.textContent = label;
 }
 
 function setPlaybackRate(delta){
-  const media = (V.el && !V.el.paused) ? V : A;
+  const media = activeMedia();
   if (!media.el) return;
-  media.rate = Math.min(3, Math.max(0.5, media.rate + delta));
-  media.el.playbackRate = media.rate;
-  showFlash("Velocidade " + media.rate.toFixed(1) + "×");
+  playbackRate = Math.min(3, Math.max(0.5, playbackRate + delta));
+  if (V.el) { V.el.playbackRate = playbackRate; V.el.defaultPlaybackRate = playbackRate; }
+  if (A.el) { A.el.playbackRate = playbackRate; A.el.defaultPlaybackRate = playbackRate; }
+  updateRateLabels();
+  showFlash("Velocidade " + playbackRate.toFixed(1).replace(".0", "") + "×");
 }
 
 function showFlash(msg){
@@ -2836,6 +2871,7 @@ function wireMedia(media, id, barId, timeId, overlayId, labelId){
   });
   el.addEventListener("loadedmetadata", () => {
     if (!V.start) V.start = 0;
+    el.playbackRate = playbackRate;
     updateSeek(media, barId, timeId);
     buildFeed();
   });
@@ -2865,12 +2901,22 @@ function wireMedia(media, id, barId, timeId, overlayId, labelId){
     }
   });
   const bar = document.getElementById(barId);
-  bar.addEventListener("input", () => {
-    if (media.el) media.el.currentTime = Number(bar.value);
-  });
-  bar.addEventListener("change", () => {
-    if (media.el) media.el.currentTime = Number(bar.value);
-  });
+  const seekTo = () => {
+    const v = Number(bar.value);
+    if (media.el && isFinite(v)) media.el.currentTime = v;
+  };
+  bar.addEventListener("input", seekTo);
+  bar.addEventListener("change", seekTo);
+  // marca o arrasto com pointer events (mais confiável que :active) para que
+  // o updateSeek não sobrescreva o polegar enquanto o usuário arrasta
+  bar.addEventListener("pointerdown", () => { bar._drag = true; });
+  ["pointerup", "pointercancel", "blur", "lostpointercapture"].forEach(ev =>
+    bar.addEventListener(ev, () => {
+      bar._drag = false;
+      seekTo();
+      updateSeek(media, barId, timeId);
+    })
+  );
 }
 
 function allUpTo(t){
@@ -2910,12 +2956,14 @@ function initPlayers(){
 }
 
 function renderChaptersBar() {
-  const bar = document.getElementById("chaptersBar");
-  if (!bar) return;
+  const menu = document.getElementById("chaptersMenu");
+  const select = document.getElementById("chapterSelect");
+  if (!menu || !select) return;
   const caps = (R.conteudo && R.conteudo.capitulos) || [];
-  if (!caps.length) { bar.innerHTML = ""; return; }
-  bar.innerHTML = caps.map((ch, i) =>
-    `<button class="chapter-chip" data-i="${i}" onclick="seekChapter(${i})">${esc(ch.inicio)} · ${esc(ch.titulo)}</button>`
+  if (!caps.length) { menu.style.display = "none"; return; }
+  menu.style.display = "";
+  select.innerHTML = '<option value="">Ir para capítulo…</option>' + caps.map((ch, i) =>
+    `<option value="${i}">${esc(ch.inicio)} · ${esc(ch.titulo)}</option>`
   ).join("");
 }
 
@@ -2931,9 +2979,8 @@ function seekChapter(i) {
 }
 
 function highlightChapter(i) {
-  document.querySelectorAll(".chapter-chip").forEach((b, j) => {
-    b.classList.toggle("active", j === i);
-  });
+  const select = document.getElementById("chapterSelect");
+  if (select) select.value = String(i);
 }
 
 function setPlayerMode(mode) {
@@ -2959,6 +3006,21 @@ function setPlayerMode(mode) {
     videoWrap.style.display = FILES.video ? "" : "none";
     audioWrap.style.display = FILES.audio ? "" : "none";
   }
+}
+
+// Alterna o layout do player + mapa entre colunas (lado a lado) e linhas (empilhado).
+// O botão só é exibido no desktop via CSS (.layout-toggle).
+let layoutStacked = false;
+function toggleLayout(){
+  const wrap = document.querySelector(".player-map-wrap");
+  if (!wrap || !window.matchMedia("(min-width: 1200px)").matches) return;
+  layoutStacked = !layoutStacked;
+  wrap.classList.toggle("layout-stacked", layoutStacked);
+  const button = document.getElementById("layoutBtn");
+  if (button) button.setAttribute("aria-pressed", String(layoutStacked));
+  const lbl = document.getElementById("layoutLabel");
+  if (lbl) lbl.textContent = layoutStacked ? "linhas" : "colunas";
+  if (liveMap) setTimeout(() => liveMap.invalidateSize(), 350);
 }
 
 // ---------------------------------------------------------------------------

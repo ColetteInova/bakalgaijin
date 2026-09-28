@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-24T09:09:45",
+  "gerado_em": "2026-09-28T10:53:40",
   "metricas": {
     "video_id": "2873088642",
     "title": "",
@@ -53039,12 +53039,12 @@
       "receita_por_minuto": 0.572,
       "projecao_3h": 102.96,
       "projecao_2h": 68.64,
-      "usd_brl": 5.1169,
-      "receita_liquida_brl": 377.83,
-      "receita_subs_brl": 740.47,
-      "receita_bits_brl": 7.57,
-      "projecao_3h_brl": 526.84,
-      "projecao_2h_brl": 351.22
+      "usd_brl": 5.0,
+      "receita_liquida_brl": 369.2,
+      "receita_subs_brl": 723.55,
+      "receita_bits_brl": 7.4,
+      "projecao_3h_brl": 514.8,
+      "projecao_2h_brl": 343.2
     },
     "sent_series": {
       "positivo": [

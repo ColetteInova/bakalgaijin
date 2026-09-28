@@ -74,6 +74,15 @@ else
   echo "==> Cortes já existem em cortes/ — pulando corte e re-run"
 fi
 
+if [ "${SKIP_INDEX_UPDATE:-0}" = "1" ]; then
+  echo ""
+  echo "==> Atualização do índice será feita ao final do lote"
+else
+  echo ""
+  echo "==> Atualizando índice geral"
+  "$PY" scripts/atualizar_index.py
+fi
+
 echo ""
 echo "Concluído! Saída em: $DIR"
 ls -lah "$DIR"
