@@ -295,6 +295,8 @@
   }
   .pop .pgm:hover { color: #bfdbfe; text-decoration: underline; }
   .gmaps-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .gmaps-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .gmaps-primary:hover { background: var(--accent); border-color: var(--accent); filter: brightness(1.12); }
   .google-map-shell { margin-top: 14px; }
   .google-map-shell .google-map-title {
     font-size: .78rem; color: var(--muted); margin-bottom: 8px;
@@ -395,6 +397,9 @@
       <span class="muted" id="mapInfo">Marcos geolocalizados em Brasil · São Paulo · Liberdade — selecione um ponto no mapa para ver o raio de incerteza (quanto maior o círculo, menor a confiança) e pular o player.</span>
       <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
       <a class="btn" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)"><i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>
+      <a class="btn gmaps-btn gmaps-primary" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
+        <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
+      </a>
     </div>
     <div class="grid two">
       <div class="map-shell"><div id="liveMap"></div>
@@ -402,9 +407,6 @@
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="muted" id="mapNow">Escolha um marco para assistir o trecho.</div>
-        <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
-          <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
-        </a>
       </div>
     </div>
     <div class="map-carousel">
@@ -422,9 +424,6 @@
       <div class="google-map-title">
         <i class="fa-solid fa-map-location-dot"></i>
         <span id="googleMapTitle">Google Maps</span>
-        <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none;margin-left:auto">
-          <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
-        </a>
       </div>
       <iframe id="googleMapFrame" title="Google Maps" loading="lazy" allowfullscreen></iframe>
     </div>

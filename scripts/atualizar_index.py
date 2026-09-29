@@ -24,6 +24,7 @@ CLAUDE_MONTHLY_USD = 20.0
 R2_STORAGE_GB_PER_CARD = 19
 R2_FREE_STORAGE_GB = 10
 R2_PRICE_PER_GB_MONTH_USD = 0.015
+EPISODES_INITIAL_LIMIT = 6
 
 
 def read_json(path: Path) -> dict:
@@ -383,6 +384,16 @@ def render_episodes(vods: list[dict], summaries: dict[str, str]) -> str:
     return "\n".join(cards)
 
 
+def render_episode_toggle(vods: list[dict]) -> str:
+    if len(vods) <= EPISODES_INITIAL_LIMIT:
+        return ""
+    return (
+        '<button class="episodes-toggle" id="episodeToggle" type="button" '
+        'aria-haspopup="dialog" aria-controls="episodesModal" '
+        'onclick="openEpisodesModal()">Ver mais</button>'
+    )
+
+
 def _all_comments(vods: list[dict]) -> list[dict]:
     comments = []
     for vod in vods:
@@ -520,7 +531,9 @@ def main() -> int:
     document = INDEX.read_text(encoding="utf-8")
     try:
         document = replace_section(document, "<!-- AUTO_STATS_START -->", "<!-- AUTO_STATS_END -->", render_stats(vods))
-        document = replace_section(document, "<!-- AUTO_EPISODES_START -->", "<!-- AUTO_EPISODES_END -->", render_episodes(vods, summaries))
+        document = replace_section(document, "<!-- AUTO_EPISODES_START -->", "<!-- AUTO_EPISODES_END -->", render_episodes(vods[:EPISODES_INITIAL_LIMIT], summaries))
+        document = replace_section(document, "<!-- AUTO_EPISODES_TOGGLE_START -->", "<!-- AUTO_EPISODES_TOGGLE_END -->", render_episode_toggle(vods))
+        document = replace_section(document, "<!-- AUTO_EPISODES_MODAL_START -->", "<!-- AUTO_EPISODES_MODAL_END -->", render_episodes(vods, summaries))
         document = replace_section(document, "<!-- AUTO_FANS_START -->", "<!-- AUTO_FANS_END -->", render_fans(comments))
         document = replace_section(document, "<!-- AUTO_BORDOES_START -->", "<!-- AUTO_BORDOES_END -->", render_bordoes(comments))
         document = replace_section(document, "<!-- AUTO_EMOJIS_START -->", "<!-- AUTO_EMOJIS_END -->", render_emojis(comments))

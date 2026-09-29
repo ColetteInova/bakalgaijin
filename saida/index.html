@@ -94,6 +94,39 @@
 
   /* EPISODES */
   .eps { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+  .episodes-toggle-wrap { display:flex; justify-content:center; margin-top:18px; }
+  .episodes-toggle {
+    border:1px solid var(--border); border-radius:8px; padding:10px 18px;
+    background:var(--panel2); color:var(--text); font:inherit; font-weight:700; cursor:pointer;
+  }
+  .episodes-toggle:hover { border-color:var(--gold); color:var(--gold); }
+  body.modal-open { overflow:hidden; }
+  .episodes-modal {
+    position:fixed; inset:0; z-index:100; display:flex; justify-content:center; align-items:center;
+    padding:16px; background:rgba(0,0,0,.78); backdrop-filter:blur(5px);
+  }
+  .episodes-modal[hidden] { display:none; }
+  .episodes-modal-panel {
+    width:min(1100px,100%); max-height:calc(100vh - 32px); overflow:hidden;
+    background:var(--bg); border:1px solid var(--border); border-radius:12px;
+    box-shadow:0 24px 80px rgba(0,0,0,.55); display:flex; flex-direction:column;
+  }
+  .episodes-modal-head {
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:16px 20px; border-bottom:1px solid var(--border);
+  }
+  .episodes-modal-head h2 { font-size:1.15rem; }
+  .episodes-modal-close {
+    display:grid; place-items:center; width:36px; height:36px; flex:none;
+    border:1px solid var(--border); border-radius:8px; background:var(--panel2); cursor:pointer;
+  }
+  .episodes-modal-close img { width:18px; height:18px; }
+  .episodes-modal-grid { overflow-y:auto; padding:18px 20px 24px; }
+  @media (max-width:640px) {
+    .episodes-modal { padding:8px; }
+    .episodes-modal-panel { max-height:calc(100vh - 16px); }
+    .episodes-modal-grid { grid-template-columns:1fr; padding:12px; }
+  }
   .ep-card {
     background:var(--panel); border:1px solid var(--border); border-radius:16px;
     overflow:hidden; display:block; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
@@ -184,7 +217,7 @@
   .support-card:hover { transform:translateY(-4px); border-color:var(--gold); box-shadow:0 14px 40px rgba(245,158,11,.2); }
   .support-img { width:100%; height:150px; background:#0b0f1a; display:flex; align-items:center; justify-content:center; overflow:hidden; }
   .support-img img { width:100%; height:100%; object-fit:cover; display:block; }
-  .support-img img.logo { object-fit:cover; width:100%; height:100%; padding:12px; }
+  .support-img img.logo { object-fit:contain; width:100%; height:100%; padding:12px; }
   .support-body { padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
   .support-title { display:flex; align-items:center; gap:8px; font-weight:800; font-size:1rem; color:#f1f5f9; }
   .support-desc { font-size:.8rem; color:var(--muted); line-height:1.5; flex:1; }
@@ -288,7 +321,7 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
 
   <section class="section">
     <div class="section-title"><img src="https://api.iconify.design/lucide/tv.svg?color=%23eef2ff" alt="" width="20" height="20" loading="lazy" /> Lives Analisadas <span class="bar"></span></div>
-    <div class="eps">
+    <div class="eps" id="episodeGrid">
       <!-- AUTO_EPISODES_START -->
 <a href="live%20teste%20em%20sp%20at%C3%A9%20virar%20estatistica%20%5Bv2885710366%5D/dashboard.html" class="ep-card">
           <div class="ep-thumb"><video src="live%20teste%20em%20sp%20at%C3%A9%20virar%20estatistica%20%5Bv2885710366%5D/video.mp4" muted playsinline preload="metadata"></video><img class="ep-thumb-poster" src="https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/c8d05a80c8452022531d_bakagaijinlive_319151009140_1790533506//thumb/thumb0-640x360.jpg" alt="live teste em sp até virar estatistica" loading="lazy" onerror="this.style.display='none'" /><span class="ep-dur">2h05</span></div>
@@ -344,7 +377,80 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
         </a>
     <!-- AUTO_EPISODES_END -->
     </div>
+    <div class="episodes-toggle-wrap">
+      <!-- AUTO_EPISODES_TOGGLE_START -->
+
+    <!-- AUTO_EPISODES_TOGGLE_END -->
+    </div>
   </section>
+
+  <template id="allEpisodesTemplate">
+    <!-- AUTO_EPISODES_MODAL_START -->
+<a href="live%20teste%20em%20sp%20at%C3%A9%20virar%20estatistica%20%5Bv2885710366%5D/dashboard.html" class="ep-card">
+          <div class="ep-thumb"><video src="live%20teste%20em%20sp%20at%C3%A9%20virar%20estatistica%20%5Bv2885710366%5D/video.mp4" muted playsinline preload="metadata"></video><img class="ep-thumb-poster" src="https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/c8d05a80c8452022531d_bakagaijinlive_319151009140_1790533506//thumb/thumb0-640x360.jpg" alt="live teste em sp até virar estatistica" loading="lazy" onerror="this.style.display='none'" /><span class="ep-dur">2h05</span></div>
+          <div class="ep-body">
+            <div class="ep-top"><span class="ep-date">27 set 2026</span></div>
+            <div class="ep-title">live teste em sp até virar estatistica</div>
+            <p class="ep-summary">Destaques do chat: baka vai, faz live, vai sair.</p>
+            
+            <div class="ep-stats"><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/eye.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 11,8 mil</span><span class="v">views</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/message-circle.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 6,4 mil</span><span class="v">comentários</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/thumbs-up.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 141</span><span class="v">likes</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/scissors.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 6</span><span class="v">cortes</span></div></div>
+            <div class="ep-eng"><div class="ep-eng-fill" style="width:100.0%"></div></div>
+            <div class="ep-eng-label">55.4% engajamento</div>
+            <div class="ep-tags"><span class="ep-chip ep-chip-sent">neutro</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> Brasil · São Paulo · Liberdade</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 109 marcos</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/store.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 37 lugares</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/thermometer.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 22°C</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/megaphone.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> rafadesa80</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/mic.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 100 pal/min</span></div>
+          </div>
+        </a>
+<a href="resenha%20de%20beco%20%5Bv2875158366%5D.temp/dashboard.html" class="ep-card">
+          <div class="ep-thumb"><video src="resenha%20de%20beco%20%5Bv2875158366%5D.temp/video.mp4" muted playsinline preload="metadata"></video><img class="ep-thumb-poster" src="https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/2b11c92948b2c63ef9ca_bakagaijinlive_316462826866_1789507931//thumb/thumb0-640x360.jpg" alt="resenha de beco" loading="lazy" onerror="this.style.display='none'" /><span class="ep-dur">2h54</span></div>
+          <div class="ep-body">
+            <div class="ep-top"><span class="ep-date">15 set 2026</span></div>
+            <div class="ep-title">resenha de beco</div>
+            <p class="ep-summary">Destaques do chat: baka voltou, vai ficar, fazer live.</p>
+            <div class="ep-quote"><b>@izei_</b> Meu nome é Yoshikage Kira. Tenho 33 anos. Minha casa fica na parte nordeste de Morioh, onde todas as casas estão, e eu não sou casado. Eu tr</div>
+            <div class="ep-stats"><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/eye.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 22,0 mil</span><span class="v">views</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/message-circle.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 7,5 mil</span><span class="v">comentários</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/thumbs-up.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 263</span><span class="v">likes</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/scissors.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 6</span><span class="v">cortes</span></div></div>
+            <div class="ep-eng"><div class="ep-eng-fill" style="width:64.1%"></div></div>
+            <div class="ep-eng-label">35.5% engajamento</div>
+            <div class="ep-tags"><span class="ep-chip ep-chip-sent">neutro</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> Japão · Tóquio</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 158 marcos</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/store.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 121 lugares</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/thermometer.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 25°C · 10.5mm</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/megaphone.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> PeDePanoMtTriste</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/mic.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 98 pal/min</span></div>
+          </div>
+        </a>
+<a href="DE%20VORTA%20AO%20JAPAO%20%5Bv2871566138%5D/dashboard.html" class="ep-card">
+          <div class="ep-thumb"><video src="DE%20VORTA%20AO%20JAPAO%20%5Bv2871566138%5D/video.mp4" muted playsinline preload="metadata"></video><img class="ep-thumb-poster" src="https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg" alt="DE VORTA AO JAPAO" loading="lazy" onerror="this.style.display='none'" /><span class="ep-dur">2h42</span></div>
+          <div class="ep-body">
+            <div class="ep-top"><span class="ep-date">11 set 2026</span></div>
+            <div class="ep-title">DE VORTA AO JAPAO</div>
+            <p class="ep-summary">Destaques do chat: baka voltou, voltou japão, vai ficar.</p>
+            <div class="ep-quote"><b>@ryan_goslingdrive7</b> Os zóio pesando no buso lotado  sonhando com o mundo cansado pensando com o fone no talo tentando provar pra si mesmo que não é fracassado, </div>
+            <div class="ep-stats"><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/eye.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 37,8 mil</span><span class="v">views</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/message-circle.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 8,7 mil</span><span class="v">comentários</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/thumbs-up.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 453</span><span class="v">likes</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/scissors.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 6</span><span class="v">cortes</span></div></div>
+            <div class="ep-eng"><div class="ep-eng-fill" style="width:43.8%"></div></div>
+            <div class="ep-eng-label">24.3% engajamento</div>
+            <div class="ep-tags"><span class="ep-chip ep-chip-sent">neutro</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> Japão · Tóquio</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 146 marcos</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/store.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 120 lugares</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/thermometer.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 20°C · 23.0mm</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/megaphone.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> PeDePanoMtTriste</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/mic.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 99 pal/min</span></div>
+          </div>
+        </a>
+<a href="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/dashboard.html" class="ep-card">
+          <div class="ep-thumb"><video src="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/saida.mp4" muted playsinline preload="metadata"></video><span class="ep-dur">2h09</span></div>
+          <div class="ep-body">
+            <div class="ep-top"><span class="ep-date">Analisado 29 set 2026</span></div>
+            <div class="ep-title">becos japoneses comentados @julynhatoys</div>
+            <p class="ep-summary">Destaques do chat: baka voltou, live gravada, voltou japão.</p>
+            
+            <div class="ep-stats"><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/eye.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> —</span><span class="v">views</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/message-circle.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 5,0 mil</span><span class="v">comentários</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/thumbs-up.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> —</span><span class="v">likes</span></div><div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/scissors.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> 6</span><span class="v">cortes</span></div></div>
+            <div class="ep-eng"><div class="ep-eng-fill" style="width:0.0%"></div></div>
+            <div class="ep-eng-label">— engajamento</div>
+            <div class="ep-tags"><span class="ep-chip ep-chip-sent">neutro</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> Japão · Tóquio</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/map.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 114 marcos</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/store.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 98 lugares</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/thermometer.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 23°C · 0.4mm</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/megaphone.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> atereza01</span><span class="ep-chip"><img src="https://api.iconify.design/lucide/mic.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> 109 pal/min</span></div>
+          </div>
+        </a>
+    <!-- AUTO_EPISODES_MODAL_END -->
+  </template>
+  <div class="episodes-modal" id="episodesModal" hidden onclick="if(event.target === this) closeEpisodesModal()">
+    <div class="episodes-modal-panel" role="dialog" aria-modal="true" aria-labelledby="episodesModalTitle">
+      <div class="episodes-modal-head">
+        <h2 id="episodesModalTitle">Todas as lives</h2>
+        <button class="episodes-modal-close" id="closeEpisodesModal" type="button" aria-label="Fechar" onclick="closeEpisodesModal()">
+          <img src="https://api.iconify.design/lucide/x.svg?color=%23eef2ff" alt="" />
+        </button>
+      </div>
+      <div class="eps episodes-modal-grid" id="episodesModalGrid"></div>
+    </div>
+  </div>
 
   <section class="section">
     <div class="section-title"><img src="https://api.iconify.design/lucide/message-square.svg?color=%23eef2ff" alt="" width="20" height="20" loading="lazy" /> Bordões Mais Repetidos <span class="bar"></span></div>
@@ -427,5 +533,30 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
       para estudo e divulgação do conteúdo.
     </div>
   </footer>
+  <script>
+    function openEpisodesModal() {
+      const modal = document.getElementById("episodesModal");
+      const grid = document.getElementById("episodesModalGrid");
+      if (!grid.dataset.loaded) {
+        grid.append(document.getElementById("allEpisodesTemplate").content.cloneNode(true));
+        grid.dataset.loaded = "true";
+      }
+      modal.hidden = false;
+      document.body.classList.add("modal-open");
+      document.getElementById("closeEpisodesModal").focus();
+    }
+
+    function closeEpisodesModal() {
+      document.getElementById("episodesModal").hidden = true;
+      document.body.classList.remove("modal-open");
+      document.getElementById("episodeToggle").focus();
+    }
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !document.getElementById("episodesModal").hidden) {
+        closeEpisodesModal();
+      }
+    });
+  </script>
 </body>
 </html>

@@ -3647,6 +3647,8 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   }
   .pop .pgm:hover { color: #bfdbfe; text-decoration: underline; }
   .gmaps-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .gmaps-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .gmaps-primary:hover { background: var(--accent); border-color: var(--accent); filter: brightness(1.12); }
   .google-map-shell { margin-top: 14px; }
   .google-map-shell .google-map-title {
     font-size: .78rem; color: var(--muted); margin-bottom: 8px;
@@ -3747,6 +3749,9 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       <span class="muted" id="mapInfo">Marcos geolocalizados em __MAP_LABEL__ — selecione um ponto no mapa para ver o raio de incerteza (quanto maior o círculo, menor a confiança) e pular o player.</span>
       <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
       __MAP_GPX_BTN__
+      <a class="btn gmaps-btn gmaps-primary" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
+        <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
+      </a>
     </div>
     <div class="grid two">
       <div class="map-shell"><div id="liveMap"></div>
@@ -3754,9 +3759,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="muted" id="mapNow">Escolha um marco para assistir o trecho.</div>
-        <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
-          <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
-        </a>
       </div>
     </div>
     <div class="map-carousel">
@@ -3774,9 +3776,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       <div class="google-map-title">
         <i class="fa-solid fa-map-location-dot"></i>
         <span id="googleMapTitle">Google Maps</span>
-        <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none;margin-left:auto">
-          <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
-        </a>
       </div>
       <iframe id="googleMapFrame" title="Google Maps" loading="lazy" allowfullscreen></iframe>
     </div>
