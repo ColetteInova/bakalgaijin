@@ -1,30 +1,30 @@
-# Relatório de Análise — becos japoneses comentados @julynhatoys
+# Relatório de Análise — 
 
-- **Canal:** BakaGaijinLive (248.3k seguidores)
-- **Categoria:** Just Chatting
-- **Publicado em:** 13/09/2026
+- **Canal:**  (0 seguidores)
+- **Categoria:** 
+- **Publicado em:** —
 - **Duração:** 2h09min
 
 ## 1. Métricas de Performance
 
 | Métrica | Valor |
 | --- | --- |
-| Views | 18.6k |
-| Likes (estimado) | 222 |
+| Views | 0 |
+| Likes (estimado) | 0 |
 | Comentários | 5015 |
-| Taxa de likes | 1.196% |
-| Taxa de engajamento | 28.22% |
+| Taxa de likes | 0.0% |
+| Taxa de engajamento | 0.0% |
 | Duração | 2h09min |
 
 ## 2. Comparação com o Canal
 
 | Indicador | Valor | Variação |
 | --- | --- | --- |
-| Mediana de views do canal | 20.3k | — |
-| Média de views do canal | 22.5k | — |
-| Mediana dos pares (outros VODs) | 22.0k | — |
-| Este VOD vs. mediana | 18.6k | -8.4% |
-| Este VOD vs. média | 18.6k | -17.6% |
+| Mediana de views do canal | 0 | — |
+| Média de views do canal | 0 | — |
+| Mediana dos pares (outros VODs) | 0 | — |
+| Este VOD vs. mediana | 0 | None% |
+| Este VOD vs. média | 0 | None% |
 
 ## 3. Sentimento dos Comentários
 

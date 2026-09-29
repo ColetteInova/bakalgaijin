@@ -442,11 +442,6 @@
   <div class="card">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
       <button class="btn active" id="btnFeed" onclick="toggleFeed()">Feed: ON</button>
-      <button class="btn" onclick="resetFeed()">Reiniciar replay</button>
-      <label class="muted" style="display:flex;gap:6px;align-items:center">
-        <input type="checkbox" id="feedFilter" checked onchange="buildFeed()" /> só mostrados na timeline
-      </label>
-      <span class="muted" id="feedInfo"></span>
     </div>
     <ul class="comment-feed" id="feed"></ul>
   </div>
@@ -705,34 +700,19 @@ function toggleCaptions(){
 
 function toggleFeed(){
   feedOn = !feedOn;
-  document.getElementById("btnFeed").classList.toggle("active", feedOn);
+  const button = document.getElementById("btnFeed");
+  button.classList.toggle("active", feedOn);
+  button.textContent = "Feed: " + (feedOn ? "ON" : "OFF");
   if (!feedOn) {
     clearInterval(feedTimer);
-    document.getElementById("feedInfo").textContent = "pausado";
-  }
-}
-
-function resetFeed(){
-  feedIndex = 0;
-  const ul = document.getElementById("feed");
-  ul.innerHTML = "";
-  ul._renderedCount = 0;
-  document.getElementById("feedInfo").textContent = "replay reiniciado";
-  const media = (V.el && !V.el.paused) ? V : ((A.el && !A.el.paused) ? A : null);
-  if (media && media.el && media.el.currentTime > 0) {
-    media.el.currentTime = 0;
   }
 }
 
 function buildFeed(){
-  const filter = document.getElementById("feedFilter").checked;
   const all = R.comentarios.comentarios;
-  let list = all;
-  if (filter) {
-    const starts = V.el ? V.start : 0;
-    const ends = V.el && V.el.duration ? V.start + V.el.duration : starts + (R.metricas.duration_seconds || 0);
-    list = all.filter(c => c.offset >= starts && c.offset <= ends);
-  }
+  const starts = V.el ? V.start : 0;
+  const ends = V.el && V.el.duration ? V.start + V.el.duration : starts + (R.metricas.duration_seconds || 0);
+  const list = all.filter(c => c.offset >= starts && c.offset <= ends);
   const ul = document.getElementById("feed");
   const slice = list.slice(-300).reverse();  // mais recentes primeiro
   ul.innerHTML = slice.map(c =>
@@ -740,7 +720,6 @@ function buildFeed(){
       <span class="cbody"><span class="cuser">${esc(c.nome || c.usuario)}</span> <span class="tag ${c.sentimento}">${c.sentimento}</span><br>${esc(c.texto)}</span></li>`
   ).join("") || "<li class='muted'>Nenhum comentário no intervalo.</li>";
   ul._renderedCount = list.length;
-  document.getElementById("feedInfo").textContent = list.length + " comentário(s)";
 }
 
 function pumpFeed(){
@@ -765,7 +744,6 @@ function pumpFeed(){
   const alreadyRendered = ul._renderedCount || 0;
   const newItems = all.slice(alreadyRendered, feedIndex);
   if (newItems.length === 0) {
-    document.getElementById("feedInfo").textContent = feedIndex + " / " + all.length + " exibidos";
     return;
   }
 
@@ -785,7 +763,6 @@ function pumpFeed(){
   }
   ul._renderedCount = feedIndex;
   ul.scrollTop = 0;
-  document.getElementById("feedInfo").textContent = feedIndex + " / " + all.length + " exibidos";
 }
 
 function wireMedia(media, id, barId, timeId, overlayId, labelId){

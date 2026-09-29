@@ -2388,6 +2388,105 @@ def _nominatim_geocode(query: str) -> tuple[float, float] | None:
     return None
 
 
+def _nominatim_bbox(query: str) -> tuple[float, float, float, float] | None:
+    """Bounding box de um lugar no OSM (lat_min, lat_max, lng_min, lng_max)."""
+    params = urllib.parse.urlencode(
+        {"q": query, "format": "jsonv2", "limit": 1, "accept-language": "pt-BR,en"}
+    )
+    req = urllib.request.Request(
+        f"https://nominatim.openstreetmap.org/search?{params}",
+        headers={"User-Agent": "bakalgaijin-mapa/1.0 (análise OSINT de VOD)"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        if data and isinstance(data, list) and data[0].get("boundingbox"):
+            box = data[0]["boundingbox"]  # [south, north, west, east]
+            return float(box[0]), float(box[1]), float(box[2]), float(box[3])
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] Nominatim bbox falhou para '{query}': {exc}", file=sys.stderr)
+    return None
+
+
+def _bairro_boxes(folder: Path, local: str, bairros: list[str]) -> list[tuple[float, float, float, float]]:
+    """Bounding boxes dos bairros informados (livre, separados por ';').
+
+    Cacheado em mapa/bairros.json — o bairro vira um "cercadinho": nenhum marco
+    pode sair dessas caixas.
+    """
+    if not bairros:
+        return []
+    cache_file = folder / "mapa" / "bairros.json"
+    if cache_file.exists():
+        try:
+            cached = json.loads(cache_file.read_text(encoding="utf-8"))
+            if (
+                cached.get("local") == local
+                and cached.get("bairros") == bairros
+                and isinstance(cached.get("boxes"), list)
+                and cached["boxes"]
+            ):
+                return cached["boxes"]
+        except Exception:  # noqa: BLE001
+            pass
+
+    city = MAP_CITIES.get(local, MAP_CITIES["japao"])
+    boxes: list[tuple[float, float, float, float]] = []
+    for bairro in bairros:
+        box = _nominatim_bbox(f"{bairro}, {city['cidade_label']}, {city['pais_label']}")
+        if box:
+            boxes.append(box)
+            print(f"  ✓ Bairro '{bairro}': caixa {box}")
+        else:
+            print(f"  [!] Bairro '{bairro}' não encontrado no OSM — ignorando")
+        time.sleep(1.1)  # gentileza com a API pública do OSM
+
+    cache_file.parent.mkdir(exist_ok=True)
+    cache_file.write_text(
+        json.dumps({"local": local, "bairros": bairros, "boxes": boxes}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return boxes
+
+
+def _in_boxes(lat: float, lng: float, boxes: list[tuple[float, float, float, float]]) -> bool:
+    return any(
+        lat_min <= lat <= lat_max and lng_min <= lng <= lng_max
+        for lat_min, lat_max, lng_min, lng_max in boxes
+    )
+
+
+def _clamp_point(lat: float, lng: float, boxes: list[tuple[float, float, float, float]]) -> tuple[float, float]:
+    """Puxa um ponto para dentro do bairro (borda da caixa mais próxima)."""
+    if not boxes or _in_boxes(lat, lng, boxes):
+        return lat, lng
+    best = None
+    best_d = float("inf")
+    for lat_min, lat_max, lng_min, lng_max in boxes:
+        clamped_lat = min(max(lat, lat_min), lat_max)
+        clamped_lng = min(max(lng, lng_min), lng_max)
+        dist = (lat - clamped_lat) ** 2 + (lng - clamped_lng) ** 2
+        if dist < best_d:
+            best_d = dist
+            best = (clamped_lat, clamped_lng)
+    return best if best else (lat, lng)
+
+
+def _clamp_to_bairros(stops: list[dict], boxes: list[tuple[float, float, float, float]]) -> None:
+    """Nenhum marco sai do bairro: pontos fora são puxados para a borda mais próxima."""
+    if not boxes:
+        return
+    for s in stops:
+        lat, lng = s.get("lat"), s.get("lng")
+        if lat is None or lng is None:
+            continue
+        new_lat, new_lng = _clamp_point(lat, lng, boxes)
+        if (new_lat, new_lng) != (lat, lng):
+            s["lat"], s["lng"] = new_lat, new_lng
+            if s.get("confianca") in ("alta", "media"):
+                s["confianca"] = "baixa"
+
+
 def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | None:
     """Pergunta ao DeepSeek (visão) ONDE o streamer está neste frame.
 
@@ -2404,8 +2503,13 @@ def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | No
         "logotipos, pontos turísticos, tipo de transporte público e características da arquitetura.\n"
         "Se conseguir, estime também a coordenada aproximada (lat/lng) do ponto onde o streamer está.\n"
         "Se a imagem for meme/overlay/gato sem contexto geográfico, devolva listas vazias e lat/lng null.\n"
+        "Classifique o ambiente: use \"ambiente\": \"rua\" se a imagem mostra uma área externa "
+        "(rua, beco, calçada, praça, cruzamento) com contexto geográfico, ou \"ambiente\": \"interno\" "
+        "se o streamer está DENTRO de um lugar (loja, restaurante, estação, casa, bar) — nesse caso "
+        "lat/lng devem ser null e as listas vazias.\n"
         "Retorne APENAS um objeto JSON com a estrutura:\n"
         "{\n"
+        '  "ambiente": "rua" ou "interno",\n'
         '  "estabelecimentos_visiveis": ["nome 1", "nome 2"],\n'
         '  "ruas_cruzamento": ["rua x", "rua y"],\n'
         '  "cidade_provavel": "nome da cidade",\n'
@@ -2443,22 +2547,29 @@ def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | No
     return None
 
 
-def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
+def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[dict], list[tuple[float, float, float, float]]]:
     """Geolocaliza cada marco olhando a IMAGEM do frame (OSINT).
 
     1. Envia o frame (mapa/marco_XXXX.jpg) para o DeepSeek com prompt OSINT
        (lojas, placas, cruzamentos...) e recebe JSON estruturado.
+       Só frames de RUA são analisados — frames dentro de lugares (loja,
+       restaurante, casa...) são pulados (o fallback fica no lugar).
     2. Coordenadas: usa lat/lng do modelo se plausíveis; senão geocodifica
        os estabelecimentos/cruzamentos via Nominatim (OpenStreetMap).
     3. Frame com confiança baixa: tenta extrair um frame vizinho (+2s) e reanalisa.
     4. Sem API/resultado: fallback determinístico (âncoras + interpolação).
+    5. Se o bairro foi definido (input livre, separado por ';'), nenhum marco
+       sai dos bairros informados.
 
     O resultado é cacheado em mapa/geoloc.json (invalidado quando o local muda).
     """
     city = MAP_CITIES.get(local, MAP_CITIES["japao"])
     bairro = load_local(folder)["bairro"]
-    if bairro:
-        city = {**city, "prompt_place": f"{bairro}, {city['prompt_place']}"}
+    bairros = [b.strip() for b in bairro.split(";") if b.strip()] if bairro else []
+    if bairros:
+        city = {**city, "prompt_place": f"{city['prompt_place']} — bairros: {', '.join(bairros)}"}
+        print(f"  Mapa: cercado nos bairros {', '.join(bairros)}")
+    boxes = _bairro_boxes(folder, local, bairros)
     anchors = city["named"]
     base = city["base"]
     lat_lo, lat_hi = city["bounds"]["lat"]
@@ -2492,8 +2603,9 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
             ):
                 _enforce_walking_speed(cached, only_osint=True)
                 apply(cached)
+                _clamp_to_bairros(stops, boxes)
                 print(f"  ✓ Mapa: geoloc em cache ({len(stops)} marcos) — pulando DeepSeek")
-                return stops
+                return stops, boxes
         except Exception:  # noqa: BLE001
             pass
 
@@ -2519,20 +2631,25 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
         s["justificativa"] = ""
 
     def coords_of(info: dict) -> tuple[float, float] | None:
-        """Coordenadas válidas: lat/lng direto do modelo OU geocodificação OSM."""
+        """Coordenadas válidas: lat/lng direto do modelo OU geocodificação OSM.
+        Com bairro definido, o ponto também precisa estar DENTRO dos bairros."""
         try:
             lat = float(info.get("lat"))
             lng = float(info.get("lng"))
         except Exception:  # noqa: BLE001
             lat = lng = None
-        if lat is not None and lng is not None and lat_lo <= lat <= lat_hi and lng_lo <= lng <= lng_hi:
+        if (
+            lat is not None and lng is not None
+            and lat_lo <= lat <= lat_hi and lng_lo <= lng <= lng_hi
+            and _in_boxes(lat, lng, boxes)
+        ):
             return lat, lng
         city_name = str(info.get("cidade_provavel") or city["prompt_place"])
         state = str(info.get("estado_provavel") or "")
         for est in (info.get("estabelecimentos_visiveis") or []) + (info.get("ruas_cruzamento") or []):
             q = f"{est}, {city_name} {state}".strip()
             hit = _nominatim_geocode(q)
-            if hit and lat_lo <= hit[0] <= lat_hi and lng_lo <= hit[1] <= lng_hi:
+            if hit and lat_lo <= hit[0] <= lat_hi and lng_lo <= hit[1] <= lng_hi and _in_boxes(hit[0], hit[1], boxes):
                 return hit
             time.sleep(1.1)  # gentileza com a API pública do OSM
         return None
@@ -2554,6 +2671,10 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
         if DEEPSEEK_API_KEY and frame.exists():
             info = _analyze_frame_osint(frame, s.get("frase") or "", city)
         if info:
+            # só frames de RUA têm contexto geográfico — dentro de lugares fica ruim
+            ambiente = str(info.get("ambiente") or "").strip().lower()
+            if ambiente in ("interno", "interior", "dentro", "loja", "restaurante", "estabelecimento"):
+                continue
             conf_ini = str(info.get("nivel_de_confianca") or "").lower()
             coords_ini = coords_of(info)
             if conf_ini not in ("alta", "media") or not coords_ini:
@@ -2568,6 +2689,9 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
             # análise falhou: tenta frame vizinho (+2s)
             info = neighbor_analysis(sec, s.get("frase") or "")
         if not info:
+            continue
+        ambiente = str(info.get("ambiente") or "").strip().lower()
+        if ambiente in ("interno", "interior", "dentro", "loja", "restaurante", "estabelecimento"):
             continue
         coords = coords_of(info)
         ests = [str(e)[:80] for e in (info.get("estabelecimentos_visiveis") or [])][:6]
@@ -2595,6 +2719,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
         fallback_anchor(s)
     _enforce_walking_speed(by_sec)
     apply(by_sec)
+    _clamp_to_bairros(stops, boxes)
 
     if DEEPSEEK_API_KEY or by_sec:
         # grava o cache COMPLETO (marcos OSINT + fallback) para que futuras
@@ -2622,7 +2747,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
             print(f"  ✓ Mapa: OSINT geolocalizou {len(by_sec)}/{len(stops)} marcos (cache completo salvo)")
         else:
             print(f"  ✓ Mapa: cache salvo ({len(stops)} marcos) — sem OSINT (sem chave/API)")
-    return stops
+    return stops, boxes
 
 
 def build_map_stops(blocks: list[dict], duration_seconds: int, local: str = "japao") -> list[dict]:
@@ -2807,8 +2932,11 @@ def ensure_map_assets(
     {lat, lng, t} ou None.
     """
     _extract_map_frames(folder, video_file, stops)
-    stops = _geolocate_stops(folder, stops, local)
+    stops, bairro_boxes = _geolocate_stops(folder, stops, local)
     synced = _fetch_osrm_synced(folder, stops, local)
+    if synced and bairro_boxes:
+        for point in synced:
+            point["lat"], point["lng"] = _clamp_point(point["lat"], point["lng"], bairro_boxes)
     coords = (
         [[p["lat"], p["lng"]] for p in synced]
         if synced
@@ -3666,11 +3794,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <div class="card">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
       <button class="btn active" id="btnFeed" onclick="toggleFeed()">Feed: ON</button>
-      <button class="btn" onclick="resetFeed()">Reiniciar replay</button>
-      <label class="muted" style="display:flex;gap:6px;align-items:center">
-        <input type="checkbox" id="feedFilter" checked onchange="buildFeed()" /> só mostrados na timeline
-      </label>
-      <span class="muted" id="feedInfo"></span>
     </div>
     <ul class="comment-feed" id="feed"></ul>
   </div>
@@ -3929,34 +4052,19 @@ function toggleCaptions(){
 
 function toggleFeed(){
   feedOn = !feedOn;
-  document.getElementById("btnFeed").classList.toggle("active", feedOn);
+  const button = document.getElementById("btnFeed");
+  button.classList.toggle("active", feedOn);
+  button.textContent = "Feed: " + (feedOn ? "ON" : "OFF");
   if (!feedOn) {
     clearInterval(feedTimer);
-    document.getElementById("feedInfo").textContent = "pausado";
-  }
-}
-
-function resetFeed(){
-  feedIndex = 0;
-  const ul = document.getElementById("feed");
-  ul.innerHTML = "";
-  ul._renderedCount = 0;
-  document.getElementById("feedInfo").textContent = "replay reiniciado";
-  const media = (V.el && !V.el.paused) ? V : ((A.el && !A.el.paused) ? A : null);
-  if (media && media.el && media.el.currentTime > 0) {
-    media.el.currentTime = 0;
   }
 }
 
 function buildFeed(){
-  const filter = document.getElementById("feedFilter").checked;
   const all = R.comentarios.comentarios;
-  let list = all;
-  if (filter) {
-    const starts = V.el ? V.start : 0;
-    const ends = V.el && V.el.duration ? V.start + V.el.duration : starts + (R.metricas.duration_seconds || 0);
-    list = all.filter(c => c.offset >= starts && c.offset <= ends);
-  }
+  const starts = V.el ? V.start : 0;
+  const ends = V.el && V.el.duration ? V.start + V.el.duration : starts + (R.metricas.duration_seconds || 0);
+  const list = all.filter(c => c.offset >= starts && c.offset <= ends);
   const ul = document.getElementById("feed");
   const slice = list.slice(-300).reverse();  // mais recentes primeiro
   ul.innerHTML = slice.map(c =>
@@ -3964,7 +4072,6 @@ function buildFeed(){
       <span class="cbody"><span class="cuser">${esc(c.nome || c.usuario)}</span> <span class="tag ${c.sentimento}">${c.sentimento}</span><br>${esc(c.texto)}</span></li>`
   ).join("") || "<li class='muted'>Nenhum comentário no intervalo.</li>";
   ul._renderedCount = list.length;
-  document.getElementById("feedInfo").textContent = list.length + " comentário(s)";
 }
 
 function pumpFeed(){
@@ -3989,7 +4096,6 @@ function pumpFeed(){
   const alreadyRendered = ul._renderedCount || 0;
   const newItems = all.slice(alreadyRendered, feedIndex);
   if (newItems.length === 0) {
-    document.getElementById("feedInfo").textContent = feedIndex + " / " + all.length + " exibidos";
     return;
   }
 
@@ -4009,7 +4115,6 @@ function pumpFeed(){
   }
   ul._renderedCount = feedIndex;
   ul.scrollTop = 0;
-  document.getElementById("feedInfo").textContent = feedIndex + " / " + all.length + " exibidos";
 }
 
 function wireMedia(media, id, barId, timeId, overlayId, labelId){

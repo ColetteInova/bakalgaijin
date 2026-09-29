@@ -19,6 +19,11 @@ INDEX = SAIDA / "index.html"
 VIDEO_EXTENSIONS = {".mp4", ".webm", ".mov", ".m4v"}
 API_URL = os.environ.get("DEEPSEEK_API_URL", "https://api.deepseek.com/chat/completions")
 MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
+HOSTING_MONTHLY_USD = 1.0
+CLAUDE_MONTHLY_USD = 20.0
+R2_STORAGE_GB_PER_CARD = 19
+R2_FREE_STORAGE_GB = 10
+R2_PRICE_PER_GB_MONTH_USD = 0.015
 
 
 def read_json(path: Path) -> dict:
@@ -476,6 +481,25 @@ def render_emojis(comments: list[dict]) -> str:
     )
 
 
+def render_costs(vods: list[dict]) -> str:
+    card_count = len(vods)
+    storage_gb = card_count * R2_STORAGE_GB_PER_CARD
+    billable_storage_gb = max(0, storage_gb - R2_FREE_STORAGE_GB)
+    r2_monthly_usd = billable_storage_gb * R2_PRICE_PER_GB_MONTH_USD
+    total_monthly_usd = HOSTING_MONTHLY_USD + CLAUDE_MONTHLY_USD + r2_monthly_usd
+    return "\n".join(
+        [
+            f'<div class="cost-item"><span class="cost-label">Cards no índice</span><strong>{card_count}</strong></div>',
+            f'<div class="cost-item"><span class="cost-label">Armazenamento R2 estimado</span><strong>{storage_gb} GB</strong></div>',
+            f'<div class="cost-item"><span class="cost-label">Hospedagem fixa</span><strong>US$ {HOSTING_MONTHLY_USD:.2f}/mês</strong></div>',
+            f'<div class="cost-item"><span class="cost-label">Claude Opus/Fable</span><strong>US$ {CLAUDE_MONTHLY_USD:.2f}/mês</strong></div>',
+            f'<div class="cost-item"><span class="cost-label">Armazenamento R2</span><strong>US$ {r2_monthly_usd:.2f}/mês</strong></div>',
+            f'<div class="cost-item cost-total"><span class="cost-label">Total mensal estimado</span><strong>US$ {total_monthly_usd:.2f}/mês</strong></div>',
+            '<p class="cost-note">Estimativa R2: 19 GB por card (original de 10 GB + 3 versões de 3 GB), com 10 GB grátis. Tráfego de saída não incluído porque é gratuito no R2.</p>',
+        ]
+    )
+
+
 def replace_section(document: str, start: str, end: str, content: str) -> str:
     pattern = re.compile(re.escape(start) + r".*?" + re.escape(end), re.DOTALL)
     replacement = f"{start}\n{content}\n    {end}"
@@ -500,6 +524,7 @@ def main() -> int:
         document = replace_section(document, "<!-- AUTO_FANS_START -->", "<!-- AUTO_FANS_END -->", render_fans(comments))
         document = replace_section(document, "<!-- AUTO_BORDOES_START -->", "<!-- AUTO_BORDOES_END -->", render_bordoes(comments))
         document = replace_section(document, "<!-- AUTO_EMOJIS_START -->", "<!-- AUTO_EMOJIS_END -->", render_emojis(comments))
+        document = replace_section(document, "<!-- AUTO_COSTS_START -->", "<!-- AUTO_COSTS_END -->", render_costs(vods))
 
         followers = [vod["followers"] for vod in vods if vod["followers"] is not None]
         if followers:
