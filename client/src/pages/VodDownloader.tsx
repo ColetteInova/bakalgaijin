@@ -15,6 +15,7 @@ import {
     Film,
     Loader2,
     MessageSquare,
+    MonitorDown,
     Music,
     RefreshCw,
     Search,
@@ -69,6 +70,7 @@ interface DoneItem {
 interface PreparedFolder {
   folder: string;
   local: string;
+  bairro?: string;
   hasComments: boolean;
   commentsCount?: number;
   hasSrt: boolean;
@@ -77,6 +79,7 @@ interface PreparedFolder {
   hasDashboard: boolean;
   cortes: number;
   mapFrames: number;
+  qualidades?: number;
   hasGeoloc: boolean;
   reportMtime: number;
 }
@@ -146,6 +149,13 @@ export default function VodDownloader() {
       return {};
     }
   });
+  const [vodBairros, setVodBairros] = useState<Record<string, string>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("vod-bairros") || "{}");
+    } catch {
+      return {};
+    }
+  });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchJobs = useCallback(async () => {
@@ -209,6 +219,10 @@ export default function VodDownloader() {
   useEffect(() => {
     localStorage.setItem("vod-locals", JSON.stringify(vodLocals));
   }, [vodLocals]);
+
+  useEffect(() => {
+    localStorage.setItem("vod-bairros", JSON.stringify(vodBairros));
+  }, [vodBairros]);
 
   useEffect(() => {
     const justFinished = jobs.filter(
@@ -339,12 +353,12 @@ export default function VodDownloader() {
     previousGlobalReprepareRef.current = running;
   }, [jobs, fetchPrepared]);
 
-  const runPreparedStep = async (folder: string, step: string, local?: string) => {
+  const runPreparedStep = async (folder: string, step: string, local?: string, bairro?: string) => {
     try {
       const res = await fetch("/api/vod/prepare-folder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ folder, step, local }),
+        body: JSON.stringify({ folder, step, local, bairro }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar etapa");
@@ -391,7 +405,7 @@ export default function VodDownloader() {
       const res = await fetch("/api/vod/prepare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename: item.filename, local: vodLocals[item.filename] ?? "auto" }),
+        body: JSON.stringify({ filename: item.filename, local: vodLocals[item.filename] ?? "auto", bairro: vodBairros[item.filename] ?? "" }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar preparação");
@@ -799,9 +813,19 @@ export default function VodDownloader() {
                       title="Local da live: o DeepSeek descobre sozinho pela legenda e comentários, ou você escolhe"
                     >
                       <option value="auto">Auto (DeepSeek)</option>
-                      <option value="japao">Japão</option>
-                      <option value="sao-paulo">São Paulo</option>
+                      <option value="japao">Japão · Tóquio</option>
+                      <option value="sao-paulo">Brasil · São Paulo</option>
                     </select>
+                    <input
+                      type="text"
+                      value={vodBairros[item.filename] ?? ""}
+                      onChange={(e) =>
+                        setVodBairros((prev) => ({ ...prev, [item.filename]: e.target.value }))
+                      }
+                      placeholder="Bairro (livre)"
+                      className="h-8 w-36 rounded-lg bg-slate-950/70 border border-slate-700 px-2 text-xs text-slate-200 placeholder:text-slate-500 outline-none focus:border-purple-500"
+                      title="Bairro onde o Baka está (input livre — ex.: Shinjuku/Kabukichō, Beco do Batman)"
+                    />
                     <Button
                       variant="outline"
                       size="sm"
@@ -1002,6 +1026,7 @@ export default function VodDownloader() {
                       { ok: p.hasDashboard, label: "dashboard" },
                       { ok: p.cortes > 0, label: `cortes ${p.cortes}` },
                       { ok: p.mapFrames > 0, label: `mapa ${p.mapFrames}` },
+                      { ok: (p.qualidades ?? 0) > 0, label: `qualidade ${p.qualidades ?? 0}` },
                       { ok: p.hasGeoloc, label: "geoloc" },
                     ];
                     return (
@@ -1030,15 +1055,33 @@ export default function VodDownloader() {
                           <div className="flex items-center gap-2 shrink-0">
                             <select
                               value={p.local}
-                              onChange={(e) => runPreparedStep(p.folder, "local", e.target.value)}
+                              onChange={(e) => runPreparedStep(p.folder, "local", e.target.value, p.bairro ?? "")}
                               disabled={running}
                               className="h-8 rounded-lg bg-slate-950/70 border border-slate-700 px-2 text-xs text-slate-200 outline-none focus:border-purple-500 disabled:opacity-50"
                               title="Onde o Baka está nesta live"
                             >
                               <option value="auto">Auto (DeepSeek)</option>
-                              <option value="japao">Japão</option>
-                              <option value="sao-paulo">São Paulo</option>
+                              <option value="japao">Japão · Tóquio</option>
+                              <option value="sao-paulo">Brasil · São Paulo</option>
                             </select>
+                            <input
+                              type="text"
+                              key={p.folder + (p.bairro ?? "")}
+                              defaultValue={p.bairro ?? ""}
+                              disabled={running}
+                              placeholder="Bairro (livre)"
+                              className="h-8 w-36 rounded-lg bg-slate-950/70 border border-slate-700 px-2 text-xs text-slate-200 placeholder:text-slate-500 outline-none focus:border-purple-500 disabled:opacity-50"
+                              title="Bairro onde o Baka está (input livre — ex.: Shinjuku/Kabukichō, Beco do Batman)"
+                              onBlur={(e) => {
+                                const valor = e.target.value.trim();
+                                if (valor !== (p.bairro ?? "")) {
+                                  runPreparedStep(p.folder, "local", p.local, valor);
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                              }}
+                            />
                             {p.hasDashboard && (
                               <a
                                 href={`/saida/${encodeURIComponent(p.folder)}/dashboard.html`}
@@ -1093,6 +1136,16 @@ export default function VodDownloader() {
                                 title="Refaz geolocalização do mapa (DeepSeek)"
                               >
                                 Mapa
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => runPreparedStep(p.folder, "qualidade")}
+                                className="h-7 px-2.5 text-xs border-amber-700/60 text-amber-300 hover:bg-amber-950/30"
+                                title="Cria versões em qualidade baixa (video_720.mp4, video_480.mp4, video_360.mp4) com ffmpeg"
+                              >
+                                <MonitorDown className="w-3.5 h-3.5 mr-1" />
+                                Qualidade
                               </Button>
                               <Button
                                 variant="outline"

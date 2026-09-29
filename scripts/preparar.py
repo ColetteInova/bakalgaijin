@@ -1987,6 +1987,10 @@ MAP_TRIM_END = 300
 # limites de lat/lng usados para validar a resposta do DeepSeek e textos do prompt.
 MAP_CITIES = {
     "japao": {
+        "pais": "japao",
+        "pais_label": "Japão",
+        "cidade": "toquio",
+        "cidade_label": "Tóquio",
         "label": "Japão (Tóquio)",
         "base": {"lat": 35.6932, "lng": 139.7030},
         "named": [
@@ -2003,6 +2007,10 @@ MAP_CITIES = {
         "prompt_route": "uma rota de passeio por Shinjuku",
     },
     "sao-paulo": {
+        "pais": "brasil",
+        "pais_label": "Brasil",
+        "cidade": "sao-paulo",
+        "cidade_label": "São Paulo",
         "label": "São Paulo",
         "base": {"lat": -23.5505, "lng": -46.6333},
         "named": [
@@ -2023,6 +2031,86 @@ MAP_CITIES = {
 # Compatibilidade: fallback padrão = Japão
 MAP_FALLBACK_BASE = MAP_CITIES["japao"]["base"]
 MAP_FALLBACK_NAMED = MAP_CITIES["japao"]["named"]
+
+# Velocidade máxima a pé usada para validar os marcos geolocalizados:
+# entre dois pontos separados por X segundos, a distância não pode passar
+# de X * MAP_MAX_WALK_KMH / 3600 km. Marcos que "voam" (ex.: Liberdade → Sé
+# em 5 min) são puxados para uma posição plausível entre os vizinhos.
+MAP_MAX_WALK_KMH = 7.0
+
+
+def _dist_km(lat_a: float, lng_a: float, lat_b: float, lng_b: float) -> float:
+    """Distância haversine em km entre dois pontos."""
+    lat1, lng1, lat2, lng2 = map(math.radians, (lat_a, lng_a, lat_b, lng_b))
+    dlat, dlng = lat2 - lat1, lng2 - lng1
+    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlng / 2) ** 2
+    return 6371.0 * 2 * math.asin(min(1.0, math.sqrt(a)))
+
+
+def _enforce_walking_speed(by_sec: dict[str, dict], only_osint: bool = False) -> None:
+    """Corrige marcos OSINT impossíveis a pé.
+
+    - Velocidade implícita entre marcos consecutivos > MAP_MAX_WALK_KMH => ponto
+      ajustado (interpolação temporal entre vizinhos ou limite de distância do
+      vizinho mais próximo) e confiança rebaixada para "baixa".
+    - only_osint=True (cache completo): só marcos com "osint": true são ajustados;
+      os marcos fallback servem como âncoras fixas.
+    """
+    entries = [
+        (int(sec), data) for sec, data in by_sec.items()
+        if isinstance(data, dict) and data.get("lat") is not None and data.get("lng") is not None
+    ]
+    if len(entries) < 2:
+        return
+    entries.sort(key=lambda item: item[0])
+    adjusted = 0
+
+    for _pass in range(3):
+        changed = False
+        for i, (sec, data) in enumerate(entries):
+            if only_osint and data.get("osint") is not True:
+                continue
+            prev = entries[i - 1] if i > 0 else None
+            nxt = entries[i + 1] if i < len(entries) - 1 else None
+            lat, lng = data["lat"], data["lng"]
+
+            def speed_kmh(other, dt_sec: int) -> float:
+                if dt_sec <= 0:
+                    return float("inf")
+                return _dist_km(other[1]["lat"], other[1]["lng"], lat, lng) / (dt_sec / 3600.0)
+
+            bad_prev = prev is not None and speed_kmh(prev, sec - prev[0]) > MAP_MAX_WALK_KMH
+            bad_next = nxt is not None and speed_kmh(nxt, nxt[0] - sec) > MAP_MAX_WALK_KMH
+            if not (bad_prev or bad_next):
+                continue
+
+            if prev is not None and nxt is not None:
+                frac = (sec - prev[0]) / max(1, nxt[0] - prev[0])
+                lat = prev[1]["lat"] + (nxt[1]["lat"] - prev[1]["lat"]) * frac
+                lng = prev[1]["lng"] + (nxt[1]["lng"] - prev[1]["lng"]) * frac
+            else:
+                anchor = prev or nxt
+                max_km = MAP_MAX_WALK_KMH * abs(sec - anchor[0]) / 3600.0
+                dist = _dist_km(anchor[1]["lat"], anchor[1]["lng"], lat, lng)
+                if dist > max_km:
+                    frac = max_km / max(dist, 1e-9)
+                    lat = anchor[1]["lat"] + (lat - anchor[1]["lat"]) * frac
+                    lng = anchor[1]["lng"] + (lng - anchor[1]["lng"]) * frac
+
+            if abs(lat - data["lat"]) > 1e-7 or abs(lng - data["lng"]) > 1e-7:
+                data["lat"], data["lng"] = lat, lng
+                data["confianca"] = "baixa"
+                data["ajustado"] = True
+                changed = True
+                adjusted += 1
+        if not changed:
+            break
+
+    if adjusted:
+        print(
+            f"  ✓ Mapa: {adjusted} marco(s) ajustado(s) pela velocidade a pé "
+            f"(máx {MAP_MAX_WALK_KMH:.0f} km/h) — sem teleportes"
+        )
 
 MAP_COLORS = [
     "#ec4899", "#f97316", "#f59e0b", "#84cc16", "#22c55e",
@@ -2080,20 +2168,25 @@ def _extract_map_frames(folder: Path, video_file: str | None, stops: list[dict])
             print(f"  [!] ffmpeg falhou em {s['sec']}s: {exc}", file=sys.stderr)
 
 
-def load_local(folder: Path) -> str:
-    """Local da live: env VOD_LOCAL > <pasta>/local.json > 'auto'."""
+def load_local(folder: Path) -> dict:
+    """Local da live: env VOD_LOCAL/VOD_BAIRRO > <pasta>/local.json > auto.
+
+    Retorna {"local": "japao"|"sao-paulo"|"auto", "bairro": str}."""
+    bairro = os.environ.get("VOD_BAIRRO", "").strip()
     env = os.environ.get("VOD_LOCAL", "").strip().lower()
     if env in ("japao", "sao-paulo", "auto"):
-        return env
+        return {"local": env, "bairro": bairro}
     local_file = folder / "local.json"
     if local_file.exists():
         try:
-            value = str(json.loads(local_file.read_text(encoding="utf-8")).get("local", "")).lower()
+            data = json.loads(local_file.read_text(encoding="utf-8"))
+            value = str(data.get("local") or data.get("cidade") or "").lower()
+            bairro = str(data.get("bairro") or bairro).strip()
             if value in ("japao", "sao-paulo", "auto"):
-                return value
+                return {"local": value, "bairro": bairro}
         except Exception:  # noqa: BLE001
             pass
-    return "auto"
+    return {"local": "auto", "bairro": bairro}
 
 
 def detect_location(folder: Path, blocks: list[dict], comments: list[dict]) -> str:
@@ -2305,6 +2398,8 @@ def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | No
     prompt = (
         f"Aja como um especialista em geolocalização (OSINT). Analise a imagem anexada, "
         f"capturada durante uma live IRL do streamer Baka Gaijin em {city['prompt_place']}.\n"
+        "O streamer se desloca a pé (caminhando, sem carro/metrô): a coordenada deve ser "
+        "compatível com esse deslocamento a pé ao longo do trajeto da live.\n"
         "Procure por: nomes de estabelecimentos comerciais, placas de trânsito, placas de rua, "
         "logotipos, pontos turísticos, tipo de transporte público e características da arquitetura.\n"
         "Se conseguir, estime também a coordenada aproximada (lat/lng) do ponto onde o streamer está.\n"
@@ -2361,6 +2456,9 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
     O resultado é cacheado em mapa/geoloc.json (invalidado quando o local muda).
     """
     city = MAP_CITIES.get(local, MAP_CITIES["japao"])
+    bairro = load_local(folder)["bairro"]
+    if bairro:
+        city = {**city, "prompt_place": f"{bairro}, {city['prompt_place']}"}
     anchors = city["named"]
     base = city["base"]
     lat_lo, lat_hi = city["bounds"]["lat"]
@@ -2384,12 +2482,15 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
         try:
             cached = json.loads(cache_file.read_text(encoding="utf-8"))
             cached_local = str(cached.get("local", "japao"))
+            cached_bairro = str(cached.get("bairro") or "")
             keys = {int(k) for k in cached if str(k).isdigit()}
             if (
                 isinstance(cached, dict)
                 and cached_local == local
+                and cached_bairro == bairro
                 and {int(s["sec"]) for s in stops} <= keys
             ):
+                _enforce_walking_speed(cached, only_osint=True)
                 apply(cached)
                 print(f"  ✓ Mapa: geoloc em cache ({len(stops)} marcos) — pulando DeepSeek")
                 return stops
@@ -2492,6 +2593,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
 
     for s in stops:
         fallback_anchor(s)
+    _enforce_walking_speed(by_sec)
     apply(by_sec)
 
     if DEEPSEEK_API_KEY or by_sec:
@@ -2513,7 +2615,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
                 full[sec]["osint"] = True
         cache_file.parent.mkdir(exist_ok=True)
         cache_file.write_text(
-            json.dumps({"local": local, **full}, ensure_ascii=False, indent=2),
+            json.dumps({"local": local, "bairro": bairro, **full}, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
         if by_sec:
@@ -3081,8 +3183,13 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     if cortes_dir.is_dir():
         corte_files = sorted(p.name for p in cortes_dir.iterdir() if p.suffix.lower() == ".mp4")
 
+    qualidades_disponiveis = {
+        str(altura): nome
+        for altura, nome in ((720, "video_720.mp4"), (480, "video_480.mp4"), (360, "video_360.mp4"))
+        if (FOLDER / nome).is_file()
+    }
     files_json = _json.dumps(
-        {"video": video_file, "audio": audio_file, "srt": srt_file, "cortes": corte_files}
+        {"video": video_file, "audio": audio_file, "srt": srt_file, "cortes": corte_files, "qualidades": qualidades_disponiveis}
     )
     cues_json = _json.dumps(
         [{"s": b["start"], "e": b["end"], "t": b["text"]} for b in (srt_blocks or [])],
@@ -3093,7 +3200,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     # marcos do mapa (1 a cada 1 min) — frames + geoloc + rota sincronizada (cache)
     duration = int((report.get("metricas") or {}).get("duration_seconds") or 0)
     map_local = report.get("local") or "japao"
-    map_label = MAP_CITIES.get(map_local, MAP_CITIES["japao"])["label"]
+    map_label = report.get("local_label") or MAP_CITIES.get(map_local, MAP_CITIES["japao"])["label"]
     map_stops = build_map_stops(srt_blocks or [], duration, map_local)
     map_stops, map_synced = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
     # marcadores visíveis no mapa/carrossel: só a cada 5 min (análise usa 1/1 min)
@@ -3284,6 +3391,11 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     flex:1; min-width:0; max-width:100%; background:var(--panel); color:var(--text);
     border:1px solid var(--border); border-radius:8px; padding:7px 10px; font-size:.78rem;
   }
+  #qualityWrap { font-size:.75rem; }
+  #qualityWrap select {
+    background:var(--panel); color:var(--text); border:1px solid var(--border);
+    border-radius:8px; padding:4px 8px; font-size:.75rem;
+  }
   .participantes { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:6px; max-height:480px; overflow-y:auto; }
   .participante {
     display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:10px;
@@ -3463,6 +3575,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
           <button class="btn" onclick="setPlaybackRate(-0.5)">-0.5×</button>
           <button class="btn" onclick="setPlaybackRate(0.5)">+0.5×</button>
           <span class="muted" id="videoRate" title="Velocidade de reprodução">1×</span>
+          <label class="muted" id="qualityWrap" style="display:inline-flex;align-items:center;gap:4px">
+            <i class="fa-solid fa-film"></i> Qualidade
+            <select id="videoQuality" onchange="setVideoQuality(this.value === 'auto' ? autoVideoQuality() : this.value)" aria-label="Qualidade do vídeo"></select>
+          </label>
           <button class="btn active" id="btnCc" onclick="toggleCaptions()">Legendas: ON</button>
           <span class="segment"><span class="tag neutro" id="videoNowLabel">—</span><span class="muted">agora</span></span>
         </div>
@@ -3967,9 +4083,65 @@ function allUpTo(t){
   return i;
 }
 
+// ---------------------------------------------------------------------------
+// Qualidade do vídeo: versões menores (video_360/480/720.mp4) geradas sob demanda.
+// A opção "Auto" escolhe conforme a conexão do usuário; ele pode trocar na hora.
+// ---------------------------------------------------------------------------
+const VIDEO_QUALITIES = FILES.qualidades || {};
+
+function autoVideoQuality(){
+  if (!navigator.connection) return "original";
+  const eff = String(navigator.connection.effectiveType || "").toLowerCase();
+  const dl = navigator.connection.downlink;
+  const keys = Object.keys(VIDEO_QUALITIES).map(Number).sort((a, b) => a - b);
+  if (!keys.length) return "original";
+  if (eff === "slow-2g" || eff === "2g") return keys.includes(360) ? "360" : String(keys[0]);
+  if (eff === "3g" || (typeof dl === "number" && dl < 2)) return keys.includes(480) ? "480" : String(keys[0]);
+  if (typeof dl === "number" && dl < 5) return keys.includes(720) ? "720" : String(keys[keys.length - 1]);
+  return "original";
+}
+
+function setVideoQuality(value){
+  const el = document.getElementById("videoPlayer");
+  const sel = document.getElementById("videoQuality");
+  if (!el || !FILES.video) return;
+  const src = (value && value !== "original" && VIDEO_QUALITIES[value]) ? VIDEO_QUALITIES[value] : FILES.video;
+  if ((el.getAttribute("src") || "") === src) {
+    if (sel) sel.value = (value && VIDEO_QUALITIES[value]) ? value : "original";
+    return;
+  }
+  const t = el.currentTime || 0;
+  const wasPlaying = !el.paused && !el.ended;
+  el.src = src;
+  el.addEventListener("loadedmetadata", function onMeta(){
+    el.removeEventListener("loadedmetadata", onMeta);
+    try { el.currentTime = t; } catch (e) { /* ignora */ }
+    if (wasPlaying) el.play().catch(() => {});
+  });
+  if (sel) sel.value = (value && VIDEO_QUALITIES[value]) ? value : "original";
+}
+
+function buildQualityOptions(){
+  const sel = document.getElementById("videoQuality");
+  const wrap = document.getElementById("qualityWrap");
+  if (!sel || !wrap) return;
+  const keys = Object.keys(VIDEO_QUALITIES).map(Number).sort((a, b) => a - b);
+  if (!FILES.video || keys.length === 0) {
+    wrap.style.display = "none";
+    return;
+  }
+  let html = '<option value="auto">Auto (conexão)</option>';
+  html += '<option value="original">Original</option>';
+  for (const k of keys) html += `<option value="${k}">${k}p</option>`;
+  sel.innerHTML = html;
+  sel.value = "auto";
+  setVideoQuality(autoVideoQuality());
+}
+
 function initPlayers(){
   if (FILES.video) document.getElementById("videoPlayer").src = FILES.video;
   if (FILES.audio) document.getElementById("audioPlayer").src = FILES.audio;
+  buildQualityOptions();
   wireMedia(V, "videoPlayer", "videoSeek", "videoTime", "videoSubs", "videoNowLabel");
   wireMedia(A, "audioPlayer", "audioSeek", "audioTime", "audioSubs", "audioNowLabel");
   if (!FILES.video && !FILES.audio) {
@@ -5270,18 +5442,23 @@ def main() -> None:
     else:
         print("  [!] audio.srt não encontrado — análise de conteúdo limitada", file=sys.stderr)
 
-    # 5.0) local da live (Japão ou São Paulo): escolha explícita > detecção por DeepSeek
-    local = load_local(folder)
+    # 5.0) local da live (país/cidade + bairro livre): escolha explícita > detecção por DeepSeek
+    local_info = load_local(folder)
+    local = local_info["local"]
+    bairro = local_info["bairro"]
     if local == "auto":
         local = detect_location(folder, blocks, comments)
         try:
             (folder / "local.json").write_text(
-                json.dumps({"local": local, "auto_detectado": True}, ensure_ascii=False, indent=2),
+                json.dumps({"local": local, "bairro": bairro, "auto_detectado": True}, ensure_ascii=False, indent=2),
                 encoding="utf-8",
             )
         except Exception:  # noqa: BLE001
             pass
-    local_label = MAP_CITIES.get(local, MAP_CITIES["japao"])["label"]
+    city = MAP_CITIES.get(local, MAP_CITIES["japao"])
+    local_label = f"{city['pais_label']} · {city['cidade_label']}"
+    if bairro:
+        local_label += f" · {bairro}"
     print(f"  Local da live: {local_label}")
 
     # 5.1) se a API da Twitch não respondeu (duration 0), infere a duração dos arquivos locais
@@ -5305,6 +5482,9 @@ def main() -> None:
     report = {
         "gerado_em": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
         "local": local,
+        "local_pais": city["pais"],
+        "local_cidade": city["cidade"],
+        "local_bairro": bairro,
         "local_label": local_label,
         "metricas": metrics,
         "comentarios": comments_analysis,

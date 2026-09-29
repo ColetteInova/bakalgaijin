@@ -540,17 +540,40 @@ async function startServer() {
     job: VodJob,
     folderPath: string,
     step: string,
-    local?: string
+    local?: string,
+    bairro?: string
   ) {
     const pipeline = job.pipeline!;
     const folderName = path.basename(folderPath);
     try {
       if (step === "local") {
         const localFile = path.join(folderPath, "local.json");
+        const bairroLimpo = (bairro || "").trim();
         if (!local || local === "auto") {
-          fs.rmSync(localFile, { force: true });
+          if (bairroLimpo) {
+            fs.writeFileSync(
+              localFile,
+              JSON.stringify({ local: "auto", bairro: bairroLimpo }, null, 2),
+              "utf8"
+            );
+          } else {
+            fs.rmSync(localFile, { force: true });
+          }
         } else if (local === "japao" || local === "sao-paulo") {
-          fs.writeFileSync(localFile, JSON.stringify({ local }, null, 2), "utf8");
+          fs.writeFileSync(
+            localFile,
+            JSON.stringify(
+              {
+                pais: local === "japao" ? "japao" : "brasil",
+                cidade: local === "japao" ? "toquio" : "sao-paulo",
+                local,
+                bairro: bairroLimpo,
+              },
+              null,
+              2
+            ),
+            "utf8"
+          );
         }
         // invalida o cache de geoloc para re-geolocalizar na nova cidade
         fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
@@ -624,6 +647,9 @@ async function startServer() {
         fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
         fs.rmSync(path.join(folderPath, "mapa", "osrm_route.json"), { force: true });
         await runPython(["scripts/preparar.py", folderPath]);
+      } else if (step === "qualidade") {
+        pipeline.stepLabel = "Gerando versões em qualidade baixa (ffmpeg)...";
+        await runPython(["scripts/qualidade.py", folderPath]);
       } else {
         // "analise": fluxo completo do preparar.sh (relatório, dashboard e cortes se faltarem)
         pipeline.stepLabel = "Refazendo análise completa (relatório, dashboard, cortes)...";
@@ -836,7 +862,11 @@ async function startServer() {
 
   // Re-roda a preparação (comentários -> transcrição -> análise) de um vídeo já baixado
   app.post("/api/vod/prepare", (req, res) => {
-    const { filename, local } = (req.body ?? {}) as { filename?: string; local?: string };
+    const { filename, local, bairro } = (req.body ?? {}) as {
+      filename?: string;
+      local?: string;
+      bairro?: string;
+    };
     if (!filename || typeof filename !== "string") {
       res.status(400).json({ error: "Nome de arquivo é obrigatório" });
       return;
@@ -852,16 +882,36 @@ async function startServer() {
       return;
     }
 
-    // Persiste a escolha do local da live (japao/sao-paulo) na pasta do vídeo;
-    // "auto" apaga a escolha anterior para o DeepSeek redetectar pela fala/comentários.
+    // Persiste a escolha do local da live (japao/sao-paulo + bairro livre) na pasta do vídeo;
+    // "auto" apaga a escolha anterior para o DeepSeek redetectar pela fala/comentários
+    // (a menos que haja um bairro digitado — ele é mantido).
     if (local && ["japao", "sao-paulo", "auto"].includes(local)) {
       const folder = path.join(SAIDA_DIR, folderNameFromFile(target));
       const localFile = path.join(folder, "local.json");
+      const bairroLimpo = (bairro || "").trim();
       if (local === "auto") {
-        fs.rmSync(localFile, { force: true });
+        if (bairroLimpo) {
+          fs.mkdirSync(folder, { recursive: true });
+          fs.writeFileSync(localFile, JSON.stringify({ local: "auto", bairro: bairroLimpo }, null, 2), "utf8");
+        } else {
+          fs.rmSync(localFile, { force: true });
+        }
       } else {
         fs.mkdirSync(folder, { recursive: true });
-        fs.writeFileSync(localFile, JSON.stringify({ local }, null, 2), "utf8");
+        fs.writeFileSync(
+          localFile,
+          JSON.stringify(
+            {
+              pais: local === "japao" ? "japao" : "brasil",
+              cidade: local === "japao" ? "toquio" : "sao-paulo",
+              local,
+              bairro: bairroLimpo,
+            },
+            null,
+            2
+          ),
+          "utf8"
+        );
       }
     }
 
@@ -904,9 +954,12 @@ async function startServer() {
         };
 
         let local = "auto";
+        let bairro = "";
         if (has("local.json")) {
           try {
-            local = JSON.parse(fs.readFileSync(path.join(folderPath, "local.json"), "utf8")).local || "auto";
+            const localData = JSON.parse(fs.readFileSync(path.join(folderPath, "local.json"), "utf8"));
+            local = localData.local || localData.cidade || "auto";
+            bairro = localData.bairro || "";
           } catch {
             // mantém "auto"
           }
@@ -933,9 +986,19 @@ async function startServer() {
           mapFrames = fs.readdirSync(mapaDir).filter((f) => f.startsWith("marco_")).length;
         }
 
+        let qualidades = 0;
+        try {
+          qualidades = fs
+            .readdirSync(folderPath)
+            .filter((f) => /^video_\d+\.mp4$/i.test(f)).length;
+        } catch {
+          // pasta sem leitura: mantém 0
+        }
+
         return {
           folder: d.name,
           local,
+          bairro,
           hasComments: has("comentarios.json"),
           commentsCount,
           hasSrt: has("audio.srt"),
@@ -944,6 +1007,7 @@ async function startServer() {
           hasDashboard: has("dashboard.html"),
           cortes,
           mapFrames,
+          qualidades,
           hasGeoloc: has(path.join("mapa", "geoloc.json")),
           reportMtime: statOf("relatorio.json"),
         };
@@ -1022,10 +1086,11 @@ async function startServer() {
   // Re-executa UMA etapa de um episódio já preparado.
   // step: analise | cortes | mapa | comentarios | transcricao | local
   app.post("/api/vod/prepare-folder", (req, res) => {
-    const { folder, step, local } = (req.body ?? {}) as {
+    const { folder, step, local, bairro } = (req.body ?? {}) as {
       folder?: string;
       step?: string;
       local?: string;
+      bairro?: string;
     };
     if (!folder || path.basename(folder) !== folder) {
       res.status(400).json({ error: "Pasta inválida" });
@@ -1040,7 +1105,7 @@ async function startServer() {
       res.status(404).json({ error: `Pasta não encontrada: ${folder}` });
       return;
     }
-    const validSteps = ["tudo", "analise", "cortes", "mapa", "comentarios", "transcricao", "local"];
+    const validSteps = ["tudo", "analise", "cortes", "mapa", "comentarios", "transcricao", "local", "qualidade"];
     if (!step || !validSteps.includes(step)) {
       res.status(400).json({ error: `Etapa inválida. Use: ${validSteps.join(", ")}` });
       return;
@@ -1075,7 +1140,7 @@ async function startServer() {
     job.pipeline = pipeline;
     jobs.set(id, job);
 
-    runPreparedFolderStep(job, folderPath, step, local);
+    runPreparedFolderStep(job, folderPath, step, local, bairro);
 
     res.json({ id });
   });

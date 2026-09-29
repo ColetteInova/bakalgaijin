@@ -1,7 +1,10 @@
 {
-  "gerado_em": "2026-09-28T17:18:16",
+  "gerado_em": "2026-09-29T10:25:34",
   "local": "japao",
-  "local_label": "Japão (Tóquio)",
+  "local_pais": "japao",
+  "local_cidade": "toquio",
+  "local_bairro": "",
+  "local_label": "Japão · Tóquio",
   "metricas": {
     "video_id": "2871566138",
     "title": "DE VORTA AO JAPAO",
@@ -11,21 +14,21 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37811,
+    "views": 37828,
     "views_label": "37.8k",
     "likes_estimado": 453,
     "likes_label": "453",
     "comentarios": 8726,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 24.276,
-    "followers_canal": 248260,
+    "taxa_engajamento": 24.265,
+    "followers_canal": 248252,
     "comparacao_canal": {
-      "mediana_views": 20220.0,
-      "media_views": 22444.2,
-      "mediana_pares": 18530,
-      "views_vs_mediana_pct": 87.0,
-      "views_vs_media_pct": 68.5,
-      "views_vs_pares_pct": 104.1,
+      "mediana_views": 20262.5,
+      "media_views": 22528.0,
+      "mediana_pares": 18558,
+      "views_vs_mediana_pct": 86.7,
+      "views_vs_media_pct": 67.9,
+      "views_vs_pares_pct": 103.8,
       "n_videos_canal": 4
     }
   },
@@ -82,7 +85,7 @@
           "baka vai",
           "baka volta",
           "baka qual",
-          "baka como"
+          "japão baka"
         ],
         "n_comentarios": 1555,
         "pct": 17.8
@@ -105,8 +108,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "quando vai",
-          "vai fazer"
+          "vai fazer",
+          "quando vai"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -90804,19 +90807,19 @@
       "receita_por_minuto": 1.287,
       "projecao_3h": 231.66,
       "projecao_2h": 154.44,
-      "usd_brl": 5.1895,
+      "usd_brl": 5.2077,
       "top_bits": [
         {
           "usuario": "karasu2024",
           "bits": 103,
           "valor_usd": 0.72,
-          "valor_brl": 3.74
+          "valor_brl": 3.75
         },
         {
           "usuario": "Takireo_",
           "bits": 100,
           "valor_usd": 0.7,
-          "valor_brl": 3.63
+          "valor_brl": 3.65
         },
         {
           "usuario": "bakalovers",
@@ -90843,11 +90846,11 @@
           "valor_brl": 0.04
         }
       ],
-      "receita_liquida_brl": 1083.46,
-      "receita_subs_brl": 2149.34,
-      "receita_bits_brl": 8.82,
-      "projecao_3h_brl": 1202.2,
-      "projecao_2h_brl": 801.47,
+      "receita_liquida_brl": 1087.26,
+      "receita_subs_brl": 2156.87,
+      "receita_bits_brl": 8.85,
+      "projecao_3h_brl": 1206.42,
+      "projecao_2h_brl": 804.28,
       "top_contribuidores": [
         {
           "usuario": "usuarioblock2",
@@ -90855,7 +90858,7 @@
           "subs_presentes": 6,
           "bits": 0,
           "valor_usd": 14.97,
-          "valor_brl": 77.69
+          "valor_brl": 77.96
         },
         {
           "usuario": "Takireo_",
@@ -90863,7 +90866,7 @@
           "subs_presentes": 0,
           "bits": 100,
           "valor_usd": 3.2,
-          "valor_brl": 16.58
+          "valor_brl": 16.64
         },
         {
           "usuario": "Corvo__Feroz",
@@ -90871,7 +90874,7 @@
           "subs_presentes": 0,
           "bits": 6,
           "valor_usd": 2.54,
-          "valor_brl": 13.17
+          "valor_brl": 13.21
         },
         {
           "usuario": "Aberstone",
@@ -90879,7 +90882,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         },
         {
           "usuario": "allanheck",
@@ -90887,7 +90890,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         },
         {
           "usuario": "alphaya8",
@@ -90895,7 +90898,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         },
         {
           "usuario": "arkxnz_",
@@ -90903,7 +90906,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         },
         {
           "usuario": "baguinska",
@@ -90911,7 +90914,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         },
         {
           "usuario": "Balconista_",
@@ -90919,7 +90922,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         },
         {
           "usuario": "bernardowx",
@@ -90927,7 +90930,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.95
+          "valor_brl": 12.99
         }
       ]
     },
@@ -103083,7 +103086,7 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "que saudades",
-        "descricao": "Baka derruba lanternas amarelas e compara com abelha, criando caos cômico e cansado no meio da live."
+        "descricao": "Baka derruba lanternas e fala 'check this out' com microfone mutado, caos puro que vira clipe engraçado."
       },
       {
         "inicio": "40:00",
@@ -103097,56 +103100,56 @@
         "minuto": 50,
         "tipo": "piada",
         "trecho": "É, tudo cafona, né?",
-        "descricao": "Baka zoa produtos aleatórios tipo pokebolas e Narutos, soltando piada de 'quem tem cu tem medo'."
+        "descricao": "Baka zoa produtos aleatórios tipo pokebolas e Narutos, soltando 'quem tem cu tem medo' no meio."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Aí é foda",
-        "descricao": "Ele brinca que trouxe a chuva do Brasil pro Japão e se chama de cunhudo, gerando risada."
+        "descricao": "Ele culpa a chuva do Brasil no Japão e se chama de cunhudo, humor aleatório que rende clipe."
       },
       {
         "inicio": "1:10:00",
         "minuto": 70,
         "tipo": "piada",
         "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
-        "descricao": "Baka se agacha como japonês e aceita que parece lésbica, misturando moedas e autodepreciação."
+        "descricao": "Baka se agacha como japonês e aceita que parece lésbica, mistura de vergonha e risada."
       },
       {
         "inicio": "1:20:00",
         "minuto": 80,
         "tipo": "piada",
         "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
-        "descricao": "Ele filosofa sobre setembro chove enquanto um velho varre o chão na chuva, com clima de solidão."
+        "descricao": "Ele filosofa sobre setembro chuvoso e um velho varrendo na chuva, momento poético e engraçado."
       },
       {
         "inicio": "1:30:00",
         "minuto": 90,
         "tipo": "piada",
         "trecho": "Olha só, hein",
-        "descricao": "Baka zoa social credits e GTA 6 sem fimose, reclamando do túnel com grafites piores."
+        "descricao": "Baka zoa social credits por atravessar fora da faixa e reclama de GTA 6 sem comer fimose."
       },
       {
         "inicio": "1:40:00",
         "minuto": 100,
         "tipo": "piada",
         "trecho": "Esse cara é bonitinho, me deixou passar",
-        "descricao": "Ele planeja andar até Harajuku e compara a si mesmo com loucos religiosos do centro."
+        "descricao": "Ele compara a si mesmo com loucos religiosos e planeja andar até Harajuku, caos de direção."
       },
       {
         "inicio": "1:50:00",
         "minuto": 110,
         "tipo": "piada",
         "trecho": "Acho que não vai ter nada aberto ainda",
-        "descricao": "Baka inventa 'Sexo 3.5' e reclama da chuva como conteúdo, com dor nas cócoras."
+        "descricao": "Baka inventa 'Sexo 3.5' e fala de chuva como conteúdo, humor absurdo que vira clipe."
       },
       {
         "inicio": "2:00:00",
         "minuto": 120,
         "tipo": "piada",
         "trecho": "Ah é? Vamos ver",
-        "descricao": "Ele celebra 2h de live, encontra entrada restritiva e brinca que pode morrer filmando."
+        "descricao": "Ele se surpreende com 2h de live, zoa restrições de filmagem e faz piada sombria sobre morrer."
       }
     ],
     "alertas": [
@@ -114808,7 +114811,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 37.8k views está acima da mediana do canal em 87.0% (mediana 20.2k)."
+      "acao": "VOD com 37.8k views está acima da mediana do canal em 86.7% (mediana 20.3k)."
     },
     {
       "titulo": "Clima do chat",
@@ -114820,7 +114823,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.276% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.265% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

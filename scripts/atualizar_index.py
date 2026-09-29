@@ -90,7 +90,7 @@ def _map_meta(geoloc_path: Path) -> tuple[int, int]:
     geoloc = read_json(geoloc_path)
     marcos = [
         value for key, value in geoloc.items()
-        if key != "local" and isinstance(value, dict) and "lat" in value and "lng" in value
+        if key not in ("local", "bairro") and isinstance(value, dict) and "lat" in value and "lng" in value
     ]
     estabelecimentos = sum(
         len(value.get("estabelecimentos") or []) for value in marcos
@@ -268,11 +268,20 @@ def _display_date(value: str, generated_at: str) -> str:
 
 def _media_markup(vod: dict) -> str:
     folder = urllib.parse.quote(vod["folder"].name, safe="")
+    thumb = vod["thumbnail"] if vod["thumbnail"].startswith(("https://", "http://")) else ""
+    parts = []
+    # vídeo local fica por baixo: serve de fallback se a thumb da Twitch falhar
     if vod["video"]:
         video_name = urllib.parse.quote(vod["video"].name, safe="")
-        return f'<video src="{folder}/{video_name}" muted playsinline preload="metadata"></video>'
-    if vod["thumbnail"].startswith(("https://", "http://")):
-        return f'<img src="{_escape(vod["thumbnail"])}" alt="{_escape(vod["title"])}" loading="lazy" onerror="this.style.display=\'none\'" />'
+        parts.append(f'<video src="{folder}/{video_name}" muted playsinline preload="metadata"></video>')
+    # thumb da Twitch por cima: respeita a imagem oficial do VOD
+    if thumb:
+        parts.append(
+            f'<img class="ep-thumb-poster" src="{_escape(thumb)}" alt="{_escape(vod["title"])}" '
+            f"loading=\"lazy\" onerror=\"this.style.display='none'\" />"
+        )
+    if parts:
+        return "".join(parts)
     return '<div class="ep-placeholder" aria-hidden="true">VOD</div>'
 
 
