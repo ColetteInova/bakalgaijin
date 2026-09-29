@@ -1,73 +1,968 @@
 {
   "local": "sao-paulo",
-  "5": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+  "725": {
+    "nome": "Avenida Paulista",
+    "lat": -23.5614,
+    "lng": -46.6559,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
-  "605": {
-    "nome": "Centro de São Paulo",
+  "785": {
+    "nome": "Avenida Paulista",
+    "lat": -23.5614,
+    "lng": -46.6559,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "845": {
+    "nome": "Avenida Paulista",
+    "lat": -23.5614,
+    "lng": -46.6559,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "905": {
+    "nome": "Avenida Paulista",
+    "lat": -23.5614,
+    "lng": -46.6559,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "965": {
+    "nome": "Avenida Paulista",
+    "lat": -23.5614,
+    "lng": -46.6559,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1025": {
+    "nome": "Praça da Sé",
     "lat": -23.5505,
-    "lng": -46.6333
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1085": {
+    "nome": "Praça da Sé",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1145": {
+    "nome": "Esquilos",
+    "lat": -23.5415,
+    "lng": -46.6425,
+    "estabelecimentos": [
+      "Esquilos"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma padaria com a placa 'Esquilos' em uma esquina com faixa de pedestres, calçada e poste com adesivos. O estilo arquitetônico, a sinalização viária e o contexto de live IRL no centro de São Paulo indicam a região central, p",
+    "osint": true
   },
   "1205": {
-    "nome": "Centro de São Paulo",
+    "nome": "Praça da Sé",
     "lat": -23.5505,
-    "lng": -46.6333
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1265": {
+    "nome": "Praça da Sé",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1325": {
+    "nome": "Praça da Sé",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1385": {
+    "nome": "23:05",
+    "lat": -23.551215392561982,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1445": {
+    "nome": "24:05",
+    "lat": -23.55124638429752,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1505": {
+    "nome": "25:05",
+    "lat": -23.551277376033056,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1565": {
+    "nome": "26:05",
+    "lat": -23.551308367768595,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1625": {
+    "nome": "27:05",
+    "lat": -23.55133935950413,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1685": {
+    "nome": "28:05",
+    "lat": -23.55137035123967,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1745": {
+    "nome": "29:05",
+    "lat": -23.551401342975208,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "1805": {
-    "nome": "Centro de São Paulo",
+    "nome": "30:05",
+    "lat": -23.551432334710743,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1865": {
+    "nome": "MUBI FEST",
     "lat": -23.5505,
-    "lng": -46.6333
+    "lng": -46.6333,
+    "estabelecimentos": [
+      "MUBI FEST",
+      "Associação Metrô Linha 4"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Cartaz do MUBI FEST indica 'São Paulo 11-13 SET' e 'Associação Metrô Linha 4', confirmando a cidade. Calçada com padrão de cruz e faixa amarela de metrô são típicos do centro de São Paulo. Coordenada estimada para a região central.",
+    "osint": true
+  },
+  "1925": {
+    "nome": "Beco do Batman",
+    "lat": -23.5559,
+    "lng": -46.6866,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1985": {
+    "nome": "Caixa Econômica Federal",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "estabelecimentos": [
+      "Caixa Econômica Federal",
+      "Bradesco"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma agência da Caixa Econômica Federal e uma placa do Bradesco, típicas de áreas comerciais do centro de São Paulo. A arquitetura, o mobiliário urbano e a presença de pedestres e veículos são consistentes com a região centra",
+    "osint": true
+  },
+  "2045": {
+    "nome": "LOTTE",
+    "lat": -23.5614,
+    "lng": -46.6602,
+    "estabelecimentos": [
+      "LOTTE",
+      "WANRI",
+      "SAMSUNG"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada da LOTTE (loja de departamentos coreana) e o restaurante WANRI na Rua Galvão Bueno, no bairro da Liberdade, região central de São Paulo. A arquitetura, o letreiro vertical e a presença de motocicletas estacionadas ",
+    "osint": true
+  },
+  "2105": {
+    "nome": "São Paulo",
+    "lat": -23.5565,
+    "lng": -46.6622,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um grande portal torii vermelho, grafites coloridos e uma placa de trânsito com a letra 'E' (estacionamento regulamentado) em uma área de calçada. O conjunto arquitetônico e a presença do torii são compatíveis com o bairro d",
+    "osint": true
+  },
+  "2165": {
+    "nome": "São Paulo",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma via expressa urbana com múltiplas faixas, viaduto ao fundo, muros com grafites e vegetação densa nas laterais, características compatíveis com a Avenida 23 de Maio ou corredor próximo ao centro de São Paulo. Não há placa",
+    "osint": true
+  },
+  "2225": {
+    "nome": "37:05",
+    "lat": -23.551649276859504,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2285": {
+    "nome": "38:05",
+    "lat": -23.551680268595042,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2345": {
+    "nome": "39:05",
+    "lat": -23.551711260330578,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "2405": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+    "nome": "40:05",
+    "lat": -23.551742252066116,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2465": {
+    "nome": "41:05",
+    "lat": -23.55177324380165,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2525": {
+    "nome": "42:05",
+    "lat": -23.55180423553719,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2585": {
+    "nome": "43:05",
+    "lat": -23.551835227272726,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2645": {
+    "nome": "Sushi Yassu",
+    "lat": -23.5555,
+    "lng": -46.6353,
+    "estabelecimentos": [
+      "Sushi Yassu",
+      "Yoka Sushi Bar",
+      "Sukiya"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o bairro da Liberdade, em São Paulo, com placas de estabelecimentos como 'Sushi Yassu' e 'Yoka Sushi Bar', além de barracas de feira típicas da região. A fala do streamer mencionando 'live aqui na Liberdade' confirma a local",
+    "osint": true
+  },
+  "2705": {
+    "nome": "Mizumoto",
+    "lat": -23.5585,
+    "lng": -46.6355,
+    "estabelecimentos": [
+      "Mizumoto",
+      "MASSAGENS"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada da loja Mizumoto, um estabelecimento tradicional de produtos orientais localizado na Rua Galvão Bueno, no bairro da Liberdade, região central de São Paulo. A arquitetura, o comércio de rua e a presença de elementos",
+    "osint": true
+  },
+  "2765": {
+    "nome": "CAFÉ",
+    "lat": -23.5643781,
+    "lng": -46.665203,
+    "estabelecimentos": [
+      "CAFÉ",
+      "CAFÉS"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada movimentada com feira de rua, arquitetura urbana densa e comércio, compatível com o centro de São Paulo. É possível ver a palavra 'CAFÉ' em uma placa no canto superior direito, mas não há nomes de ruas, números o",
+    "osint": true
+  },
+  "2825": {
+    "nome": "47:05",
+    "lat": -23.551959194214877,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2885": {
+    "nome": "48:05",
+    "lat": -23.551990185950412,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2945": {
+    "nome": "49:05",
+    "lat": -23.55202117768595,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "3005": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+    "nome": "50:05",
+    "lat": -23.552052169421486,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3065": {
+    "nome": "51:05",
+    "lat": -23.552083161157025,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3125": {
+    "nome": "Bar do Cofre",
+    "lat": -23.5415,
+    "lng": -46.6375,
+    "estabelecimentos": [
+      "Bar do Cofre",
+      "Estação da Luz"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com calçadas pintadas e grafites, típica da região da Rua dos Gusmões com Rua dos Andradas, no bairro da Luz, centro de São Paulo. O letreiro 'Bar do Cofre' e a proximidade com a Estação da Luz são indicativ",
+    "osint": true
+  },
+  "3185": {
+    "nome": "53:05",
+    "lat": -23.5521451446281,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3245": {
+    "nome": "54:05",
+    "lat": -23.552176136363634,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3305": {
+    "nome": "55:05",
+    "lat": -23.552207128099173,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3365": {
+    "nome": "Sukiya",
+    "lat": -23.5465,
+    "lng": -46.6425,
+    "estabelecimentos": [
+      "Sukiya"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma unidade da rede Sukiya, com fachada vermelha e logotipo visível, em uma esquina movimentada de São Paulo. A arquitetura, o mobiliário urbano e a presença de pedestres são consistentes com o centro da cidade. A fala do st",
+    "osint": true
+  },
+  "3425": {
+    "nome": "Kobayashi",
+    "lat": -23.5415,
+    "lng": -46.6375,
+    "estabelecimentos": [
+      "Kobayashi"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada movimentada com um ônibus municipal e uma fachada vermelha com a inscrição 'KOBAYASHI', indicando um estabelecimento comercial. O contexto de live IRL em São Paulo (centro) e a presença de elementos urbanos típic",
+    "osint": true
+  },
+  "3485": {
+    "nome": "Liberdade",
+    "lat": -23.5583,
+    "lng": -46.6349,
+    "estabelecimentos": [
+      "Liberdade"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A placa vertical com a palavra 'Liberdade' é visível no lado direito da imagem, indicando o bairro da Liberdade, em São Paulo. A feira de rua com barracas listradas, o calçamento em petit-pavé e a arquitetura ao redor são consistentes com a",
+    "osint": true
+  },
+  "3545": {
+    "nome": "59:05",
+    "lat": -23.55233109504132,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "3605": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+    "nome": "MAGUCHI",
+    "lat": -23.5415,
+    "lng": -46.6395,
+    "estabelecimentos": [
+      "MAGUCHI"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma feira de rua movimentada com barracas e a fachada de um estabelecimento chamado 'MAGUCHI', típico de feiras orientais em São Paulo. A arquitetura ao fundo e a densidade urbana são consistentes com o centro de São Paulo, ",
+    "osint": true
+  },
+  "3665": {
+    "nome": "1:01:05",
+    "lat": -23.552393078512395,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3725": {
+    "nome": "1:02:05",
+    "lat": -23.552424070247934,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3785": {
+    "nome": "1:03:05",
+    "lat": -23.55245506198347,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3845": {
+    "nome": "1:04:05",
+    "lat": -23.552486053719008,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3905": {
+    "nome": "1:05:05",
+    "lat": -23.552517045454547,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3965": {
+    "nome": "1:06:05",
+    "lat": -23.552548037190082,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4025": {
+    "nome": "1:07:05",
+    "lat": -23.55257902892562,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4085": {
+    "nome": "1:08:05",
+    "lat": -23.552610020661156,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4145": {
+    "nome": "1:09:05",
+    "lat": -23.552641012396695,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "4205": {
-    "nome": "Centro de São Paulo",
+    "nome": "1:10:05",
+    "lat": -23.55267200413223,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4265": {
+    "nome": "Bom Retiro",
+    "lat": -23.5425,
+    "lng": -46.6367,
+    "estabelecimentos": [
+      "Bom Retiro",
+      "LOJAS"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua comercial movimentada com barracas de rua, calçada de ladrilhos vermelhos e arquitetura típica do bairro do Bom Retiro, em São Paulo. Há uma placa de loja com a palavra 'LOJAS' e o ambiente é consistente com a Rua Jo",
+    "osint": true
+  },
+  "4325": {
+    "nome": "Towa Empório Oriental",
+    "lat": -23.5583,
+    "lng": -46.6355,
+    "estabelecimentos": [
+      "Towa Empório Oriental",
+      "Tempero"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada da loja 'Towa Empório Oriental', localizada na Rua da Glória, 314, na Liberdade, região central de São Paulo. O letreiro 'Tempero' e a arquitetura da rua, com calçamento de bloquetes vermelhos e o portal de entrada",
+    "osint": true
+  },
+  "4385": {
+    "nome": "Regente Feijó",
+    "lat": -23.5583,
+    "lng": -46.6347,
+    "estabelecimentos": [
+      "Regente Feijó",
+      "Edifício Regente Feijó"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A placa vertical à direita exibe claramente 'Edifício Regente Feijó' e 'Praça da Liberdade', logradouro localizado no centro de São Paulo, próximo à estação Liberdade do metrô. A arquitetura do edifício e a fachada comercial são consistente",
+    "osint": true
+  },
+  "4445": {
+    "nome": "desco Prime",
+    "lat": -23.5432,
+    "lng": -46.6425,
+    "estabelecimentos": [
+      "desco Prime"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada com piso tátil e um letreiro parcial 'desco Prime' (provavelmente parte de 'Bradesco Prime') em uma fachada vermelha, típica de agências bancárias Bradesco. O contexto da live é no centro de São Paulo, e a arquit",
+    "osint": true
+  },
+  "4505": {
+    "nome": "1:15:05",
+    "lat": -23.552826962809917,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4565": {
+    "nome": "Mizumoto",
+    "lat": -23.5583,
+    "lng": -46.6348,
+    "estabelecimentos": [
+      "Mizumoto"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com forte presença da comunidade japonesa, destacando a loja 'Mizumoto' com letreiros em japonês e português. A arquitetura, o comércio típico e a placa de trânsito com 'Rua da Glória' indicam a região da",
+    "osint": true
+  },
+  "4625": {
+    "nome": "São Paulo",
     "lat": -23.5505,
-    "lng": -46.6333
+    "lng": -46.6333,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma via urbana com calçada, ciclovia e feira de rua, com arquitetura típica do centro de São Paulo. Não há placas ou nomes de estabelecimentos legíveis. A presença de decoração com lanternas vermelhas e barracas sugere event",
+    "osint": true
+  },
+  "4685": {
+    "nome": "São Paulo",
+    "lat": -23.5415,
+    "lng": -46.6425,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um grande portal vermelho estilo torii japonês, típico do bairro da Liberdade, em São Paulo. A arquitetura ao redor, o piso verde e a aglomeração de pessoas são consistentes com a Praça da Liberdade ou imediações. A menção d",
+    "osint": true
+  },
+  "4745": {
+    "nome": "EcoUrbis",
+    "lat": -23.5455,
+    "lng": -46.639,
+    "estabelecimentos": [
+      "EcoUrbis",
+      "Operação Centro Limpo",
+      "Prefeitura de São Paulo"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Placa azul da Operação Centro Limpo da Prefeitura de São Paulo, grafite em parede de tijolos, calçada com padrão de blocos e prédios comerciais ao fundo indicam o centro de São Paulo. A coordenada é uma estimativa aproximada baseada no cont",
+    "osint": true
   },
   "4805": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+    "nome": "1:20:05",
+    "lat": -23.552981921487604,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4865": {
+    "nome": "1:21:05",
+    "lat": -23.55301291322314,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4925": {
+    "nome": "1:22:05",
+    "lat": -23.553043904958678,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4985": {
+    "nome": "1:23:05",
+    "lat": -23.553074896694213,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5045": {
+    "nome": "1:24:05",
+    "lat": -23.55310588842975,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5105": {
+    "nome": "1:25:05",
+    "lat": -23.55313688016529,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5165": {
+    "nome": "1:26:05",
+    "lat": -23.553167871900826,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5225": {
+    "nome": "Sapporo",
+    "lat": -23.5685103,
+    "lng": -46.6494564,
+    "estabelecimentos": [
+      "Sapporo",
+      "Yakitori",
+      "Unagi"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com iluminação noturna, placas em japonês e letreiros de estabelecimentos como 'Sapporo' e 'Yakitori', típicos de um bairro japonês. Apesar da menção à cidade de São Paulo, não há placas de rua, logotipos ou",
+    "osint": true
+  },
+  "5285": {
+    "nome": "1:28:05",
+    "lat": -23.5532298553719,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5345": {
+    "nome": "1:29:05",
+    "lat": -23.55326084710744,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "5405": {
-    "nome": "Centro de São Paulo",
+    "nome": "1:30:05",
+    "lat": -23.553291838842974,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5465": {
+    "nome": "1:31:05",
+    "lat": -23.553322830578512,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5525": {
+    "nome": "Kakigori Cream",
+    "lat": -23.5614,
+    "lng": -46.6565,
+    "estabelecimentos": [
+      "Kakigori Cream",
+      "Sushi Yassu"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o interior de uma loja de comida japonesa com a placa 'Kakigori Cream' e 'Sushi Yassu'. O letreiro 'Sushi Yassu' é uma referência conhecida na Liberdade, bairro japonês de São Paulo. A arquitetura interna, decoração com lant",
+    "osint": true
+  },
+  "5585": {
+    "nome": "KFC",
     "lat": -23.5505,
-    "lng": -46.6333
+    "lng": -46.6333,
+    "estabelecimentos": [
+      "KFC"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Logotipo do KFC visível ao fundo, arquitetura comercial típica de shopping ou área central de São Paulo. A localização exata não pode ser determinada apenas com a imagem, mas a cidade é consistente com o contexto fornecido.",
+    "osint": true
+  },
+  "5645": {
+    "nome": "1:34:05",
+    "lat": -23.553415805785125,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5705": {
+    "nome": "1:35:05",
+    "lat": -23.55344679752066,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5765": {
+    "nome": "1:36:05",
+    "lat": -23.5534777892562,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5825": {
+    "nome": "1:37:05",
+    "lat": -23.553508780991734,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5885": {
+    "nome": "Estação da Luz",
+    "lat": -23.5347,
+    "lng": -46.6355,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5945": {
+    "nome": "Estação da Luz",
+    "lat": -23.5347,
+    "lng": -46.6355,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "6005": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+    "nome": "Estação da Luz",
+    "lat": -23.5347,
+    "lng": -46.6355,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6065": {
+    "nome": "Estação da Luz",
+    "lat": -23.5347,
+    "lng": -46.6355,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6125": {
+    "nome": "Estação da Luz",
+    "lat": -23.5347,
+    "lng": -46.6355,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6185": {
+    "nome": "Estação da Luz",
+    "lat": -23.5347,
+    "lng": -46.6355,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6245": {
+    "nome": "Karaokê",
+    "lat": -23.4863394,
+    "lng": -46.5685553,
+    "estabelecimentos": [
+      "Karaokê"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um interior de um bar ou restaurante com decoração asiática, incluindo lanternas amarelas e um letreiro com a palavra 'Karaokê'. Não há placas de rua, nomes de estabelecimentos específicos ou pontos turísticos que permitam u",
+    "osint": true
+  },
+  "6305": {
+    "nome": "1:45:05",
+    "lat": -23.553756714876034,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6365": {
+    "nome": "Karaokê Cine",
+    "lat": -23.5415,
+    "lng": -46.6425,
+    "estabelecimentos": [
+      "Karaokê Cine"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Placa 'Karaokê Cine' visível no canto superior esquerdo, estabelecimento localizado na região da Liberdade, centro de São Paulo. A decoração com lanternas amarelas, balcão de madeira e público asiático reforça a identificação do bairro. Coo",
+    "osint": true
+  },
+  "6425": {
+    "nome": "Minhocão",
+    "lat": -23.5415,
+    "lng": -46.644,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6485": {
+    "nome": "Minhocão",
+    "lat": -23.5415,
+    "lng": -46.644,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6545": {
+    "nome": "Minhocão",
+    "lat": -23.5415,
+    "lng": -46.644,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "6605": {
-    "nome": "7-Level",
-    "lat": -23.5489,
-    "lng": -46.6388
+    "nome": "Minhocão",
+    "lat": -23.5415,
+    "lng": -46.644,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6665": {
+    "nome": "Minhocão",
+    "lat": -23.5415,
+    "lng": -46.644,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6725": {
+    "nome": "1:52:05",
+    "lat": -23.553973657024795,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6785": {
+    "nome": "1:53:05",
+    "lat": -23.55400464876033,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6845": {
+    "nome": "1:54:05",
+    "lat": -23.55403564049587,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6905": {
+    "nome": "1:55:05",
+    "lat": -23.554066632231404,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6965": {
+    "nome": "1:56:05",
+    "lat": -23.554097623966943,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7025": {
+    "nome": "Kopenhagen",
+    "lat": -23.5455,
+    "lng": -46.6395,
+    "estabelecimentos": [
+      "Kopenhagen"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma esquina com faixa de pedestres, edifícios comerciais e uma placa da Kopenhagen (rede de chocolates) em um prédio branco. O estilo arquitetônico e o mobiliário urbano (semáforos com braços longos, calçadas largas) são típ",
+    "osint": true
+  },
+  "7085": {
+    "nome": "1:58:05",
+    "lat": -23.554159607438017,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7145": {
+    "nome": "1:59:05",
+    "lat": -23.554190599173552,
+    "lng": -46.634299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "7205": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
-  },
-  "7494": {
-    "nome": "Centro de São Paulo",
-    "lat": -23.5505,
-    "lng": -46.6333
+    "nome": "2:00:05",
+    "lat": -23.55422159090909,
+    "lng": -46.631299999999996,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   }
 }

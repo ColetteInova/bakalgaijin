@@ -2,6 +2,7 @@
 """Atualiza saida/index.html com os VODs e métricas já preparados."""
 from __future__ import annotations
 
+import collections
 import html
 import json
 import os
@@ -51,6 +52,8 @@ def load_vods() -> list[dict]:
         video_id = str(metrics.get("video_id") or comments_file.get("videoId") or "")
         count = metrics.get("comentarios") or comments_data.get("total_comentarios") or comments_file.get("total")
         duration = metrics.get("duration_seconds") or metrics.get("duracao_segundos")
+        map_meta = _map_meta(folder / "mapa" / "geoloc.json")
+        clima = _clima(folder / "mapa" / "clima.json")
 
         vods.append(
             {
@@ -70,10 +73,73 @@ def load_vods() -> list[dict]:
                 "sentiment": _top_sentiment(comments_data.get("sentimentos")),
                 "cuts": len((report.get("conteudo") or {}).get("cortes_virais") or []),
                 "words_per_minute": _positive_int((report.get("engajamento") or {}).get("palavras_por_minuto")),
+                "local_label": str(report.get("local_label") or ""),
+                "followers": _positive_int(metrics.get("followers_canal")),
+                "marcos": map_meta[0],
+                "estabelecimentos": map_meta[1],
+                "clima": clima,
+                "top_commenter": _top_commenter(comments_file),
+                "popular_comment": _popular_comment(comments_data.get("comentario_mais_popular")),
             }
         )
 
     return sorted(vods, key=lambda vod: (vod["created_at"], vod["generated_at"], vod["title"]), reverse=True)
+
+
+def _map_meta(geoloc_path: Path) -> tuple[int, int]:
+    geoloc = read_json(geoloc_path)
+    marcos = [
+        value for key, value in geoloc.items()
+        if key != "local" and isinstance(value, dict) and "lat" in value and "lng" in value
+    ]
+    estabelecimentos = sum(
+        len(value.get("estabelecimentos") or []) for value in marcos
+        if isinstance(value.get("estabelecimentos"), list)
+    )
+    return len(marcos), estabelecimentos
+
+
+def _clima(clima_path: Path) -> dict | None:
+    clima = read_json(clima_path)
+    if not clima:
+        return None
+    return {
+        "temp_med": _positive_float(clima.get("temp_med")),
+        "precip": _positive_float(clima.get("precip_total")),
+    }
+
+
+def _top_commenter(comments_file: dict) -> str:
+    counter = collections.Counter()
+    for comment in comments_file.get("comments") or []:
+        if not isinstance(comment, dict):
+            continue
+        if _is_system_message(comment.get("text")):
+            continue
+        name = str(comment.get("displayName") or comment.get("login") or "").strip()
+        if name:
+            counter[name] += 1
+    return counter.most_common(1)[0][0] if counter else ""
+
+
+_SYSTEM_MSG_RE = re.compile(
+    r"\b(subscribed|subscribing|gifted|gifting|raided|raiding|is hosting|hosting them|cheer[0-9]+|cheered|watch streak|consecutive streams|sparked|watch party)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_system_message(text: object) -> bool:
+    return bool(isinstance(text, str) and _SYSTEM_MSG_RE.search(text))
+
+
+def _popular_comment(popular: object) -> dict | None:
+    if not isinstance(popular, dict):
+        return None
+    texto = str(popular.get("texto") or "").strip()
+    if not texto or _is_system_message(texto):
+        return None
+    usuario = str(popular.get("usuario") or "").strip()
+    return {"usuario": usuario, "texto": texto[:140]}
 
 
 def _positive_int(value: object) -> int | None:
@@ -217,12 +283,18 @@ def render_stats(vods: list[dict]) -> str:
     total_views = sum(views) if views else None
     total_comments = sum(comments) if comments else None
     total_duration = sum(durations) if durations else None
+    total_cuts = sum(vod["cuts"] for vod in vods)
+    total_marcos = sum(vod["marcos"] for vod in vods)
+    total_estabelecimentos = sum(vod["estabelecimentos"] for vod in vods)
     local_videos = sum(vod["video"] is not None for vod in vods)
     return "\n".join(
         [
             f'<div class="stat"><div class="v">{_display_count(total_views)}</div><div class="l">Views totais</div></div>',
             f'<div class="stat"><div class="v">{_display_count(total_comments)}</div><div class="l">Comentários</div></div>',
             f'<div class="stat"><div class="v">{_display_duration(total_duration)}</div><div class="l">Conteúdo analisado</div></div>',
+            f'<div class="stat"><div class="v">{total_cuts}</div><div class="l">Cortes virais</div></div>',
+            f'<div class="stat"><div class="v">{total_marcos}</div><div class="l">Marcos no mapa</div></div>',
+            f'<div class="stat"><div class="v">{total_estabelecimentos}</div><div class="l">Lugares identificados</div></div>',
             f'<div class="stat"><div class="v"><img src="https://api.iconify.design/lucide/video.svg?color=%23f59e0b" alt="" width="24" height="24" loading="lazy" /></div><div class="l">{local_videos} vídeos locais</div></div>',
         ]
     )
@@ -257,8 +329,26 @@ def render_episodes(vods: list[dict], summaries: dict[str, str]) -> str:
             for icon, value, label in stats
         )
         extra_chips = sentiment
+        if vod["local_label"]:
+            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {_escape(vod["local_label"])}</span>'
+        if vod["marcos"]:
+            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/map.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {vod["marcos"]} marcos</span>'
+        if vod["estabelecimentos"]:
+            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/store.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {vod["estabelecimentos"]} lugares</span>'
+        if vod["clima"] and vod["clima"]["temp_med"]:
+            clima_text = f'{vod["clima"]["temp_med"]:.0f}°C'
+            if vod["clima"]["precip"]:
+                clima_text += f' · {vod["clima"]["precip"]:.1f}mm'
+            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/thermometer.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {clima_text}</span>'
+        if vod["top_commenter"]:
+            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/megaphone.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {_escape(vod["top_commenter"])}</span>'
         if vod["words_per_minute"]:
             extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/mic.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {vod["words_per_minute"]} pal/min</span>'
+        quote_markup = ""
+        if vod["popular_comment"]:
+            popular = vod["popular_comment"]
+            author = f'<b>@{_escape(popular["usuario"])}</b>' if popular["usuario"] else ""
+            quote_markup = f'<div class="ep-quote">{author} {_escape(popular["texto"])}</div>'
         cards.append(
             f'''<a href="{folder}/dashboard.html" class="ep-card">
           <div class="ep-thumb">{_media_markup(vod)}<span class="ep-dur">{duration}</span></div>
@@ -266,6 +356,7 @@ def render_episodes(vods: list[dict], summaries: dict[str, str]) -> str:
             <div class="ep-top"><span class="ep-date">{date}</span></div>
             <div class="ep-title">{title}</div>
             <p class="ep-summary">{_escape(summary)}</p>
+            {quote_markup}
             <div class="ep-stats">{stat_markup}</div>
             <div class="ep-eng"><div class="ep-eng-fill" style="width:{fill:.1f}%"></div></div>
             <div class="ep-eng-label">{engagement_text} engajamento</div>
@@ -276,6 +367,104 @@ def render_episodes(vods: list[dict], summaries: dict[str, str]) -> str:
     if not cards:
         return '<div class="empty">Nenhum VOD preparado ainda.</div>'
     return "\n".join(cards)
+
+
+def _all_comments(vods: list[dict]) -> list[dict]:
+    comments = []
+    for vod in vods:
+        data = read_json(vod["folder"] / "comentarios.json")
+        comments.extend(
+            comment for comment in data.get("comments") or []
+            if isinstance(comment, dict) and not _is_system_message(comment.get("text"))
+        )
+    return comments
+
+
+def render_fans(comments: list[dict]) -> str:
+    counter = collections.Counter()
+    for comment in comments:
+        name = str(comment.get("displayName") or comment.get("login") or "").strip()
+        if name:
+            counter[name] += 1
+    rows = []
+    for rank, (name, count) in enumerate(counter.most_common(12), start=1):
+        rows.append(
+            f'<div class="fan-row"><span class="fan-rank">#{rank}</span>'
+            f'<span class="fan-name">{_escape(name)}</span><span class="fan-count">{count} msgs</span></div>'
+        )
+    return "\n".join(rows) if rows else '<div class="empty">Sem comentários ainda.</div>'
+
+
+_WORD_RE = re.compile(r"[a-zà-ú0-9]+")
+
+_STOPWORDS = {
+    "o", "a", "os", "as", "de", "do", "da", "dos", "das", "e", "é", "que",
+    "no", "na", "nos", "nas", "em", "um", "uma", "uns", "umas", "se", "te",
+    "me", "tu", "você", "vc", "ele", "ela", "eles", "elas", "não", "nao",
+    "ai", "aí", "ta", "tá", "to", "tô", "pra", "pro", "com", "por", "mas",
+    "ou", "como", "isso", "esse", "essa", "estes", "estas", "aquilo",
+    "aquele", "aquela", "está", "esta", "vai", "tem", "foi", "ser", "era",
+    "são", "tão", "já", "lá", "li", "aqui", "ali", "hoje", "agora", "depois",
+    "antes", "muito", "mais", "menos", "sim", "vez", "vezes", "todo", "toda",
+    "todos", "todas", "só", "so", "bem", "mal", "seu", "sua", "meu", "minha",
+    "tbm", "tb", "pode", "vou", "né", "ne",
+}
+
+
+def _clean_tokens(comment: dict) -> list[str]:
+    words = _WORD_RE.findall((comment.get("text") or "").lower())
+    return [word for index, word in enumerate(words) if index == 0 or word != words[index - 1]]
+
+
+def render_bordoes(comments: list[dict]) -> str:
+    bigrams = collections.Counter()
+    trigrams = collections.Counter()
+    for comment in comments:
+        words = _clean_tokens(comment)
+        for index in range(len(words) - 1):
+            bigrams[" ".join(words[index : index + 2])] += 1
+        for index in range(len(words) - 2):
+            trigrams[" ".join(words[index : index + 3])] += 1
+
+    def is_stop_only(phrase: str) -> bool:
+        return all(word in _STOPWORDS for word in phrase.split())
+
+    strong_trigrams = {phrase for phrase, count in trigrams.items() if count >= 4}
+    covered = {
+        bigram
+        for phrase in strong_trigrams
+        for bigram in (" ".join(phrase.split()[:2]), " ".join(phrase.split()[1:]))
+    }
+    candidates = [
+        (phrase, count)
+        for phrase, count in bigrams.items()
+        if count >= 4 and phrase not in covered and not is_stop_only(phrase)
+    ] + [
+        (phrase, count)
+        for phrase, count in trigrams.items()
+        if count >= 4 and not is_stop_only(phrase)
+    ]
+    ranked = sorted(candidates, key=lambda item: item[1], reverse=True)[:10]
+    if not ranked:
+        return '<div class="empty">Sem bordões ainda.</div>'
+    return "\n".join(
+        f'<span class="bordao">"{_escape(phrase)}" <em>×{count}</em></span>' for phrase, count in ranked
+    )
+
+
+_EMOJI_RE = re.compile("[\U0001F000-\U0001FAFF\u2600-\u27BF\u2764\u2665\u2B50]")
+
+
+def render_emojis(comments: list[dict]) -> str:
+    counter = collections.Counter()
+    for comment in comments:
+        counter.update(_EMOJI_RE.findall(comment.get("text") or ""))
+    ranked = [(emoji, count) for emoji, count in counter.most_common(12) if len(emoji.strip()) == 1]
+    if not ranked:
+        return '<div class="empty">Sem reações ainda.</div>'
+    return "\n".join(
+        f'<span class="emoji-chip">{emoji} <em>×{count}</em></span>' for emoji, count in ranked
+    )
 
 
 def replace_section(document: str, start: str, end: str, content: str) -> str:
@@ -294,10 +483,26 @@ def main() -> int:
 
     vods = load_vods()
     summaries = deepseek_summaries(vods)
+    comments = _all_comments(vods)
     document = INDEX.read_text(encoding="utf-8")
     try:
         document = replace_section(document, "<!-- AUTO_STATS_START -->", "<!-- AUTO_STATS_END -->", render_stats(vods))
         document = replace_section(document, "<!-- AUTO_EPISODES_START -->", "<!-- AUTO_EPISODES_END -->", render_episodes(vods, summaries))
+        document = replace_section(document, "<!-- AUTO_FANS_START -->", "<!-- AUTO_FANS_END -->", render_fans(comments))
+        document = replace_section(document, "<!-- AUTO_BORDOES_START -->", "<!-- AUTO_BORDOES_END -->", render_bordoes(comments))
+        document = replace_section(document, "<!-- AUTO_EMOJIS_START -->", "<!-- AUTO_EMOJIS_END -->", render_emojis(comments))
+
+        followers = [vod["followers"] for vod in vods if vod["followers"] is not None]
+        if followers:
+            document = replace_section(
+                document, "<!-- AUTO_FOLLOWERS_START -->", "<!-- AUTO_FOLLOWERS_END -->",
+                _display_count(max(followers)),
+            )
+        locais = list(dict.fromkeys(vod["local_label"] for vod in vods if vod["local_label"]))
+        document = replace_section(
+            document, "<!-- AUTO_LOCAIS_START -->", "<!-- AUTO_LOCAIS_END -->",
+            " · ".join(locais) if locais else "Becos de Tóquio",
+        )
         document, count = re.subn(
             r"<!-- AUTO_LIVES_COUNT_START -->.*?<!-- AUTO_LIVES_COUNT_END -->",
             f"<!-- AUTO_LIVES_COUNT_START -->{len(vods)}<!-- AUTO_LIVES_COUNT_END -->",

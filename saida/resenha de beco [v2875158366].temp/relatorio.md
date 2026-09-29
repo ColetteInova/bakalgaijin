@@ -10,10 +10,10 @@
 | Métrica | Valor |
 | --- | --- |
 | Views | 21.9k |
-| Likes (estimado) | 262 |
+| Likes (estimado) | 263 |
 | Comentários | 7540 |
-| Taxa de likes | 1.196% |
-| Taxa de engajamento | 35.626% |
+| Taxa de likes | 1.2% |
+| Taxa de engajamento | 35.599% |
 | Duração | 2h54min |
 
 ## 2. Comparação com o Canal
@@ -21,10 +21,10 @@
 | Indicador | Valor | Variação |
 | --- | --- | --- |
 | Mediana de views do canal | 20.2k | — |
-| Média de views do canal | 22.4k | — |
+| Média de views do canal | 22.5k | — |
 | Mediana dos pares (outros VODs) | 18.5k | — |
 | Este VOD vs. mediana | 21.9k | 8.4% |
-| Este VOD vs. média | 21.9k | -2.3% |
+| Este VOD vs. média | 21.9k | -2.4% |
 
 ## 3. Sentimento dos Comentários
 

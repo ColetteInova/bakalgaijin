@@ -1,93 +1,1487 @@
 {
   "local": "japao",
-  "5": {
-    "nome": "Estação de Shinjuku",
-    "lat": 35.6896,
-    "lng": 139.7006
+  "725": {
+    "nome": "Torrezão do Kabukichō",
+    "lat": 35.6955,
+    "lng": 139.701,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
-  "605": {
-    "nome": "Kabukichō",
-    "lat": 35.6938,
-    "lng": 139.7034
+  "785": {
+    "nome": "Torrezão do Kabukichō",
+    "lat": 35.6955,
+    "lng": 139.701,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "845": {
+    "nome": "Torrezão do Kabukichō",
+    "lat": 35.6955,
+    "lng": 139.701,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "905": {
+    "nome": "Torrezão do Kabukichō",
+    "lat": 35.6955,
+    "lng": 139.701,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "965": {
+    "nome": "Torrezão do Kabukichō",
+    "lat": 35.6955,
+    "lng": 139.701,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1025": {
+    "nome": "Beco do pó",
+    "lat": 35.694,
+    "lng": 139.7025,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1085": {
+    "nome": "Beco do pó",
+    "lat": 35.694,
+    "lng": 139.7025,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1145": {
+    "nome": "Beco do pó",
+    "lat": 35.694,
+    "lng": 139.7025,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "1205": {
-    "nome": "Rua Yasukuni-dori",
-    "lat": 35.693,
-    "lng": 139.702
+    "nome": "Beco do pó",
+    "lat": 35.694,
+    "lng": 139.7025,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1265": {
+    "nome": "Beco do pó",
+    "lat": 35.694,
+    "lng": 139.7025,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1325": {
+    "nome": "浜ちゃん",
+    "lat": 35.7085913,
+    "lng": 139.708301,
+    "estabelecimentos": [
+      "浜ちゃん",
+      "おでん処 やす子"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Placa vertical vermelha com '浜ちゃん' (Hamachan) e placa branca com 'おでん処 やす子' (Oden-dokoro Yasuko) indicam comércios típicos de Tóquio. A arquitetura, calçada de blocos, tampas de bueiro e a ausência de placas de rua legíveis impedem a determ",
+    "osint": true
+  },
+  "1385": {
+    "nome": "23:05",
+    "lat": 35.69248460743801,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1445": {
+    "nome": "回転寿司 すし松",
+    "lat": 35.6951,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "回転寿司 すし松",
+      "磯丸水産",
+      "韓国屋",
+      "居酒屋 とりかわ",
+      "焼肉 八",
+      "カラオケ 館"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada em Kabukicho, Shinjuku, com placas comerciais em japonês, incluindo '回転寿司 すし松' (Sushimatsu) e '磯丸水産' (Isomaru Suisan), típicas da área. A arquitetura densa, letreiros verticais e calçada com corrim",
+    "osint": true
+  },
+  "1505": {
+    "nome": "Karaoke 999",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "Karaoke 999",
+      "Yoshinoya",
+      "Karaoke Manekineko"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita típica de Shinjuku/Kabukichō, com placas verticais proeminentes da rede de karaokê '999' e da 'Yoshinoya' (conhecida rede de gyudon). O letreiro 'カラオケ 999' e a arquitetura densa com letreiros luminosos são c",
+    "osint": true
+  },
+  "1565": {
+    "nome": "26:05",
+    "lat": 35.692391632231406,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1625": {
+    "nome": "歌舞伎町 武骨相傳",
+    "lat": 35.6956,
+    "lng": 139.7033,
+    "estabelecimentos": [
+      "歌舞伎町 武骨相傳"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada em uma área urbana densa do Japão, com letreiros em japonês. O letreiro vertical '歌舞伎町 武骨相傳' (Kabukichō Bukotsu Sōden) é uma pista forte, indicando que o local está em Kabukichō, Shinjuku, Tóquio. ",
+    "osint": true
+  },
+  "1685": {
+    "nome": "28:05",
+    "lat": 35.69232964876033,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1745": {
+    "nome": "GARIZA",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "GARIZA"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de Shinjuku/Kabukichō, com fiação aérea densa, lanternas vermelhas de izakaya, grafites e o letreiro vertical 'GARIZA' (bar conhecido na região). A arquitetura e a placa de trânsito verde ao fundo são",
+    "osint": true
   },
   "1805": {
-    "nome": "Beco Omoide Yokochō",
+    "nome": "30:05",
+    "lat": 35.69226766528925,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1865": {
+    "nome": "Beco das lanternas",
     "lat": 35.693,
-    "lng": 139.6995
+    "lng": 139.7045,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1925": {
+    "nome": "Beco das lanternas",
+    "lat": 35.693,
+    "lng": 139.7045,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "1985": {
+    "nome": "Beco das lanternas",
+    "lat": 35.693,
+    "lng": 139.7045,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2045": {
+    "nome": "GAME",
+    "lat": 35.6945,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "GAME",
+      "ゴーゴーカレー",
+      "カラオケ館"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada com placas comerciais em japonês, incluindo uma grande loja 'GAME' com fachada vermelha e um letreiro de 'ゴーゴーカレー' (Go! Go! Curry). A arquitetura densa, calçadas com azulejos e a presença de letrei",
+    "osint": true
+  },
+  "2105": {
+    "nome": "Beco das lanternas",
+    "lat": 35.693,
+    "lng": 139.7045,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2165": {
+    "nome": "Beco das lanternas",
+    "lat": 35.693,
+    "lng": 139.7045,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2225": {
+    "nome": "37:05",
+    "lat": 35.69205072314049,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2285": {
+    "nome": "OSKAP KEBAB",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "OSKAP KEBAB"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e coberta típica de áreas comerciais de Tóquio, com o letreiro 'OSKAP KEBAB' visível à direita. O contexto da live (Shinjuku/Kabukichō) e a arquitetura com toldos e persianas metálicas são consistentes com a",
+    "osint": true
+  },
+  "2345": {
+    "nome": "39:05",
+    "lat": 35.69198873966942,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "2405": {
-    "nome": "Restaurante em Kabukichō",
-    "lat": 35.6945,
-    "lng": 139.704
+    "nome": "大衆酒場",
+    "lat": 35.6867771,
+    "lng": 139.7278544,
+    "estabelecimentos": [
+      "大衆酒場",
+      "天ぷら 天丼",
+      "韓国屋台"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma fachada de restaurante com letreiros em japonês, incluindo '大衆酒場' (izakaya popular) e '天ぷら 天丼' (tempura e tendon), além de um banner de '韓国屋台' (barraca coreana). A arquitetura e os letreiros são típicos de áreas urbanas ",
+    "osint": true
+  },
+  "2465": {
+    "nome": "Dydo",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "Dydo"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de Tóquio, com uma máquina de venda automática da marca Dydo, cones de trânsito com a inscrição '禁煙' (proibido fumar) e bicicletas estacionadas. A arquitetura e a sinalização são consistentes com área",
+    "osint": true
+  },
+  "2525": {
+    "nome": "焼肉 京城",
+    "lat": 35.6942,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "焼肉 京城",
+      "韓国料理",
+      "焼肉"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de Shinjuku/Kabukichō, com arquitetura densa, escadas de incêndio externas, cones de trânsito laranja e placas verticais em japonês. A placa '焼肉 京城' (Yakiniku Keijo) é um restaurante de churrasco core",
+    "osint": true
+  },
+  "2585": {
+    "nome": "43:05",
+    "lat": 35.69186477272727,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2645": {
+    "nome": "44:05",
+    "lat": 35.691833780991736,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2705": {
+    "nome": "45:05",
+    "lat": 35.691802789256194,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "2765": {
+    "nome": "KAKUICHI",
+    "lat": 35.6955,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "KAKUICHI"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua urbana estreita com calçada, placas de trânsito japonesas (incluindo uma placa azul circular com 'X' vermelho, típica de 'parada proibida'), lanternas vermelhas de izakaya e o letreiro 'KAKUICHI' em um prédio. Esses ",
+    "osint": true
+  },
+  "2825": {
+    "nome": "好美味 麻辣湯",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "好美味 麻辣湯",
+      "ひろし 24"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com placas em japonês, incluindo '好美味 麻辣湯' (Spicy Hot Pot) e 'ひろし 24', típicos de áreas de entretenimento noturno como Kabukichō, em Shinjuku, Tóquio. A arquitetura e a sinalização são consistentes com becos",
+    "osint": true
+  },
+  "2885": {
+    "nome": "Cafe DANKE",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "Cafe DANKE",
+      "とんかつ まんぷく"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma viela estreita com placas comerciais em japonês, incluindo 'Cafe DANKE' e 'とんかつ まんぷく', típicas de áreas como Shinjuku/Kabukichō. A presença de uma máquina de venda automática de bebidas e uma placa de 'estacionamento pro",
+    "osint": true
+  },
+  "2945": {
+    "nome": "Café Danke",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "Café Danke",
+      "DANKE Original"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer em primeiro plano com fundo contendo placas do 'Café Danke' e 'DANKE Original', estabelecimentos conhecidos em Shinjuku, Tóquio. A arquitetura e sinalização são típicas de áreas urbanas japonesas, corroborando a l",
+    "osint": true
   },
   "3005": {
-    "nome": "Rua Central Kabukichō",
-    "lat": 35.6948,
-    "lng": 139.7035
+    "nome": "50:05",
+    "lat": 35.69164783057851,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3065": {
+    "nome": "51:05",
+    "lat": 35.691616838842975,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3125": {
+    "nome": "52:05",
+    "lat": 35.69158584710743,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3185": {
+    "nome": "53:05",
+    "lat": 35.6915548553719,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3245": {
+    "nome": "54:05",
+    "lat": 35.69152386363636,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3305": {
+    "nome": "55:05",
+    "lat": 35.69149287190083,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3365": {
+    "nome": "56:05",
+    "lat": 35.691461880165285,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3425": {
+    "nome": "57:05",
+    "lat": 35.69143088842975,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3485": {
+    "nome": "58:05",
+    "lat": 35.691399896694215,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3545": {
+    "nome": "59:05",
+    "lat": 35.69136890495867,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "3605": {
-    "nome": "Cruzamento de Shinjuku",
-    "lat": 35.691,
-    "lng": 139.7005
+    "nome": "1:00:05",
+    "lat": 35.69133791322314,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3665": {
+    "nome": "1:01:05",
+    "lat": 35.6913069214876,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3725": {
+    "nome": "1:02:05",
+    "lat": 35.69127592975207,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3785": {
+    "nome": "1:03:05",
+    "lat": 35.691244938016524,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "3845": {
+    "nome": "花園稲荷神社",
+    "lat": 35.6993628,
+    "lng": 139.725271,
+    "estabelecimentos": [
+      "花園稲荷神社",
+      "大黒天",
+      "摩利支天"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a entrada do santuário Hanazono Inari (花園稲荷神社), localizado dentro do parque Ueno, em Tóquio. É possível identificar o nome do santuário na placa central acima da escadaria, além de banners laterais com os nomes '大黒天' (Daikok",
+    "osint": true
+  },
+  "3905": {
+    "nome": "Omoide Yokocho",
+    "lat": 35.6930689,
+    "lng": 139.6995016,
+    "estabelecimentos": [
+      "Omoide Yokocho",
+      "Kabukichō"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma fachada vermelha com lanternas japonesas e madeira empilhada, típica de izakayas em Omoide Yokocho, próximo a Shinjuku. No entanto, não há placas de rua ou nomes de estabelecimentos legíveis que permitam uma geolocalizaç",
+    "osint": true
+  },
+  "3965": {
+    "nome": "二木の菓子",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "二木の菓子",
+      "天徳寺",
+      "稲荷大明神"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada da loja '二木の菓子' (Niki no Kashi), uma famosa loja de doces em Tóquio, localizada em Asakusa, não em Shinjuku/Kabukichō. Ao lado, há um santuário com a inscrição '天徳寺' (Tendera) e '稲荷大明神' (Inari Daimyojin), além de l",
+    "osint": true
+  },
+  "4025": {
+    "nome": "1:07:05",
+    "lat": 35.691120971074376,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4085": {
+    "nome": "伊藤園",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "伊藤園"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma máquina de venda automática da marca japonesa Ito En (伊藤園) e placas de madeira com fitas brancas (omikuji ou ema) típicas de santuários xintoístas. A arquitetura ao fundo e a presença de caracteres japoneses indicam um a",
+    "osint": true
+  },
+  "4145": {
+    "nome": "Hanazono Shrine",
+    "lat": 35.6938,
+    "lng": 139.705,
+    "estabelecimentos": [
+      "Hanazono Shrine"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a entrada principal do Santuário Hanazono (Hanazono Jinja), localizado em Shinjuku, Tóquio. Elementos identificáveis incluem os portões vermelhos (torii), lanternas de papel com o símbolo do santuário, a arquitetura tradicio",
+    "osint": true
   },
   "4205": {
-    "nome": "Godzilla Head",
-    "lat": 35.695,
-    "lng": 139.701
+    "nome": "DRUMCAN",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "DRUMCAN",
+      "Korean Restaurant",
+      "焼肉 大将"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com arquitetura típica de Tóquio, com letreiros em japonês e coreano. O letreiro 'DRUMCAN' e 'Korean Restaurant' são pistas, mas não há placas de rua legíveis. A localização é consistente com a área de Shinj",
+    "osint": true
+  },
+  "4265": {
+    "nome": "ゴルフセンター",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "ゴルフセンター",
+      "天龍寺",
+      "新宿"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com placas japonesas, incluindo 'ゴルフセンター' (centro de golfe) e '天龍寺' (Templo Tenryu-ji), típicas de áreas urbanas de Tóquio como Shinjuku/Kabukichō. A arquitetura e o ambiente correspondem a um beco comercial",
+    "osint": true
+  },
+  "4325": {
+    "nome": "1:12:05",
+    "lat": 35.69096601239669,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4385": {
+    "nome": "1:13:05",
+    "lat": 35.69093502066116,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4445": {
+    "nome": "サテンドール",
+    "lat": 35.6942,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "サテンドール"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua coberta (provavelmente sob uma linha ferroviária) com uma placa vertical japonesa 'サテンドール' (Satendooru), que corresponde a um estabelecimento na área de Shinjuku, Tóquio. A arquitetura e a presença de persianas metál",
+    "osint": true
+  },
+  "4505": {
+    "nome": "1:15:05",
+    "lat": 35.69087303719008,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4565": {
+    "nome": "1:16:05",
+    "lat": 35.690842045454545,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4625": {
+    "nome": "免税",
+    "lat": 35.6945,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "免税",
+      "ドン・キホーテ",
+      "カラオケ"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita típica de Kabukichō, em Shinjuku, Tóquio, com letreiros em japonês, incluindo '免税' (isento de impostos) e 'ドン・キホーテ' (Don Quijote), além de um caminhão branco com placa japonesa. A arquitetura e a sinalização",
+    "osint": true
+  },
+  "4685": {
+    "nome": "1:18:05",
+    "lat": 35.69078006198347,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "4745": {
+    "nome": "FamilyMart",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "FamilyMart",
+      "マルエツ (Maruetsu)",
+      "ドラッグストア (Drug Store)",
+      "居酒屋 (Izakaya)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita típica de Shinjuku/Kabukichō, com calçamento em blocos, sinalização de '止まれ' (pare) pintada no chão, uma van branca estacionada, e uma loja FamilyMart à direita com placa '24 OPEN'. Há também uma placa verti",
+    "osint": true
   },
   "4805": {
-    "nome": "Prédio em Shinjuku",
+    "nome": "イーストゲート",
+    "lat": 35.6955,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "イーストゲート",
+      "カラオケ館",
+      "ドン・キホーテ",
+      "マツモトキヨシ"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com faixas de pedestres e calçadas molhadas, típica de Shinjuku. Placas de estabelecimentos como 'イーストゲート' e 'カラオケ館' são visíveis, além de um letreiro da Don Quijote ao fundo. A arquitetura e o mobiliário urban",
+    "osint": true
+  },
+  "4865": {
+    "nome": "HOTEL LiVEMAX",
+    "lat": 35.6955,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "HOTEL LiVEMAX",
+      "Doutor"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada larga e molhada em Tóquio, com o letreiro laranja 'HOTEL LiVEMAX' visível à esquerda. O logotipo 'Doutor' também aparece em uma placa menor. A arquitetura comercial, a sinalização de trânsito japonesa e a presenç",
+    "osint": true
+  },
+  "4925": {
+    "nome": "ドン・キホーテ",
+    "lat": 35.6958,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "ドン・キホーテ",
+      "カラオケ館",
+      "快活CLUB",
+      "松屋",
+      "吉野家"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A placa azul de trânsito indica claramente '靖国通り' (Yasukuni-dori) em direção a Shinjuku. A arquitetura, os letreiros comerciais (Don Quijote, Karaoke Kan) e o cruzamento com faixa de pedestres são típicos da área de Kabukichō, em Shinjuku, ",
+    "osint": true
+  },
+  "4985": {
+    "nome": "Big Echo",
+    "lat": 35.6956,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "Big Echo",
+      "Mister Donut",
+      "Matsuya",
+      "Tokyo Leisure"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o cruzamento de Yasukuni-dori com Meiji-dori, em Shinjuku, Tóquio. É possível identificar o letreiro do Big Echo (à esquerda), a placa azul de direção com caracteres japoneses, o Mister Donut e o Matsuya. A arquitetura e a s",
+    "osint": true
+  },
+  "5045": {
+    "nome": "小諸そば",
     "lat": 35.6925,
-    "lng": 139.699
+    "lng": 139.699,
+    "estabelecimentos": [
+      "小諸そば"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada larga e arborizada com um estabelecimento '小諸そば' (Komoro Soba), rede comum em Tóquio. A fala do streamer menciona 'rio', sugerindo proximidade com o Rio Kanda ou áreas próximas a Shinjuku. A arquitetura e o ambie",
+    "osint": true
+  },
+  "5105": {
+    "nome": "1:25:05",
+    "lat": 35.69056311983471,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5165": {
+    "nome": "Tóquio",
+    "lat": 35.6942,
+    "lng": 139.7036,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um pagode tradicional japonês com telhado verde e detalhes dourados no primeiro plano à direita, ladeado por arranha-céus residenciais modernos e altos. Essa combinação é característica do bairro de Nishi-Shinjuku, em Tóquio",
+    "osint": true
+  },
+  "5225": {
+    "nome": "1:27:05",
+    "lat": 35.690501136363636,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5285": {
+    "nome": "1:28:05",
+    "lat": 35.690470144628094,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5345": {
+    "nome": "1:29:05",
+    "lat": 35.69043915289256,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "5405": {
-    "nome": "Loja de conveniência",
-    "lat": 35.6935,
-    "lng": 139.7025
+    "nome": "1:30:05",
+    "lat": 35.69040816115702,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5465": {
+    "nome": "1:31:05",
+    "lat": 35.69037716942149,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5525": {
+    "nome": "1:32:05",
+    "lat": 35.690346177685946,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5585": {
+    "nome": "1:33:05",
+    "lat": 35.69031518595041,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5645": {
+    "nome": "1:34:05",
+    "lat": 35.690284194214875,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5705": {
+    "nome": "1:35:05",
+    "lat": 35.69025320247933,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5765": {
+    "nome": "1:36:05",
+    "lat": 35.6902222107438,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5825": {
+    "nome": "1:37:05",
+    "lat": 35.69019121900826,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5885": {
+    "nome": "Jardim vertical",
+    "lat": 35.691,
+    "lng": 139.7018,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "5945": {
+    "nome": "Jardim vertical",
+    "lat": 35.691,
+    "lng": 139.7018,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "6005": {
-    "nome": "Loja de doces",
-    "lat": 35.694,
-    "lng": 139.703
+    "nome": "Jardim vertical",
+    "lat": 35.691,
+    "lng": 139.7018,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6065": {
+    "nome": "Jardim vertical",
+    "lat": 35.691,
+    "lng": 139.7018,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6125": {
+    "nome": "Jardim vertical",
+    "lat": 35.691,
+    "lng": 139.7018,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6185": {
+    "nome": "Jardim vertical",
+    "lat": 35.691,
+    "lng": 139.7018,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6245": {
+    "nome": "1:44:05",
+    "lat": 35.6899742768595,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6305": {
+    "nome": "1:45:05",
+    "lat": 35.68994328512397,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6365": {
+    "nome": "Estação (área iluminada)",
+    "lat": 35.69,
+    "lng": 139.7006,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6425": {
+    "nome": "Estação (área iluminada)",
+    "lat": 35.69,
+    "lng": 139.7006,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6485": {
+    "nome": "Estação (área iluminada)",
+    "lat": 35.69,
+    "lng": 139.7006,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6545": {
+    "nome": "Estação (área iluminada)",
+    "lat": 35.69,
+    "lng": 139.7006,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "6605": {
-    "nome": "Rua movimentada",
-    "lat": 35.692,
-    "lng": 139.7015
+    "nome": "Estação (área iluminada)",
+    "lat": 35.69,
+    "lng": 139.7006,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6665": {
+    "nome": "Estação (área iluminada)",
+    "lat": 35.69,
+    "lng": 139.7006,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6725": {
+    "nome": "1:52:05",
+    "lat": 35.689726342975206,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6785": {
+    "nome": "1:53:05",
+    "lat": 35.68969535123966,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6845": {
+    "nome": "1:54:05",
+    "lat": 35.68966435950413,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6905": {
+    "nome": "1:55:05",
+    "lat": 35.68963336776859,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "6965": {
+    "nome": "1:56:05",
+    "lat": 35.68960237603306,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7025": {
+    "nome": "1:57:05",
+    "lat": 35.689571384297516,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7085": {
+    "nome": "1:58:05",
+    "lat": 35.68954039256198,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7145": {
+    "nome": "1:59:05",
+    "lat": 35.689509400826445,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "7205": {
-    "nome": "Beco estreito",
-    "lat": 35.6932,
-    "lng": 139.6998
+    "nome": "2:00:05",
+    "lat": 35.68947840909091,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7265": {
+    "nome": "2:01:05",
+    "lat": 35.68944741735537,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7325": {
+    "nome": "Tóquio",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma ampla rede ferroviária com múltiplos trilhos, catenárias e sinalização vertical, característica de pátios ferroviários urbanos japoneses. O contexto declarado da live (Shinjuku/Kabukichō, Tóquio) e a menção do streamer a",
+    "osint": true
+  },
+  "7385": {
+    "nome": "Plataforma do trem",
+    "lat": 35.6897,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7445": {
+    "nome": "Plataforma do trem",
+    "lat": 35.6897,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7505": {
+    "nome": "Plataforma do trem",
+    "lat": 35.6897,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7565": {
+    "nome": "Plataforma do trem",
+    "lat": 35.6897,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7625": {
+    "nome": "Plataforma do trem",
+    "lat": 35.6897,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7685": {
+    "nome": "OIOI",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "OIOI",
+      "OIOI Marui",
+      "Bic Camera",
+      "Lumine"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a paisagem urbana de Shinjuku, em Tóquio, com destaque para o letreiro vermelho 'OIOI' (Marui) no topo de um edifício, além de outras placas comerciais típicas da região. A estrutura metálica em primeiro plano e a vista elev",
+    "osint": true
+  },
+  "7745": {
+    "nome": "2:09:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "7805": {
-    "nome": "Praça em Shinjuku",
-    "lat": 35.6905,
-    "lng": 139.7
+    "nome": "2:10:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7865": {
+    "nome": "2:11:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7925": {
+    "nome": "2:12:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "7985": {
+    "nome": "2:13:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8045": {
+    "nome": "2:14:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8105": {
+    "nome": "2:15:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8165": {
+    "nome": "PASELA",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "PASELA",
+      "マツモトキヨシ"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada da loja PASELA e da farmácia Matsumoto Kiyoshi na região de Shinjuku, Tóquio. A sinalização de trânsito, o padrão de piso tátil amarelo e a arquitetura comercial são típicos do cruzamento de Yasukuni-dori com Shinj",
+    "osint": true
+  },
+  "8225": {
+    "nome": "PACHINKO SLOT ESPACE",
+    "lat": 35.6946,
+    "lng": 139.7032,
+    "estabelecimentos": [
+      "PACHINKO SLOT ESPACE",
+      "エスパス日拓",
+      "携帯電話",
+      "万世",
+      "TULLY'S COFFEE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o letreiro do 'PACHINKO SLOT ESPACE' e 'エスパス日拓' na fachada de um prédio, que é uma loja de pachinko localizada no cruzamento de Yasukuni-dori com Kuyakusho-dori, em Shinjuku, Tóquio. O letreiro '携帯電話' (telefone celular) e a ",
+    "osint": true
+  },
+  "8285": {
+    "nome": "Tsurutontan",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "Tsurutontan",
+      "S.RIDE",
+      "Kushikatsu Tanaka"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o cruzamento da Yasukuni-dori com a Meiji-dori em Shinjuku, Tóquio. O letreiro 'Tsurutontan' é visível em um prédio à esquerda, e o táxi 'S.RIDE' é típico de Tóquio. A arquitetura e as placas em japonês confirmam a localizaç",
+    "osint": true
+  },
+  "8345": {
+    "nome": "回転寿司",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "回転寿司",
+      "すし",
+      "居酒屋"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita típica de Shinjuku/Kabukichō, com letreiros em japonês, incluindo '回転寿司' (sushi giratório) e '居酒屋' (izakaya). O ambiente é consistente com uma rua secundária de Kabukichō, com arquitetura densa e calçada mol",
+    "osint": true
   },
   "8405": {
-    "nome": "Rua Yasukuni-dori",
-    "lat": 35.693,
-    "lng": 139.702
+    "nome": "2:20:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8465": {
+    "nome": "カラオケ館 (Karaoke Kan)",
+    "lat": 35.6955,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "カラオケ館 (Karaoke Kan)",
+      "SLOT",
+      "韓国広場 (Korean Hiroba)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada em uma área urbana densa do Japão, com placas em japonês e coreano, típicas de Shinjuku/Kabukichō. A placa 'カラオケ館' (Karaoke Kan) é uma rede comum no Japão, e a presença de letreiros em coreano suge",
+    "osint": true
+  },
+  "8525": {
+    "nome": "2:22:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8585": {
+    "nome": "BAR A",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "BAR A",
+      "New York New York"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Imagem mostra beco estreito típico de Shinjuku/Kabukichō, com fiação aérea densa, letreiros em japonês e inglês (BAR A, New York New York), grafites e latões de lixo. A arquitetura e o ambiente correspondem a becos comerciais de Kabukichō, ",
+    "osint": true
+  },
+  "8645": {
+    "nome": "ガチャガチャ (Gachagacha)",
+    "lat": 35.6918628,
+    "lng": 139.7017489,
+    "estabelecimentos": [
+      "ガチャガチャ (Gachagacha)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de áreas urbanas japonesas, com destaque para uma placa preta com letras brancas 'ガチャガチャ' (loja de cápsulas de brinquedo). Não há placas de rua, nomes de cruzamentos ou pontos turísticos reconhecíveis",
+    "osint": true
+  },
+  "8705": {
+    "nome": "2:25:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8765": {
+    "nome": "2:26:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "8825": {
+    "nome": "Matsumoto Kiyoshi (松本清)",
+    "lat": 35.6938,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "Matsumoto Kiyoshi (松本清)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma grande loja da Matsumoto Kiyoshi (farmácia/drogaria) com a placa '免税' (isento de impostos) e o logotipo vermelho e branco, típica de Shinjuku. A via elevada ao fundo e a arquitetura ao redor são consistentes com a área d",
+    "osint": true
+  },
+  "8885": {
+    "nome": "上野駅",
+    "lat": 35.6598504,
+    "lng": 139.7170841,
+    "estabelecimentos": [
+      "上野駅",
+      "Ueno Station",
+      "Dining Tokyo",
+      "Bakurocho"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A placa verde com '上野駅' (Estação Ueno) e a sinalização 'Dining Tokyo' indicam que o streamer está na área da Estação Ueno, em Tóquio. O texto 'Bakurocho' no overlay também é consistente com a região de Ueno/Asakusa. A arquitetura e o letrei",
+    "osint": true
+  },
+  "8945": {
+    "nome": "2:29:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "9005": {
-    "nome": "Kabukichō",
+    "nome": "Tóquio",
+    "lat": 35.6925,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma ampla calçada com piso tátil amarelo, piso de blocos e um grande arco vermelho ao fundo, característico do cenário urbano de Shinjuku, em Tóquio. A arquitetura ao redor, incluindo grades metálicas e coberturas, é típica ",
+    "osint": true
+  },
+  "9065": {
+    "nome": "カラオケ館",
+    "lat": 35.6957,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "カラオケ館",
+      "快活CLUB",
+      "マクドナルド"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passarela com piso tátil amarelo e azulejos, típica de Tóquio. Placas de estabelecimentos como カラオケ館 e 快活CLUB são visíveis, comuns em Shinjuku. A frase 'A passarela...' e o contexto de live IRL em Shinjuku/Kabukichō corr",
+    "osint": true
+  },
+  "9125": {
+    "nome": "Don Quijote",
     "lat": 35.6938,
-    "lng": 139.7034
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "Don Quijote",
+      "Manga Souko"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma escadaria que desce para uma rua movimentada em Shinjuku. À direita, há uma grande placa vermelha com o logotipo da Don Quijote, uma rede de lojas de descontos muito comum no Japão, e uma placa amarela com caracteres jap",
+    "osint": true
+  },
+  "9185": {
+    "nome": "LIVE BAR",
+    "lat": 35.6955,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "LIVE BAR",
+      "Sushi Zanmai",
+      "Karaoke-kan"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada em Tóquio com azulejos amarelos táteis, típicos do Japão. Placas visíveis incluem 'LIVE BAR', 'Sushi Zanmai' (cadeia de restaurantes de sushi) e 'Karaoke-kan' (rede de karaokê). A arquitetura e o letreiro em japo",
+    "osint": true
+  },
+  "9245": {
+    "nome": "平ちゃん (Hei-chan)",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "平ちゃん (Hei-chan)",
+      "GaBay",
+      "うまか (Umaka)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de Shinjuku/Kabukichō, com placas verticais em japonês e letreiros luminosos amarelos da rede GaBay. A presença de estabelecimentos como '平ちゃん' e 'GaBay' é consistente com a área de Kabukichō, embora ",
+    "osint": true
+  },
+  "9305": {
+    "nome": "2:35:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9365": {
+    "nome": "2:36:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9425": {
+    "nome": "2:37:05",
+    "lat": 35.6892,
+    "lng": 139.702,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9485": {
+    "nome": "ホテル福屋",
+    "lat": 35.6956,
+    "lng": 139.7036,
+    "estabelecimentos": [
+      "ホテル福屋"
+    ],
+    "confianca": "baixa",
+    "justificativa": "Placa vertical com caracteres japoneses 'ホテル福屋' (Hotel Fukaya) visível à direita, indicando um estabelecimento comercial típico de áreas urbanas japonesas. A arquitetura e a vegetação são consistentes com o contexto de Tóquio, especificamen",
+    "osint": true
+  },
+  "9545": {
+    "nome": "Beisia",
+    "lat": 35.6927,
+    "lng": 139.7053,
+    "estabelecimentos": [
+      "Beisia",
+      "CAINZ",
+      "東京建物"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada do edifício Beisia/CAINZ na Yasukuni-dori, próximo ao cruzamento com a Meiji-dori, sob o viaduto da linha JR Chuo. A caixa de correio vermelha e a sinalização de trânsito japonesa confirmam a localização em Shinjuk",
+    "osint": true
   },
   "9605": {
-    "nome": "Beco Omoide Yokochō",
-    "lat": 35.693,
-    "lng": 139.6995
+    "nome": "2:40:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
-  "10205": {
-    "nome": "Estação de Shinjuku",
-    "lat": 35.6896,
-    "lng": 139.7006
+  "9665": {
+    "nome": "2:41:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9725": {
+    "nome": "Bic Camera",
+    "lat": 35.6956,
+    "lng": 139.7035,
+    "estabelecimentos": [
+      "Bic Camera",
+      "Joker"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada com piso tátil amarelo, típico do Japão, e uma placa vermelha com a palavra 'Joker' e outra com 'Bic Camera', sugerindo a área de Shinjuku. A presença de veículos como Toyota Alphard e Mercedes-Benz Classe G, alé",
+    "osint": true
+  },
+  "9785": {
+    "nome": "2:43:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9845": {
+    "nome": "2:44:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9905": {
+    "nome": "2:45:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "9965": {
+    "nome": "OIOI",
+    "lat": 35.6925,
+    "lng": 139.7005,
+    "estabelecimentos": [
+      "OIOI",
+      "LUMINE EST",
+      "Bic Camera"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a passarela do Shinjuku Southern Terrace, com o logotipo 'OIOI' (Marui) no edifício ao fundo e a placa 'LUMINE EST' à direita. A estrutura vermelha em forma de arco é um marco da região de Shinjuku, Tóquio. A coordenada esti",
+    "osint": true
+  },
+  "10025": {
+    "nome": "2:47:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "10085": {
+    "nome": "2:48:05",
+    "lat": 35.6892,
+    "lng": 139.705,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
+  },
+  "10145": {
+    "nome": "Miroku Building",
+    "lat": 35.6938,
+    "lng": 139.7034,
+    "estabelecimentos": [
+      "Miroku Building",
+      "7-Eleven"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua urbana em Tóquio, com o letreiro 'Miroku Building' (みろくビル) em japonês, um 7-Eleven ao fundo e placas de trânsito japonesas. O contexto da live (Shinjuku/Kabukichō) e a fala do streamer sobre 'entrar junto com um japo",
+    "osint": true
   }
 }

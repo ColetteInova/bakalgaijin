@@ -301,6 +301,7 @@ export default function VodDownloader() {
   // ---- Episódios já preparados (pastas em saida/) ----
   const [prepared, setPrepared] = useState<PreparedFolder[]>([]);
   const [loadingPrepared, setLoadingPrepared] = useState(false);
+  const [startingGlobalReprepare, setStartingGlobalReprepare] = useState(false);
 
   const fetchPrepared = useCallback(async () => {
     setLoadingPrepared(true);
@@ -331,6 +332,13 @@ export default function VodDownloader() {
     if (finished.length > 0) fetchPrepared();
   }, [jobs, fetchPrepared]);
 
+  const previousGlobalReprepareRef = useRef(false);
+  useEffect(() => {
+    const running = jobs.some((j) => j.status === "running" && j.pipeline?.step === "reprepare_all");
+    if (previousGlobalReprepareRef.current && !running) fetchPrepared();
+    previousGlobalReprepareRef.current = running;
+  }, [jobs, fetchPrepared]);
+
   const runPreparedStep = async (folder: string, step: string, local?: string) => {
     try {
       const res = await fetch("/api/vod/prepare-folder", {
@@ -344,6 +352,24 @@ export default function VodDownloader() {
       fetchJobs();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Erro ao iniciar etapa");
+    }
+  };
+
+  const reprepareAllEpisodes = async () => {
+    setStartingGlobalReprepare(true);
+    try {
+      const res = await fetch("/api/vod/reprepare-all", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao iniciar o re-preparo global");
+      toast.success(`Re-preparo iniciado para ${data.eligibleCount} episódio(s). Acompanhe em Downloads.`);
+      if (data.skippedCount > 0) {
+        toast.info(`${data.skippedCount} pasta(s) sem comentários ou transcrição serão puladas.`);
+      }
+      fetchJobs();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao iniciar o re-preparo global");
+    } finally {
+      setStartingGlobalReprepare(false);
     }
   };
 
@@ -375,6 +401,10 @@ export default function VodDownloader() {
       toast.error(err instanceof Error ? err.message : "Erro ao iniciar preparação");
     }
   };
+
+  const globalReprepareJob = jobs.find((j) => j.pipeline?.step === "reprepare_all");
+  const globalReprepareRunning = globalReprepareJob?.status === "running";
+  const anyJobRunning = jobs.some((j) => j.status === "running");
 
   // ---- Comentários do VOD ----
   const [commentsUrl, setCommentsUrl] = useState("");
@@ -921,13 +951,30 @@ export default function VodDownloader() {
 
           <TabsContent value="prepared" className="flex flex-col gap-6 mt-0">
             <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl ring-1 ring-white/5">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-purple-400" />
                   Episódios preparados
                 </h3>
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-slate-400">{prepared.length} episódio(s)</span>
+                  {globalReprepareRunning && (
+                    <span className="text-xs text-purple-300 max-w-64 truncate" title={globalReprepareJob?.pipeline?.stepLabel}>
+                      {globalReprepareJob?.pipeline?.stepLabel}
+                    </span>
+                  )}
+                  <Button
+                    size="sm"
+                    onClick={reprepareAllEpisodes}
+                    disabled={prepared.length === 0 || loadingPrepared || startingGlobalReprepare || globalReprepareRunning || anyJobRunning}
+                    className="h-8 px-3 text-xs bg-purple-600 hover:bg-purple-700 text-white font-medium disabled:opacity-50"
+                    title="Reprepara em sequência todos os episódios com comentários e transcrição"
+                  >
+                    {startingGlobalReprepare || globalReprepareRunning
+                      ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                      : <RefreshCw className="w-3.5 h-3.5 mr-1" />}
+                    {globalReprepareRunning ? "Repreparando..." : "Repreparar todos"}
+                  </Button>
                   <Button
                     variant="ghost"
                     size="sm"

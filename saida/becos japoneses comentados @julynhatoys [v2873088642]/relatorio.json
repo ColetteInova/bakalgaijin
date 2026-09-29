@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-28T11:45:30",
+  "gerado_em": "2026-09-28T19:15:19",
   "local": "japao",
   "local_label": "Japão (Tóquio)",
   "metricas": {
@@ -11,20 +11,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/1d819639288c8a680ef2_bakagaijinlive_316452665202_1789303348//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7744,
     "duration_label": "2h09min",
-    "views": 18511,
+    "views": 18533,
     "views_label": "18.5k",
     "likes_estimado": 222,
     "likes_label": "222",
     "comentarios": 5015,
-    "taxa_likes": 1.199,
-    "taxa_engajamento": 28.291,
-    "followers_canal": 248265,
+    "taxa_likes": 1.198,
+    "taxa_engajamento": 28.258,
+    "followers_canal": 248259,
     "comparacao_canal": {
-      "mediana_views": 20202.0,
-      "media_views": 22403.0,
-      "mediana_pares": 21893,
+      "mediana_views": 20225.0,
+      "media_views": 22459.5,
+      "mediana_pares": 21917,
       "views_vs_mediana_pct": -8.4,
-      "views_vs_media_pct": -17.4,
+      "views_vs_media_pct": -17.5,
       "views_vs_pares_pct": -15.4,
       "n_videos_canal": 4
     }
@@ -8543,16 +8543,6 @@
         "confianca": 1.0
       },
       {
-        "id": "80936c40-99e9-4109-8933-d73ad274c127",
-        "offset": 1380,
-        "timestamp": "23:00",
-        "usuario": "pablovisilva",
-        "nome": "pablovisilva",
-        "texto": "Essa é feliz no simples",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "4660206f-5e3b-4029-a091-adb5beec26a9",
         "offset": 1380,
         "timestamp": "23:00",
@@ -8560,6 +8550,16 @@
         "nome": "Idley1",
         "texto": "Aqui que é a live do Baka Gracinha ?",
         "sentimento": "confuso",
+        "confianca": 1.0
+      },
+      {
+        "id": "80936c40-99e9-4109-8933-d73ad274c127",
+        "offset": 1380,
+        "timestamp": "23:00",
+        "usuario": "pablovisilva",
+        "nome": "pablovisilva",
+        "texto": "Essa é feliz no simples",
+        "sentimento": "neutro",
         "confianca": 1.0
       },
       {
@@ -23806,8 +23806,8 @@
         "id": "5a74766d-fa99-4e53-9f99-000a722d2c09",
         "offset": 3645,
         "timestamp": "1:00:45",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Preguiça Gaijin",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -35026,8 +35026,8 @@
         "id": "1eaa4c62-6e73-441a-b5a1-966c142f2201",
         "offset": 5489,
         "timestamp": "1:31:29",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@paomofadoo_ Camera que tira foto",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -38736,8 +38736,8 @@
         "id": "abda5b63-914c-41d7-9dca-3ad10e4618e8",
         "offset": 6115,
         "timestamp": "1:41:55",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "6 minutos!",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -44146,8 +44146,8 @@
         "id": "adb1a4e1-90d9-4df4-8e97-0a0ec9b69050",
         "offset": 7072,
         "timestamp": "1:57:52",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Faz live ou video ensinando a editar!!",
         "sentimento": "inspirado",
         "confianca": 1.0
@@ -46043,22 +46043,22 @@
         "confianca": 1.0
       },
       {
-        "id": "c6940db3-a585-4913-b40a-3714f96058f8",
-        "offset": 7367,
-        "timestamp": "2:02:47",
-        "usuario": "aspiiira",
-        "nome": "ASPIIIRA",
-        "texto": "fofo",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "7e500a1a-ac2b-41cc-9caf-d2cf71eebfcc",
         "offset": 7367,
         "timestamp": "2:02:47",
         "usuario": "omalditodokai",
         "nome": "omalditodokai",
         "texto": "TCHAU JULYNHA",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "c6940db3-a585-4913-b40a-3714f96058f8",
+        "offset": 7367,
+        "timestamp": "2:02:47",
+        "usuario": "aspiiira",
+        "nome": "ASPIIIRA",
+        "texto": "fofo",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -48896,8 +48896,8 @@
         "id": "06f5e3ec-6764-46a8-ab01-30425b1fd3ef",
         "offset": 7667,
         "timestamp": "2:07:47",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Falouu",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -53042,11 +53042,131 @@
       "projecao_3h": 102.96,
       "projecao_2h": 68.64,
       "usd_brl": 5.1895,
+      "top_bits": [
+        {
+          "usuario": "PsyFoxxx",
+          "bits": 101,
+          "valor_usd": 0.71,
+          "valor_brl": 3.67
+        },
+        {
+          "usuario": "pamfras2006",
+          "bits": 100,
+          "valor_usd": 0.7,
+          "valor_brl": 3.63
+        },
+        {
+          "usuario": "coxinhaa04",
+          "bits": 5,
+          "valor_usd": 0.04,
+          "valor_brl": 0.18
+        },
+        {
+          "usuario": "bakalovers",
+          "bits": 3,
+          "valor_usd": 0.02,
+          "valor_brl": 0.11
+        },
+        {
+          "usuario": "EoEzek",
+          "bits": 1,
+          "valor_usd": 0.01,
+          "valor_brl": 0.04
+        },
+        {
+          "usuario": "xKAYOowo",
+          "bits": 1,
+          "valor_usd": 0.01,
+          "valor_brl": 0.04
+        }
+      ],
       "receita_liquida_brl": 383.19,
       "receita_subs_brl": 750.97,
       "receita_bits_brl": 7.68,
       "projecao_3h_brl": 534.31,
-      "projecao_2h_brl": 356.21
+      "projecao_2h_brl": 356.21,
+      "top_contribuidores": [
+        {
+          "usuario": "AIveszz",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "AnAnonymousGifter",
+          "subs": 0,
+          "subs_presentes": 1,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "arckfaelzin",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "atereza01",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "biel_soares_",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "eaivinee",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "Ebuzz250",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "fnx_artz",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "Giulianoff",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "henri_coo",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        }
+      ]
     },
     "sent_series": {
       "positivo": [
@@ -57498,11 +57618,6 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "Baka_Denji",
-        "n": 4,
-        "sentimento": "neutro"
-      },
-      {
         "usuario": "bandidadaisa",
         "n": 4,
         "sentimento": "neutro"
@@ -57584,6 +57699,11 @@
       },
       {
         "usuario": "Nightbot",
+        "n": 4,
+        "sentimento": "neutro"
+      },
+      {
+        "usuario": "Nyd_Sanryn",
         "n": 4,
         "sentimento": "neutro"
       },
@@ -58808,11 +58928,6 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "e006cr",
-        "n": 1,
-        "sentimento": "neutro"
-      },
-      {
         "usuario": "eaeflorencio",
         "n": 1,
         "sentimento": "neutro"
@@ -58824,6 +58939,11 @@
       },
       {
         "usuario": "eduardo_fm32",
+        "n": 1,
+        "sentimento": "neutro"
+      },
+      {
+        "usuario": "eduuh006",
         "n": 1,
         "sentimento": "neutro"
       },
@@ -60871,70 +60991,70 @@
         "minuto": 30,
         "tipo": "pergunta",
         "trecho": "Olha o sapo.",
-        "descricao": "Confusão sobre idades vira debate caótico e hilário, com direito a '18 só de Senai' e pizza imaginária."
+        "descricao": "Confusão sobre idades vira debate caótico e hilário, com direito a hotel e tecnologia, rendendo clipe de risadas."
       },
       {
         "inicio": "37:00",
         "minuto": 37,
         "tipo": "piada",
         "trecho": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco",
-        "descricao": "Teoria conspiratória culpa Datena por pessoas gostarem de desgraça, misturando enchentes e visualizações."
+        "descricao": "Piada sobre por que pessoas gostam de desgraça, culpando Datena, é um momento cômico e relatable."
       },
       {
         "inicio": "44:00",
         "minuto": 44,
         "tipo": "pergunta",
         "trecho": "Mas quando está o México",
-        "descricao": "Acham carta de Pokémon falsa e brincam com 'racismo é paia' e medo de eletrocutar, puro caos."
+        "descricao": "Comentário 'racismo é paia' seguido de carta Pokémon e medo de eletrocutado cria gancho inesperado e engraçado."
       },
       {
         "inicio": "51:00",
         "minuto": 51,
         "tipo": "piada",
         "trecho": "Caralho, Júlia.",
-        "descricao": "Piada sobre loja de vestido e assalto de patinete em 4 minutos, com direito a 'aqui eu aceito'."
+        "descricao": "História de assalto com fuga de patinete em 4 minutos é absurda e perfeita para clipe viral."
       },
       {
         "inicio": "58:00",
         "minuto": 58,
         "tipo": "piada",
         "trecho": "Pronto, aqui não cai, legal",
-        "descricao": "Julinha joga pra caralho e gritaria toma conta, com 'calma lá' e 'agora jogou muito'."
+        "descricao": "Julinha joga dinheiro e grita, com reação exagerada do grupo, gerando momento de pura adrenalina cômica."
       },
       {
         "inicio": "1:05:00",
         "minuto": 65,
         "tipo": "piada",
         "trecho": "Sai fora, Gita.",
-        "descricao": "Julinha viciada em jogos, 'cheatando' e gritando 'conteúdo', enquanto foge de barata."
+        "descricao": "Julinha 'cheatando' e gritando 'conteúdo' enquanto pega coisas aleatórias é caos divertido e clipável."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "piada",
         "trecho": "O carro do lixo.",
-        "descricao": "Troca de pau, óculos e dinheiro: confusão total com 'segura aqui meu pau' e risadas."
+        "descricao": "Troca de pau e pergunta sobre dinheiro leva a confusão sexual e risadas, com timing perfeito."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "É, vamos aqui.",
-        "descricao": "Táxi-free, flashback e 'fire in the hole': bate 169 e comemora com 'humildos'."
+        "descricao": "Confusão com 'táxi-free' e flashback 'fire in the hole' resulta em momento non-sense e engraçado."
       },
       {
         "inicio": "1:26:00",
         "minuto": 86,
         "tipo": "pergunta",
         "trecho": "Você deu show, tá ligado?",
-        "descricao": "Perguntam se são atração do Beco, e procuram lanterna de lamen em Tóquio."
+        "descricao": "Pergunta se são atração turística no Beco leva a discussão sobre lamen e visão do cara, gerando clipe curioso."
       },
       {
         "inicio": "1:33:00",
         "minuto": 93,
         "tipo": "piada",
         "trecho": "A vaca está na cesta do nada",
-        "descricao": "Foto com lencinho do Brasil e capivara no capuz, e crítica 'ficou uma merda' vira piada."
+        "descricao": "Discussão sobre foto com flor e capivara no capuz termina em autocrítica e inversão de palavras, puro ouro cômico."
       }
     ],
     "alertas": [
@@ -72090,7 +72210,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 28.291% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 28.258% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

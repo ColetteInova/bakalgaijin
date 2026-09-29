@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import datetime
 import json
 import math
 import os
@@ -26,6 +27,8 @@ import re
 import statistics
 import subprocess
 import sys
+import time
+import urllib.parse
 import urllib.request
 from collections import Counter
 from pathlib import Path
@@ -1431,25 +1434,51 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
     gifts_per_min = Counter()
     bits_per_min = Counter()
     sub_tiers = Counter()
-    donates = []  # {"usuario": ..., "quantia": ...}
+    contributor_totals: dict[str, dict] = {}
     for c in comments_analysis["comentarios"]:
         text = c["texto"].lower()
         minute = (c["offset"] or 0) // 60
+        username = (c.get("usuario") or c.get("nome") or "").strip()
+        contributor = None
+        if username:
+            contributor = contributor_totals.setdefault(
+                username.casefold(),
+                {
+                    "usuario": c.get("nome") or username,
+                    "subs_por_tier": Counter(),
+                    "gifts_por_tier": Counter(),
+                    "bits": 0,
+                },
+            )
         if "subscribed" in text or "sub" in text.split():
             subs_per_min[minute] += 1
             if "tier 1" in text:
-                sub_tiers["tier1"] += 1
+                tier = "tier1"
             elif "tier 2" in text:
-                sub_tiers["tier2"] += 1
+                tier = "tier2"
             elif "tier 3" in text:
-                sub_tiers["tier3"] += 1
+                tier = "tier3"
             else:
-                sub_tiers["prime/outros"] += 1
+                tier = "prime/outros"
+            sub_tiers[tier] += 1
+            if contributor and "subscribed" in text:
+                contributor["subs_por_tier"][tier] += 1
         if "gift" in text or " gifted" in text:
             gifts_per_min[minute] += 1
+            gift_match = re.search(
+                r"\b(?:is\s+)?gifting\s+(\d+)\s+tier\s*([123])\s+subs?\b", text
+            ) or re.search(
+                r"\bgifted\s+(\d+|a|an)\s+tier\s*([123])\s+subscriptions?\b", text
+            )
+            if contributor and gift_match:
+                gift_count = int(gift_match.group(1)) if gift_match.group(1).isdigit() else 1
+                contributor["gifts_por_tier"][f"tier{gift_match.group(2)}"] += gift_count
         # bits/cheers: "Cheer100", "Cheer1000"
         for m in re.finditer(r"cheer(\d+)", text):
-            bits_per_min[minute] += int(m.group(1))
+            bits = int(m.group(1))
+            bits_per_min[minute] += bits
+            if contributor:
+                contributor["bits"] += bits
 
     subs_series = [subs_per_min.get(m, 0) for m in range(total_minutes)]
     gifts_series = [gifts_per_min.get(m, 0) for m in range(total_minutes)]
@@ -1484,6 +1513,47 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
     # cotação USD -> BRL (open.er-api.com; fallback R$ 5,00 por dólar)
     usd_brl = _fetch_usd_brl()
 
+    top_contribuidores = []
+    for contributor in contributor_totals.values():
+        subs = sum(contributor["subs_por_tier"].values())
+        gifted_subs = sum(contributor["gifts_por_tier"].values())
+        revenue_usd = sum(
+            TIER_VALOR[tier] * count * 0.5
+            for tier, count in (
+                contributor["subs_por_tier"] + contributor["gifts_por_tier"]
+            ).items()
+        ) + contributor["bits"] * 0.007
+        if revenue_usd <= 0:
+            continue
+        top_contribuidores.append(
+            {
+                "usuario": contributor["usuario"],
+                "subs": subs,
+                "subs_presentes": gifted_subs,
+                "bits": contributor["bits"],
+                "valor_usd": round(revenue_usd, 2),
+                "valor_brl": round(revenue_usd * usd_brl, 2),
+            }
+        )
+    top_contribuidores.sort(key=lambda item: (-item["valor_usd"], item["usuario"].lower()))
+
+    # ranking separado de bits (cheers) — quem mandou bits fica visível mesmo
+    # com valor pequeno, que não entraria no top de contribuições por subs
+    top_bits = []
+    for contributor in contributor_totals.values():
+        if contributor["bits"] <= 0:
+            continue
+        valor = contributor["bits"] * 0.007
+        top_bits.append(
+            {
+                "usuario": contributor["usuario"],
+                "bits": contributor["bits"],
+                "valor_usd": round(valor, 2),
+                "valor_brl": round(valor * usd_brl, 2),
+            }
+        )
+    top_bits.sort(key=lambda item: (-item["bits"], item["usuario"].lower()))
+
     previsao = {
         "receita_liquida": receita_liquida,
         "receita_subs": receita_subs,
@@ -1494,11 +1564,13 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
         "projecao_3h": round(receita_por_minuto * 180, 2),
         "projecao_2h": round(receita_por_minuto * 120, 2),
         "usd_brl": usd_brl,
+        "top_bits": top_bits[:10],
         "receita_liquida_brl": round(receita_liquida * usd_brl, 2),
         "receita_subs_brl": round(receita_subs * usd_brl, 2),
         "receita_bits_brl": round(receita_bits * usd_brl, 2),
         "projecao_3h_brl": round(receita_por_minuto * 180 * usd_brl, 2),
         "projecao_2h_brl": round(receita_por_minuto * 120 * usd_brl, 2),
+        "top_contribuidores": top_contribuidores[:10],
     }
 
     # --- correlação defasada (lag): fala agora influencia o chat 1 min depois? ---
@@ -1901,10 +1973,15 @@ def write_csv(comments: list[dict], path: Path) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# Mapa da live (marcos a cada 10 min) — extração de frames + geolocalização
+# Mapa da live (marcos a cada 1 min) — extração de frames + geolocalização
 # --------------------------------------------------------------------------- #
 
-MAP_STOP_INTERVAL = 600  # 10 minutos
+MAP_STOP_INTERVAL = 60  # 1 minuto (mais âncoras = rota mais precisa)
+
+# Recorte do trajeto: ignora os primeiros 12 min (abertura da live/transição) e
+# os últimos 5 min do vídeo — a rota só cobre onde o streamer já está na rua.
+MAP_TRIM_START = 720
+MAP_TRIM_END = 300
 
 # Configurações de mapa por cidade: base/âncoras do fallback determinístico,
 # limites de lat/lng usados para validar a resposta do DeepSeek e textos do prompt.
@@ -2174,16 +2251,122 @@ def _collect_location_frames(folder: Path) -> list[Path]:
     return frames
 
 
-def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
-    """Usa a API DeepSeek para nomear/posicionar os marcos; fallback local se falhar.
+def _extract_frame_at(folder: Path, video_file: Path, sec: float, name: str) -> Path | None:
+    """Extrai 1 frame num segundo específico (usado no retry de frame borrado/ruim)."""
+    dest = folder / "mapa" / name
+    try:
+        subprocess.run(
+            [
+                "ffmpeg", "-hide_banner", "-loglevel", "error",
+                "-ss", str(max(0, sec)), "-i", str(video_file),
+                "-frames:v", "1", "-vf", "scale=640:-1", "-q:v", "3",
+                str(dest), "-y",
+            ],
+            check=False,
+            timeout=60,
+        )
+        return dest if dest.exists() else None
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] ffmpeg (frame {sec}s) falhou: {exc}", file=sys.stderr)
+        return None
 
-    O vídeo não muda, então o resultado é cacheado em mapa/geoloc.json
-    (o cache é invalidado se o local da live mudar).
-    O retorno é uma lista de {sec, nome, lat, lng, cor} na MESMA ordem.
+
+def _nominatim_geocode(query: str) -> tuple[float, float] | None:
+    """Geocodifica um endereço/estabelecimento no OpenStreetMap (Nominatim).
+
+    Usado para converter nomes de lojas/cruzamentos identificados pela LLM
+    em coordenadas reais — validação contra alucinação (o ponto precisa
+    existir de fato no OSM).
+    """
+    params = urllib.parse.urlencode(
+        {"q": query, "format": "jsonv2", "limit": 1, "accept-language": "pt-BR,en"}
+    )
+    req = urllib.request.Request(
+        f"https://nominatim.openstreetmap.org/search?{params}",
+        headers={"User-Agent": "bakalgaijin-mapa/1.0 (análise OSINT de VOD)"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        if data and isinstance(data, list) and data[0].get("lat"):
+            return float(data[0]["lat"]), float(data[0]["lon"])
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] Nominatim falhou para '{query}': {exc}", file=sys.stderr)
+    return None
+
+
+def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | None:
+    """Pergunta ao DeepSeek (visão) ONDE o streamer está neste frame.
+
+    Prompt OSINT: o modelo procura lojas, placas, logotipos, arquitetura etc.
+    e devolve um JSON estruturado (com lat/lng opcional estimado).
+    Se o JSON vier truncado/inválido, tenta mais uma vez.
+    """
+    prompt = (
+        f"Aja como um especialista em geolocalização (OSINT). Analise a imagem anexada, "
+        f"capturada durante uma live IRL do streamer Baka Gaijin em {city['prompt_place']}.\n"
+        "Procure por: nomes de estabelecimentos comerciais, placas de trânsito, placas de rua, "
+        "logotipos, pontos turísticos, tipo de transporte público e características da arquitetura.\n"
+        "Se conseguir, estime também a coordenada aproximada (lat/lng) do ponto onde o streamer está.\n"
+        "Se a imagem for meme/overlay/gato sem contexto geográfico, devolva listas vazias e lat/lng null.\n"
+        "Retorne APENAS um objeto JSON com a estrutura:\n"
+        "{\n"
+        '  "estabelecimentos_visiveis": ["nome 1", "nome 2"],\n'
+        '  "ruas_cruzamento": ["rua x", "rua y"],\n'
+        '  "cidade_provavel": "nome da cidade",\n'
+        '  "estado_provavel": "sigla do estado/província",\n'
+        '  "nivel_de_confianca": "alto/medio/baixo",\n'
+        '  "lat": <float ou null>,\n'
+        '  "lng": <float ou null>,\n'
+        '  "justificativa": "breve explicação do que foi identificado"\n'
+        "}"
+    )
+    if phrase:
+        prompt += f'\nFrase falada pelo streamer nesse momento: "{phrase}"'
+    content: list[dict] = [{"type": "text", "text": prompt}]
+    content.append({"type": "image_url", "image_url": {"url": _img_data_uri(frame_path)}})
+
+    for attempt in range(2):
+        resp = _deepseek_chat(
+            [
+                {"role": "system", "content": "Você é um geolocalizador OSINT de lives IRL. Responda apenas JSON válido."},
+                {"role": "user", "content": content},
+            ],
+            max_tokens=1200,
+        )
+        if not resp:
+            return None
+        m = re.search(r"\{[\s\S]*\}", resp)
+        if not m:
+            continue
+        try:
+            return json.loads(m.group(0))
+        except Exception:  # noqa: BLE001
+            if attempt == 0:
+                print("  [!] JSON truncado do OSINT — tentando de novo...", file=sys.stderr)
+                continue
+    return None
+
+
+def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
+    """Geolocaliza cada marco olhando a IMAGEM do frame (OSINT).
+
+    1. Envia o frame (mapa/marco_XXXX.jpg) para o DeepSeek com prompt OSINT
+       (lojas, placas, cruzamentos...) e recebe JSON estruturado.
+    2. Coordenadas: usa lat/lng do modelo se plausíveis; senão geocodifica
+       os estabelecimentos/cruzamentos via Nominatim (OpenStreetMap).
+    3. Frame com confiança baixa: tenta extrair um frame vizinho (+2s) e reanalisa.
+    4. Sem API/resultado: fallback determinístico (âncoras + interpolação).
+
+    O resultado é cacheado em mapa/geoloc.json (invalidado quando o local muda).
     """
     city = MAP_CITIES.get(local, MAP_CITIES["japao"])
     anchors = city["named"]
+    base = city["base"]
+    lat_lo, lat_hi = city["bounds"]["lat"]
+    lng_lo, lng_hi = city["bounds"]["lng"]
     cache_file = folder / "mapa" / "geoloc.json"
+    mapa_dir = folder / "mapa"
 
     def apply(by_sec: dict) -> None:
         for s in stops:
@@ -2192,6 +2375,9 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
                 s["nome"] = hit.get("nome", s["nome"])
                 s["lat"] = hit.get("lat", s["lat"])
                 s["lng"] = hit.get("lng", s["lng"])
+                s["estabelecimentos"] = hit.get("estabelecimentos", [])
+                s["confianca"] = hit.get("confianca", "")
+                s["justificativa"] = hit.get("justificativa", "")
 
     # 1) cache: se já geolocalizou antes (mesmo local), reusa (o vídeo não muda)
     if cache_file.exists():
@@ -2210,82 +2396,141 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> list[dict]:
         except Exception:  # noqa: BLE001
             pass
 
-    if DEEPSEEK_API_KEY:
-        prompt_lines = [
-            f"Você recebe a transcrição de uma live (passeio) do Baka Gaijin em {city['prompt_place']}.",
-            "Para CADA instante abaixo, responda com UMA linha JSON com:",
-            '{"sec": <segundos>, "nome": "<lugar curto>", "lat": <float>, "lng": <float>, "confianca": "alta|media|baixa"}',
-            "Regras:",
-            f"- lat/lng devem ser plausíveis para {city['prompt_bounds']}.",
-            "- Se a fala cita um lugar claro (estação, torre, beco, loja, praça...), ancore nele.",
-            f"- Se não houver lugar claro, interpole ao longo de {city['prompt_route']}.",
-            "- Responda APENAS o JSON array, sem comentários.",
-            "",
-        ]
-        for s in stops:
-            q = s.get("frase") or "(sem fala)"
-            prompt_lines.append(f"{s['sec']}s ({fmt_ts(s['sec'])}): {q}")
-        prompt = "\n".join(prompt_lines)
+    video_file = next(
+        (folder / n for n in ("video.mp4", "video.webm", "video.mov", "video.m4v") if (folder / n).exists()),
+        None,
+    )
 
-        try:
-            resp = _deepseek_chat(
-                [
-                    {"role": "system", "content": f"Você é um geolocalizador de lives em {city['prompt_place']}. Responda apenas JSON válido."},
-                    {"role": "user", "content": prompt},
-                ],
-                max_tokens=2500,
-            )
-            if resp:
-                m = re.search(r"\[[\s\S]*\]", resp)
-                if m:
-                    arr = json.loads(m.group(0))
-                    by_sec = {}
-                    lat_lo, lat_hi = city["bounds"]["lat"]
-                    lng_lo, lng_hi = city["bounds"]["lng"]
-                    for item in arr:
-                        try:
-                            sec = int(item["sec"])
-                            lat = float(item.get("lat") or 0)
-                            lng = float(item.get("lng") or 0)
-                            if lat_lo <= lat <= lat_hi and lng_lo <= lng <= lng_hi:
-                                by_sec[str(sec)] = {
-                                    "nome": str(item.get("nome") or f"{fmt_ts(sec)}"),
-                                    "lat": lat,
-                                    "lng": lng,
-                                }
-                        except Exception:  # noqa: BLE001
-                            continue
-                    if by_sec:
-                        apply(by_sec)
-                        cache_file.parent.mkdir(exist_ok=True)
-                        cache_file.write_text(
-                            json.dumps({"local": local, **by_sec}, ensure_ascii=False, indent=2),
-                            encoding="utf-8",
-                        )
-                        print(f"  ✓ DeepSeek geolocalizou {len(by_sec)}/{len(stops)} marcos (cache salvo)")
-                        return stops
-        except Exception as exc:  # noqa: BLE001
-            print(f"  [!] DeepSeek (geoloc) falhou: {exc}", file=sys.stderr)
-
-    # fallback: âncoras nomeadas + interpolação
-    base = city["base"]
-    for s in stops:
+    def fallback_anchor(s: dict) -> None:
+        """Posição determinística (âncoras nomeadas + interpolação) p/ quando não há OSINT."""
         sec = int(s["sec"])
         anchor = min(anchors, key=lambda a: abs(a[0] - sec))
         if abs(anchor[0] - sec) <= 180:
             s["nome"] = anchor[1]
             s["lat"], s["lng"] = anchor[2], anchor[3]
         else:
-            # interpola entre base e âncora mais próxima
             s["nome"] = fmt_ts(sec)
             t = min(1.0, sec / 7744)
             s["lat"] = base["lat"] - t * 0.004
             s["lng"] = base["lng"] + (0.002 if (sec // 600) % 2 == 0 else -0.001)
+        s["estabelecimentos"] = []
+        s["confianca"] = ""
+        s["justificativa"] = ""
+
+    def coords_of(info: dict) -> tuple[float, float] | None:
+        """Coordenadas válidas: lat/lng direto do modelo OU geocodificação OSM."""
+        try:
+            lat = float(info.get("lat"))
+            lng = float(info.get("lng"))
+        except Exception:  # noqa: BLE001
+            lat = lng = None
+        if lat is not None and lng is not None and lat_lo <= lat <= lat_hi and lng_lo <= lng <= lng_hi:
+            return lat, lng
+        city_name = str(info.get("cidade_provavel") or city["prompt_place"])
+        state = str(info.get("estado_provavel") or "")
+        for est in (info.get("estabelecimentos_visiveis") or []) + (info.get("ruas_cruzamento") or []):
+            q = f"{est}, {city_name} {state}".strip()
+            hit = _nominatim_geocode(q)
+            if hit and lat_lo <= hit[0] <= lat_hi and lng_lo <= hit[1] <= lng_hi:
+                return hit
+            time.sleep(1.1)  # gentileza com a API pública do OSM
+        return None
+
+    def neighbor_analysis(sec: int, phrase: str) -> dict | None:
+        """Reanálise com um frame vizinho (+2s) quando o atual falhou/estava ruim."""
+        if not video_file or not DEEPSEEK_API_KEY:
+            return None
+        alt = _extract_frame_at(folder, video_file, sec + 2, f"marco_{sec:04d}.jpg")
+        if not alt:
+            return None
+        return _analyze_frame_osint(alt, phrase, city)
+
+    by_sec: dict[str, dict] = {}
+    for s in stops:
+        sec = int(s["sec"])
+        frame = mapa_dir / f"marco_{sec:04d}.jpg"
+        info = None
+        if DEEPSEEK_API_KEY and frame.exists():
+            info = _analyze_frame_osint(frame, s.get("frase") or "", city)
+        if info:
+            conf_ini = str(info.get("nivel_de_confianca") or "").lower()
+            coords_ini = coords_of(info)
+            if conf_ini not in ("alta", "media") or not coords_ini:
+                # frame borrado/sem contexto: tenta um frame vizinho (+2s) e reanalisa
+                alt_info = neighbor_analysis(sec, s.get("frase") or "")
+                if alt_info and (
+                    str(alt_info.get("nivel_de_confianca") or "").lower() in ("alta", "media")
+                    or (coords_of(alt_info) is not None and not coords_ini)
+                ):
+                    info = alt_info
+        else:
+            # análise falhou: tenta frame vizinho (+2s)
+            info = neighbor_analysis(sec, s.get("frase") or "")
+        if not info:
+            continue
+        coords = coords_of(info)
+        ests = [str(e)[:80] for e in (info.get("estabelecimentos_visiveis") or [])][:6]
+        conf = str(info.get("nivel_de_confianca") or "baixa").lower()
+        if coords:
+            lat, lng = coords
+            nome = (
+                (ests[0] if ests else None)
+                or (str(info.get("ruas_cruzamento") or [""])[2:-2] if info.get("ruas_cruzamento") else None)
+                or str(info.get("cidade_provavel") or "")
+                or fmt_ts(sec)
+            ).strip()
+            by_sec[str(sec)] = {
+                "nome": (nome or fmt_ts(sec))[:60],
+                "lat": lat,
+                "lng": lng,
+                "estabelecimentos": ests,
+                "confianca": conf if conf in ("alta", "media", "baixa") else "baixa",
+                "justificativa": str(info.get("justificativa") or "")[:240],
+            }
+            print(f"  ✓ Mapa OSINT [{fmt_ts(sec)}] {by_sec[str(sec)]['nome']} "
+                  f"({lat:.4f},{lng:.4f}) conf={by_sec[str(sec)]['confianca']}")
+
+    for s in stops:
+        fallback_anchor(s)
+    apply(by_sec)
+
+    if DEEPSEEK_API_KEY or by_sec:
+        # grava o cache COMPLETO (marcos OSINT + fallback) para que futuras
+        # regenerações do dashboard não re-analisem os mesmos frames
+        # (o vídeo não muda; a etapa "mapa" do servidor apaga o cache p/ reanalisar)
+        full: dict[str, dict] = {}
+        for s in stops:
+            sec = str(int(s["sec"]))
+            full[sec] = {
+                "nome": s["nome"],
+                "lat": s["lat"],
+                "lng": s["lng"],
+                "estabelecimentos": s.get("estabelecimentos") or [],
+                "confianca": s.get("confianca") or "",
+                "justificativa": s.get("justificativa") or "",
+            }
+            if sec in by_sec:
+                full[sec]["osint"] = True
+        cache_file.parent.mkdir(exist_ok=True)
+        cache_file.write_text(
+            json.dumps({"local": local, **full}, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        if by_sec:
+            print(f"  ✓ Mapa: OSINT geolocalizou {len(by_sec)}/{len(stops)} marcos (cache completo salvo)")
+        else:
+            print(f"  ✓ Mapa: cache salvo ({len(stops)} marcos) — sem OSINT (sem chave/API)")
     return stops
 
 
 def build_map_stops(blocks: list[dict], duration_seconds: int, local: str = "japao") -> list[dict]:
-    """Gera os marcos (1 a cada 10 min) com posição fallback. Barato e determinístico."""
+    """Gera os marcos (1 a cada 1 min) com posição fallback. Barato e determinístico.
+
+    A análise (frames + OSINT + rota) usa TODOS os marcos de 1 em 1 min, mas
+    o marcador no mapa/carrossel aparece só a cada 5 min (flag `visivel`).
+    Recorta os primeiros MAP_TRIM_START segundos (abertura da live) e os
+    últimos MAP_TRIM_END segundos do vídeo.
+    """
     city = MAP_CITIES.get(local, MAP_CITIES["japao"])
     base = city["base"]
     if duration_seconds <= 0:
@@ -2293,6 +2538,7 @@ def build_map_stops(blocks: list[dict], duration_seconds: int, local: str = "jap
     secs = list(range(5, duration_seconds, MAP_STOP_INTERVAL))
     if secs and secs[-1] < duration_seconds - 300:
         secs.append(min(duration_seconds - 60, duration_seconds - 1))
+    secs = [s for s in secs if MAP_TRIM_START <= s <= duration_seconds - MAP_TRIM_END]
     stops: list[dict] = []
     for i, sec in enumerate(secs):
         stops.append(
@@ -2304,19 +2550,510 @@ def build_map_stops(blocks: list[dict], duration_seconds: int, local: str = "jap
                 "lng": base["lng"],
                 "cor": MAP_COLORS[i % len(MAP_COLORS)],
                 "img": f"mapa/marco_{int(sec):04d}.jpg",
+                "estabelecimentos": [],
+                "confianca": "",
+                "justificativa": "",
+                "visivel": i % 5 == 0,  # marcador no mapa a cada 5 min
             }
         )
+    if stops:
+        stops[-1]["visivel"] = True
     return stops
 
 
-def ensure_map_assets(folder: Path, video_file: str | None, stops: list[dict], local: str) -> list[dict]:
+def _walk_time(t: float) -> float:
+    """Tempo de caminhada efetivo no vídeo, com pausas de descanso.
+
+    O streamer anda 15 min e descansa 6 min: o tempo do vídeo é mapeado para
+    o tempo "andando" (as pausas viram platôs — o marcador fica parado).
+    `t` é o tempo do vídeo; o recorte inicial (MAP_TRIM_START) é descontado.
+    """
+    rel = max(0.0, t - MAP_TRIM_START)
+    cycle = (WALK_EVERY_MIN + REST_MIN) * 60.0
+    cyc = int(rel // cycle)
+    rem = rel - cyc * cycle
+    return cyc * WALK_EVERY_MIN * 60.0 + min(rem, WALK_EVERY_MIN * 60.0)
+
+
+def _fetch_osrm_synced(
+    folder: Path, stops: list[dict], local: str
+) -> list[dict] | None:
+    """Rota OSRM trecho a trecho (par de marcos consecutivos), com o TEMPO de
+    caminhada carimbado em cada micro-ponto da rua.
+
+    - Cada trecho (t1→t2) é roteado separado no OSRM (foot) e o tempo é
+      distribuído proporcionalmente à distância percorrida dentro do trecho.
+    - Pausas de descanso (15/6 min) viram platôs: vários pontos consecutivos
+      com o MESMO tempo — o marcador congela ali enquanto o vídeo segue.
+    - Resultado: cada curva da rua sabe em qual segundo do vídeo acontece.
+
+    Cache em mapa/osrm_route.json (invalidado com a geolocalização).
+    """
+    if len(stops) < 2:
+        return None
+    cache_file = folder / "mapa" / "osrm_route.json"
+    if cache_file.exists():
+        try:
+            data = json.loads(cache_file.read_text(encoding="utf-8"))
+            synced = data.get("synced")
+            if (
+                data.get("local") == local
+                and data.get("n") == len(stops)
+                and isinstance(synced, list)
+                and len(synced) >= 2
+            ):
+                print(f"  ✓ Mapa: rota OSRM sincronizada em cache ({len(synced)} pontos)")
+                return synced
+        except Exception:  # noqa: BLE001
+            pass
+
+    out: list[dict] = []
+    for i in range(len(stops) - 1):
+        a, b = stops[i], stops[i + 1]
+        t1, t2 = float(a["sec"]), float(b["sec"])
+        w1, w2 = _walk_time(t1), _walk_time(t2)
+        seg: list[list[float]] = []
+        for profile in ("foot", "driving"):
+            url = (
+                "https://router.project-osrm.org/route/v1/"
+                f"{profile}/{a['lng']:.6f},{a['lat']:.6f};{b['lng']:.6f},{b['lat']:.6f}"
+                "?overview=full&geometries=geojson&steps=false"
+            )
+            req = urllib.request.Request(url, headers={"User-Agent": "bakalgaijin-mapa/1.0 (análise OSINT de VOD)"})
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                routes = data.get("routes") or []
+                if data.get("code") == "Ok" and routes and routes[0].get("geometry"):
+                    seg = [[p[1], p[0]] for p in routes[0]["geometry"]["coordinates"]]
+                    break
+            except Exception as exc:  # noqa: BLE001
+                print(f"  [!] OSRM ({profile}) {fmt_ts(int(t1))}→{fmt_ts(int(t2))} falhou: {exc}", file=sys.stderr)
+            time.sleep(0.25)
+        if not seg:
+            seg = [[a["lat"], a["lng"]], [b["lat"], b["lng"]]]
+
+        # distância acumulada no trecho → tempo proporcional à distância
+        cum = [0.0]
+        for j in range(1, len(seg)):
+            cum.append(cum[-1] + _haversine_km([seg[j - 1], seg[j]]))
+        total = cum[-1]
+        for j, coord in enumerate(seg):
+            pct = cum[j] / total if total > 0 else j / max(1, len(seg) - 1)
+            out.append({"lat": coord[0], "lng": coord[1], "t": round(w1 + pct * (w2 - w1), 2)})
+        time.sleep(0.25)  # gentileza com a API pública do OSRM
+
+    cache_file.write_text(
+        json.dumps({"local": local, "n": len(stops), "synced": out}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    print(f"  ✓ Mapa: rota OSRM sincronizada ({len(out)} pontos com tempo de caminhada)")
+    return out
+
+
+def _write_map_gpx(folder: Path, stops: list[dict], route: list[list[float]] | None = None) -> Path | None:
+    """Exporta a rota em GPX (abre no uMap, JOSM, GPS etc.).
+
+    Com rota OSRM: exporta os micro-pontos das ruas; sem OSRM: exporta os marcos.
+    """
+    if route and len(route) >= 2:
+        pts = route
+    else:
+        pts = [[s["lat"], s["lng"]] for s in stops if s.get("lat") is not None and s.get("lng") is not None]
+    if len(pts) < 2:
+        return None
+
+    def esc_xml(txt: str) -> str:
+        return (
+            str(txt)
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace('"', "&quot;")
+        )
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<gpx version="1.1" creator="bakalgaijin-mapa" xmlns="http://www.topografix.com/GPX/1/1">',
+        "  <trk>",
+        "    <name>Rota estimada da live (Baka Gaijin)</name>",
+        "    <trkseg>",
+    ]
+    for i, pt in enumerate(pts):
+        lines.append(f'      <trkpt lat="{pt[0]:.6f}" lon="{pt[1]:.6f}">')
+        lines.append(f"        <name>{esc_xml(fmt_ts(i))}</name>")
+        lines.append("      </trkpt>")
+    lines += ["    </trkseg>", "  </trk>", "</gpx>"]
+    dest = folder / "mapa" / "rota.gpx"
+    dest.write_text("\n".join(lines), encoding="utf-8")
+    print(f"  ✓ Mapa: rota exportada em mapa/rota.gpx ({len(pts)} pontos)")
+    return dest
+
+
+def ensure_map_assets(
+    folder: Path, video_file: str | None, stops: list[dict], local: str
+) -> tuple[list[dict], list[dict] | None]:
     """Etapas pesadas do mapa, executadas 1x (o vídeo não muda).
 
     - frames ffmpeg: pulados se a pasta mapa/ já estiver populada;
-    - geoloc DeepSeek: carregada do cache mapa/geoloc.json quando existir.
+    - geoloc DeepSeek (OSINT por imagem): carregada do cache mapa/geoloc.json quando existir;
+    - rota OSRM sincronizada (trecho a trecho, com tempo por micro-ponto):
+      cacheada em mapa/osrm_route.json;
+    - rota.gpx: exportado para uso em uMap/JOSM/GPS.
+
+    Retorna (stops, rota_sincronizada) — rota_sincronizada é lista de
+    {lat, lng, t} ou None.
     """
     _extract_map_frames(folder, video_file, stops)
-    return _geolocate_stops(folder, stops, local)
+    stops = _geolocate_stops(folder, stops, local)
+    synced = _fetch_osrm_synced(folder, stops, local)
+    coords = (
+        [[p["lat"], p["lng"]] for p in synced]
+        if synced
+        else [[s["lat"], s["lng"]] for s in stops]
+    )
+    _write_map_gpx(folder, stops, coords)
+    return stops, synced
+
+
+# --------------------------------------------------------------------------- #
+# Clima do dia + esforço (distância/calorias) — seção extra do dashboard
+# --------------------------------------------------------------------------- #
+
+WMO_PT = {
+    0: ("Céu limpo", "☀️"),
+    1: ("Parcialmente nublado", "🌤️"),
+    2: ("Nublado", "⛅"),
+    3: ("Encoberto", "☁️"),
+    45: ("Nevoeiro", "🌫️"),
+    48: ("Nevoeiro com geada", "🌫️"),
+    51: ("Garoa leve", "🌦️"),
+    53: ("Garoa", "🌦️"),
+    55: ("Garoa forte", "🌧️"),
+    56: ("Garoa congelante", "🌧️"),
+    57: ("Garoa congelante forte", "🌧️"),
+    61: ("Chuva fraca", "🌧️"),
+    63: ("Chuva", "🌧️"),
+    65: ("Chuva forte", "🌧️"),
+    66: ("Chuva congelante", "🌧️"),
+    67: ("Chuva congelante forte", "🌧️"),
+    71: ("Neve fraca", "🌨️"),
+    73: ("Neve", "🌨️"),
+    75: ("Neve forte", "❄️"),
+    77: ("Grãos de neve", "❄️"),
+    80: ("Pancadas de chuva", "🌦️"),
+    81: ("Pancadas fortes", "⛈️"),
+    82: ("Pancadas violentas", "⛈️"),
+    85: ("Pancadas de neve", "🌨️"),
+    86: ("Pancadas de neve fortes", "❄️"),
+    95: ("Trovoada", "⛈️"),
+    96: ("Trovoada com granizo", "⛈️"),
+    99: ("Trovoada severa", "⛈️"),
+}
+
+CAL_WALKER_KG = 75.0  # peso assumido do streamer (kg) para estimar calorias
+
+# Ritmo de caminhada com descanso: anda WALK_EVERY_MIN e descansa REST_MIN
+WALK_EVERY_MIN = 15.0
+REST_MIN = 6.0
+WALK_RATIO = WALK_EVERY_MIN / (WALK_EVERY_MIN + REST_MIN)  # ~71% do tempo andando
+
+
+def _haversine_km(pts: list[list[float]]) -> float:
+    """Distância total (km) percorrida numa rota de pontos [lat, lng]."""
+    total = 0.0
+    for i in range(1, len(pts)):
+        lat1, lng1 = map(math.radians, pts[i - 1])
+        lat2, lng2 = map(math.radians, pts[i])
+        dlat = lat2 - lat1
+        dlng = lng2 - lng1
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlng / 2) ** 2
+        total += 6371.0 * 2 * math.asin(min(1.0, math.sqrt(a)))
+    return total
+
+
+def _reverse_geocode(folder: Path, lat: float, lng: float) -> dict:
+    """País/estado/cidade/região do ponto via Nominatim.
+
+    Busca o nome local (japonês etc.) e também o romaji (accept-language=en),
+    exibindo "神泉町 (Shinsencho)". Cache em mapa/regiao.json.
+    """
+    cache_file = folder / "mapa" / "regiao.json"
+    if cache_file.exists():
+        try:
+            data = json.loads(cache_file.read_text(encoding="utf-8"))
+            if data.get("lat") == round(lat, 4) and data.get("lng") == round(lng, 4):
+                return data
+        except Exception:  # noqa: BLE001
+            pass
+
+    def fetch(lang: str) -> dict:
+        url = (
+            f"https://nominatim.openstreetmap.org/reverse?lat={lat:.6f}&lon={lng:.6f}"
+            f"&format=jsonv2&accept-language={lang}"
+        )
+        req = urllib.request.Request(url, headers={"User-Agent": "bakalgaijin-mapa/1.0 (análise OSINT de VOD)"})
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            return (data or {}).get("address") or {}
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] Nominatim (reverse, {lang}) falhou: {exc}", file=sys.stderr)
+            return {}
+
+    def pick(addr: dict) -> tuple[str, str, str, str]:
+        return (
+            addr.get("suburb") or addr.get("neighbourhood") or addr.get("quarter") or "",
+            addr.get("city") or addr.get("town") or addr.get("village") or "",
+            addr.get("state") or "",
+            addr.get("country") or "",
+        )
+
+    addr_pt = fetch("pt-BR")
+    time.sleep(1.1)  # gentileza com a API pública do OSM
+    addr_en = fetch("en")
+
+    def merge(a: str, b: str) -> str:
+        if b and b.strip().lower() != a.strip().lower():
+            return f"{a} ({b})"
+        return a
+
+    pt = pick(addr_pt)
+    en = pick(addr_en)
+    info = {
+        "lat": round(lat, 4),
+        "lng": round(lng, 4),
+        "regiao": merge(pt[0], en[0]),
+        "cidade": merge(pt[1], en[1]),
+        "estado": merge(pt[2], en[2]),
+        "pais": merge(pt[3], en[3]),
+    }
+    cache_file.write_text(json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"  ✓ Região identificada: {' · '.join(v for v in info.values() if isinstance(v, str) and v)}")
+    return info
+
+
+def _fetch_weather(folder: Path, lat: float, lng: float, day: str) -> dict | None:
+    """Clima histórico do dia (Open-Meteo, sem chave) no ponto dado. Cache em mapa/clima.json."""
+    cache_file = folder / "mapa" / "clima.json"
+    if cache_file.exists():
+        try:
+            data = json.loads(cache_file.read_text(encoding="utf-8"))
+            if data.get("day") == day and data.get("lat") == round(lat, 2) and data.get("lng") == round(lng, 2):
+                print("  ✓ Clima em cache (mapa/clima.json)")
+                return data
+        except Exception:  # noqa: BLE001
+            pass
+    url = (
+        "https://archive-api.open-meteo.com/v1/archive"
+        f"?latitude={lat:.4f}&longitude={lng:.4f}&start_date={day}&end_date={day}"
+        "&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m"
+        "&timezone=auto"
+    )
+    req = urllib.request.Request(url, headers={"User-Agent": "bakalgaijin-mapa/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        hourly = data.get("hourly") or {}
+        times = hourly.get("time") or []
+        temps = hourly.get("temperature_2m") or []
+        apparent = hourly.get("apparent_temperature_2m") or []
+        hum = hourly.get("relative_humidity_2m") or []
+        precip = hourly.get("precipitation") or []
+        codes = hourly.get("weather_code") or []
+        wind = hourly.get("wind_speed_10m") or []
+        if not times or not temps:
+            return None
+        out = {
+            "day": day,
+            "lat": round(lat, 2),
+            "lng": round(lng, 2),
+            "tz_offset": int(data.get("utc_offset_seconds") or 0),
+            "temp_min": round(min(temps), 1),
+            "temp_max": round(max(temps), 1),
+            "temp_med": round(sum(temps) / len(temps), 1),
+            "sensa_min": round(min(apparent), 1) if apparent else None,
+            "sensa_max": round(max(apparent), 1) if apparent else None,
+            "precip_total": round(sum(precip), 1),
+            "umidade_med": round(sum(hum) / len(hum)) if hum else None,
+            "vento_max": round(max(wind), 1) if wind else None,
+            "horas": times,
+            "temps": [round(t, 1) for t in temps],
+            "codigos": codes,
+        }
+        cache_file.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+        print(f"  ✓ Clima de {day} obtido (Open-Meteo)")
+        return out
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] Open-Meteo falhou: {exc}", file=sys.stderr)
+    return None
+
+
+def build_map_extra_html(folder: Path, report: dict, stops: list[dict], route: list[list[float]] | None) -> str:
+    """HTML da seção 'Clima do Dia & Esforço do Streamer' (abaixo do mapa)."""
+    metrics = report.get("metricas") or {}
+    duration = int(metrics.get("duration_seconds") or 0)
+    if duration <= 0 and stops:
+        duration = int(stops[-1]["sec"]) + MAP_TRIM_END
+
+    pts_route = route if route else [[s["lat"], s["lng"]] for s in stops]
+    if not pts_route:
+        return ""
+    mid = pts_route[len(pts_route) // 2]
+    regiao = _reverse_geocode(folder, mid[0], mid[1])
+    lugar = " · ".join(
+        x for x in [regiao.get("regiao"), regiao.get("cidade"), regiao.get("estado"), regiao.get("pais")] if x
+    ) or "—"
+
+    # data/hora local da live
+    created = str(metrics.get("created_at") or "")
+    dt_start: datetime.datetime | None = None
+    if created:
+        try:
+            dt_start = datetime.datetime.fromisoformat(created.replace("Z", "+00:00"))
+        except Exception:  # noqa: BLE001
+            dt_start = None
+
+    # clima do dia (janela da live)
+    clima = None
+    if dt_start:
+        clima = _fetch_weather(folder, mid[0], mid[1], dt_start.date().isoformat())
+    local_dt = None
+    if dt_start and clima:
+        try:
+            local_dt = dt_start + datetime.timedelta(seconds=clima.get("tz_offset") or 0)
+        except Exception:  # noqa: BLE001
+            local_dt = dt_start
+
+    # esforço: distância pela rota OSRM, velocidade média, ritmo e calorias
+    # o streamer para para descansar (chat/loja): anda 15 min e descansa 6 min
+    dist_km = _haversine_km(pts_route)
+    active_sec = max(0, duration - MAP_TRIM_START - MAP_TRIM_END)
+    active_h = active_sec / 3600.0
+    walk_h = active_h * WALK_RATIO
+    speed = dist_km / walk_h if walk_h > 0 else 0.0
+    speed_note = ""
+    dist_display = dist_km
+    if speed > 8.0:
+        # marcos de confiança baixa espalham a rota: ignora a distância medida
+        # (ruído) e usa o ritmo típico de caminhada
+        dist_display = 6.0 * walk_h
+        speed_note = " · marcos de baixa confiança: distância medida ignorada, usando ritmo típico de caminhada"
+    speed_eff = min(speed, 6.0) if speed > 0 else 0.0
+    pace_min = 60.0 / speed_eff if speed_eff > 0.5 else 0.0
+    met = min(5.0, max(3.5, 3.5 + max(0.0, speed_eff - 4.0) * 0.5)) if speed_eff > 0 else 0.0
+    kcal = met * CAL_WALKER_KG * walk_h
+    passos = int(dist_display * 1312)
+
+    def fmt_pace(p: float) -> str:
+        if p <= 0:
+            return "—"
+        m = int(p)
+        s = int(round((p - m) * 60))
+        return f"{m}:{s:02d}/km"
+
+    cards = [
+        (
+            "📍",
+            "Local da live",
+            lugar,
+            "geocodificação reversa (OpenStreetMap)",
+        ),
+    ]
+
+    if local_dt:
+        cards.append(
+            (
+                "🗓️",
+                "Data da live",
+                local_dt.strftime("%d/%m/%Y"),
+                f"{local_dt.strftime('%H:%M')} (hora local) · início estimado",
+            )
+        )
+
+    if clima:
+        pred_code = max(set(clima["codigos"]), key=clima["codigos"].count) if clima["codigos"] else 0
+        pred_nome, pred_emoji = WMO_PT.get(pred_code, ("—", "🌡️"))
+        cards.append(
+            (
+                "🌡️",
+                "Temperatura",
+                f"{clima['temp_min']}°C – {clima['temp_max']}°C",
+                f"média {clima['temp_med']}°C"
+                + (f" · sensação {clima['sensa_min']}–{clima['sensa_max']}°C" if clima.get("sensa_min") is not None else ""),
+            )
+        )
+        cards.append(
+            (
+                pred_emoji,
+                "Clima do dia",
+                pred_nome,
+                f"chuva {clima['precip_total']}mm"
+                + (f" · vento máx {clima['vento_max']}km/h" if clima.get("vento_max") is not None else "")
+                + (f" · umidade {clima['umidade_med']}%" if clima.get("umidade_med") is not None else ""),
+            )
+        )
+
+    cards.append(
+        (
+            "🚶",
+            "Esforço do streamer",
+            f"{dist_display:.2f} km percorridos",
+            f"~{passos:,} passos · {speed_eff:.1f} km/h · ritmo {fmt_pace(pace_min)}{speed_note}",
+        )
+    )
+    cards.append(
+        (
+            "🔥",
+            "Calorias estimadas",
+            f"{kcal:,.0f} kcal",
+            f"caminhada ({met:.1f} MET × {CAL_WALKER_KG:.0f} kg × {walk_h:.1f}h andando — "
+            f"descansa {REST_MIN:.0f} min a cada {WALK_EVERY_MIN:.0f} min)",
+        )
+    )
+
+    cards_html = "".join(
+        f'<div class="stat-box"><div class="stat-ico">{icon}</div>'
+        f'<div class="stat-tit">{title}</div>'
+        f'<div class="stat-val">{value}</div>'
+        f'<div class="stat-sub">{sub}</div></div>'
+        for icon, title, value, sub in cards
+    )
+
+    # faixa hora a hora dentro da janela da live
+    hours_html = ""
+    if clima and dt_start:
+        try:
+            local_start = dt_start + datetime.timedelta(seconds=clima.get("tz_offset") or 0)
+            local_end = local_start + datetime.timedelta(seconds=max(duration, 60))
+            # compara como naive (as horas do Open-Meteo vêm sem fuso)
+            ls_naive = local_start.replace(tzinfo=None)
+            le_naive = local_end.replace(tzinfo=None)
+            chips = []
+            for h, t, c in zip(clima["horas"], clima["temps"], clima["codigos"]):
+                try:
+                    ht = datetime.datetime.fromisoformat(h)
+                except Exception:  # noqa: BLE001
+                    continue
+                if ls_naive <= ht <= le_naive:
+                    _, emoji = WMO_PT.get(int(c), WMO_PT[3])
+                    chips.append(
+                        f'<div class="clima-chip" title="{WMO_PT.get(int(c), ("", ""))[0]}">'
+                        f'<span class="h">{ht.strftime("%Hh")}</span>'
+                        f'<span class="e">{emoji}</span>'
+                        f'<span class="t">{t:.0f}°</span></div>'
+                    )
+            if chips:
+                hours_html = '<div class="clima-hours">' + "".join(chips) + "</div>"
+        except Exception:  # noqa: BLE001
+            pass
+
+    return (
+        f'<div class="map-extra-head"><span class="muted">{lugar}</span>'
+        + (f'<span class="muted"> · live em {local_dt.strftime("%d/%m/%Y")}</span>' if local_dt else "")
+        + "</div>"
+        f'<div class="grid cards">{cards_html}</div>{hours_html}'
+    )
 
 
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
@@ -2353,13 +3090,30 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     )
     data_inline = _json.dumps(report, ensure_ascii=False).replace("</", "<\\/")
 
-    # marcos do mapa (1 a cada 10 min) — frames + geoloc só rodam 1x (cache)
+    # marcos do mapa (1 a cada 1 min) — frames + geoloc + rota sincronizada (cache)
     duration = int((report.get("metricas") or {}).get("duration_seconds") or 0)
     map_local = report.get("local") or "japao"
     map_label = MAP_CITIES.get(map_local, MAP_CITIES["japao"])["label"]
     map_stops = build_map_stops(srt_blocks or [], duration, map_local)
-    map_stops = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
-    map_stops_json = _json.dumps(map_stops, ensure_ascii=False)
+    map_stops, map_synced = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
+    # marcadores visíveis no mapa/carrossel: só a cada 5 min (análise usa 1/1 min)
+    map_stops_vis = [s for s in map_stops if s.get("visivel")]
+    map_stops_json = _json.dumps(map_stops_vis, ensure_ascii=False)
+    if map_synced:
+        map_route_json = _json.dumps([[p["lat"], p["lng"]] for p in map_synced], ensure_ascii=False)
+        map_route_times_json = _json.dumps([p["t"] for p in map_synced], ensure_ascii=False)
+        map_extra_route = [[p["lat"], p["lng"]] for p in map_synced]
+    else:
+        map_route_json = _json.dumps([[s["lat"], s["lng"]] for s in map_stops], ensure_ascii=False)
+        map_route_times_json = _json.dumps([_walk_time(s["sec"]) for s in map_stops], ensure_ascii=False)
+        map_extra_route = [[s["lat"], s["lng"]] for s in map_stops]
+    map_gpx_btn = (
+        '<a class="btn" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)">'
+        '<i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>'
+        if (FOLDER / "mapa" / "rota.gpx").exists()
+        else ""
+    )
+    map_extra_html = build_map_extra_html(FOLDER, report, map_stops, map_extra_route)
 
     html = r"""<!doctype html>
 <html lang="pt-BR">
@@ -2418,6 +3172,17 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .tag.engraçado { background:#7c2d12; } .tag.frustrado { background:#713f12; }
   .tag.inspirado { background:#1e3a8a; } .tag.confuso { background:#3b0764; }
   .tag.neutro { background:#334155; } .tag.neutro\/pergunta { background:#134e4a; }
+  .bit-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .bit-chip {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--panel2); border:1px solid #3b82f6; border-radius:999px;
+    padding:4px 12px; font-size:.74rem; color:#e2e8f0;
+  }
+  .bit-chip b { color:#93c5fd; }
+  .bit-pos {
+    width:18px; height:18px; border-radius:50%; background:#3b82f6; color:#fff;
+    font-size:.62rem; font-weight:800; display:inline-flex; align-items:center; justify-content:center;
+  }
     .quote { border-left: 3px solid var(--accent); padding: 8px 12px; background: var(--panel);
            border-radius: 0 8px 8px 0; margin: 8px 0; font-size: .85rem; }
   .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -2543,15 +3308,82 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     padding:8px 10px; font-size:.7rem; color:var(--muted); pointer-events:none;
   }
   .map-legend b { color:#e2e8f0; }
-  .map-stops { display:flex; flex-wrap:wrap; gap:8px; }
-  .map-stop {
-    display:inline-flex; align-items:center; gap:6px; cursor:pointer;
-    background:var(--panel2); border:1px solid var(--border); border-radius:999px;
-    padding:5px 12px; font-size:.75rem; color:#cbd5e1; transition:all .15s ease;
+  .map-carousel { margin-top:14px; }
+  .map-carousel-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+  .map-car-title { font-size:.8rem; font-weight:700; color:#e2e8f0; }
+  .map-car-navs { display:flex; align-items:center; gap:8px; }
+  .car-nav {
+    border-radius:999px; width:30px; height:30px; padding:0;
+    display:inline-flex; align-items:center; justify-content:center;
   }
-  .map-stop:hover { background:#263449; transform:translateY(-1px); border-color:var(--accent); }
-  .map-stop.active { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent); }
-  .map-stop .dot { width:9px; height:9px; border-radius:50%; flex:none; }
+  .car-nav:disabled { opacity:.35; cursor:default; transform:none; }
+  .map-carousel-view { overflow:hidden; border-radius:12px; }
+  .map-carousel-track {
+    display:grid; grid-auto-flow:column; grid-auto-columns:100%;
+    transition:transform .25s ease;
+  }
+  .map-page {
+    display:grid; grid-template-columns:repeat(2, minmax(0, 1fr));
+    grid-template-rows:repeat(2, minmax(0, 1fr)); gap:8px; align-items:stretch;
+  }
+  @media (max-width: 700px) {
+    .map-page { grid-template-columns:minmax(0, 1fr); grid-template-rows:repeat(4, minmax(0, 1fr)); }
+  }
+  .map-card {
+    display:flex; align-items:flex-start; gap:10px; cursor:pointer; text-align:left;
+    background:var(--panel2); border:1px solid var(--border); border-radius:12px;
+    height:100%; min-height:0; padding:8px 10px; color:#cbd5e1; transition:all .15s ease;
+  }
+  .map-card:hover { background:#263449; border-color:var(--accent); }
+  .map-card.active {
+    border-color:var(--accent); box-shadow:0 0 0 1px var(--accent); background:#1e293b;
+  }
+  .map-card .thumb {
+    flex:none; width:64px; height:64px; border-radius:8px; overflow:hidden;
+    background:#0f172a; border:1px solid var(--border);
+  }
+  .map-card .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .map-card .body { flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; overflow:hidden; }
+  .map-card .head { display:flex; align-items:center; gap:6px; min-width:0; }
+  .map-card .num {
+    flex:none; width:18px; height:18px; border-radius:6px; color:#fff;
+    font-size:.62rem; font-weight:800; display:inline-flex; align-items:center; justify-content:center;
+  }
+  .map-card .name {
+    flex:1; min-width:0; font-size:.78rem; font-weight:700; color:#e2e8f0;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .map-card .time { flex:none; font-size:.68rem; color:var(--accent); font-weight:700; }
+  .map-card .sub {
+    font-size:.7rem; color:var(--muted); line-height:1.35;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .map-card .sub b { color:#93c5fd; font-weight:600; }
+  .map-card .desc {
+    font-size:.7rem; color:var(--muted); line-height:1.3;
+    display:-webkit-box; -webkit-line-clamp:4; line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .map-extra-head { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; font-size:.8rem; }
+  .stat-box {
+    background:var(--panel2); border:1px solid var(--border); border-radius:12px;
+    padding:12px 14px; display:flex; flex-direction:column; gap:3px;
+  }
+  .stat-ico { font-size:1.15rem; }
+  .stat-tit { font-size:.68rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:700; }
+  .stat-val { font-size:.95rem; font-weight:800; color:#e2e8f0; }
+  .stat-sub { font-size:.72rem; color:var(--muted); line-height:1.35; }
+  .clima-hours {
+    display:flex; gap:6px; overflow-x:auto; padding:12px 2px 4px; margin-top:12px;
+    border-top:1px dashed var(--border);
+  }
+  .clima-chip {
+    flex:none; display:flex; flex-direction:column; align-items:center; gap:2px;
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:6px 8px; min-width:50px;
+  }
+  .clima-chip .h { font-size:.62rem; color:var(--muted); }
+  .clima-chip .e { font-size:1rem; }
+  .clima-chip .t { font-size:.72rem; font-weight:700; color:#e2e8f0; }
   .leaflet-popup-content-wrapper {
     background:#1e293b; color:#e2e8f0; border:1px solid var(--border); border-radius:12px;
   }
@@ -2562,19 +3394,26 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .pop .pt { font-size:.84rem; font-weight:800; margin-bottom:2px; }
   .pop .pts { font-size:.7rem; color:var(--accent); margin-bottom:5px; }
   .pop .pq { font-size:.75rem; color:var(--muted); font-style:italic; margin-bottom:6px; }
+  .conf-badge {
+    display:inline-block; font-size:.62rem; font-weight:700; padding:1px 7px; border-radius:999px;
+    vertical-align:middle; margin-left:6px;
+  }
+  .conf-alta { background:#166534; color:#bbf7d0; }
+  .conf-media { background:#854d0e; color:#fde68a; }
+  .conf-baixa { background:#7f1d1d; color:#fecaca; }
   .pop .pgm {
     display: inline-flex; align-items: center; gap: 6px;
     font-size: .74rem; color: #93c5fd; text-decoration: none; margin-top: 2px;
   }
   .pop .pgm:hover { color: #bfdbfe; text-decoration: underline; }
   .gmaps-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
-  .streetview-shell { margin-top: 14px; }
-  .streetview-shell .sv-title {
+  .google-map-shell { margin-top: 14px; }
+  .google-map-shell .google-map-title {
     font-size: .78rem; color: var(--muted); margin-bottom: 8px;
     display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   }
-  .streetview-shell .sv-title i { color: var(--accent); }
-  .streetview-shell iframe {
+  .google-map-shell .google-map-title i { color: var(--accent); }
+  .google-map-shell iframe {
     width: 100%; height: 340px; border: 0; border-radius: 12px; background: #0f172a;
   }
   .leaflet-control-zoom a { background:#1e293b; color:#e2e8f0; border-color:var(--border); }
@@ -2661,38 +3500,49 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="mapa"><i class="fa-solid fa-map-location-dot"></i> Mapa da Live — onde o Baka passou <span class="muted" style="font-weight:400">(__MAP_LABEL__)</span></h2>
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
-      <span class="muted" id="mapInfo">Trajeto reconstruído em __MAP_LABEL__ (posições aproximadas). Clique num marco para pular o player.</span>
+      <span class="muted" id="mapInfo">Marcos geolocalizados em __MAP_LABEL__ — selecione um ponto no mapa para ver o raio de incerteza (quanto maior o círculo, menor a confiança) e pular o player.</span>
       <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
+      __MAP_GPX_BTN__
     </div>
     <div class="grid two">
       <div class="map-shell"><div id="liveMap"></div>
-        <div class="map-legend"><b>Legenda</b><br/>🟣 rota (aprox.) · ⭐ marcos a cada 10 min</div>
+        <div class="map-legend"><b>Legenda</b><br/>⭕ raio de incerteza (aparece ao selecionar um marco) · ⓵ marcos numerados a cada 5 min · 🚶 você está aqui</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="map-stops" id="mapStops"></div>
         <div class="muted" id="mapNow">Escolha um marco para assistir o trecho.</div>
         <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
           <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
         </a>
       </div>
     </div>
-    <div class="streetview-shell" id="streetviewShell">
-      <div class="sv-title">
-        <i class="fa-solid fa-map-location-dot"></i>
-        <span id="streetviewTitle"></span>
-        <span style="display:inline-flex;gap:6px;margin-left:auto">
-          <button class="btn active" id="svMapBtn" onclick="setStreetMode('map')" title="Arraste o bonequinho para o Street View">
-            <i class="fa-solid fa-map"></i> Mapa (arraste o bonequinho)
-          </button>
-          <button class="btn" id="svPanBtn" onclick="setStreetMode('pan')" title="Street View direto">
-            <i class="fa-solid fa-street-view"></i> Street View
-          </button>
+    <div class="map-carousel">
+      <div class="map-carousel-top">
+        <span class="map-car-title"><i class="fa-solid fa-location-dot"></i> Marcos da live — a cada 5 min (análise a cada 1 min)</span>
+        <span class="map-car-navs">
+          <button class="btn car-nav" id="mapPrevBtn" onclick="mapPage(-1)" aria-label="Página anterior"><i class="fa-solid fa-chevron-left"></i></button>
+          <span class="muted" id="mapCarouselInfo"></span>
+          <button class="btn car-nav" id="mapNextBtn" onclick="mapPage(1)" aria-label="Próxima página"><i class="fa-solid fa-chevron-right"></i></button>
         </span>
       </div>
-      <iframe id="streetviewFrame" title="Google Maps — arraste o bonequinho para o Street View" loading="lazy" allowfullscreen></iframe>
+      <div class="map-carousel-view"><div class="map-carousel-track" id="mapCarouselTrack"></div></div>
+    </div>
+    <div class="google-map-shell" id="googleMapShell">
+      <div class="google-map-title">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span id="googleMapTitle">Google Maps</span>
+        <a class="btn gmaps-btn" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none;margin-left:auto">
+          <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
+        </a>
+      </div>
+      <iframe id="googleMapFrame" title="Google Maps" loading="lazy" allowfullscreen></iframe>
     </div>
   </div>
   </div>
+  </div>
+
+  <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="clima"><i class="fa-solid fa-cloud-sun-rain"></i> Clima do Dia & Esforço do Streamer</h2>
+  <div class="card">
+    __MAP_EXTRA_HTML__
   </div>
 
   <div id="replayPlacement"></div>
@@ -2838,6 +3688,11 @@ const DATA = __DATA_INLINE__;
 const FILES = __FILES_JSON__;
 const CUES = __CUES_JSON__;
 const MAP_STOPS = __MAP_STOPS_JSON__;
+const MAP_ROUTE = __MAP_ROUTE_JSON__;
+const MAP_ROUTE_TIMES = __MAP_ROUTE_TIMES__;
+const MAP_TRIM_START = __MAP_TRIM_START__;
+const MAP_TRIM_END = __MAP_TRIM_END__;
+let MAP_VIDEO_DURATION = 0;
 const SENT = ["positivo","neutro","neutro/pergunta","negativo","engraçado","frustrado","inspirado","confuso"];
 const COLORS = {
   positivo:"#22c55e", neutro:"#94a3b8", "neutro/pergunta":"#2dd4bf",
@@ -3210,11 +4065,12 @@ function toggleLayout(){
 }
 
 // ---------------------------------------------------------------------------
-// MAPA DA LIVE (Leaflet + OpenStreetMap) — marcos a cada 10 min
+// MAPA DA LIVE (Leaflet + OpenStreetMap) — marcos a cada 5 min
 // ---------------------------------------------------------------------------
 let liveMap = null;
 let mapMarkers = {};
 let walkerMarker = null;
+let activeCircle = null;
 
 function walkerIcon() {
   return L.divIcon({
@@ -3227,83 +4083,175 @@ function walkerIcon() {
   });
 }
 
+// tempo de caminhada efetivo: anda 15 min e descansa 6 min (pausas viram platôs)
+function walkTimeAt(t) {
+  const rel = Math.max(0, t - MAP_TRIM_START);
+  const cycle = 15 * 60 + 6 * 60;
+  const cyc = Math.floor(rel / cycle);
+  const rem = rel - cyc * cycle;
+  return cyc * 15 * 60 + Math.min(rem, 15 * 60);
+}
+
 function updateWalker(t) {
-  if (!liveMap || !walkerMarker || !MAP_STOPS || !MAP_STOPS.length) return;
-  let lat, lng;
-  if (t <= MAP_STOPS[0].sec) {
-    lat = MAP_STOPS[0].lat; lng = MAP_STOPS[0].lng;
-  } else if (t >= MAP_STOPS[MAP_STOPS.length - 1].sec) {
-    const last = MAP_STOPS[MAP_STOPS.length - 1];
-    lat = last.lat; lng = last.lng;
-  } else {
-    let i = 0;
-    while (i < MAP_STOPS.length - 2 && MAP_STOPS[i + 1].sec <= t) i++;
-    const a = MAP_STOPS[i], b = MAP_STOPS[i + 1];
-    const f = (t - a.sec) / Math.max(1, b.sec - a.sec);
-    lat = a.lat + (b.lat - a.lat) * f;
-    lng = a.lng + (b.lng - a.lng) * f;
+  if (!liveMap || !walkerMarker || !MAP_ROUTE || !MAP_ROUTE.length) return;
+  const times = MAP_ROUTE_TIMES;
+  if (!times || !times.length) return;
+  // cada micro-ponto da rota tem o tempo de caminhada carimbado:
+  // procura o trecho cujo tempo contém o tempo atual do vídeo
+  const w = walkTimeAt(t);
+  const last = times.length - 1;
+  if (w <= times[0]) {
+    walkerMarker.setLatLng([MAP_ROUTE[0][0], MAP_ROUTE[0][1]]);
+    return;
   }
-  walkerMarker.setLatLng([lat, lng]);
+  if (w >= times[last]) {
+    walkerMarker.setLatLng([MAP_ROUTE[last][0], MAP_ROUTE[last][1]]);
+    return;
+  }
+  let i = 0;
+  for (let k = 0; k < last; k++) {
+    if (times[k] <= w && times[k + 1] >= w) { i = k; break; }
+  }
+  const dt = times[i + 1] - times[i];
+  const f = dt > 0 ? (w - times[i]) / dt : 0; // dt=0 => pausa de descanso: fica parado
+  const a = MAP_ROUTE[i], b = MAP_ROUTE[i + 1];
+  walkerMarker.setLatLng([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
 }
 
 function initLiveMap() {
   const el = document.getElementById("liveMap");
   if (!el || typeof L === "undefined" || !MAP_STOPS || !MAP_STOPS.length) return;
+  MAP_VIDEO_DURATION = (R.metricas && R.metricas.duration_seconds) || 0;
+  if (!MAP_VIDEO_DURATION && V.el && V.el.duration) MAP_VIDEO_DURATION = V.el.duration;
   liveMap = L.map(el, { zoomControl: true }).setView(
-    [MAP_STOPS[0].lat, MAP_STOPS[0].lng], 16
+    [MAP_ROUTE[0][0], MAP_ROUTE[0][1]], 16
   );
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "&copy; OpenStreetMap"
   }).addTo(liveMap);
 
-  const route = MAP_STOPS.map(s => [s.lat, s.lng]);
-  L.polyline(route, { color:"#a855f7", weight:4, opacity:.75, dashArray:"6,8" }).addTo(liveMap);
+  // raio de incerteza dos marcos: só aparece ao selecionar um ponto no mapa
+  // (showStopRadius) — a geolocalização por frame tem margem de erro,
+  // então o raio é mais honesto que uma linha "precisa"
 
-  walkerMarker = L.marker([MAP_STOPS[0].lat, MAP_STOPS[0].lng], {
+  walkerMarker = L.marker([MAP_ROUTE[0][0], MAP_ROUTE[0][1]], {
     icon: walkerIcon(), zIndexOffset: 1000
   }).addTo(liveMap);
   walkerMarker.bindTooltip("Você está aqui (player)", { direction: "top", offset: [0, -18] });
 
-  function iconFor(color) {
+  function numIcon(color, num) {
     return L.divIcon({
       className: "",
-      html: `<div style="width:22px;height:22px;border-radius:50% 50% 50% 0;background:${color};
-        border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.6);transform:rotate(-45deg);
-        display:flex;align-items:center;justify-content:center">
-        <div style="transform:rotate(45deg);font-size:10px">⭐</div></div>`,
-      iconSize: [22, 22], iconAnchor: [11, 22], popupAnchor: [0, -20]
+      html: `<div style="width:22px;height:22px;border-radius:50%;background:${color};
+        border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.6);
+        display:flex;align-items:center;justify-content:center;
+        color:#fff;font-size:10px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.5)">${num}</div>`,
+      iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -14]
     });
   }
 
   MAP_STOPS.forEach((s, i) => {
-    const m = L.marker([s.lat, s.lng], { icon: iconFor(s.cor) }).addTo(liveMap);
+    const m = L.marker([s.lat, s.lng], { icon: numIcon(s.cor, i + 1) }).addTo(liveMap);
+    const lojas = (s.estabelecimentos && s.estabelecimentos.length)
+      ? `<div class="pq"><b>🏪 ${s.estabelecimentos.map(x => esc(x)).join(" · ")}</b></div>` : "";
+    const conf = s.confianca
+      ? `<span class="conf-badge conf-${esc(s.confianca)}">confiança ${esc(s.confianca)}</span>` : "";
+    const just = s.justificativa ? `<div class="pq muted">${esc(s.justificativa)}</div>` : "";
     m.bindPopup(`<div class="pop">
       <img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />
-      <div class="pt">${esc(s.nome)}</div>
+      <div class="pt">${esc(s.nome)} ${conf}</div>
       <div class="pts">⏱ ${fmtClock(s.sec)} · na live</div>
+      ${lojas}
       <div class="pq">${esc(s.frase || "")}</div>
+      ${just}
       <a class="pgm" href="https://www.google.com/maps?q=${s.lat},${s.lng}" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Abrir no Google Maps</a>
     </div>`);
     m.on("click", () => jumpToStop(s));
     mapMarkers[i] = m;
   });
 
-  renderMapStops();
+  buildMapCarousel();
   mapFitAll();
-  if (MAP_STOPS[0]) showStreetView(MAP_STOPS[0]);
+  if (MAP_STOPS[0]) updateGoogleMap(MAP_STOPS[0]);
 }
 
-function renderMapStops() {
-  const wrap = document.getElementById("mapStops");
-  if (!wrap) return;
-  wrap.innerHTML = MAP_STOPS.map((s, i) =>
-    `<button class="map-stop" id="mapstop-${i}" onclick="jumpToStop(MAP_STOPS[${i}])">
-      <span class="dot" style="background:${s.cor}"></span>
-      <span>${i + 1}. ${esc(s.nome)}</span>
-      <span class="muted">${fmtClock(s.sec)}</span>
-    </button>`
-  ).join("");
+// ---------------------------------------------------------------------------
+// Carrossel de marcos: páginas em colunas (2×2) com controles de rolagem
+// ---------------------------------------------------------------------------
+const MAP_PAGE_SIZE = 4; // 2 colunas × 2 linhas por página
+let mapPageIndex = 0;
+
+function mapCardHTML(s, i) {
+  const lojas = (s.estabelecimentos && s.estabelecimentos.length)
+    ? `<span class="sub"><b>🏪 ${s.estabelecimentos.slice(0, 2).map(x => esc(x)).join(" · ")}${s.estabelecimentos.length > 2 ? " +" + (s.estabelecimentos.length - 2) : ""}</b></span>`
+    : "";
+  const conf = s.confianca
+    ? `<span class="conf-badge conf-${esc(s.confianca)}">${esc(s.confianca)}</span>`
+    : "";
+  const desc = s.justificativa
+    ? esc(s.justificativa)
+    : "Posição aproximada — sem identificação visual no frame";
+  return `<button class="map-card" data-idx="${i}" onclick="jumpToStop(MAP_STOPS[${i}])">
+    <span class="thumb"><img src="${s.img}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'" /></span>
+    <span class="body">
+      <span class="head">
+        <span class="num" style="background:${s.cor}">${i + 1}</span>
+        <span class="name">${esc(s.nome)}</span>
+        <span class="time">${fmtClock(s.sec)}</span>
+      </span>
+      ${lojas}
+      <span class="desc">${conf} ${desc}</span>
+    </span>
+  </button>`;
+}
+
+function buildMapCarousel() {
+  const track = document.getElementById("mapCarouselTrack");
+  if (!track) return;
+  const pages = [];
+  for (let i = 0; i < MAP_STOPS.length; i += MAP_PAGE_SIZE) {
+    const page = MAP_STOPS.slice(i, i + MAP_PAGE_SIZE);
+    pages.push(`<div class="map-page">${page.map(s => mapCardHTML(s, MAP_STOPS.indexOf(s))).join("")}</div>`);
+  }
+  track.innerHTML = pages.join("");
+  mapPageIndex = 0;
+  updateCarousel();
+}
+
+function updateCarousel() {
+  const track = document.getElementById("mapCarouselTrack");
+  const info = document.getElementById("mapCarouselInfo");
+  const prev = document.getElementById("mapPrevBtn");
+  const next = document.getElementById("mapNextBtn");
+  if (!track) return;
+  const pages = Math.ceil(MAP_STOPS.length / MAP_PAGE_SIZE);
+  track.style.transform = `translateX(-${mapPageIndex * 100}%)`;
+  if (info) info.textContent = `${mapPageIndex + 1} / ${pages}`;
+  if (prev) prev.disabled = mapPageIndex <= 0;
+  if (next) next.disabled = mapPageIndex >= pages - 1;
+}
+
+function mapPage(d) {
+  const pages = Math.ceil(MAP_STOPS.length / MAP_PAGE_SIZE);
+  mapPageIndex = Math.min(pages - 1, Math.max(0, mapPageIndex + d));
+  updateCarousel();
+}
+
+function showStopRadius(s) {
+  if (!liveMap) return;
+  if (activeCircle) { liveMap.removeLayer(activeCircle); activeCircle = null; }
+  if (!s) return;
+  const raio = s.confianca === "alta" ? 60 : s.confianca === "media" ? 150 : s.confianca === "baixa" ? 300 : 500;
+  activeCircle = L.circle([s.lat, s.lng], {
+    radius: raio,
+    color: s.cor,
+    weight: 1.5,
+    opacity: .55,
+    dashArray: "4 4",
+    fillColor: s.cor,
+    fillOpacity: .1
+  }).addTo(liveMap);
 }
 
 function jumpToStop(s) {
@@ -3314,54 +4262,37 @@ function jumpToStop(s) {
   }
   if (liveMap) {
     liveMap.flyTo([s.lat, s.lng], Math.max(liveMap.getZoom(), 17), { duration: .5 });
+    showStopRadius(s);
   }
-  document.querySelectorAll(".map-stop").forEach(x => x.classList.remove("active"));
-  const chip = document.querySelector(`.map-stop[onclick*="MAP_STOPS[${MAP_STOPS.indexOf(s)}]"]`);
+  const idx = MAP_STOPS.indexOf(s);
+  document.querySelectorAll(".map-card").forEach(x => x.classList.remove("active"));
+  const chip = document.querySelector(`.map-card[data-idx="${idx}"]`);
   if (chip) chip.classList.add("active");
-  document.getElementById("mapNow").textContent = `▶ ${s.nome} — ${fmtClock(s.sec)}`;
-  showStreetView(s);
-}
-
-let streetMode = "map";
-
-function setStreetMode(mode) {
-  streetMode = mode;
-  const btnMap = document.getElementById("svMapBtn");
-  const btnPan = document.getElementById("svPanBtn");
-  if (btnMap && btnPan) {
-    btnMap.classList.toggle("active", mode === "map");
-    btnPan.classList.toggle("active", mode === "pan");
+  // leva o carrossel até a página do marco escolhido
+  if (idx >= 0) {
+    mapPageIndex = Math.floor(idx / MAP_PAGE_SIZE);
+    updateCarousel();
   }
-  const s = window._currentStop;
-  if (s) showStreetView(s);
+  document.getElementById("mapNow").textContent = `▶ ${s.nome} — ${fmtClock(s.sec)}`;
+  updateGoogleMap(s);
 }
 
-function showStreetView(s) {
+function updateGoogleMap(s) {
   const link = document.getElementById("mapGmapsLink");
-  const shell = document.getElementById("streetviewShell");
-  const frame = document.getElementById("streetviewFrame");
-  const title = document.getElementById("streetviewTitle");
-  window._currentStop = s;
+  const frame = document.getElementById("googleMapFrame");
+  const title = document.getElementById("googleMapTitle");
+  const coordinates = `${s.lat},${s.lng}`;
   if (link) {
-    link.href = `https://www.google.com/maps?q=${s.lat},${s.lng}`;
+    link.href = `https://www.google.com/maps?q=${coordinates}`;
     link.style.display = "";
   }
-  if (shell && frame) {
-    if (streetMode === "pan") {
-      // Street View direto (sem bonequinho)
-      frame.src = `https://maps.google.com/maps?q=${s.lat},${s.lng}&layer=c&cbll=${s.lat},${s.lng}&output=svembed`;
-    } else {
-      // Mapa interativo completo (tem o bonequinho arrastável no canto inferior direito)
-      frame.src = `https://www.google.com/maps?q=${s.lat},${s.lng}&z=17&output=embed`;
-    }
-    shell.style.display = "";
-    if (title) title.textContent = `${s.nome} · ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}`;
-  }
+  if (frame) frame.src = `https://www.google.com/maps?q=${coordinates}&z=17&output=embed`;
+  if (title) title.textContent = `${s.nome} · ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}`;
 }
 
 function mapFitAll() {
-  if (!liveMap || !MAP_STOPS.length) return;
-  liveMap.fitBounds(L.latLngBounds(MAP_STOPS.map(s => [s.lat, s.lng])), { padding: [30, 30] });
+  if (!liveMap || !MAP_ROUTE.length) return;
+  liveMap.fitBounds(L.latLngBounds(MAP_ROUTE), { padding: [30, 30] });
 }
 
 function fmtDataBR(iso) {
@@ -3377,6 +4308,7 @@ function fmtDataBR(iso) {
 const SECTION_TITLES = [
   ["player", "fa-solid fa-clapperboard", "Player de Vídeo & Áudio"],
   ["mapa", "fa-solid fa-map-location-dot", "Mapa da Live"],
+  ["clima", "fa-solid fa-cloud-sun-rain", "Clima & Esforço"],
   ["replay", "fa-solid fa-comments", "Replay dos Comentários"],
   ["kpis", "fa-solid fa-chart-column", "Métricas de Performance"],
   ["bench", "fa-solid fa-chart-line", "Comparação com o Canal"],
@@ -3923,6 +4855,17 @@ function renderPrevisaoReceita(eng) {
   const p = eng.previsao;
   if (!p) return;
   const rate = p.usd_brl || 5;
+  const contributors = p.top_contribuidores || [];
+  const topBits = p.top_bits || [];
+  const contributorRows = contributors.map((person, index) => {
+    const sources = [];
+    if (person.subs) sources.push(`${person.subs} subs`);
+    if (person.subs_presentes) sources.push(`${person.subs_presentes} subs presenteadas`);
+    return `<tr><td>${index + 1}</td><td>${esc(person.usuario)}</td><td>${sources.join(" · ") || "—"}</td><td>${person.bits ? fmt(person.bits) : "—"}</td><td>$${Number(person.valor_usd || 0).toFixed(2)} <span class="muted">/ R$ ${Number(person.valor_brl || 0).toFixed(2)}</span></td></tr>`;
+  }).join("");
+  const topBitsHtml = topBits.map((b, i) =>
+    `<span class="bit-chip"><span class="bit-pos">${i + 1}</span> <b>${esc(b.usuario)}</b> — ${fmt(b.bits)} bits <span class="muted">($${Number(b.valor_usd || 0).toFixed(2)})</span></span>`
+  ).join("");
   document.getElementById("previsaoReceita").innerHTML =
     `<div class="grid cards">
       <div class="card"><div class="label">💵 Receita líquida</div><div class="value">$${p.receita_liquida.toFixed(2)}</div><div class="muted">R$ ${p.receita_liquida_brl.toFixed(2)}</div></div>
@@ -3933,6 +4876,16 @@ function renderPrevisaoReceita(eng) {
       <div class="card"><div class="label">Projeção (2h)</div><div class="value">$${p.projecao_2h.toFixed(2)}</div><div class="muted">R$ ${p.projecao_2h_brl.toFixed(2)}</div></div>
       <div class="card"><div class="label">Projeção (3h)</div><div class="value">$${p.projecao_3h.toFixed(2)}</div><div class="muted">R$ ${p.projecao_3h_brl.toFixed(2)}</div></div>
       <div class="card"><div class="label">Câmbio USD→BRL</div><div class="value">R$ ${rate.toFixed(2)}</div></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="label" style="margin-bottom:8px">Top contribuições · estimativa líquida ao canal</div>
+      ${contributorRows
+        ? `<table><thead><tr><th>#</th><th>Pessoa</th><th>Contribuições identificadas</th><th>Bits</th><th>Valor aproximado</th></tr></thead><tbody>${contributorRows}</tbody></table>`
+        : `<div class="muted">Nenhum evento de subs, presente ou bits com autor identificável.</div>`}
+      ${topBitsHtml
+        ? `<div class="label" style="margin:14px 0 8px">Top bits (cheers) — quantidade de bits por pessoa</div><div class="bit-chips">${topBitsHtml}</div>`
+        : `<div class="muted" style="margin-top:8px">Nenhum cheer/bits identificado neste chat.</div>`}
+      <div class="muted" style="margin-top:8px">Estimativa baseada nos eventos do chat: subs e presentes após divisão aproximada de 50%, bits a US$ 0,007 cada. Amazon Prime/outros usa valor estimado de Tier 1.</div>
     </div>`;
 }
 
@@ -4210,6 +5163,12 @@ initLiveMap();
         .replace("__FILES_JSON__", files_json)
         .replace("__CUES_JSON__", cues_json)
         .replace("__MAP_STOPS_JSON__", map_stops_json)
+        .replace("__MAP_ROUTE_JSON__", map_route_json)
+        .replace("__MAP_ROUTE_TIMES__", map_route_times_json)
+        .replace("__MAP_TRIM_START__", str(MAP_TRIM_START))
+        .replace("__MAP_TRIM_END__", str(MAP_TRIM_END))
+        .replace("__MAP_GPX_BTN__", map_gpx_btn)
+        .replace("__MAP_EXTRA_HTML__", map_extra_html)
         .replace(
             "__MAP_LABEL__",
             str(map_label).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"),

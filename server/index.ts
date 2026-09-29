@@ -1,10 +1,10 @@
+import { spawn, type ChildProcess } from "child_process";
+import crypto from "crypto";
 import express from "express";
+import fs from "fs";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
-import { spawn, type ChildProcess } from "child_process";
-import fs from "fs";
-import crypto from "crypto";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -554,6 +554,7 @@ async function startServer() {
         }
         // invalida o cache de geoloc para re-geolocalizar na nova cidade
         fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
+        fs.rmSync(path.join(folderPath, "mapa", "osrm_route.json"), { force: true });
         pipeline.stepLabel = "Re-geolocalizando o mapa na nova cidade...";
         await runPython(["scripts/preparar.py", folderPath]);
       } else if (step === "comentarios") {
@@ -621,6 +622,7 @@ async function startServer() {
       } else if (step === "mapa") {
         pipeline.stepLabel = "Refazendo geolocalização do mapa...";
         fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
+        fs.rmSync(path.join(folderPath, "mapa", "osrm_route.json"), { force: true });
         await runPython(["scripts/preparar.py", folderPath]);
       } else {
         // "analise": fluxo completo do preparar.sh (relatório, dashboard e cortes se faltarem)
@@ -948,6 +950,73 @@ async function startServer() {
       })
       .sort((a, b) => b.reportMtime - a.reportMtime);
     res.json(folders);
+  });
+
+  async function runGlobalReprepare(job: VodJob) {
+    const pipeline = job.pipeline!;
+    let pendingOutput = "";
+    try {
+      await runScript("scripts/repreparar_todos.sh", [], (chunk) => {
+        const lines = (pendingOutput + chunk).split(/\r?\n/);
+        pendingOutput = lines.pop() ?? "";
+        for (const line of lines) {
+          const match = line.match(/==> Processando:\s*(.+)/);
+          if (match) pipeline.stepLabel = `Repreparando ${match[1]}...`;
+        }
+      });
+      pipeline.status = "done";
+      pipeline.stepLabel = "Todos os episódios elegíveis foram re-preparados.";
+      pipeline.finishedAt = Date.now();
+      job.status = "done";
+      job.percent = 100;
+    } catch (err) {
+      pipeline.status = "error";
+      pipeline.stepLabel = "Falha ao re-preparar os episódios.";
+      pipeline.error = err instanceof Error ? err.message : "Falha no re-preparo global";
+      pipeline.finishedAt = Date.now();
+      job.status = "error";
+      job.error = pipeline.error;
+    }
+  }
+
+  app.post("/api/vod/reprepare-all", (_req, res) => {
+    if (Array.from(jobs.values()).some((job) => job.status === "running")) {
+      res.status(409).json({ error: "Aguarde o processamento atual terminar antes de iniciar o lote." });
+      return;
+    }
+
+    const folders = fs.readdirSync(SAIDA_DIR, { withFileTypes: true }).filter((entry) => entry.isDirectory());
+    const eligibleCount = folders.filter((entry) => {
+      const folderPath = path.join(SAIDA_DIR, entry.name);
+      return fs.existsSync(path.join(folderPath, "comentarios.json")) && fs.existsSync(path.join(folderPath, "audio.srt"));
+    }).length;
+    if (!eligibleCount) {
+      res.status(400).json({ error: "Nenhum episódio com comentarios.json e audio.srt para re-preparar." });
+      return;
+    }
+
+    const job: VodJob = {
+      id: crypto.randomUUID(),
+      url: "",
+      title: "Re-preparar todos os episódios",
+      quality: "",
+      status: "running",
+      percent: 0,
+      speed: "",
+      eta: "",
+      downloadedBytes: "",
+      totalBytes: "",
+      startedAt: Date.now(),
+      pipeline: {
+        status: "running",
+        step: "reprepare_all",
+        stepLabel: `Iniciando lote para ${eligibleCount} episódio(s)...`,
+        startedAt: Date.now(),
+      },
+    };
+    jobs.set(job.id, job);
+    void runGlobalReprepare(job);
+    res.status(202).json({ id: job.id, eligibleCount, skippedCount: folders.length - eligibleCount });
   });
 
   // Re-executa UMA etapa de um episódio já preparado.

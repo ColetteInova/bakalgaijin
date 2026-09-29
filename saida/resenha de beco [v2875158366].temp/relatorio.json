@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-28T14:00:06",
+  "gerado_em": "2026-09-28T19:25:50",
   "local": "japao",
   "local_label": "Japão (Tóquio)",
   "metricas": {
@@ -11,20 +11,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/2b11c92948b2c63ef9ca_bakagaijinlive_316462826866_1789507931//thumb/thumb0-640x360.jpg",
     "duration_seconds": 10496,
     "duration_label": "2h54min",
-    "views": 21900,
+    "views": 21919,
     "views_label": "21.9k",
-    "likes_estimado": 262,
-    "likes_label": "262",
+    "likes_estimado": 263,
+    "likes_label": "263",
     "comentarios": 7540,
-    "taxa_likes": 1.196,
-    "taxa_engajamento": 35.626,
-    "followers_canal": 248263,
+    "taxa_likes": 1.2,
+    "taxa_engajamento": 35.599,
+    "followers_canal": 248259,
     "comparacao_canal": {
-      "mediana_views": 20210.0,
-      "media_views": 22421.0,
-      "mediana_pares": 18520,
+      "mediana_views": 20226.5,
+      "media_views": 22461.8,
+      "mediana_pares": 18534,
       "views_vs_mediana_pct": 8.4,
-      "views_vs_media_pct": -2.3,
+      "views_vs_media_pct": -2.4,
       "views_vs_pares_pct": 18.3,
       "n_videos_canal": 4
     }
@@ -1081,8 +1081,8 @@
         "id": "24cc91f6-b41f-41de-a47e-94d8420dfc20",
         "offset": 251,
         "timestamp": "4:11",
-        "usuario": "zinnzkkk",
-        "nome": "zinnzkkk",
+        "usuario": "zeenebalanca",
+        "nome": "zeenebalanca",
         "texto": "Sauvi",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -4151,8 +4151,8 @@
         "id": "a56886b4-e867-4454-8a0a-e8ff65a5709b",
         "offset": 548,
         "timestamp": "9:08",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Aoba dudu baka",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -9632,7 +9632,7 @@
         "offset": 1264,
         "timestamp": "21:04",
         "usuario": "brunykua",
-        "nome": "brunykua",
+        "nome": "BrunykuA",
         "texto": "@zogashiro bão demaisss",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -11731,8 +11731,8 @@
         "id": "9f6d12fa-9486-456b-8588-9a04af0727fd",
         "offset": 1510,
         "timestamp": "25:10",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Japonês come corvo, moto nao",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -16031,8 +16031,8 @@
         "id": "7e6583b2-92df-4772-9888-4eaf1ed5b74a",
         "offset": 2130,
         "timestamp": "35:30",
-        "usuario": "bren00n",
-        "nome": "bren00n",
+        "usuario": "",
+        "nome": "",
         "texto": "Isaías 55  7 “Deixe o ímpio o seu caminho, e o homem maligno os seus pensamentos, e se converta ao Senhor, que se compadecerá dele; torne para o nosso Deus, porque grandioso é em perdoar.”",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -18121,8 +18121,8 @@
         "id": "c07d03ca-bf52-43ef-a75e-f4f3b79ed801",
         "offset": 2405,
         "timestamp": "40:05",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "É feriado ai? 7 da manha e tudo fechado",
         "sentimento": "engraçado",
         "confianca": 0.5
@@ -18691,8 +18691,8 @@
         "id": "565c42e8-2873-445d-89b8-2ba0ea8d258d",
         "offset": 2484,
         "timestamp": "41:24",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@kahfps Pais de primeiro mundo btw",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -19041,8 +19041,8 @@
         "id": "e8e2d3e1-70fc-40da-8e9e-9f02d43912dd",
         "offset": 2506,
         "timestamp": "41:46",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Tucano estranho esse dai",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -20528,22 +20528,22 @@
         "confianca": 1.0
       },
       {
-        "id": "94b2d7f9-a57b-42e0-8388-b9f5778f10f6",
-        "offset": 2676,
-        "timestamp": "44:36",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
-        "texto": "Nao seja.. esteja!",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "c8cd5e96-d4ef-463a-9a03-2651aa8aa7c6",
         "offset": 2676,
         "timestamp": "44:36",
         "usuario": "this_is_pedro",
         "nome": "This_is_Pedro",
         "texto": "Sua existência não é tolerada",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "94b2d7f9-a57b-42e0-8388-b9f5778f10f6",
+        "offset": 2676,
+        "timestamp": "44:36",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
+        "texto": "Nao seja.. esteja!",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -20701,8 +20701,8 @@
         "id": "6ca73b69-67af-40e4-8192-8445e88fb7bf",
         "offset": 2700,
         "timestamp": "45:00",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Pode fazer nada nesse lugar então",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -21111,8 +21111,8 @@
         "id": "e85221b2-fcae-448a-bf44-705734dd3bb5",
         "offset": 2738,
         "timestamp": "45:38",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "É coisa de comunista isso dai",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -25771,8 +25771,8 @@
         "id": "5b7a40d4-2f88-4302-982a-86c6912c5e20",
         "offset": 3252,
         "timestamp": "54:12",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Os doiis",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -26858,22 +26858,22 @@
         "confianca": 1.0
       },
       {
-        "id": "c9000acb-30a0-48ad-b093-4b9295afadba",
-        "offset": 3377,
-        "timestamp": "56:17",
-        "usuario": "reptilianomestre",
-        "nome": "ReptilianoMestre",
-        "texto": "F",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "0330ba4f-efbc-49a5-996b-04edc654b72c",
         "offset": 3377,
         "timestamp": "56:17",
         "usuario": "mtbrazil",
         "nome": "MTBRAZIL",
         "texto": "Ah que delicia, sons de manufatura e trabalho escravo",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "c9000acb-30a0-48ad-b093-4b9295afadba",
+        "offset": 3377,
+        "timestamp": "56:17",
+        "usuario": "reptilianomestre",
+        "nome": "ReptilianoMestre",
+        "texto": "F",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -31381,8 +31381,8 @@
         "id": "378cd0fa-1991-45ea-ae70-cd78c34a4d09",
         "offset": 3965,
         "timestamp": "1:06:05",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "É Adão e Eva",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -31701,8 +31701,8 @@
         "id": "431c8a15-75f4-445b-a9ba-5695d511643b",
         "offset": 4015,
         "timestamp": "1:06:55",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Bebe esse cha ai",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -34121,8 +34121,8 @@
         "id": "624efe34-fb46-4be3-bf9e-2ae2b6af85a2",
         "offset": 4357,
         "timestamp": "1:12:37",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Era boss fight ali",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -44671,8 +44671,8 @@
         "id": "b7d2e351-4cbf-4d51-b75a-6173591657ce",
         "offset": 5777,
         "timestamp": "1:36:17",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Na Coreia do Sul eles tem sotaque gaúcho tbm?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -48731,8 +48731,8 @@
         "id": "5497a40e-436e-43b1-9fad-bd5974278f2c",
         "offset": 6160,
         "timestamp": "1:42:40",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@ellyyy4 Sim, eu existo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -50201,8 +50201,8 @@
         "id": "3b4bb6d6-6149-490c-8439-b6ca0ec7ffd1",
         "offset": 6307,
         "timestamp": "1:45:07",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@jeanzuro Ele voltou pra governar",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -54391,8 +54391,8 @@
         "id": "4df22ead-c429-49dd-94e0-8bc81559d9fc",
         "offset": 6911,
         "timestamp": "1:55:11",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "O que é um sufixo?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -54841,8 +54841,8 @@
         "id": "5f1f5637-ad58-46b1-976a-ae7a402368b2",
         "offset": 7020,
         "timestamp": "1:57:00",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Oloko",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -56661,8 +56661,8 @@
         "id": "bdc6f9d1-73d6-4eaa-a65b-67c60ee42822",
         "offset": 7356,
         "timestamp": "2:02:36",
-        "usuario": "unopreto_",
-        "nome": "UNOpreto_",
+        "usuario": "x_modesto_x",
+        "nome": "x_MODESTO_x",
         "texto": "PokPikachu",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -59701,8 +59701,8 @@
         "id": "71abd672-341f-4de0-8deb-165a2ab53d22",
         "offset": 7832,
         "timestamp": "2:10:32",
-        "usuario": "unopreto_",
-        "nome": "UNOpreto_",
+        "usuario": "x_modesto_x",
+        "nome": "x_MODESTO_x",
         "texto": "toma um golden drip",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -60951,8 +60951,8 @@
         "id": "5ae7b997-8892-43b9-8b1a-8ac1feb611e9",
         "offset": 8057,
         "timestamp": "2:14:17",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Ele ta de folga",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -62541,8 +62541,8 @@
         "id": "9b4828a5-7d28-4cb4-8cb4-26f2b3ee223b",
         "offset": 8382,
         "timestamp": "2:19:42",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Vai qualquer dia naquele bar das muié bombada",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -63971,8 +63971,8 @@
         "id": "4517b277-2736-48b8-951a-18f5fa2b5fe5",
         "offset": 8680,
         "timestamp": "2:24:40",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "3 mil de aluguel um desses em sp",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -64171,8 +64171,8 @@
         "id": "bb0283b7-cee3-488b-81da-298ff0ff0b2d",
         "offset": 8708,
         "timestamp": "2:25:08",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Anti resenha",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -64901,8 +64901,8 @@
         "id": "6889d285-1282-4c18-9228-0011a154957d",
         "offset": 8836,
         "timestamp": "2:27:16",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Te acharam bska, foge",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -65911,8 +65911,8 @@
         "id": "d32e3e68-99ab-49c1-ba57-26ff96dc61c1",
         "offset": 9039,
         "timestamp": "2:30:39",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@jahzerei Tokyo tower",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -66581,8 +66581,8 @@
         "id": "852656f5-2e54-4f45-b9cd-e9e5e1390382",
         "offset": 9164,
         "timestamp": "2:32:44",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Lol foi criado pra lavagem de dinheiro",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -66691,8 +66691,8 @@
         "id": "5840aa8c-8cbc-4d05-afb5-30a55d0c8838",
         "offset": 9198,
         "timestamp": "2:33:18",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "21:67",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -67131,8 +67131,8 @@
         "id": "a2544d28-203b-4ebd-9d50-2cbe84af805e",
         "offset": 9277,
         "timestamp": "2:34:37",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "A ânsia de ter e o tedio de possuir",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -68021,8 +68021,8 @@
         "id": "d58df75d-7ddc-4d46-96ca-660300309854",
         "offset": 9449,
         "timestamp": "2:37:29",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Fofo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -68261,8 +68261,8 @@
         "id": "76abedca-80fe-4011-9782-6d10fe765eb2",
         "offset": 9475,
         "timestamp": "2:37:55",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "KKKKKKKKKKKK",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -70091,8 +70091,8 @@
         "id": "eadafac1-c10b-4e53-a647-76d103366431",
         "offset": 9761,
         "timestamp": "2:42:41",
-        "usuario": "unopreto_",
-        "nome": "UNOpreto_",
+        "usuario": "x_modesto_x",
+        "nome": "x_MODESTO_x",
         "texto": "baka ai tem muito tatuador?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -74161,8 +74161,8 @@
         "id": "1642fcd5-76be-4c5f-8a81-364157dc9821",
         "offset": 10385,
         "timestamp": "2:53:05",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Mas jaaaa?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -74761,8 +74761,8 @@
         "id": "96f2bef9-49c3-4865-9c43-d7357c961184",
         "offset": 10404,
         "timestamp": "2:53:24",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Mais mais mais",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -79167,11 +79167,143 @@
       "projecao_3h": 89.64,
       "projecao_2h": 59.76,
       "usd_brl": 5.1895,
+      "top_bits": [
+        {
+          "usuario": "karasu2024",
+          "bits": 102,
+          "valor_usd": 0.71,
+          "valor_brl": 3.71
+        },
+        {
+          "usuario": "PsyFoxxx",
+          "bits": 101,
+          "valor_usd": 0.71,
+          "valor_brl": 3.67
+        },
+        {
+          "usuario": "fakedev",
+          "bits": 100,
+          "valor_usd": 0.7,
+          "valor_brl": 3.63
+        },
+        {
+          "usuario": "Corvo__Feroz",
+          "bits": 5,
+          "valor_usd": 0.04,
+          "valor_brl": 0.18
+        },
+        {
+          "usuario": "coxinhaa04",
+          "bits": 5,
+          "valor_usd": 0.04,
+          "valor_brl": 0.18
+        },
+        {
+          "usuario": "bakalovers",
+          "bits": 2,
+          "valor_usd": 0.01,
+          "valor_brl": 0.07
+        },
+        {
+          "usuario": "CarolineNaomii",
+          "bits": 1,
+          "valor_usd": 0.01,
+          "valor_brl": 0.04
+        },
+        {
+          "usuario": "synystersammm",
+          "bits": 1,
+          "valor_usd": 0.01,
+          "valor_brl": 0.04
+        }
+      ],
       "receita_liquida_brl": 451.75,
       "receita_subs_brl": 880.45,
       "receita_bits_brl": 11.52,
       "projecao_3h_brl": 465.19,
-      "projecao_2h_brl": 310.12
+      "projecao_2h_brl": 310.12,
+      "top_contribuidores": [
+        {
+          "usuario": "1Marcus",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "AlexandreJnR",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "Artx_21",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "bilnovais",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "caiopa3",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "calangomago",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "ClingerX_",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "danielrsrsrs",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "digxd_",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        },
+        {
+          "usuario": "duckn_00",
+          "subs": 1,
+          "subs_presentes": 0,
+          "bits": 0,
+          "valor_usd": 2.5,
+          "valor_brl": 12.95
+        }
+      ]
     },
     "sent_series": {
       "positivo": [
@@ -83718,7 +83850,7 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "e006cr",
+        "usuario": "eduuh006",
         "n": 25,
         "sentimento": "neutro"
       },
@@ -84703,11 +84835,6 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "Baka_Denji",
-        "n": 5,
-        "sentimento": "neutro"
-      },
-      {
         "usuario": "Balconista_",
         "n": 5,
         "sentimento": "neutro"
@@ -84849,6 +84976,11 @@
       },
       {
         "usuario": "natanzinb27",
+        "n": 5,
+        "sentimento": "neutro"
+      },
+      {
+        "usuario": "Nyd_Sanryn",
         "n": 5,
         "sentimento": "neutro"
       },
@@ -85673,11 +85805,6 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "UNOpreto_",
-        "n": 3,
-        "sentimento": "positivo"
-      },
-      {
         "usuario": "user1337",
         "n": 3,
         "sentimento": "neutro"
@@ -85716,6 +85843,11 @@
         "usuario": "wardevil_6667",
         "n": 3,
         "sentimento": "neutro"
+      },
+      {
+        "usuario": "x_MODESTO_x",
+        "n": 3,
+        "sentimento": "positivo"
       },
       {
         "usuario": "Xabriel98",
@@ -86708,11 +86840,6 @@
         "sentimento": "negativo"
       },
       {
-        "usuario": "bren00n",
-        "n": 1,
-        "sentimento": "neutro"
-      },
-      {
         "usuario": "BrucuTUU",
         "n": 1,
         "sentimento": "neutro"
@@ -86728,7 +86855,7 @@
         "sentimento": "confuso"
       },
       {
-        "usuario": "brunykua",
+        "usuario": "BrunykuA",
         "n": 1,
         "sentimento": "neutro"
       },
@@ -88418,14 +88545,14 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "zeenebalanca",
+        "n": 1,
+        "sentimento": "neutro"
+      },
+      {
         "usuario": "ZENOM_XD",
         "n": 1,
         "sentimento": "engraçado"
-      },
-      {
-        "usuario": "zinnzkkk",
-        "n": 1,
-        "sentimento": "neutro"
       },
       {
         "usuario": "zNagiii__",
@@ -89489,7 +89616,7 @@
     "interaction_dist": [
       {
         "faixa": "1 comentário",
-        "usuarios": 384
+        "usuarios": 383
       },
       {
         "faixa": "2–5",
@@ -89761,70 +89888,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Deixa eu ver aqui",
-        "descricao": "Baka Gaijin reconhece beco de Neuromancer e revela que ficou preso numa armadilha de rato ali, misturando referência cult com vergonha pessoal."
+        "descricao": "Baka Gaijin reconhece beco de Neuromancer e conta que ficou preso numa armadilha de rato ali; piada absurda que vira clipe instantâneo."
       },
       {
         "inicio": "41:00",
         "minuto": 41,
         "tipo": "pergunta",
         "trecho": "Aqui eu vou acabar me degustando",
-        "descricao": "Ele filosofa sobre engordar e emagrecer ao mesmo tempo e ainda cospe na tela pedindo print pro thumbnail, caos puro."
+        "descricao": "Ele filosofa sobre engordar e emagrecer ao mesmo tempo e ainda pergunta se camarão tem tendão; confusão perfeita pra cortar."
       },
       {
         "inicio": "52:00",
         "minuto": 52,
         "tipo": "pergunta",
         "trecho": "e pegou mais caro virou turista mesmo amigo",
-        "descricao": "Quase entra em área staff only, imagina uma mulher vindo comer seu cu por trás e ainda compara aranha com Fanta de gelatina."
+        "descricao": "Quase entra em área 'Staff Only' e imagina uma mulher vindo comer seu cu por trás; alerta e piada no mesmo fôlego."
       },
       {
         "inicio": "1:03:00",
         "minuto": 63,
         "tipo": "piada",
         "trecho": "Tinha lixo ali, né?",
-        "descricao": "Ele planeja comprar um celular barato só pra fazer live na rua do Brasil e aceitar ser roubado numa boa."
+        "descricao": "Ele planeja comprar um celular barato só pra fazer live na rua no Brasil e aceitar ser roubado; ideia genial e caótica."
       },
       {
         "inicio": "1:14:00",
         "minuto": 74,
         "tipo": "pergunta",
         "trecho": "Parece um centavo comum",
-        "descricao": "Ele descobre um donkey no parque de Ueno e admite que tudo é recente demais pra sua memória confiável."
+        "descricao": "Ele se perde no parque de Ueno e descobre um donkey do nada; confusão geográfica com cara de vlog perdido."
       },
       {
         "inicio": "1:25:00",
         "minuto": 85,
         "tipo": "pergunta",
         "trecho": "Ai, cara.",
-        "descricao": "Andando igual pinguim com a solda assada, ele encara o Japão como turista e ouve que está gordo sem solução."
+        "descricao": "Baka Gaijin volta ao Japão como turista e ouve 'nossa, você tá gordo'; ele rebate com 'apontar é fácil, quero ver resolver'."
       },
       {
         "inicio": "1:36:00",
         "minuto": 96,
         "tipo": "pergunta",
         "trecho": "Sensato do mundo pra governar o mundo",
-        "descricao": "Ele debate se peixe bebe e mija, propõe aparelho excretor unificado e compara com a Coreia, biologia de boteco total."
+        "descricao": "Ele teoriza que peixe tem aparelho excretor unificado e compara com unificar as Coreias; ciência de boteco nível máximo."
       },
       {
         "inicio": "1:47:00",
         "minuto": 107,
         "tipo": "piada",
         "trecho": "Ele tem que coisar",
-        "descricao": "Ele confunde cocô de pássaro com cérebro, quase pisa numa tartaruga camuflada e sente dor de ouvido na chuva."
+        "descricao": "Ele acha cocô de pássaro gigante que parece um cérebro e quase não vê uma tartaruga camuflada; natureza nojenta e hilária."
       },
       {
         "inicio": "1:58:00",
         "minuto": 118,
         "tipo": "piada",
         "trecho": "Quem dera se eu pudesse aí",
-        "descricao": "Com as mãos ocupadas, ele desiste de arrumar o cabelo, atravessa a rua sem morar mais ali e lembra que assistiu Silo."
+        "descricao": "Ele tenta arrumar o cabelo com as mãos ocupadas, pergunta o penúltimo filme e responde 'vai se foder'; energia de live cansada."
       },
       {
         "inicio": "2:09:00",
         "minuto": 129,
         "tipo": "piada",
         "trecho": "Como é que abre aqui?",
-        "descricao": "Ele zoa o Mundial de Futebol de Rua, não tem cronograma nenhum e manda a pessoa fazer xixi na rua sem cerimônia."
+        "descricao": "Ele comenta o Mundial de Futebol de Rua e lembra do maluco que fez live até ser assaltado; caos de chat e memória aleatória."
       }
     ],
     "alertas": [
@@ -102436,7 +102563,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 35.626% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 35.599% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",
