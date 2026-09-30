@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { api } from "@/lib/api";
 import {
     getIdToken,
     initFirebase,
@@ -10,12 +11,11 @@ import {
     signOutFirebase,
     watchAuth,
 } from "@/lib/firebase";
-import { api } from "@/lib/api";
 import type { User } from "firebase/auth";
 import { ArrowLeft, CheckCircle2, Heart, Loader2, LogOut, Mail, Twitch } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 
 interface SiteConfig {
   siteUrl?: string;
@@ -58,13 +58,14 @@ export default function Cadastro() {
   const [user, setUser] = useState<User | null>(null);
   const [loadingProvider, setLoadingProvider] = useState<"google" | "twitch" | null>(null);
   const [saving, setSaving] = useState(false);
-  const [done, setDone] = useState(false);
-  const [form, setForm] = useState({ nome: "", email: "", notify: false });
+  const [form, setForm] = useState({ nome: "", email: "", notify: true });
   const [twitchLogin, setTwitchLogin] = useState("");
   const [twitchSession, setTwitchSession] = useState<{
     login: string;
     displayName: string;
     accessToken: string;
+    profileImageUrl?: string;
+    email?: string;
   } | null>(null);
   const [, setLocation] = useLocation();
 
@@ -96,7 +97,6 @@ export default function Cadastro() {
     return watchAuth((u) => {
       setUser(u);
       if (u) {
-        setDone(false);
         setForm((f) => ({
           ...f,
           nome: f.nome || u.displayName || "",
@@ -143,6 +143,7 @@ export default function Cadastro() {
       if (parsed?.login && parsed?.accessToken) {
         setTwitchSession(parsed);
         setTwitchLogin(parsed.login);
+        setForm((f) => ({ ...f, email: f.email || parsed.email || "" }));
         void redirectIfAlreadyRegistered(parsed);
       } else {
         sessionStorage.removeItem("twitch_oauth_session");
@@ -186,10 +187,17 @@ export default function Cadastro() {
       if (!res.ok || !data.login) {
         throw new Error(data?.error || "Não foi possível validar o login da Twitch.");
       }
-      const session = { login: data.login, displayName: data.displayName || data.login, accessToken };
+      const session = {
+        login: data.login,
+        displayName: data.displayName || data.login,
+        accessToken,
+        profileImageUrl: data.profileImageUrl || "",
+        email: data.email || "",
+      };
       sessionStorage.setItem("twitch_oauth_session", JSON.stringify(session));
       setTwitchSession(session);
       setTwitchLogin(data.login);
+      setForm((f) => ({ ...f, email: f.email || data.email || "" }));
       toast.success(`Bem-vindo, @${data.login}!`);
       // Já tem cadastro salvo no Firebase? Vai direto para o painel.
       void redirectIfAlreadyRegistered(session);
@@ -209,6 +217,7 @@ export default function Cadastro() {
     sessionStorage.setItem("twitch_oauth_state", state);
     const url = new URL("https://id.twitch.tv/oauth2/authorize");
     url.searchParams.set("client_id", config.twitchClientId);
+    url.searchParams.set("scope", "user:read:email");
     url.searchParams.set("redirect_uri", `${window.location.origin}${window.location.pathname}`);
     url.searchParams.set("response_type", "token");
     url.searchParams.set("force_verify", "true");
@@ -238,11 +247,16 @@ export default function Cadastro() {
   async function save(e: React.FormEvent) {
     e.preventDefault();
     if (!user && !twitchSession) return;
+    const emailLimpo = form.email.trim();
     if (!form.nome.trim()) {
       toast.error("Preencha o nome.");
       return;
     }
-    if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+    if (!emailLimpo) {
+      toast.error("Preencha o e-mail.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo)) {
       toast.error("E-mail inválido.");
       return;
     }
@@ -261,14 +275,14 @@ export default function Cadastro() {
           isTwitch
             ? {
                 nome: form.nome,
-                email: form.email,
+                email: emailLimpo,
                 notify: form.notify,
                 twitchAccessToken: twitchSession.accessToken,
                 twitch: twitchSession.login,
               }
             : {
                 nome: form.nome,
-                email: form.email,
+                email: emailLimpo,
                 notify: form.notify,
               }
         ),
@@ -276,12 +290,8 @@ export default function Cadastro() {
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Falha ao salvar o cadastro.");
       toast.success("Cadastro concluído! Bem-vindo ao time de Bakalovers oficiais.");
-      if (isTwitch) {
-        sessionStorage.removeItem("twitch_oauth_session");
-        setTwitchSession(null);
-        setTwitchLogin("");
-      }
-      setDone(true);
+      // Mantém a sessão da Twitch ativa para o painel carregar o perfil na hora
+      setLocation("/perfil");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha ao salvar o cadastro.");
     } finally {
@@ -296,13 +306,13 @@ export default function Cadastro() {
     <div className="min-h-screen bg-[#0b0f1a] text-[#eef2ff] flex flex-col font-sans">
       <header className="border-b border-[#26304d]/80 bg-[#141a2e]/70 backdrop-blur-md sticky top-0 z-40">
         <div className="container max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link
-            href={config.siteUrl || "/"}
+          <a
+            href={config.siteUrl || (import.meta.env.DEV ? "http://localhost:8080/" : "/")}
             className="flex items-center gap-2 text-sm text-[#8b96b5] hover:text-[#eef2ff] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar para o site
-          </Link>
+          </a>
           <Badge variant="outline" className="border-[#ec4899]/40 text-[#ec4899] text-xs px-2 py-0">
             Cadastro
           </Badge>
@@ -361,27 +371,12 @@ export default function Cadastro() {
                   </p>
                 )}
               </div>
-            ) : done ? (
-              <div className="text-center py-6">
-                <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gradient-to-tr from-[#a855f7] to-[#ec4899] flex items-center justify-center shadow-lg ring-1 ring-white/10">
-                  <Heart className="w-8 h-8 text-white" />
-                </div>
-                <h2 className="font-bold text-lg">Cadastro concluído!</h2>
-                <p className="text-sm text-[#8b96b5] mt-1">
-                  Você agora é um Bakalover oficial da comunidade. 💖
-                </p>
-                <Link href="/perfil">
-                  <Button className="mt-4 h-10 px-5 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white font-semibold shadow-lg shadow-[#a855f7]/20">
-                    Abrir meu painel
-                  </Button>
-                </Link>
-              </div>
             ) : (
               <>
                 <div className="flex items-center justify-between mb-5 rounded-xl bg-[#0f172a] border border-[#26304d] p-3">
                   <div className="flex items-center gap-3 min-w-0">
-                    {user?.photoURL ? (
-                      <img src={user.photoURL} alt="" className="w-10 h-10 rounded-full object-cover ring-2 ring-[#a855f7]/50" />
+                    {user?.photoURL || twitchSession?.profileImageUrl ? (
+                      <img src={user?.photoURL || twitchSession?.profileImageUrl} alt="" className="w-10 h-10 rounded-full object-cover ring-2 ring-[#a855f7]/50 bg-white" />
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#a855f7] to-[#ec4899] flex items-center justify-center text-sm font-bold">
                         {(twitchSession?.login || user?.displayName || user?.email || "B").slice(0, 1).toUpperCase()}
@@ -411,7 +406,6 @@ export default function Cadastro() {
                       } else {
                         signOutFirebase();
                       }
-                      setDone(false);
                     }}
                     className="shrink-0 border-[#26304d] bg-[#1a2138]/70 hover:bg-[#1a2138] text-[#cbd5e1] text-xs"
                   >
@@ -434,7 +428,7 @@ export default function Cadastro() {
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="email" className="text-[#cbd5e1] flex items-center gap-1.5">
-                      <Mail className="w-3.5 h-3.5 text-[#8b96b5]" /> E-mail
+                      <Mail className="w-3.5 h-3.5 text-[#8b96b5]" /> E-mail <span className="text-[#ec4899]">*</span>
                     </Label>
                     <Input
                       id="email"

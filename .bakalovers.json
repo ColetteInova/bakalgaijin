@@ -1,0 +1,29 @@
+[
+  {
+    "id": "BoGgOSu4GyN4DEUN1kajn276KZk1",
+    "nome": "Rafael Colette",
+    "apelido": "contato",
+    "twitch": "",
+    "email": "contato@coletteinova.com.br",
+    "official": true,
+    "createdAt": "2026-09-30T13:20:15.018Z"
+  },
+  {
+    "id": "twitch:coletteinova",
+    "nome": "Upgreen Official Store",
+    "apelido": "coletteinova",
+    "twitch": "coletteinova",
+    "email": "contato@coletteinova.com.br",
+    "official": true,
+    "createdAt": "2026-09-30T13:15:50.972Z"
+  },
+  {
+    "id": "twitch:coletteinova",
+    "nome": "Tets",
+    "apelido": "coletteinova",
+    "twitch": "coletteinova",
+    "email": "",
+    "official": true,
+    "createdAt": "2026-09-30T13:09:55.987Z"
+  }
+]

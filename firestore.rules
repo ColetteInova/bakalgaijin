@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===== Documento privado do Bakalover =====
+    // Criar/editar/apagar: somente o próprio usuário autenticado
+    // (Firebase Auth). Escritas da Twitch vêm do servidor via Admin SDK.
+    match /bakalovers/{uid} {
+      allow create, update, delete: if request.auth != null
+                                     && request.auth.uid == uid;
+
+      // Leitura direta no client: somente o dono do documento.
+      allow read: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // ===== Espelho público (o que o site pode ler) =====
+    // Qualquer pessoa (fanpage/cadastro) pode LER esta coleção, mas ela
+    // contém APENAS as props seguras: nome e twitch. E-mail e avisos
+    // vivem somente no documento privado acima.
+    match /bakalovers_public/{uid} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null
+                                      && request.auth.uid == uid;
+    }
+  }
+}

@@ -218,6 +218,7 @@ async function fetchTwitchUser(accessToken: string) {
 
   let displayName = identity.login;
   let profileImageUrl = "";
+  let email = "";
   if (TWITCH_OAUTH_CLIENT_ID) {
     try {
       const usersRes = await fetch(TWITCH_HELIX_USERS_URL, {
@@ -228,12 +229,18 @@ async function fetchTwitchUser(accessToken: string) {
       });
       if (usersRes.ok) {
         const users = (await usersRes.json()) as {
-          data?: Array<{ login?: string; display_name?: string; profile_image_url?: string }>;
+          data?: Array<{
+            login?: string;
+            display_name?: string;
+            profile_image_url?: string;
+            email?: string;
+          }>;
         };
         const user = users.data?.[0];
         if (user) {
           displayName = user.display_name || displayName;
           profileImageUrl = user.profile_image_url || "";
+          email = user.email || "";
         }
       }
     } catch {
@@ -245,6 +252,7 @@ async function fetchTwitchUser(accessToken: string) {
     login: identity.login,
     displayName,
     profileImageUrl,
+    email,
     userId: identity.user_id || "",
     expiresIn: identity.expires_in || 0,
   };
@@ -1465,15 +1473,89 @@ async function startServer() {
 
   const bakalovers: Bakalover[] = loadBakalovers();
 
-  // Lista os bakalovers (apenas oficiais com ?official=true)
+  // Espelho público no Firestore: contém apenas nome e twitch (nada sensível).
+  // O site pode ler essa coleção diretamente; e-mail/avisos ficam só no doc privado.
+  async function writePublicMirror(uid: string, nome: string, twitch: string) {
+    if (!firebaseReady) return;
+    try {
+      await getFirestore()
+        .collection("bakalovers_public")
+        .doc(uid)
+        .set({ nome, ...(twitch ? { twitch } : {}) }, { merge: true });
+    } catch (error) {
+      console.warn("[bakalovers] falha ao gravar espelho público:", error);
+    }
+  }
+
+  // Sincroniza os bakalovers do Firestore para .bakalovers.json — a fanpage
+  // (saida/index.html) é gerada a partir desse arquivo pelo atualizar_index.py.
+  async function syncBakaloversFromFirestore() {
+    if (!firebaseReady) return;
+    try {
+      const snap = await getFirestore().collection("bakalovers").get();
+      const fromFirestore: Bakalover[] = snap.docs.map((doc) => {
+        const d = doc.data() as Record<string, any>;
+        const createdAt =
+          d.createdAt && typeof d.createdAt.toDate === "function"
+            ? d.createdAt.toDate().toISOString()
+            : typeof d.createdAt === "string"
+              ? d.createdAt
+              : new Date().toISOString();
+        const email = typeof d.email === "string" ? d.email : "";
+        const twitch = typeof d.twitch === "string" ? d.twitch : "";
+        return {
+          id: doc.id,
+          nome: typeof d.nome === "string" ? d.nome : email || doc.id,
+          apelido: twitch || (email ? email.split("@")[0] : doc.id.slice(0, 8)),
+          twitch,
+          email,
+          official: d.status !== "rejeitado" && d.status !== "removido",
+          createdAt,
+        };
+      });
+      // espelha somente nome/twitch na coleção pública legível pelo site
+      for (const f of fromFirestore) {
+        void writePublicMirror(f.id, f.nome, f.twitch || "");
+      }
+      // mantém membros legados do .bakalovers.json que não existem no Firestore
+      const legacy = loadBakalovers().filter(
+        (b) =>
+          !fromFirestore.some(
+            (f) => f.email && b.email && f.email.toLowerCase() === b.email.toLowerCase()
+          )
+      );
+      const merged = [...fromFirestore, ...legacy];
+      saveBakalovers(merged);
+      bakalovers.splice(0, bakalovers.length, ...merged);
+      console.log(`[bakalovers] sincronizados do Firestore: ${fromFirestore.length}`);
+    } catch (error) {
+      console.warn("[bakalovers] falha ao sincronizar do Firestore:", error);
+    }
+  }
+
+  if (firebaseReady) {
+    void syncBakaloversFromFirestore();
+    setInterval(() => void syncBakaloversFromFirestore(), 10 * 60 * 1000);
+  }
+
+  // Lista os bakalovers (apenas oficiais com ?official=true).
+  // Privacidade: o site só pode ler o nome e o usuário da Twitch (se houver) —
+  // e-mail, avisos e demais campos nunca são expostos publicamente.
   app.get("/api/bakalovers", (req, res) => {
     const officialOnly = req.query.official === "true";
     const list = officialOnly ? bakalovers.filter((b) => b.official) : bakalovers;
     res.json(
-      [...list].sort((a, b) => {
-        if (a.official !== b.official) return a.official ? -1 : 1;
-        return b.createdAt.localeCompare(a.createdAt);
-      })
+      [...list]
+        .sort((a, b) => {
+          if (a.official !== b.official) return a.official ? -1 : 1;
+          return b.createdAt.localeCompare(a.createdAt);
+        })
+        .map((b) => ({
+          id: b.id,
+          nome: b.nome,
+          ...(b.twitch ? { twitch: b.twitch } : {}),
+          official: b.official,
+        }))
     );
   });
 
@@ -1673,8 +1755,11 @@ async function startServer() {
           },
           { merge: true }
         );
+      // espelha nome/twitch na coleção pública (leitura liberada no site)
+      void writePublicMirror(uid, nomeLimpo, twitchLimpo);
       res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json({ ok: true, uid });
+      void syncBakaloversFromFirestore();
     } catch (error) {
       res.status(401).json({
         error: error instanceof Error ? error.message : "Falha ao registrar no Firebase",
@@ -1759,6 +1844,14 @@ async function startServer() {
       const docRef = getFirestore().collection("bakalovers").doc(uid);
       await docRef.set(update, { merge: true });
       const updated = await docRef.get();
+      const data = updated.data() as Record<string, any>;
+      if (data) {
+        void writePublicMirror(
+          uid,
+          typeof data.nome === "string" ? data.nome : "",
+          typeof data.twitch === "string" ? data.twitch : ""
+        );
+      }
       res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json(updated.data());
     } catch (error) {

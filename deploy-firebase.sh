@@ -94,9 +94,9 @@ else
   VITE_ONLY_BAKALOVERS=1 pnpm exec vite build
 fi
 
-echo "==> Deploy para o Firebase Hosting (projeto: $PROJECT)..."
+echo "==> Deploy para o Firebase (projeto: $PROJECT)..."
 export GOOGLE_APPLICATION_CREDENTIALS="$CREDENTIALS"
-npx --yes firebase-tools@latest deploy --only hosting --project "$PROJECT"
+npx --yes firebase-tools@latest deploy --only hosting,firestore:rules --project "$PROJECT"
 
 echo ""
 echo "==> Pronto! Site publicado em https://$PROJECT.web.app"
