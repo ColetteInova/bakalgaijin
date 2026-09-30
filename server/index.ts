@@ -1,6 +1,9 @@
 import { spawn, type ChildProcess } from "child_process";
 import crypto from "crypto";
 import express from "express";
+import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
+import { FieldValue, getFirestore } from "firebase-admin/firestore";
 import fs from "fs";
 import { createServer } from "http";
 import path from "path";
@@ -28,6 +31,51 @@ function loadDotEnv() {
   }
 }
 loadDotEnv();
+
+// ===== Firebase Admin (somente servidor) =====
+// A service account é secreta: fica no .env (FIREBASE_SERVICE_ACCOUNT, JSON em linha única)
+// ou no arquivo firebase-service-account.json (ou GOOGLE_APPLICATION_CREDENTIALS).
+function loadFirebaseServiceAccount(): object | null {
+  const inline = (process.env.FIREBASE_SERVICE_ACCOUNT || "").trim();
+  if (inline) {
+    try {
+      return JSON.parse(inline);
+    } catch {
+      console.warn("[firebase] FIREBASE_SERVICE_ACCOUNT não é um JSON válido");
+      return null;
+    }
+  }
+  const credPath =
+    process.env.GOOGLE_APPLICATION_CREDENTIALS || path.join(ROOT_DIR, "firebase-service-account.json");
+  const candidatePaths = [credPath, path.join(ROOT_DIR, "client", "firebase-service-account.json")];
+  for (const candidate of candidatePaths) {
+    if (!fs.existsSync(candidate)) continue;
+    try {
+      return JSON.parse(fs.readFileSync(candidate, "utf8"));
+    } catch {
+      console.warn(`[firebase] não foi possível ler a service account em ${candidate}`);
+      return null;
+    }
+  }
+  return null;
+}
+
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "";
+let firebaseReady = false;
+{
+  const serviceAccount = loadFirebaseServiceAccount();
+  if (serviceAccount && FIREBASE_PROJECT_ID && getApps().length === 0) {
+    try {
+      initializeApp({ credential: cert(serviceAccount as any), projectId: FIREBASE_PROJECT_ID });
+      firebaseReady = true;
+      console.log("[firebase] inicializado");
+    } catch (error) {
+      console.warn("[firebase] falha ao inicializar:", error);
+    }
+  } else if (!serviceAccount) {
+    console.warn("[firebase] service account ausente — login/cadastro Firebase desativado");
+  }
+}
 
 interface PipelineState {
   status: "idle" | "running" | "done" | "error";
@@ -133,7 +181,72 @@ const commentsJobs = new Map<string, VodCommentsJob>();
 const TWITCH_GQL_URL = "https://gql.twitch.tv/gql";
 const TWITCH_CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko";
 
+// Twitch OAuth (user access token, fluxo implícito) — configurado via .env.
+// Docs: https://dev.twitch.tv/docs/authentication/#user-access-tokens
+const TWITCH_OAUTH_CLIENT_ID = process.env.TWITCH_OAUTH_CLIENT_ID || "";
+const TWITCH_OAUTH_VALIDATE_URL = "https://id.twitch.tv/oauth2/validate";
+const TWITCH_HELIX_USERS_URL = "https://api.twitch.tv/helix/users";
+
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Valida um user access token da Twitch e devolve os dados do usuário dono do token.
+async function fetchTwitchUser(accessToken: string) {
+  const validation = await fetch(TWITCH_OAUTH_VALIDATE_URL, {
+    headers: { Authorization: `OAuth ${accessToken}` },
+  });
+  if (!validation.ok) {
+    throw new Error(
+      validation.status === 401
+        ? "Token da Twitch inválido ou expirado. Tente conectar novamente."
+        : `Twitch respondeu ${validation.status}`
+    );
+  }
+  const identity = (await validation.json()) as {
+    client_id?: string;
+    login?: string;
+    user_id?: string;
+    expires_in?: number;
+  };
+  if (!identity.login) {
+    throw new Error("O token da Twitch não contém um usuário");
+  }
+  if (TWITCH_OAUTH_CLIENT_ID && identity.client_id && identity.client_id !== TWITCH_OAUTH_CLIENT_ID) {
+    throw new Error("Token emitido para outra aplicação Twitch");
+  }
+
+  let displayName = identity.login;
+  let profileImageUrl = "";
+  if (TWITCH_OAUTH_CLIENT_ID) {
+    try {
+      const usersRes = await fetch(TWITCH_HELIX_USERS_URL, {
+        headers: {
+          "Client-Id": TWITCH_OAUTH_CLIENT_ID,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (usersRes.ok) {
+        const users = (await usersRes.json()) as {
+          data?: Array<{ login?: string; display_name?: string; profile_image_url?: string }>;
+        };
+        const user = users.data?.[0];
+        if (user) {
+          displayName = user.display_name || displayName;
+          profileImageUrl = user.profile_image_url || "";
+        }
+      }
+    } catch {
+      // sem detalhes extras: mantém apenas o login validado
+    }
+  }
+
+  return {
+    login: identity.login,
+    displayName,
+    profileImageUrl,
+    userId: identity.user_id || "",
+    expiresIn: identity.expires_in || 0,
+  };
+}
 
 async function fetchCommentsPage(videoId: string, offset: number) {
   const query = `query { video(id: "${videoId}") { title comments(contentOffsetSeconds: ${offset}) { pageInfo { hasNextPage } edges { cursor node { id contentOffsetSeconds commenter { login displayName } message { fragments { text } } } } } } }`;
@@ -280,11 +393,17 @@ function serializeJob(job: VodJob) {
 }
 
 // Roda um script shell (analisar.sh / preparar.sh) e retorna quando terminar.
-function runScript(script: string, args: string[], onLine?: (line: string) => void): Promise<void> {
+function runScript(
+  script: string,
+  args: string[],
+  onLine?: (line: string) => void,
+  env?: Record<string, string>
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const child = spawn("bash", [script, ...args], {
       cwd: ROOT_DIR,
       stdio: ["ignore", "pipe", "pipe"],
+      env: env ? { ...process.env, ...env } : process.env,
     });
     let errTail = "";
     const flush = (chunk: Buffer) => {
@@ -1016,18 +1135,23 @@ async function startServer() {
     res.json(folders);
   });
 
-  async function runGlobalReprepare(job: VodJob) {
+  async function runGlobalReprepare(job: VodJob, skipCortes: boolean) {
     const pipeline = job.pipeline!;
     let pendingOutput = "";
     try {
-      await runScript("scripts/repreparar_todos.sh", [], (chunk) => {
-        const lines = (pendingOutput + chunk).split(/\r?\n/);
-        pendingOutput = lines.pop() ?? "";
-        for (const line of lines) {
-          const match = line.match(/==> Processando:\s*(.+)/);
-          if (match) pipeline.stepLabel = `Repreparando ${match[1]}...`;
-        }
-      });
+      await runScript(
+        "scripts/repreparar_todos.sh",
+        [],
+        (chunk) => {
+          const lines = (pendingOutput + chunk).split(/\r?\n/);
+          pendingOutput = lines.pop() ?? "";
+          for (const line of lines) {
+            const match = line.match(/==> Processando:\s*(.+)/);
+            if (match) pipeline.stepLabel = `Repreparando ${match[1]}...`;
+          }
+        },
+        skipCortes ? { SKIP_CORTES: "1" } : undefined
+      );
       pipeline.status = "done";
       pipeline.stepLabel = "Todos os episódios elegíveis foram re-preparados.";
       pipeline.finishedAt = Date.now();
@@ -1043,11 +1167,13 @@ async function startServer() {
     }
   }
 
-  app.post("/api/vod/reprepare-all", (_req, res) => {
+  app.post("/api/vod/reprepare-all", (req, res) => {
     if (Array.from(jobs.values()).some((job) => job.status === "running")) {
       res.status(409).json({ error: "Aguarde o processamento atual terminar antes de iniciar o lote." });
       return;
     }
+
+    const { skipCortes } = (req.body ?? {}) as { skipCortes?: boolean };
 
     const folders = fs.readdirSync(SAIDA_DIR, { withFileTypes: true }).filter((entry) => entry.isDirectory());
     const eligibleCount = folders.filter((entry) => {
@@ -1079,7 +1205,7 @@ async function startServer() {
       },
     };
     jobs.set(job.id, job);
-    void runGlobalReprepare(job);
+    void runGlobalReprepare(job, skipCortes === true);
     res.status(202).json({ id: job.id, eligibleCount, skippedCount: folders.length - eligibleCount });
   });
 
@@ -1296,6 +1422,361 @@ async function startServer() {
     }
     jobs.delete(req.params.id);
     res.json({ ok: true });
+  });
+
+  // ===== Bakalovers =====
+  interface Bakalover {
+    id: string;
+    nome: string;
+    apelido: string;
+    twitch?: string;
+    foto?: string;
+    email?: string;
+    notify?: boolean;
+    official: boolean;
+    createdAt: string;
+  }
+
+  const BAKALOVERS_FILE = path.join(ROOT_DIR, ".bakalovers.json");
+
+  function loadBakalovers(): Bakalover[] {
+    try {
+      if (fs.existsSync(BAKALOVERS_FILE)) {
+        const data = JSON.parse(fs.readFileSync(BAKALOVERS_FILE, "utf8"));
+        if (Array.isArray(data)) {
+          return data.filter((b) => b && typeof b.nome === "string" && typeof b.apelido === "string");
+        }
+      }
+    } catch {
+      // arquivo corrompido: começa vazio
+    }
+    return [];
+  }
+
+  function saveBakalovers(items: Bakalover[]) {
+    try {
+      fs.writeFileSync(BAKALOVERS_FILE, JSON.stringify(items, null, 2), "utf8");
+    } catch {
+      // falha ao gravar não deve derrubar o servidor
+    }
+  }
+
+  const bakalovers: Bakalover[] = loadBakalovers();
+
+  // Lista os bakalovers (apenas oficiais com ?official=true)
+  app.get("/api/bakalovers", (req, res) => {
+    const officialOnly = req.query.official === "true";
+    const list = officialOnly ? bakalovers.filter((b) => b.official) : bakalovers;
+    res.json(
+      [...list].sort((a, b) => {
+        if (a.official !== b.official) return a.official ? -1 : 1;
+        return b.createdAt.localeCompare(a.createdAt);
+      })
+    );
+  });
+
+  // Busca o avatar de um usuário da Twitch pelo login (usado no cadastro de bakalovers)
+  async function fetchTwitchUserAvatar(login: string): Promise<{ displayName?: string; avatar?: string }> {
+    const safeLogin = login.replace(/[^a-zA-Z0-9_]/g, "");
+    if (!safeLogin) return {};
+    const query = `query { user(login: "${safeLogin}") { displayName profileImageURL(width: 300) } }`;
+    try {
+      const res = await fetch(TWITCH_GQL_URL, {
+        method: "POST",
+        headers: {
+          "Client-Id": TWITCH_CLIENT_ID,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query, variables: {} }),
+      });
+      if (!res.ok) return {};
+      const json = (await res.json()) as any;
+      const user = json?.data?.user;
+      return {
+        displayName: typeof user?.displayName === "string" ? user.displayName : undefined,
+        avatar: typeof user?.profileImageURL === "string" ? user.profileImageURL : undefined,
+      };
+    } catch {
+      return {};
+    }
+  }
+
+  // Cadastra um novo bakalover (aguarda aprovação como oficial)
+  app.post("/api/bakalovers", async (req, res) => {
+    const { nome, apelido, twitch, email, notify } = (req.body ?? {}) as {
+      nome?: string;
+      apelido?: string;
+      twitch?: string;
+      email?: string;
+      notify?: boolean;
+    };
+    const nomeLimpo = (nome || "").trim();
+    const twitchLimpo = (twitch || "").trim().replace(/^@/, "");
+    const emailLimpo = (email || "").trim().toLowerCase();
+    const querAvisos = notify === true;
+    const apelidoLimpo = (apelido || "").trim() || twitchLimpo || nomeLimpo;
+    if (!nomeLimpo) {
+      res.status(400).json({ error: "Nome é obrigatório" });
+      return;
+    }
+    if (!emailLimpo) {
+      res.status(400).json({ error: "E-mail é obrigatório" });
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo)) {
+      res.status(400).json({ error: "E-mail inválido" });
+      return;
+    }
+    if (bakalovers.some((b) => (b.email || "").toLowerCase() === emailLimpo)) {
+      res.status(409).json({ error: "Já existe um bakalover cadastrado com esse e-mail" });
+      return;
+    }
+
+    // Avatar só é incluído quando o usuário informa a conta da Twitch
+    let foto = "";
+    if (twitchLimpo) {
+      const twitchInfo = await fetchTwitchUserAvatar(twitchLimpo);
+      foto = twitchInfo.avatar || "";
+    }
+
+    const member: Bakalover = {
+      id: crypto.randomUUID(),
+      nome: nomeLimpo,
+      apelido: apelidoLimpo,
+      twitch: twitchLimpo,
+      foto,
+      email: emailLimpo,
+      notify: querAvisos,
+      official: false,
+      createdAt: new Date().toISOString(),
+    };
+    bakalovers.unshift(member);
+    saveBakalovers(bakalovers);
+    res.status(201).json(member);
+  });
+
+  // Aprova/desaprova um bakalover como oficial (ou remove)
+  app.patch("/api/bakalovers/:id", (req, res) => {
+    const member = bakalovers.find((b) => b.id === req.params.id);
+    if (!member) {
+      res.status(404).json({ error: "Bakalover não encontrado" });
+      return;
+    }
+    const { official } = (req.body ?? {}) as { official?: boolean };
+    if (typeof official === "boolean") {
+      member.official = official;
+      saveBakalovers(bakalovers);
+    }
+    res.json(member);
+  });
+
+  app.delete("/api/bakalovers/:id", (req, res) => {
+    const idx = bakalovers.findIndex((b) => b.id === req.params.id);
+    if (idx === -1) {
+      res.status(404).json({ error: "Bakalover não encontrado" });
+      return;
+    }
+    bakalovers.splice(idx, 1);
+    saveBakalovers(bakalovers);
+    res.json({ ok: true });
+  });
+
+  // Obtém o usuário da Twitch dono de um user access token (fluxo implícito).
+  // O token chega via header Authorization: Bearer ou query ?access_token=.
+  app.get("/api/twitch/user", async (req, res) => {
+    const authHeader = String(req.headers.authorization || "");
+    const queryToken = typeof req.query.access_token === "string" ? req.query.access_token : "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : queryToken;
+    if (!token) {
+      res.status(400).json({ error: "Token de acesso ausente" });
+      return;
+    }
+    try {
+      res.json(await fetchTwitchUser(token));
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao validar o token da Twitch",
+      });
+    }
+  });
+
+  // ===== Auth Firebase (cadastro de Bakalovers) =====
+
+  // Registra o perfil do usuário no Firestore (Admin SDK, server-side).
+  // Dois caminhos de credencial:
+  //  - Google: Authorization: Bearer <ID token do Firebase>, verificado aqui.
+  //  - Twitch: twitchAccessToken no body, validado direto na Twitch (fora do Firebase Auth).
+  app.post("/api/auth/register", async (req, res) => {
+    if (!firebaseReady) {
+      res.status(503).json({ error: "Firebase não configurado no servidor" });
+      return;
+    }
+    const { nome, email, twitch, notify, twitchAccessToken } = (req.body ?? {}) as {
+      nome?: string;
+      email?: string;
+      twitch?: string;
+      notify?: boolean;
+      twitchAccessToken?: string;
+    };
+    const authHeader = String(req.headers.authorization || "");
+    const idToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+    if (!twitchAccessToken && !idToken) {
+      res.status(400).json({ error: "Sessão inválida" });
+      return;
+    }
+    try {
+      let uid: string;
+      let provider: string;
+      let twitchLimpo = (twitch || "").trim().replace(/^@/, "");
+      let firebaseEmail = "";
+      if (twitchAccessToken) {
+        // Twitch é tratada por fora: valida o token na própria Twitch
+        const twitchUser = await fetchTwitchUser(twitchAccessToken);
+        uid = `twitch:${twitchUser.login.toLowerCase()}`;
+        provider = "twitch";
+        twitchLimpo = twitchUser.login;
+      } else {
+        const decoded = await getAuth().verifyIdToken(idToken);
+        uid = decoded.uid;
+        provider = decoded.firebase.sign_in_provider || "unknown";
+        firebaseEmail = decoded.email || "";
+      }
+      const nomeLimpo = (nome || "").trim();
+      if (!nomeLimpo) {
+        res.status(400).json({ error: "Nome é obrigatório" });
+        return;
+      }
+      const emailLimpo = (email || "").trim().toLowerCase();
+      if (emailLimpo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo)) {
+        res.status(400).json({ error: "E-mail inválido" });
+        return;
+      }
+      const now = FieldValue.serverTimestamp();
+      await getFirestore()
+        .collection("bakalovers")
+        .doc(uid)
+        .set(
+          {
+            uid,
+            nome: nomeLimpo,
+            email: emailLimpo || firebaseEmail,
+            twitch: twitchLimpo,
+            notify: notify === true,
+            provider,
+            status: "aprovado",
+            updatedAt: now,
+            createdAt: now,
+          },
+          { merge: true }
+        );
+      res.json({ ok: true, uid });
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao registrar no Firebase",
+      });
+    }
+  });
+
+  // Resolve a identidade autenticada: Google (ID token do Firebase) ou
+  // Twitch (access token validado na própria Twitch, fora do Firebase Auth).
+  async function resolveProfileIdentity(req: express.Request) {
+    const authHeader = String(req.headers.authorization || "");
+    const idToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+    const queryToken = typeof req.query.twitchAccessToken === "string" ? req.query.twitchAccessToken : "";
+    const { twitchAccessToken: bodyToken } = (req.body ?? {}) as { twitchAccessToken?: string };
+    const twitchAccessToken = bodyToken || queryToken;
+    if (twitchAccessToken) {
+      const twitchUser = await fetchTwitchUser(twitchAccessToken);
+      return { uid: `twitch:${twitchUser.login.toLowerCase()}`, provider: "twitch" };
+    }
+    if (idToken) {
+      const decoded = await getAuth().verifyIdToken(idToken);
+      return { uid: decoded.uid, provider: decoded.firebase.sign_in_provider || "unknown" };
+    }
+    throw new Error("Sessão inválida");
+  }
+
+  // Painel do bakalover: retorna o perfil salvo no Firestore
+  app.get("/api/auth/profile", async (req, res) => {
+    if (!firebaseReady) {
+      res.status(503).json({ error: "Firebase não configurado no servidor" });
+      return;
+    }
+    try {
+      const { uid } = await resolveProfileIdentity(req);
+      const doc = await getFirestore().collection("bakalovers").doc(uid).get();
+      if (!doc.exists) {
+        res.status(404).json({ error: "Cadastro não encontrado" });
+        return;
+      }
+      res.json(doc.data());
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao carregar o perfil",
+      });
+    }
+  });
+
+  // Painel do bakalover: atualiza o perfil (nome, e-mail e avisos por e-mail)
+  app.patch("/api/auth/profile", async (req, res) => {
+    if (!firebaseReady) {
+      res.status(503).json({ error: "Firebase não configurado no servidor" });
+      return;
+    }
+    try {
+      const { uid } = await resolveProfileIdentity(req);
+      const { nome, email, notify } = (req.body ?? {}) as {
+        nome?: string;
+        email?: string;
+        notify?: boolean;
+      };
+      const update: Record<string, unknown> = { updatedAt: FieldValue.serverTimestamp() };
+      if (typeof nome === "string") {
+        const nomeLimpo = nome.trim();
+        if (!nomeLimpo) {
+          res.status(400).json({ error: "Nome é obrigatório" });
+          return;
+        }
+        update.nome = nomeLimpo;
+      }
+      if (typeof email === "string") {
+        const emailLimpo = email.trim().toLowerCase();
+        if (emailLimpo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo)) {
+          res.status(400).json({ error: "E-mail inválido" });
+          return;
+        }
+        update.email = emailLimpo;
+      }
+      if (typeof notify === "boolean") {
+        update.notify = notify;
+      }
+      const docRef = getFirestore().collection("bakalovers").doc(uid);
+      await docRef.set(update, { merge: true });
+      const updated = await docRef.get();
+      res.json(updated.data());
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao atualizar o perfil",
+      });
+    }
+  });
+
+  // Configurações de URLs do site (ajustáveis por variáveis de ambiente)
+  app.get("/api/config", (_req, res) => {
+    res.json({
+      siteUrl: process.env.SITE_URL || "/",
+      fanpageUrl: process.env.FANPAGE_URL || "/saida/",
+      clientUrl: process.env.CLIENT_URL || (process.env.NODE_ENV === "production" ? "" : "http://localhost:3000"),
+      twitchClientId: TWITCH_OAUTH_CLIENT_ID,
+      twitchRedirectUri: process.env.TWITCH_OAUTH_REDIRECT_URI || "",
+      firebase: {
+        enabled: firebaseReady,
+        apiKey: process.env.FIREBASE_API_KEY || "",
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN || "",
+        projectId: FIREBASE_PROJECT_ID,
+        appId: process.env.FIREBASE_APP_ID || "",
+      },
+    });
   });
 
   // Serve static files from dist/public in production

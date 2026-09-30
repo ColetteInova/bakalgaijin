@@ -5,23 +5,79 @@ O seek do <video>/<audio> precisa de respostas 206 (Range) — o
 `python3 -m http.server` não suporta Range e por isso o controle de
 tempo do player não funcionava.
 
+Requisições para /api/* são repassadas ao servidor da API (Express).
+Configure a URL com a variável de ambiente BAKA_API_URL.
+
 Uso:
     python3 scripts/servir.py [porta]      # padrão: 8080
 """
 import http.server
+import json
 import os
 import re
 import sys
+import urllib.error
+import urllib.request
 from urllib.parse import unquote, urlparse
 
 ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "saida"))
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+API_URL = os.environ.get("BAKA_API_URL", "http://localhost:3001").rstrip("/")
 
 _RANGE_RE = re.compile(r"bytes=(\d*)-(\d*)\s*$")
 
 
 class RangeHandler(http.server.SimpleHTTPRequestHandler):
     """Serve arquivos de ROOT com suporte a pedidos de Range (bytes)."""
+
+    def _proxy_api(self):
+        url = API_URL + self.path
+        body = None
+        length = int(self.headers.get("Content-Length") or 0)
+        if length > 0:
+            body = self.rfile.read(length)
+        headers = {}
+        if body is not None and "Content-Type" in self.headers:
+            headers["Content-Type"] = self.headers["Content-Type"]
+        request = urllib.request.Request(url, data=body, headers=headers, method=self.command)
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                data = response.read()
+                self.send_response(response.status)
+                self.send_header("Content-Type", response.headers.get("Content-Type", "application/json"))
+                self.send_header("Content-Length", str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+        except urllib.error.HTTPError as err:
+            data = err.read()
+            self.send_response(err.code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+        except Exception as err:  # noqa: BLE001
+            payload = json.dumps({"error": f"API indisponível: {err}"}).encode("utf-8")
+            self.send_response(502)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(payload)))
+            self.end_headers()
+            self.wfile.write(payload)
+
+    def do_GET(self):
+        if self.path.startswith("/api/"):
+            self._proxy_api()
+            return
+        super().do_GET()
+
+    def do_POST(self):
+        if self.path.startswith("/api/"):
+            self._proxy_api()
+            return
+        super().do_POST()
+
+    do_PUT = do_POST
+    do_PATCH = do_POST
+    do_DELETE = do_POST
 
     def translate_path(self, path: str) -> str:
         # raiz fixa em saida/ — não usa o diretório de trabalho

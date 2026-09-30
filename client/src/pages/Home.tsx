@@ -1,21 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import { 
-  Mic, 
-  MicOff, 
-  Trash2, 
-  Copy, 
-  Check, 
-  Volume2, 
-  Sparkles, 
-  Languages, 
-  ArrowRightLeft,
-  PlayCircle,
-  HelpCircle,
-  AlertCircle,
-  Twitch
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import BakaloverButton from "@/components/BakaloverButton";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+    ArrowRightLeft,
+    Check,
+    Copy,
+    Languages,
+    Mic,
+    MicOff,
+    PlayCircle,
+    Sparkles,
+    Trash2,
+    Twitch,
+    Volume2
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Link } from "wouter";
 
@@ -257,6 +256,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-2">
+            <BakaloverButton />
             <Link href="/vod">
               <Button
                 variant="outline"

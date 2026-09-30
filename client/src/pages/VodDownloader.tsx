@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -156,6 +157,7 @@ export default function VodDownloader() {
       return {};
     }
   });
+  const [skipCortes, setSkipCortes] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchJobs = useCallback(async () => {
@@ -372,10 +374,16 @@ export default function VodDownloader() {
   const reprepareAllEpisodes = async () => {
     setStartingGlobalReprepare(true);
     try {
-      const res = await fetch("/api/vod/reprepare-all", { method: "POST" });
+      const res = await fetch("/api/vod/reprepare-all", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skipCortes }),
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar o re-preparo global");
-      toast.success(`Re-preparo iniciado para ${data.eligibleCount} episódio(s). Acompanhe em Downloads.`);
+      toast.success(
+        `Re-preparo iniciado para ${data.eligibleCount} episódio(s)${skipCortes ? " (sem cortes virais)" : ""}. Acompanhe em Downloads.`
+      );
       if (data.skippedCount > 0) {
         toast.info(`${data.skippedCount} pasta(s) sem comentários ou transcrição serão puladas.`);
       }
@@ -999,6 +1007,17 @@ export default function VodDownloader() {
                       : <RefreshCw className="w-3.5 h-3.5 mr-1" />}
                     {globalReprepareRunning ? "Repreparando..." : "Repreparar todos"}
                   </Button>
+                  <label
+                    className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer select-none"
+                    title="Não refaz os cortes virais (ffmpeg) — mantém os cortes já existentes"
+                  >
+                    <Checkbox
+                      checked={skipCortes}
+                      onCheckedChange={(checked) => setSkipCortes(checked === true)}
+                      className="border-slate-600 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
+                    />
+                    Pular cortes virais
+                  </label>
                   <Button
                     variant="ghost"
                     size="sm"

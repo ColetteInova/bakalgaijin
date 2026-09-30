@@ -58,21 +58,31 @@
     padding:8px 18px; font-size:.85rem; color:#cbd5e1;
   }
   .hero-badge strong { color:var(--gold); }
+  .hero-badge-cta {
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    border-color:transparent; color:#fff; font-weight:700; text-decoration:none;
+    box-shadow:0 8px 22px rgba(236,72,153,.35);
+    transition:transform .15s ease, filter .15s ease;
+    cursor:pointer; font:inherit;
+  }
+  .hero-badge-cta:hover { transform:translateY(-2px); filter:brightness(1.12); }
+  .hero-badge-cta strong { color:#fff; }
 
   /* REDES SOCIAIS */
   .socials { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
   .hero-socials { gap:8px; margin-top:12px; }
   .social-chip {
     display:inline-flex; align-items:center; gap:7px;
-    background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:999px;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:999px;
     padding:7px 14px; font-size:.8rem; font-weight:600; color:#e2e8f0;
     transition:transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   }
   .social-chip svg, .social-chip img {
     width:16px; height:16px; flex:none; display:block;
   }
   .social-chip:hover {
-    transform:translateY(-2px); border-color:var(--accent); background:#212a45;
+    transform:translateY(-2px); border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.12);
     box-shadow:0 8px 22px rgba(168,85,247,.35);
   }
 
@@ -187,6 +197,40 @@
   .fan-name { flex:1; font-size:.85rem; color:#e2e8f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .fan-count { font-size:.72rem; color:var(--muted); }
 
+  /* BAKALOVERS OFICIAIS */
+  .bakalovers { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; }
+  .bakalover-card {
+    background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    padding:18px 14px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:6px;
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .bakalover-card:hover { transform:translateY(-4px); border-color:var(--accent); box-shadow:0 14px 40px rgba(168,85,247,.25); }
+  .bakalover-avatar-wrap { position:relative; width:64px; height:64px; margin-bottom:4px; }
+  .bakalover-avatar, .bakalover-avatar-fallback {
+    position:absolute; inset:0; width:64px; height:64px; border-radius:50%;
+    border:2px solid var(--accent); box-shadow:0 0 0 4px rgba(168,85,247,.18);
+  }
+  .bakalover-avatar { object-fit:cover; }
+  .bakalover-avatar-fallback {
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem; font-weight:800; color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+  }
+  .bakalover-name { font-weight:800; font-size:.95rem; color:#f1f5f9; }
+  .bakalover-tag { font-size:.78rem; color:var(--accent2); font-weight:700; }
+  .bakalover-bio { font-size:.75rem; color:var(--muted); line-height:1.5; }
+  .bakalover-links { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:4px; }
+  .bakalover-link {
+    display:inline-flex; align-items:center; gap:5px; font-size:.7rem; color:#cbd5e1;
+    background:#0f172a; border:1px solid var(--border); border-radius:999px; padding:3px 10px;
+  }
+  .bakalover-link:hover { border-color:var(--accent); color:#fff; }
+  .bakalover-official {
+    margin-top:4px; font-size:.64rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    color:#fbbf24; background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.3);
+    padding:3px 10px; border-radius:999px;
+  }
+
   .emojis { display:flex; flex-wrap:wrap; gap:10px; }
   .emoji-chip {
     background:var(--panel2); border:1px solid var(--border); border-radius:14px;
@@ -217,7 +261,9 @@
   .support-card:hover { transform:translateY(-4px); border-color:var(--gold); box-shadow:0 14px 40px rgba(245,158,11,.2); }
   .support-img { width:100%; height:150px; background:#0b0f1a; display:flex; align-items:center; justify-content:center; overflow:hidden; }
   .support-img img { width:100%; height:100%; object-fit:cover; display:block; }
-  .support-img img.logo { object-fit:contain; width:100%; height:100%; padding:12px; }
+  .support-img img.logo { object-fit:cover; width:100%; height:100%; padding:12px; }
+  .support-img img.shop-cover-top { object-position:top; }
+  .support-img img.logo-contain { object-fit:contain; }
   .support-body { padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
   .support-title { display:flex; align-items:center; gap:8px; font-weight:800; font-size:1rem; color:#f1f5f9; }
   .support-desc { font-size:.8rem; color:var(--muted); line-height:1.5; flex:1; }
@@ -238,7 +284,13 @@
     max-width:700px; margin:16px auto 0; font-size:.7rem; color:#64748b; line-height:1.6;
   }
   .empty { text-align:center; padding:60px 20px; color:var(--muted); }
+  .bakalovers .empty { grid-column:1/-1; }
 </style>
+<link rel="icon" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" sizes="192x192" href="/android-chrome-192x192.png">
+<link rel="icon" sizes="512x512" href="/android-chrome-512x512.png">
 </head>
 <body>
   <header class="hero" style="background-image:url('https://static-cdn.jtvnw.net/jtv_user_pictures/ef24a2ac-739a-46fc-a737-f8eca47818c2-profile_banner-480.jpeg'); background-size:cover; background-position:center;">
@@ -257,9 +309,7 @@
 248,3 mil
     <!-- AUTO_FOLLOWERS_END --></strong> seguidores</span>
       <span class="hero-badge"><img src="https://api.iconify.design/lucide/clapperboard.svg?color=%23cbd5e1" alt="" width="15" height="15" loading="lazy" /> <strong><!-- AUTO_LIVES_COUNT_START -->4<!-- AUTO_LIVES_COUNT_END --></strong> lives analisadas</span>
-      <span class="hero-badge"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="15" height="15" loading="lazy" /> <!-- AUTO_LOCAIS_START -->
-Brasil · São Paulo · Liberdade · Japão · Tóquio
-    <!-- AUTO_LOCAIS_END --></span>
+      <a class="hero-badge hero-badge-cta" id="bakaloverCta" href="/cadastro" target="_blank" rel="noopener"><img src="https://api.iconify.design/lucide/heart-handshake.svg?color=%23ec4899" alt="" width="15" height="15" loading="lazy" /> Quero ser <strong>Bakalover Oficial</strong></a>
     </div>
   </header>
 
@@ -271,7 +321,6 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
 <div class="stat"><div class="v">24</div><div class="l">Cortes virais</div></div>
 <div class="stat"><div class="v">527</div><div class="l">Marcos no mapa</div></div>
 <div class="stat"><div class="v">376</div><div class="l">Lugares identificados</div></div>
-<div class="stat"><div class="v"><img src="https://api.iconify.design/lucide/video.svg?color=%23f59e0b" alt="" width="24" height="24" loading="lazy" /></div><div class="l">4 vídeos locais</div></div>
     <!-- AUTO_STATS_END -->
   </section>
 
@@ -283,7 +332,7 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
           <div class="support-img">
             <img src="https://cdn.vnda.com.br/lolja/2024/02/19/16_17_28_391_16_2_2_268_molde20comunidade20copiar.png?v=1708370255"
                  alt="Loja Oficial — Lolja" loading="lazy"
-                 class="logo"
+                class="logo shop-cover-top"
                  onerror="this.parentElement.innerHTML='<span style=&quot;font-size:3rem&quot;>👕</span>'" />
           </div>
           <div class="support-body">
@@ -307,7 +356,7 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
         <a href="https://livepix.gg/bakagaijin" target="_blank" rel="noopener" class="support-card">
           <div class="support-img">
             <img src="https://static.livepix.gg/images/logo-white.svg" alt="Pix / Doação — LivePix" loading="lazy"
-                 class="logo"
+                class="logo logo-contain"
                  onerror="this.parentElement.innerHTML='<span style=&quot;font-size:3rem&quot;>💸</span>'" />
           </div>
           <div class="support-body">
@@ -363,7 +412,7 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
           </div>
         </a>
 <a href="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/dashboard.html" class="ep-card">
-          <div class="ep-thumb"><video src="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/saida.mp4" muted playsinline preload="metadata"></video><span class="ep-dur">2h09</span></div>
+          <div class="ep-thumb"><video src="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/video.mp4" muted playsinline preload="metadata"></video><span class="ep-dur">2h09</span></div>
           <div class="ep-body">
             <div class="ep-top"><span class="ep-date">Analisado 29 set 2026</span></div>
             <div class="ep-title">becos japoneses comentados @julynhatoys</div>
@@ -426,7 +475,7 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
           </div>
         </a>
 <a href="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/dashboard.html" class="ep-card">
-          <div class="ep-thumb"><video src="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/saida.mp4" muted playsinline preload="metadata"></video><span class="ep-dur">2h09</span></div>
+          <div class="ep-thumb"><video src="becos%20japoneses%20comentados%20%40julynhatoys%20%5Bv2873088642%5D/video.mp4" muted playsinline preload="metadata"></video><span class="ep-dur">2h09</span></div>
           <div class="ep-body">
             <div class="ep-top"><span class="ep-date">Analisado 29 set 2026</span></div>
             <div class="ep-title">becos japoneses comentados @julynhatoys</div>
@@ -491,6 +540,15 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
   </section>
 
   <section class="section">
+    <div class="section-title"><img src="https://api.iconify.design/lucide/heart-handshake.svg?color=%23ec4899" alt="" width="20" height="20" loading="lazy" /> Bakalovers Oficiais <span class="bar"></span></div>
+    <div class="bakalovers">
+      <!-- AUTO_BAKALOVERS_START -->
+<div class="empty" style="grid-column:1/-1">Nenhum bakalover oficial cadastrado ainda.</div>
+    <!-- AUTO_BAKALOVERS_END -->
+    </div>
+  </section>
+
+  <section class="section">
     <div class="section-title"><img src="https://api.iconify.design/lucide/flame.svg?color=%23f59e0b" alt="" width="20" height="20" loading="lazy" /> Reações do Chat <span class="bar"></span></div>
     <div class="emojis">
       <!-- AUTO_EMOJIS_START -->
@@ -520,7 +578,6 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
 <div class="cost-item"><span class="cost-label">Claude Opus/Fable</span><strong>US$ 20.00/mês</strong></div>
 <div class="cost-item"><span class="cost-label">Armazenamento R2</span><strong>US$ 0.99/mês</strong></div>
 <div class="cost-item cost-total"><span class="cost-label">Total mensal estimado</span><strong>US$ 21.99/mês</strong></div>
-<p class="cost-note">Estimativa R2: 19 GB por card (original de 10 GB + 3 versões de 3 GB), com 10 GB grátis. Tráfego de saída não incluído porque é gratuito no R2.</p>
     <!-- AUTO_COSTS_END -->
     </div>
   </section>
@@ -552,9 +609,24 @@ Brasil · São Paulo · Liberdade · Japão · Tóquio
       document.getElementById("episodeToggle").focus();
     }
 
+    // CTA "Quero ser Bakalover Oficial" → página de cadastro do client
+    fetch("/api/config")
+      .then((res) => res.json())
+      .then((config) => {
+        const cta = document.getElementById("bakaloverCta");
+        if (cta && config) {
+          cta.href = (config.clientUrl || location.origin) + "/cadastro";
+        }
+      })
+      .catch(() => {
+        // mantém o href padrão /cadastro
+      });
+
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && !document.getElementById("episodesModal").hidden) {
-        closeEpisodesModal();
+      if (event.key === "Escape") {
+        if (!document.getElementById("episodesModal").hidden) {
+          closeEpisodesModal();
+        }
       }
     });
   </script>

@@ -10,7 +10,7 @@ import re
 import sys
 import urllib.parse
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,7 +89,25 @@ def load_vods() -> list[dict]:
             }
         )
 
-    return sorted(vods, key=lambda vod: (vod["created_at"], vod["generated_at"], vod["title"]), reverse=True)
+    return sorted(
+        vods,
+        key=lambda vod: (
+            _launch_datetime(vod["created_at"]),
+            vod["generated_at"],
+            vod["title"],
+        ),
+        reverse=True,
+    )
+
+
+def _launch_datetime(value: str) -> datetime:
+    try:
+        date = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return datetime.min.replace(tzinfo=timezone.utc)
+    if date.tzinfo is None:
+        date = date.replace(tzinfo=timezone.utc)
+    return date.astimezone(timezone.utc)
 
 
 def _map_meta(geoloc_path: Path) -> tuple[int, int]:
@@ -301,7 +319,6 @@ def render_stats(vods: list[dict]) -> str:
     total_cuts = sum(vod["cuts"] for vod in vods)
     total_marcos = sum(vod["marcos"] for vod in vods)
     total_estabelecimentos = sum(vod["estabelecimentos"] for vod in vods)
-    local_videos = sum(vod["video"] is not None for vod in vods)
     return "\n".join(
         [
             f'<div class="stat"><div class="v">{_display_count(total_views)}</div><div class="l">Views totais</div></div>',
@@ -310,7 +327,6 @@ def render_stats(vods: list[dict]) -> str:
             f'<div class="stat"><div class="v">{total_cuts}</div><div class="l">Cortes virais</div></div>',
             f'<div class="stat"><div class="v">{total_marcos}</div><div class="l">Marcos no mapa</div></div>',
             f'<div class="stat"><div class="v">{total_estabelecimentos}</div><div class="l">Lugares identificados</div></div>',
-            f'<div class="stat"><div class="v"><img src="https://api.iconify.design/lucide/video.svg?color=%23f59e0b" alt="" width="24" height="24" loading="lazy" /></div><div class="l">{local_videos} vídeos locais</div></div>',
         ]
     )
 
@@ -492,6 +508,49 @@ def render_emojis(comments: list[dict]) -> str:
     )
 
 
+def render_bakalovers() -> str:
+    bakalovers_file = ROOT / ".bakalovers.json"
+    try:
+        data = json.loads(bakalovers_file.read_text(encoding="utf-8"))
+        data = data if isinstance(data, list) else []
+    except (OSError, json.JSONDecodeError):
+        data = []
+    members = [member for member in data if isinstance(member, dict) and member.get("official")]
+    if not members:
+        return '<div class="empty" style="grid-column:1/-1">Nenhum bakalover oficial cadastrado ainda.</div>'
+
+    cards = []
+    for member in members:
+        nome = _escape(str(member.get("nome") or "").strip())
+        apelido = _escape(str(member.get("apelido") or "").strip())
+        foto = str(member.get("foto") or "").strip()
+        twitch = str(member.get("twitch") or "").strip()
+        inicial = _escape((str(member.get("apelido") or member.get("nome") or "B")[:1]).upper())
+        avatar = f'<div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">{inicial}</div>'
+        if foto:
+            avatar += (
+                f'<img class="bakalover-avatar" src="{_escape(foto)}" alt="{nome}" '
+                f'loading="lazy" onerror="this.remove()" />'
+            )
+        avatar += "</div>"
+        links = ""
+        if twitch:
+            links = (
+                f'<div class="bakalover-links">'
+                f'<a class="bakalover-link" href="https://twitch.tv/{_escape(twitch)}" target="_blank" rel="noopener">'
+                f'<img src="https://cdn.simpleicons.org/twitch/white" alt="" width="12" height="12" loading="lazy" />{_escape(twitch)}</a>'
+                f'</div>'
+            )
+        cards.append(
+            f'<div class="bakalover-card">{avatar}'
+            f'<div class="bakalover-name">{nome}</div>'
+            f'<div class="bakalover-tag">@{apelido}</div>'
+            + links
+            + '<span class="bakalover-official">Bakalover Oficial</span></div>'
+        )
+    return "\n".join(cards)
+
+
 def render_costs(vods: list[dict]) -> str:
     card_count = len(vods)
     storage_gb = card_count * R2_STORAGE_GB_PER_CARD
@@ -506,7 +565,6 @@ def render_costs(vods: list[dict]) -> str:
             f'<div class="cost-item"><span class="cost-label">Claude Opus/Fable</span><strong>US$ {CLAUDE_MONTHLY_USD:.2f}/mês</strong></div>',
             f'<div class="cost-item"><span class="cost-label">Armazenamento R2</span><strong>US$ {r2_monthly_usd:.2f}/mês</strong></div>',
             f'<div class="cost-item cost-total"><span class="cost-label">Total mensal estimado</span><strong>US$ {total_monthly_usd:.2f}/mês</strong></div>',
-            '<p class="cost-note">Estimativa R2: 19 GB por card (original de 10 GB + 3 versões de 3 GB), com 10 GB grátis. Tráfego de saída não incluído porque é gratuito no R2.</p>',
         ]
     )
 
@@ -535,6 +593,7 @@ def main() -> int:
         document = replace_section(document, "<!-- AUTO_EPISODES_TOGGLE_START -->", "<!-- AUTO_EPISODES_TOGGLE_END -->", render_episode_toggle(vods))
         document = replace_section(document, "<!-- AUTO_EPISODES_MODAL_START -->", "<!-- AUTO_EPISODES_MODAL_END -->", render_episodes(vods, summaries))
         document = replace_section(document, "<!-- AUTO_FANS_START -->", "<!-- AUTO_FANS_END -->", render_fans(comments))
+        document = replace_section(document, "<!-- AUTO_BAKALOVERS_START -->", "<!-- AUTO_BAKALOVERS_END -->", render_bakalovers())
         document = replace_section(document, "<!-- AUTO_BORDOES_START -->", "<!-- AUTO_BORDOES_END -->", render_bordoes(comments))
         document = replace_section(document, "<!-- AUTO_EMOJIS_START -->", "<!-- AUTO_EMOJIS_END -->", render_emojis(comments))
         document = replace_section(document, "<!-- AUTO_COSTS_START -->", "<!-- AUTO_COSTS_END -->", render_costs(vods))
@@ -545,11 +604,6 @@ def main() -> int:
                 document, "<!-- AUTO_FOLLOWERS_START -->", "<!-- AUTO_FOLLOWERS_END -->",
                 _display_count(max(followers)),
             )
-        locais = list(dict.fromkeys(vod["local_label"] for vod in vods if vod["local_label"]))
-        document = replace_section(
-            document, "<!-- AUTO_LOCAIS_START -->", "<!-- AUTO_LOCAIS_END -->",
-            " · ".join(locais) if locais else "Becos de Tóquio",
-        )
         document, count = re.subn(
             r"<!-- AUTO_LIVES_COUNT_START -->.*?<!-- AUTO_LIVES_COUNT_END -->",
             f"<!-- AUTO_LIVES_COUNT_START -->{len(vods)}<!-- AUTO_LIVES_COUNT_END -->",

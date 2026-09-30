@@ -4,7 +4,9 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import Cadastro from "./pages/Cadastro";
 import Home from "./pages/Home";
+import Perfil from "./pages/Perfil";
 import VodDownloader from "./pages/VodDownloader";
 
 
@@ -13,6 +15,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/vod"} component={VodDownloader} />
+      <Route path={"/cadastro"} component={Cadastro} />
+      <Route path={"/perfil"} component={Perfil} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
