@@ -8,7 +8,10 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "**/*.mp4"
+      "**/*.mp4",
+      "**/*.wav",
+      "**/*.gpx",
+      "**/*.srt"
     ],
     "rewrites": [
       {

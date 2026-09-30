@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-29T10:36:33",
+  "gerado_em": "2026-09-30T19:41:05",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -7,29 +7,29 @@
   "local_label": "Japão · Tóquio",
   "metricas": {
     "video_id": "2873088642",
-    "title": "",
-    "channel": "",
-    "category": "",
-    "created_at": "",
-    "thumbnail": "",
+    "title": "becos japoneses comentados @julynhatoys",
+    "channel": "BakaGaijinLive",
+    "category": "Just Chatting",
+    "created_at": "2026-09-13T12:42:33Z",
+    "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/1d819639288c8a680ef2_bakagaijinlive_316452665202_1789303348//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7744,
     "duration_label": "2h09min",
-    "views": 0,
-    "views_label": "0",
-    "likes_estimado": 0,
-    "likes_label": "0",
+    "views": 18626,
+    "views_label": "18.6k",
+    "likes_estimado": 223,
+    "likes_label": "223",
     "comentarios": 5015,
-    "taxa_likes": 0.0,
-    "taxa_engajamento": 0.0,
-    "followers_canal": null,
+    "taxa_likes": 1.197,
+    "taxa_engajamento": 28.122,
+    "followers_canal": 248244,
     "comparacao_canal": {
-      "mediana_views": 0,
-      "media_views": 0,
-      "mediana_pares": 0,
-      "views_vs_mediana_pct": null,
-      "views_vs_media_pct": null,
-      "views_vs_pares_pct": null,
-      "n_videos_canal": 0
+      "mediana_views": 20330.5,
+      "media_views": 22661.5,
+      "mediana_pares": 22035,
+      "views_vs_mediana_pct": -8.4,
+      "views_vs_media_pct": -17.8,
+      "views_vs_pares_pct": -15.5,
+      "n_videos_canal": 4
     }
   },
   "comentarios": {
@@ -53044,19 +53044,19 @@
       "receita_por_minuto": 0.572,
       "projecao_3h": 102.96,
       "projecao_2h": 68.64,
-      "usd_brl": 5.0,
+      "usd_brl": 5.2178,
       "top_bits": [
         {
           "usuario": "PsyFoxxx",
           "bits": 101,
           "valor_usd": 0.71,
-          "valor_brl": 3.53
+          "valor_brl": 3.69
         },
         {
           "usuario": "pamfras2006",
           "bits": 100,
           "valor_usd": 0.7,
-          "valor_brl": 3.5
+          "valor_brl": 3.65
         },
         {
           "usuario": "coxinhaa04",
@@ -53083,11 +53083,11 @@
           "valor_brl": 0.04
         }
       ],
-      "receita_liquida_brl": 369.2,
-      "receita_subs_brl": 723.55,
-      "receita_bits_brl": 7.4,
-      "projecao_3h_brl": 514.8,
-      "projecao_2h_brl": 343.2,
+      "receita_liquida_brl": 385.28,
+      "receita_subs_brl": 755.07,
+      "receita_bits_brl": 7.72,
+      "projecao_3h_brl": 537.22,
+      "projecao_2h_brl": 358.15,
       "top_contribuidores": [
         {
           "usuario": "AIveszz",
@@ -53095,7 +53095,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "AnAnonymousGifter",
@@ -53103,7 +53103,7 @@
           "subs_presentes": 1,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "arckfaelzin",
@@ -53111,7 +53111,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "atereza01",
@@ -53119,7 +53119,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "biel_soares_",
@@ -53127,7 +53127,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "eaivinee",
@@ -53135,7 +53135,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "Ebuzz250",
@@ -53143,7 +53143,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "fnx_artz",
@@ -53151,7 +53151,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "Giulianoff",
@@ -53159,7 +53159,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         },
         {
           "usuario": "henri_coo",
@@ -53167,7 +53167,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 12.48
+          "valor_brl": 13.02
         }
       ]
     },
@@ -60984,7 +60984,7 @@
       "humor": 100,
       "interatividade": 100,
       "monetizacao": 57.8,
-      "engajamento": 0.0,
+      "engajamento": 100,
       "audiencia": 33.7,
       "risco": 100
     },
@@ -60994,70 +60994,70 @@
         "minuto": 30,
         "tipo": "pergunta",
         "trecho": "Olha o sapo.",
-        "descricao": "Olha o sapo."
+        "descricao": "Confusão sobre idades vira debate caótico e hilário, com direito a '18 só de Senai' e pizza imaginária."
       },
       {
         "inicio": "37:00",
         "minuto": 37,
         "tipo": "piada",
         "trecho": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco",
-        "descricao": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco"
+        "descricao": "Teoria conspiratória culpa Datena por pessoas gostarem de desgraça, misturando humor e crítica social."
       },
       {
         "inicio": "44:00",
         "minuto": 44,
         "tipo": "pergunta",
         "trecho": "Mas quando está o México",
-        "descricao": "Mas quando está o México"
+        "descricao": "Piada com 'racismo é paia' e carta de Pokémon imitada gera momento aleatório e engraçado."
       },
       {
         "inicio": "51:00",
         "minuto": 51,
         "tipo": "piada",
         "trecho": "Caralho, Júlia.",
-        "descricao": "Caralho, Júlia."
+        "descricao": "História de ladrões fugindo de patinete após assalto vira gancho cômico e inesperado."
       },
       {
         "inicio": "58:00",
         "minuto": 58,
         "tipo": "piada",
         "trecho": "Pronto, aqui não cai, legal",
-        "descricao": "Pronto, aqui não cai, legal"
+        "descricao": "Julinha joga muito e reação exagerada de todos rende clipe de pura empolgação."
       },
       {
         "inicio": "1:05:00",
         "minuto": 65,
         "tipo": "piada",
         "trecho": "Sai fora, Gita.",
-        "descricao": "Sai fora, Gita."
+        "descricao": "Julinha 'cheatando' e gritando 'conteúdo' mostra vício em jogo e momentos caóticos."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "piada",
         "trecho": "O carro do lixo.",
-        "descricao": "O carro do lixo."
+        "descricao": "Troca de pau e pergunta sobre dinheiro gera confusão e risadas rápidas."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "É, vamos aqui.",
-        "descricao": "É, vamos aqui."
+        "descricao": "Confusão com 'táxi-free' e flashback 'fire in the hole' vira clipe de comédia non-sense."
       },
       {
         "inicio": "1:26:00",
         "minuto": 86,
         "tipo": "pergunta",
         "trecho": "Você deu show, tá ligado?",
-        "descricao": "Você deu show, tá ligado?"
+        "descricao": "Pergunta se são atração turística no Beco rende reflexão divertida sobre a fama."
       },
       {
         "inicio": "1:33:00",
         "minuto": 93,
         "tipo": "piada",
         "trecho": "A vaca está na cesta do nada",
-        "descricao": "A vaca está na cesta do nada"
+        "descricao": "Discussão sobre foto e inversão de palavras na live gera momento autodepreciativo e engraçado."
       }
     ],
     "alertas": [
@@ -72200,6 +72200,10 @@
   },
   "insights": [
     {
+      "titulo": "Desempenho de views vs. canal",
+      "acao": "VOD com 18.6k views está abaixo da mediana do canal em 8.4% (mediana 20.3k)."
+    },
+    {
       "titulo": "Clima do chat",
       "acao": "Sentimento dominante: neutro (59.4% dos comentários). Use esse tom para orientar thumbs e a narrativa dos cortes."
     },
@@ -72209,7 +72213,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 0.0% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 28.122% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

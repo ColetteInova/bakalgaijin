@@ -1,6 +1,6 @@
 # Relatório de Análise — resenha de beco
 
-- **Canal:** BakaGaijinLive (248.3k seguidores)
+- **Canal:** BakaGaijinLive (248.2k seguidores)
 - **Categoria:** Just Chatting
 - **Publicado em:** 15/09/2026
 - **Duração:** 2h54min
@@ -10,10 +10,10 @@
 | Métrica | Valor |
 | --- | --- |
 | Views | 22.0k |
-| Likes (estimado) | 263 |
+| Likes (estimado) | 264 |
 | Comentários | 7540 |
-| Taxa de likes | 1.197% |
-| Taxa de engajamento | 35.521% |
+| Taxa de likes | 1.198% |
+| Taxa de engajamento | 35.416% |
 | Duração | 2h54min |
 
 ## 2. Comparação com o Canal
@@ -21,10 +21,10 @@
 | Indicador | Valor | Variação |
 | --- | --- | --- |
 | Mediana de views do canal | 20.3k | — |
-| Média de views do canal | 22.5k | — |
+| Média de views do canal | 22.7k | — |
 | Mediana dos pares (outros VODs) | 18.6k | — |
 | Este VOD vs. mediana | 22.0k | 8.4% |
-| Este VOD vs. média | 22.0k | -2.5% |
+| Este VOD vs. média | 22.0k | -2.8% |
 
 ## 3. Sentimento dos Comentários
 

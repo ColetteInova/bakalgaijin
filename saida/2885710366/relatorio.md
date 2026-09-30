@@ -1,6 +1,6 @@
 # Relatório de Análise — live teste em sp até virar estatistica
 
-- **Canal:** BakaGaijinLive (248.3k seguidores)
+- **Canal:** BakaGaijinLive (248.2k seguidores)
 - **Categoria:** Just Chatting
 - **Publicado em:** 27/09/2026
 - **Duração:** 2h05min
@@ -9,11 +9,11 @@
 
 | Métrica | Valor |
 | --- | --- |
-| Views | 11.8k |
-| Likes (estimado) | 141 |
+| Views | 12.1k |
+| Likes (estimado) | 145 |
 | Comentários | 6373 |
-| Taxa de likes | 1.199% |
-| Taxa de engajamento | 55.396% |
+| Taxa de likes | 1.197% |
+| Taxa de engajamento | 53.828% |
 | Duração | 2h05min |
 
 ## 2. Comparação com o Canal
@@ -21,10 +21,10 @@
 | Indicador | Valor | Variação |
 | --- | --- | --- |
 | Mediana de views do canal | 20.3k | — |
-| Média de views do canal | 22.5k | — |
+| Média de views do canal | 22.7k | — |
 | Mediana dos pares (outros VODs) | 22.0k | — |
-| Este VOD vs. mediana | 11.8k | -42.0% |
-| Este VOD vs. média | 11.8k | -47.8% |
+| Este VOD vs. mediana | 12.1k | -40.4% |
+| Este VOD vs. média | 12.1k | -46.6% |
 
 ## 3. Sentimento dos Comentários
 

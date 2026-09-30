@@ -507,6 +507,13 @@ function folderNameFromFile(filePath: string): string {
   return base.replace(/\.[^.]+$/, "");
 }
 
+// Normaliza o nome da pasta de saída para o ID do vídeo (ex.: v2871566138).
+// Sem ID identificável no nome do arquivo, usa o nome sem extensão.
+function folderNameForVideo(filePath: string): string {
+  const videoId = extractVideoIdFromFilename(filePath);
+  return videoId ? `v${videoId}` : folderNameFromFile(filePath);
+}
+
 async function startServer() {
   const app = express();
   const server = createServer(app);
@@ -774,8 +781,8 @@ async function startServer() {
         throw new Error("Arquivo de vídeo baixado não encontrado");
       }
 
-      // O analisar.sh cria saida/<nome-do-arquivo-sem-extensão>/
-      const folderName = folderNameFromFile(sourceVideo);
+      // Pasta de saída normalizada pelo ID do vídeo (ex.: saida/v2871566138)
+      const folderName = `v${videoId}`;
       const folder = path.join(SAIDA_DIR, folderName);
       fs.mkdirSync(folder, { recursive: true });
       pipeline.folder = folderName;
@@ -827,13 +834,14 @@ async function startServer() {
         throw new Error("Arquivo de vídeo baixado não encontrado");
       }
 
-      const folderName = folderNameFromFile(sourceVideo);
+      const videoId = extractVideoIdFromFilename(sourceVideo) || extractVideoId(job.url);
+      pipeline.videoId = videoId ?? undefined;
+
+      // Pasta de saída normalizada pelo ID do vídeo (ex.: saida/v2871566138)
+      const folderName = videoId ? `v${videoId}` : folderNameForVideo(sourceVideo);
       const folder = path.join(SAIDA_DIR, folderName);
       fs.mkdirSync(folder, { recursive: true });
       pipeline.folder = folderName;
-
-      const videoId = extractVideoIdFromFilename(sourceVideo) || extractVideoId(job.url);
-      pipeline.videoId = videoId ?? undefined;
 
       // 1) comentários (re-coleta apenas se ainda não existir)
       if (videoId) {
@@ -1235,7 +1243,7 @@ async function startServer() {
     // "auto" apaga a escolha anterior para o DeepSeek redetectar pela fala/comentários
     // (a menos que haja um bairro digitado — ele é mantido).
     if (local && ["japao", "sao-paulo", "auto"].includes(local)) {
-      const folder = path.join(SAIDA_DIR, folderNameFromFile(target));
+      const folder = path.join(SAIDA_DIR, folderNameForVideo(target));
       const localFile = path.join(folder, "local.json");
       const bairroLimpo = (bairro || "").trim();
       if (local === "auto") {
