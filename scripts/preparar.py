@@ -3286,6 +3286,39 @@ def build_map_extra_html(folder: Path, report: dict, stops: list[dict], route: l
     )
 
 
+def write_cdn_template(
+    folder: Path,
+    video_file: str | None,
+    audio_file: str | None,
+    srt_file: str | None,
+    corte_files: list[str],
+    qualidades_disponiveis: dict[str, str],
+) -> None:
+    """Gera cdn.json (modelo) com links vazios para cada arquivo de mídia.
+
+    No deploy em hosting (sem os mp4), basta preencher cada valor com o link
+    do CDN; o dashboard substitui os srcs automaticamente. Chaves vazias
+    continuam usando os arquivos locais.
+    """
+    cdn_path = folder / "cdn.json"
+    if cdn_path.exists():
+        return
+    keys: dict[str, str] = {}
+    for name in (video_file, audio_file, srt_file):
+        if name:
+            keys[name] = ""
+    for name in corte_files:
+        keys[f"cortes/{name}"] = ""
+    for name in qualidades_disponiveis.values():
+        keys[name] = ""
+    if (folder / "mapa" / "rota.gpx").exists():
+        keys["mapa/rota.gpx"] = ""
+    if not keys:
+        return
+    cdn_path.write_text(json.dumps(keys, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"  ✓ cdn.json criado (preencha com os links do CDN para o hosting)")
+
+
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
     """Página HTML auto-contida (dados embutidos) com players + análise."""
     import json as _json
@@ -3319,6 +3352,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     files_json = _json.dumps(
         {"video": video_file, "audio": audio_file, "srt": srt_file, "cortes": corte_files, "qualidades": qualidades_disponiveis}
     )
+    # cdn.json (modelo): preencha com os links do CDN para publicar o dashboard
+    # em um hosting sem os arquivos de mídia. Valores vazios mantêm os arquivos
+    # locais; valores preenchidos substituem os srcs no dashboard.
+    write_cdn_template(FOLDER, video_file, audio_file, srt_file, corte_files, qualidades_disponiveis)
     cues_json = _json.dumps(
         [{"s": b["start"], "e": b["end"], "t": b["text"]} for b in (srt_blocks or [])],
         ensure_ascii=False,
@@ -3343,7 +3380,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         map_route_times_json = _json.dumps([_walk_time(s["sec"]) for s in map_stops], ensure_ascii=False)
         map_extra_route = [[s["lat"], s["lng"]] for s in map_stops]
     map_gpx_btn = (
-        '<a class="btn" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)">'
+        '<a class="btn" id="gpxLink" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)">'
         '<i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>'
         if (FOLDER / "mapa" / "rota.gpx").exists()
         else ""
@@ -5366,7 +5403,10 @@ function renderCortes(ct) {
   const cortes = FILES.cortes || [];
   document.getElementById("cortesBody").innerHTML = ct.cortes_virais.map((c,i) => {
     const corteFile = cortes[i] || null;
-    const videoSrc = corteFile ? "cortes/" + corteFile : (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
+    const corteSrc = corteFile
+      ? (/^https?:\/\//i.test(corteFile) ? corteFile : "cortes/" + corteFile)
+      : null;
+    const videoSrc = corteSrc || (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
     const audioSrc = FILES.audio ? `${FILES.audio}#t=${c.inicio_sec},${c.fim_sec}` : null;
     return `<div class="card" style="margin-bottom:10px">
        <div class="label">Corte ${i+1} · ${c.inicio}–${c.fim} · ${c.duracao_min}min</div>
@@ -5427,8 +5467,50 @@ function renderComments() {
   ).join("") || "<div class='muted'>Nenhum comentário.</div>";
 }
 
-render();
-initLiveMap();
+// ---------------------------------------------------------------------------
+// CDN (opcional): se existir cdn.json ao lado do dashboard (deploy em hosting
+// sem os arquivos de mídia), os links do CDN substituem os arquivos locais.
+// Formato: { "video.mp4": "https://cdn.../video.mp4", "cortes/corte-01.mp4": "..." }
+// Sem o cdn.json (ou com valores vazios), continua carregando os arquivos da pasta.
+// ---------------------------------------------------------------------------
+function applyCdnOverrides(map){
+  if (!map || typeof map !== "object") return;
+  const resolve = (name) => {
+    if (!name) return name;
+    if (map[name]) return map[name];
+    const base = name.includes("/") ? name.split("/").pop() : name;
+    return map[base] || name;
+  };
+  FILES.video = resolve(FILES.video);
+  FILES.audio = resolve(FILES.audio);
+  FILES.srt = resolve(FILES.srt);
+  if (Array.isArray(FILES.cortes)) {
+    for (let i = 0; i < FILES.cortes.length; i++) {
+      FILES.cortes[i] = resolve("cortes/" + FILES.cortes[i]);
+    }
+  }
+  const q = FILES.qualidades || {};
+  for (const k in q) q[k] = resolve(q[k]);
+  MAP_STOPS.forEach((s) => { if (s.img) s.img = resolve(s.img); });
+  const gpx = document.getElementById("gpxLink");
+  if (gpx) {
+    const url = map["mapa/rota.gpx"];
+    if (url) gpx.setAttribute("href", url);
+  }
+}
+
+function boot(){
+  fetch("cdn.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((json) => applyCdnOverrides(json))
+    .catch(() => { /* sem cdn.json: usa os arquivos locais */ })
+    .finally(() => {
+      render();
+      initLiveMap();
+    });
+}
+
+boot();
 </script>
 </body>
 </html>

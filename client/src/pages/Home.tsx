@@ -1,4 +1,3 @@
-import BakaloverButton from "@/components/BakaloverButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -256,7 +255,6 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-2">
-            <BakaloverButton />
             <Link href="/vod">
               <Button
                 variant="outline"

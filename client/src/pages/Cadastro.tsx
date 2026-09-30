@@ -10,11 +10,12 @@ import {
     signOutFirebase,
     watchAuth,
 } from "@/lib/firebase";
+import { api } from "@/lib/api";
 import type { User } from "firebase/auth";
 import { ArrowLeft, CheckCircle2, Heart, Loader2, LogOut, Mail, Twitch } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 interface SiteConfig {
   siteUrl?: string;
@@ -65,10 +66,11 @@ export default function Cadastro() {
     displayName: string;
     accessToken: string;
   } | null>(null);
+  const [, setLocation] = useLocation();
 
   // Carrega a config do servidor e inicializa o Firebase (Auth) no client
   useEffect(() => {
-    fetch("/api/config")
+    fetch(api("/api/config"))
       .then((res) => res.json())
       .then((c: SiteConfig) => {
         setConfig(c || {});
@@ -90,6 +92,7 @@ export default function Cadastro() {
 
   // Observa a sessão do Firebase
   useEffect(() => {
+    if (!firebaseEnabled) return;
     return watchAuth((u) => {
       setUser(u);
       if (u) {
@@ -99,9 +102,37 @@ export default function Cadastro() {
           nome: f.nome || u.displayName || "",
           email: f.email || u.email || "",
         }));
+        // Já tem cadastro salvo no Firebase? Vai direto para o painel.
+        void redirectIfAlreadyRegistered(null);
       }
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firebaseEnabled]);
+
+  // Se o usuário já tem cadastro no Firebase (Firestore), redireciona para o painel
+  async function redirectIfAlreadyRegistered(session: { accessToken: string } | null) {
+    try {
+      let res: Response | null = null;
+      if (session) {
+        res = await fetch(
+          api(`/api/auth/profile?twitchAccessToken=${encodeURIComponent(session.accessToken)}`)
+        );
+      } else {
+        const token = await getIdToken();
+        if (token) {
+          res = await fetch(api("/api/auth/profile"), {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        }
+      }
+      if (res?.ok) {
+        toast.success("Você já é Bakalover! Abrindo seu painel...");
+        setLocation("/perfil");
+      }
+    } catch {
+      // sem cadastro: segue o fluxo normal
+    }
+  }
 
   // Restaura a sessão da Twitch (validada por fora do Firebase)
   useEffect(() => {
@@ -112,6 +143,7 @@ export default function Cadastro() {
       if (parsed?.login && parsed?.accessToken) {
         setTwitchSession(parsed);
         setTwitchLogin(parsed.login);
+        void redirectIfAlreadyRegistered(parsed);
       } else {
         sessionStorage.removeItem("twitch_oauth_session");
       }
@@ -149,7 +181,7 @@ export default function Cadastro() {
   async function finishTwitchLogin(accessToken: string) {
     setLoadingProvider("twitch");
     try {
-      const res = await fetch(`/api/twitch/user?access_token=${encodeURIComponent(accessToken)}`);
+      const res = await fetch(api(`/api/twitch/user?access_token=${encodeURIComponent(accessToken)}`));
       const data = await res.json();
       if (!res.ok || !data.login) {
         throw new Error(data?.error || "Não foi possível validar o login da Twitch.");
@@ -159,6 +191,8 @@ export default function Cadastro() {
       setTwitchSession(session);
       setTwitchLogin(data.login);
       toast.success(`Bem-vindo, @${data.login}!`);
+      // Já tem cadastro salvo no Firebase? Vai direto para o painel.
+      void redirectIfAlreadyRegistered(session);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha no login da Twitch.");
     } finally {
@@ -190,6 +224,7 @@ export default function Cadastro() {
     setLoadingProvider("google");
     try {
       await signInWithGoogle();
+      document.cookie = "bakalover_auth=1; path=/; max-age=31536000";
       toast.success("Login com Google realizado!");
     } catch (error) {
       const code = (error as { code?: string })?.code;
@@ -216,7 +251,7 @@ export default function Cadastro() {
       // Google: ID token do Firebase. Twitch: access token validado direto na Twitch.
       const isTwitch = !!twitchSession;
       const token = isTwitch ? null : await getIdToken();
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(api("/api/auth/register"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -368,6 +403,7 @@ export default function Cadastro() {
                     variant="outline"
                     size="sm"
                     onClick={() => {
+                      document.cookie = "bakalover_auth=; path=/; max-age=0";
                       if (twitchSession) {
                         sessionStorage.removeItem("twitch_oauth_session");
                         setTwitchSession(null);

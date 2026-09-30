@@ -9,6 +9,7 @@ import {
     signOutFirebase,
     watchAuth,
 } from "@/lib/firebase";
+import { api } from "@/lib/api";
 import type { User } from "firebase/auth";
 import { ArrowLeft, Heart, Loader2, LogOut, Mail, Twitch, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -73,10 +74,14 @@ export default function Perfil() {
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [savingNotify, setSavingNotify] = useState(false);
+  // Verificação inicial da sessão: só mostra os botões de login depois de
+  // confirmar que NÃO há sessão válida (Firebase e Twitch)
+  const [firebaseChecked, setFirebaseChecked] = useState(false);
+  const [twitchChecked, setTwitchChecked] = useState(false);
 
   // Config do servidor + Firebase no client
   useEffect(() => {
-    fetch("/api/config")
+    fetch(api("/api/config"))
       .then((res) => res.json())
       .then((c: SiteConfig) => {
         setConfig(c || {});
@@ -89,24 +94,54 @@ export default function Perfil() {
             appId: fb.appId,
           });
           setFirebaseEnabled(ok);
+          if (!ok) setFirebaseChecked(true);
+        } else {
+          setFirebaseChecked(true);
         }
       })
-      .catch(() => {});
+      .catch(() => setFirebaseChecked(true));
   }, []);
 
+  // Observa a sessão do Firebase — só depois que o Firebase é inicializado,
+  // senão o watchAuth registraria sem app e o usuário logado nunca apareceria
   useEffect(() => {
-    return watchAuth((u) => setUser(u));
-  }, []);
+    if (!firebaseEnabled) return;
+    return watchAuth((u) => {
+      setUser(u);
+      setFirebaseChecked(true);
+    });
+  }, [firebaseEnabled]);
 
-  // Sessão Twitch (fora do Firebase)
+  // Sessão Twitch (fora do Firebase): restaura e VALIDA o token no servidor
+  // antes de considerar o usuário logado — token expirado volta para o login
   useEffect(() => {
     const raw = sessionStorage.getItem("twitch_oauth_session");
-    if (!raw) return;
+    if (!raw) {
+      setTwitchChecked(true);
+      return;
+    }
     try {
       const parsed = JSON.parse(raw);
-      if (parsed?.login && parsed?.accessToken) setTwitchSession(parsed);
+      if (!parsed?.login || !parsed?.accessToken) throw new Error("sessão inválida");
+      fetch(api("/api/twitch/user"), {
+        headers: { Authorization: `Bearer ${parsed.accessToken}` },
+      })
+        .then(async (res) => {
+          if (!res.ok) throw new Error("token expirado");
+          const data = await res.json();
+          setTwitchSession({
+            login: data.login || parsed.login,
+            displayName: data.displayName || parsed.displayName || parsed.login,
+            accessToken: parsed.accessToken,
+          });
+        })
+        .catch(() => {
+          sessionStorage.removeItem("twitch_oauth_session");
+        })
+        .finally(() => setTwitchChecked(true));
     } catch {
       sessionStorage.removeItem("twitch_oauth_session");
+      setTwitchChecked(true);
     }
   }, []);
 
@@ -137,7 +172,7 @@ export default function Perfil() {
   async function finishTwitchLogin(accessToken: string) {
     setLoadingProvider("twitch");
     try {
-      const res = await fetch(`/api/twitch/user?access_token=${encodeURIComponent(accessToken)}`);
+      const res = await fetch(api(`/api/twitch/user?access_token=${encodeURIComponent(accessToken)}`));
       const data = await res.json();
       if (!res.ok || !data.login) {
         throw new Error(data?.error || "Não foi possível validar o login da Twitch.");
@@ -177,6 +212,7 @@ export default function Perfil() {
     setLoadingProvider("google");
     try {
       await signInWithGoogle();
+      document.cookie = "bakalover_auth=1; path=/; max-age=31536000";
       toast.success("Login com Google realizado!");
     } catch (error) {
       const code = (error as { code?: string })?.code;
@@ -194,13 +230,19 @@ export default function Perfil() {
     setNotFound(false);
     const isTwitch = !!twitchSession;
     const url = isTwitch
-      ? `/api/auth/profile?twitchAccessToken=${encodeURIComponent(twitchSession.accessToken)}`
-      : "/api/auth/profile";
+      ? api(`/api/auth/profile?twitchAccessToken=${encodeURIComponent(twitchSession.accessToken)}`)
+      : api("/api/auth/profile");
     const run = async () => {
       const token = isTwitch ? null : await getIdToken();
       const res = await fetch(url, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
+      if (res.status === 401) {
+        // Token inválido/expirado: limpa a sessão e volta para a tela de login
+        logout();
+        setLoading(false);
+        return;
+      }
       if (res.status === 404) {
         setProfile(null);
         setNotFound(true);
@@ -227,7 +269,7 @@ export default function Perfil() {
     try {
       const isTwitch = !!twitchSession;
       const token = isTwitch ? null : await getIdToken();
-      const res = await fetch("/api/auth/profile", {
+      const res = await fetch(api("/api/auth/profile"), {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -252,6 +294,7 @@ export default function Perfil() {
   }
 
   function logout() {
+    document.cookie = "bakalover_auth=; path=/; max-age=0";
     if (twitchSession) {
       sessionStorage.removeItem("twitch_oauth_session");
       setTwitchSession(null);
@@ -263,6 +306,7 @@ export default function Perfil() {
   }
 
   const loggedIn = !!user || !!twitchSession;
+  const checking = !firebaseChecked || !twitchChecked;
 
   return (
     <div className="min-h-screen bg-[#0b0f1a] text-[#eef2ff] flex flex-col font-sans">
@@ -299,7 +343,12 @@ export default function Perfil() {
               <div className="hidden sm:block flex-1 h-px bg-[#26304d]" />
             </div>
 
-            {!loggedIn ? (
+            {checking ? (
+              <div className="flex items-center justify-center py-12 text-[#8b96b5]">
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Verificando sua sessão...
+              </div>
+            ) : !loggedIn ? (
               <div className="space-y-3 max-w-sm mx-auto">
                 <Button
                   type="button"

@@ -55,15 +55,20 @@
   .hero-badge {
     display:inline-flex; align-items:center; gap:6px;
     background:var(--panel2); border:1px solid var(--border); border-radius:999px;
-    padding:8px 18px; font-size:.85rem; color:#cbd5e1;
+    padding:8px 18px; font-size:.85rem; color:#cbd5e1; text-decoration:none;
   }
+  .hero-badge-outline {
+    background:var(--panel2); color:#eef2ff; font-weight:600;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .hero-badge-outline:hover { transform:translateY(-2px); border-color:var(--accent); }
   .hero-badge strong { color:var(--gold); }
   .hero-badge-cta {
     background:linear-gradient(90deg,var(--accent),var(--accent2));
     border-color:transparent; color:#fff; font-weight:700; text-decoration:none;
     box-shadow:0 8px 22px rgba(236,72,153,.35);
     transition:transform .15s ease, filter .15s ease;
-    cursor:pointer; font:inherit;
+    cursor:pointer;
   }
   .hero-badge-cta:hover { transform:translateY(-2px); filter:brightness(1.12); }
   .hero-badge-cta strong { color:#fff; }
@@ -309,7 +314,10 @@
 248,3 mil
     <!-- AUTO_FOLLOWERS_END --></strong> seguidores</span>
       <span class="hero-badge"><img src="https://api.iconify.design/lucide/clapperboard.svg?color=%23cbd5e1" alt="" width="15" height="15" loading="lazy" /> <strong><!-- AUTO_LIVES_COUNT_START -->4<!-- AUTO_LIVES_COUNT_END --></strong> lives analisadas</span>
-      <a class="hero-badge hero-badge-cta" id="bakaloverCta" href="/cadastro" target="_blank" rel="noopener"><img src="https://api.iconify.design/lucide/heart-handshake.svg?color=%23ec4899" alt="" width="15" height="15" loading="lazy" /> Quero ser <strong>Bakalover Oficial</strong></a>
+      <span id="bakaloverCtaWrap">
+        <a class="hero-badge hero-badge-cta" href="/cadastro" target="_blank" rel="noopener"><img src="https://api.iconify.design/lucide/heart-handshake.svg?color=%23ec4899" alt="" width="15" height="15" loading="lazy" /> Quero ser <strong>Bakalover Oficial</strong></a>
+        <a class="hero-badge hero-badge-outline" href="/perfil" target="_blank" rel="noopener"><img src="https://api.iconify.design/lucide/log-in.svg?color=%23cbd5e1" alt="" width="15" height="15" loading="lazy" /> Já sou Bakalover</a>
+      </span>
     </div>
   </header>
 
@@ -609,18 +617,46 @@
       document.getElementById("episodeToggle").focus();
     }
 
-    // CTA "Quero ser Bakalover Oficial" → página de cadastro do client
+    // CTA do Bakalover: mostra "Quero ser"/"Já sou" (não logado) ou "Painel Bakalover" (logado).
+    // O login é detectado pelo cookie bakalover_auth (setado pelo servidor no cadastro/perfil)
+    // ou pela sessão da Twitch em sessionStorage.
+    function hasBakaloverSession() {
+      if (document.cookie.split(";").some((c) => c.trim().startsWith("bakalover_auth="))) return true;
+      try {
+        const raw = sessionStorage.getItem("twitch_oauth_session");
+        return !!(raw && JSON.parse(raw)?.login);
+      } catch {
+        return false;
+      }
+    }
+
+    function refreshBakaloverCta() {
+      const wrap = document.getElementById("bakaloverCtaWrap");
+      if (!wrap) return;
+      const base = window.bakaloverClientUrl || location.origin;
+      if (hasBakaloverSession()) {
+        wrap.innerHTML =
+          '<a class="hero-badge hero-badge-cta" href="' + base + '/perfil" target="_blank" rel="noopener">' +
+          '<img src="https://api.iconify.design/lucide/layout-dashboard.svg?color=%23ffffff" alt="" width="15" height="15" loading="lazy" /> ' +
+          'Painel <strong>Bakalover</strong></a>';
+      } else {
+        wrap.innerHTML =
+          '<a class="hero-badge hero-badge-cta" href="' + base + '/cadastro" target="_blank" rel="noopener">' +
+          '<img src="https://api.iconify.design/lucide/heart-handshake.svg?color=%23ec4899" alt="" width="15" height="15" loading="lazy" /> ' +
+          'Quero ser <strong>Bakalover Oficial</strong></a>' +
+          '<a class="hero-badge hero-badge-outline" href="' + base + '/perfil" target="_blank" rel="noopener">' +
+          '<img src="https://api.iconify.design/lucide/log-in.svg?color=%23cbd5e1" alt="" width="15" height="15" loading="lazy" /> ' +
+          'Já sou Bakalover</a>';
+      }
+    }
+
     fetch("/api/config")
       .then((res) => res.json())
       .then((config) => {
-        const cta = document.getElementById("bakaloverCta");
-        if (cta && config) {
-          cta.href = (config.clientUrl || location.origin) + "/cadastro";
-        }
+        if (config && config.clientUrl) window.bakaloverClientUrl = config.clientUrl;
+        refreshBakaloverCta();
       })
-      .catch(() => {
-        // mantém o href padrão /cadastro
-      });
+      .catch(() => refreshBakaloverCta());
 
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") {

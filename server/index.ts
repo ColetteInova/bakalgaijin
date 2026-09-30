@@ -61,6 +61,8 @@ function loadFirebaseServiceAccount(): object | null {
 }
 
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "";
+// Cookie de sessão (UI) usado pela fanpage para saber se o visitante está logado
+const AUTH_COOKIE = "bakalover_auth=1; Path=/; Max-Age=31536000; SameSite=Lax";
 let firebaseReady = false;
 {
   const serviceAccount = loadFirebaseServiceAccount();
@@ -1592,7 +1594,9 @@ async function startServer() {
       return;
     }
     try {
-      res.json(await fetchTwitchUser(token));
+      const twitchUser = await fetchTwitchUser(token);
+      res.setHeader("Set-Cookie", AUTH_COOKIE);
+      res.json(twitchUser);
     } catch (error) {
       res.status(401).json({
         error: error instanceof Error ? error.message : "Falha ao validar o token da Twitch",
@@ -1669,6 +1673,7 @@ async function startServer() {
           },
           { merge: true }
         );
+      res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json({ ok: true, uid });
     } catch (error) {
       res.status(401).json({
@@ -1709,6 +1714,7 @@ async function startServer() {
         res.status(404).json({ error: "Cadastro não encontrado" });
         return;
       }
+      res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json(doc.data());
     } catch (error) {
       res.status(401).json({
@@ -1753,6 +1759,7 @@ async function startServer() {
       const docRef = getFirestore().collection("bakalovers").doc(uid);
       await docRef.set(update, { merge: true });
       const updated = await docRef.get();
+      res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json(updated.data());
     } catch (error) {
       res.status(401).json({
@@ -1764,7 +1771,10 @@ async function startServer() {
   // Configurações de URLs do site (ajustáveis por variáveis de ambiente)
   app.get("/api/config", (_req, res) => {
     res.json({
-      siteUrl: process.env.SITE_URL || "/",
+      // Em dev, "voltar para o site" aponta para a fanpage estática (porta 8080)
+      siteUrl:
+        process.env.SITE_URL ||
+        (process.env.NODE_ENV === "production" ? "/" : "http://localhost:8080/"),
       fanpageUrl: process.env.FANPAGE_URL || "/saida/",
       clientUrl: process.env.CLIENT_URL || (process.env.NODE_ENV === "production" ? "" : "http://localhost:3000"),
       twitchClientId: TWITCH_OAUTH_CLIENT_ID,

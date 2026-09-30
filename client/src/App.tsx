@@ -10,7 +10,24 @@ import Perfil from "./pages/Perfil";
 import VodDownloader from "./pages/VodDownloader";
 
 
+// Em produção (deploy no Firebase), apenas as páginas de cadastro e perfil são
+// publicadas. As demais (tradutor, downloader) funcionam só no localhost.
+// O build de produção do deploy define VITE_ONLY_BAKALOVERS=1.
+const ONLY_BAKALOVERS = import.meta.env.VITE_ONLY_BAKALOVERS === "1";
+
 function Router() {
+  if (ONLY_BAKALOVERS) {
+    return (
+      <Switch>
+        <Route path={"/"} component={Cadastro} />
+        <Route path={"/cadastro"} component={Cadastro} />
+        <Route path={"/perfil"} component={Perfil} />
+        <Route path={"/404"} component={NotFound} />
+        <Route component={NotFound} />
+      </Switch>
+    );
+  }
+
   return (
     <Switch>
       <Route path={"/"} component={Home} />

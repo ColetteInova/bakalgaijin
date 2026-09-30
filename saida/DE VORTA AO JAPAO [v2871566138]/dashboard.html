@@ -396,7 +396,7 @@
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
       <span class="muted" id="mapInfo">Marcos geolocalizados em Japão · Tóquio — selecione um ponto no mapa para ver o raio de incerteza (quanto maior o círculo, menor a confiança) e pular o player.</span>
       <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
-      <a class="btn" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)"><i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>
+      <a class="btn" id="gpxLink" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)"><i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>
       <a class="btn gmaps-btn gmaps-primary" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
         <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
       </a>
@@ -2014,7 +2014,10 @@ function renderCortes(ct) {
   const cortes = FILES.cortes || [];
   document.getElementById("cortesBody").innerHTML = ct.cortes_virais.map((c,i) => {
     const corteFile = cortes[i] || null;
-    const videoSrc = corteFile ? "cortes/" + corteFile : (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
+    const corteSrc = corteFile
+      ? (/^https?:\/\//i.test(corteFile) ? corteFile : "cortes/" + corteFile)
+      : null;
+    const videoSrc = corteSrc || (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
     const audioSrc = FILES.audio ? `${FILES.audio}#t=${c.inicio_sec},${c.fim_sec}` : null;
     return `<div class="card" style="margin-bottom:10px">
        <div class="label">Corte ${i+1} · ${c.inicio}–${c.fim} · ${c.duracao_min}min</div>
@@ -2075,8 +2078,51 @@ function renderComments() {
   ).join("") || "<div class='muted'>Nenhum comentário.</div>";
 }
 
-render();
-initLiveMap();
+// ---------------------------------------------------------------------------
+// CDN (opcional): se existir cdn.json ao lado do dashboard (deploy em hosting
+// sem os arquivos de mídia), os links do CDN substituem os arquivos locais.
+// Formato: { "video.mp4": "https://cdn.../video.mp4", "cortes/corte-01.mp4": "..." }
+// Sem o cdn.json (ou com valores vazios), continua carregando os arquivos da pasta.
+// ---------------------------------------------------------------------------
+function applyCdnOverrides(map){
+  if (!map || typeof map !== "object") return;
+  const resolve = (name) => {
+    if (!name) return name;
+    if (map[name]) return map[name];
+    const base = name.includes("/") ? name.split("/").pop() : name;
+    return map[base] || name;
+  };
+  FILES.video = resolve(FILES.video);
+  FILES.audio = resolve(FILES.audio);
+  FILES.srt = resolve(FILES.srt);
+  if (Array.isArray(FILES.cortes)) {
+    for (let i = 0; i < FILES.cortes.length; i++) {
+      FILES.cortes[i] = resolve("cortes/" + FILES.cortes[i]);
+    }
+  }
+  const q = FILES.qualidades || {};
+  for (const k in q) q[k] = resolve(q[k]);
+  MAP_STOPS.forEach((s) => { if (s.img) s.img = resolve(s.img); });
+  const gpx = document.getElementById("gpxLink");
+  if (gpx) {
+    const url = map["mapa/rota.gpx"];
+    if (url) gpx.setAttribute("href", url);
+  }
+}
+
+function boot(){
+  fetch("cdn.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((json) => applyCdnOverrides(json))
+    .catch(() => { /* sem cdn.json: usa os arquivos locais */ })
+    .finally(() => {
+      render();
+      initLiveMap();
+    });
+}
+
+boot();
+
 </script>
 </body>
 </html>

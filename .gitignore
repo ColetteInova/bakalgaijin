@@ -123,3 +123,4 @@ client/public/__manus__/version.json
 
 # Histórico de downloads persistido pelo servidor
 .vod-history.json
+.env.prod
