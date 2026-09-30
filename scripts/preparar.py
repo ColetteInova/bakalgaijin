@@ -2273,7 +2273,7 @@ def _img_data_uri(path: Path) -> str:
 def _collect_thumb(folder: Path) -> str | None:
     """Baixa a thumbnail do VOD na Twitch (data URI) para o DeepSeek analisar o local."""
     video_id = None
-    m = re.search(r"\[v(\d+)\]", folder.name) or re.fullmatch(r"v(\d+)", folder.name)
+    m = re.search(r"\[v(\d+)\]", folder.name) or re.fullmatch(r"v?(\d+)", folder.name)
     if m:
         video_id = m.group(1)
     else:
@@ -5567,8 +5567,8 @@ def main() -> None:
         except Exception:  # noqa: BLE001
             pass
     if not video_id:
-        # tenta inferir do nome da pasta ([v123456] ou v123456)
-        m = re.search(r"\[v(\d+)\]", folder.name) or re.fullmatch(r"v(\d+)", folder.name)
+        # tenta inferir do nome da pasta ([v123456], v123456 ou 123456)
+        m = re.search(r"\[v(\d+)\]", folder.name) or re.fullmatch(r"v?(\d+)", folder.name)
         video_id = m.group(1) if m else None
 
     print(f"  VideoId: {video_id}")

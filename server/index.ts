@@ -507,11 +507,11 @@ function folderNameFromFile(filePath: string): string {
   return base.replace(/\.[^.]+$/, "");
 }
 
-// Normaliza o nome da pasta de saída para o ID do vídeo (ex.: v2871566138).
+// Normaliza o nome da pasta de saída para o ID do vídeo (ex.: 2871566138).
 // Sem ID identificável no nome do arquivo, usa o nome sem extensão.
 function folderNameForVideo(filePath: string): string {
   const videoId = extractVideoIdFromFilename(filePath);
-  return videoId ? `v${videoId}` : folderNameFromFile(filePath);
+  return videoId ? videoId : folderNameFromFile(filePath);
 }
 
 async function startServer() {
@@ -781,8 +781,8 @@ async function startServer() {
         throw new Error("Arquivo de vídeo baixado não encontrado");
       }
 
-      // Pasta de saída normalizada pelo ID do vídeo (ex.: saida/v2871566138)
-      const folderName = `v${videoId}`;
+      // Pasta de saída normalizada pelo ID do vídeo (ex.: saida/2871566138)
+      const folderName = videoId;
       const folder = path.join(SAIDA_DIR, folderName);
       fs.mkdirSync(folder, { recursive: true });
       pipeline.folder = folderName;
@@ -837,8 +837,8 @@ async function startServer() {
       const videoId = extractVideoIdFromFilename(sourceVideo) || extractVideoId(job.url);
       pipeline.videoId = videoId ?? undefined;
 
-      // Pasta de saída normalizada pelo ID do vídeo (ex.: saida/v2871566138)
-      const folderName = videoId ? `v${videoId}` : folderNameForVideo(sourceVideo);
+      // Pasta de saída normalizada pelo ID do vídeo (ex.: saida/2871566138)
+      const folderName = videoId ? videoId : folderNameForVideo(sourceVideo);
       const folder = path.join(SAIDA_DIR, folderName);
       fs.mkdirSync(folder, { recursive: true });
       pipeline.folder = folderName;

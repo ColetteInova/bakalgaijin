@@ -40,12 +40,12 @@ fi
 
 BASE="$(basename "$VIDEO")"
 STEM="${BASE%.*}"
-# Normaliza a pasta de saída pelo ID do vídeo (ex.: v2873088642);
+# Normaliza a pasta de saída pelo ID do vídeo (ex.: 2873088642);
 # sem ID no nome, usa o nome do arquivo sem extensão.
 OUTDIR="saida/$STEM"
 VID_ID="$(printf '%s' "$STEM" | sed -nE 's/.*\[v([0-9]+)\]$/\1/p')"
 if [ -n "$VID_ID" ]; then
-  OUTDIR="saida/v$VID_ID"
+  OUTDIR="saida/$VID_ID"
 fi
 # Se o vídeo já está dentro de saida/<pasta>/, usa essa pasta como saída
 case "$VIDEO" in
