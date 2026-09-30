@@ -1,0 +1,45 @@
+PROMPT REUTILIZÁVEL — LOGO DO PROJETO (KotobaLive)
+===================================================
+
+Quando eu pedir "logo", "cria o logo", "prompt do logo" (ou similar),
+use EXATAMENTE este prompt abaixo, sem precisar que eu repita.
+
+PROMPT (EN — usar em Midjourney / DALL-E / Flux / geradores de imagem)
+-----------------------------------------------------------------------
+Logo design for "KotobaLive", a real-time Japanese speech-to-text
+translation app (Japanese -> Portuguese). Modern, minimalist flat vector
+style, suitable as an app icon.
+
+Concept: a stylized microphone whose capsule is a red torii gate (⛩),
+combined with a sound wave that transforms into Japanese calligraphy
+brush strokes flowing left to right — symbolizing speech being
+translated. A subtle chat bubble outline containing the kanji 声
+("voice") in elegant brush style.
+
+Style: dark background #0b0f1a with gradient accents of purple #a855f7
+and pink #ec4899, soft neon glow, rounded square app-icon composition,
+high contrast, clean geometric shapes, no photorealism, no text other
+than the kanji, centered, balanced negative space, vector-like crisp
+edges, 4K.
+
+VARIAÇÕES (conceitos alternativos)
+----------------------------------
+1. Duas colunas lado a lado (JP | PT) separadas por uma onda sonora.
+2. Cabeça de "gaijin" kawaii com fone de ouvido e microfone.
+3. Bandeira do Japão estilizada com pinceladas de caligrafia.
+   - Para usar, trocar apenas o parágrafo "Concept" do prompt acima.
+
+CORES DA MARCA (coerência com o tema do app)
+--------------------------------------------
+- Fundo escuro: #0b0f1a
+- Roxo (acento principal): #a855f7
+- Rosa (acento secundário): #ec4899
+- Vermelho torii: #ef4444 (apenas no elemento do portão)
+
+ONDE USAR
+---------
+- Substituir `client/logo-baka.png` e os favicons em `client/` e
+  `client/public/` (favicon-16x16.png, favicon-32x32.png,
+  apple-touch-icon.png, android-chrome-192x192.png,
+  android-chrome-512x512.png).
+- Referenciado em `client/src/pages/Home.tsx` (marca "KotobaLive").

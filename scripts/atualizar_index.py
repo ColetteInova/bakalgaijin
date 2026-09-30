@@ -541,10 +541,12 @@ def render_bakalovers() -> str:
                 f'<img src="https://cdn.simpleicons.org/twitch/white" alt="" width="12" height="12" loading="lazy" />{_escape(twitch)}</a>'
                 f'</div>'
             )
+        # tag @ só aparece quando NÃO há link da Twitch (evita duplicar o @login)
+        tag = "" if twitch else f'<div class="bakalover-tag">@{apelido}</div>'
         cards.append(
             f'<div class="bakalover-card">{avatar}'
             f'<div class="bakalover-name">{nome}</div>'
-            f'<div class="bakalover-tag">@{apelido}</div>'
+            + tag
             + links
             + '<span class="bakalover-official">Bakalover Oficial</span></div>'
         )

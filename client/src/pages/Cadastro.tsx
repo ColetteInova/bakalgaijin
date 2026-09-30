@@ -20,6 +20,7 @@ import { useLocation } from "wouter";
 interface SiteConfig {
   siteUrl?: string;
   twitchClientId?: string;
+  twitchRedirectUri?: string;
   firebase?: {
     enabled?: boolean;
     apiKey?: string;
@@ -218,7 +219,12 @@ export default function Cadastro() {
     const url = new URL("https://id.twitch.tv/oauth2/authorize");
     url.searchParams.set("client_id", config.twitchClientId);
     url.searchParams.set("scope", "user:read:email");
-    url.searchParams.set("redirect_uri", `${window.location.origin}${window.location.pathname}`);
+    // Redirect fixo registrado no app Twitch (evita "redirect_uri mismatch"
+    // quando o login começa no /perfil e termina no /cadastro)
+    url.searchParams.set(
+      "redirect_uri",
+      config.twitchRedirectUri || `${window.location.origin}${window.location.pathname}`
+    );
     url.searchParams.set("response_type", "token");
     url.searchParams.set("force_verify", "true");
     url.searchParams.set("state", state);
@@ -413,7 +419,16 @@ export default function Cadastro() {
                   </Button>
                 </div>
 
-                <form onSubmit={save} className="space-y-5">
+                <form
+                  onSubmit={save}
+                  onKeyDown={(e) => {
+                    // Enter nos campos NÃO cadastra sozinho — só o clique no botão
+                    if (e.key === "Enter" && (e.target as HTMLElement).tagName === "INPUT") {
+                      e.preventDefault();
+                    }
+                  }}
+                  className="space-y-5"
+                >
                   <div className="space-y-1.5">
                     <Label htmlFor="nome" className="text-[#cbd5e1]">
                       Nome <span className="text-[#ec4899]">*</span>

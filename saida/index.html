@@ -80,7 +80,7 @@
   .hero-badge-support:hover { transform:translateY(-2px); filter:brightness(1.15); }
   .hero-badge-support strong { color:var(--gold); }
   .support-note {
-    max-width:760px; margin:0 auto; text-align:center;
+    width:100%; margin:0 auto; text-align:center;
     background:var(--panel2); border:1px solid var(--border); border-radius:14px; padding:22px;
   }
   .support-note p { color:#cbd5e1; font-size:.95rem; line-height:1.6; margin-bottom:16px; }
@@ -606,14 +606,14 @@
   <section class="section">
     <div class="section-title"><img src="https://api.iconify.design/lucide/hand-coins.svg?color=%23f59e0b" alt="" width="20" height="20" loading="lazy" /> Por que apoiar? <span class="bar"></span></div>
     <div class="support-note">
-      <p>O apoio da comunidade paga a <strong>hospedagem</strong> da página e o <strong>processo de análise das lives</strong>: transcrição do áudio, leitura dos comentários e geração dos dashboards com <strong>ferramentas de inteligência artificial</strong> (Claude/DeepSeek, Whisper e mapas automáticos).</p>
+      <p>O apoio da comunidade paga a <strong>hospedagem</strong> da página e o <strong>processo de análise das lives</strong>: transcrição do áudio, leitura dos comentários e geração dos dashboards com <strong>ferramentas de inteligência artificial</strong>.</p>
       <a href="https://livepix.gg/bakagaijin" target="_blank" rel="noopener" class="support-donate">💛 Apoiar com Pix →</a>
     </div>
   </section>
 
   <section class="section">
     <div class="section-title"><img src="https://api.iconify.design/lucide/heart-handshake.svg?color=%23ec4899" alt="" width="20" height="20" loading="lazy" /> Bakalovers Oficiais <span class="bar"></span></div>
-    <div class="bakalovers">
+    <div class="bakalovers" id="bakaloversGrid">
       <!-- AUTO_BAKALOVERS_START -->
 <div class="bakalover-card"><div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">C</div></div><div class="bakalover-name">Rafael Colette</div><div class="bakalover-tag">@contato</div><span class="bakalover-official">Bakalover Oficial</span></div>
     <!-- AUTO_BAKALOVERS_END -->
@@ -687,6 +687,48 @@
         refreshBakaloverCta();
       })
       .catch(() => refreshBakaloverCta());
+
+    // Bakalovers oficiais via API (coleção pública bakalovers_public do Firestore)
+    function renderBakalovers(members) {
+      const grid = document.getElementById("bakaloversGrid");
+      if (!grid || !Array.isArray(members)) return;
+      const esc = (s) =>
+        String(s ?? "").replace(/[&<>"']/g, (c) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+        })[c]);
+      if (!members.length) {
+        grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Nenhum bakalover oficial cadastrado ainda.</div>';
+        return;
+      }
+      grid.innerHTML = members
+        .map((m) => {
+          const nome = esc(m.nome);
+          const twitch = esc(m.twitch || "");
+          const inicial = ((twitch || nome || "B")[0] || "B").toUpperCase();
+          const links = twitch
+            ? '<div class="bakalover-links"><a class="bakalover-link" href="https://twitch.tv/' +
+              twitch + '" target="_blank" rel="noopener">' +
+              '<img src="https://cdn.simpleicons.org/twitch/white" alt="" width="12" height="12" loading="lazy" />' +
+              twitch + "</a></div>"
+            : "";
+          return (
+            '<div class="bakalover-card"><div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">' +
+            inicial + "</div></div><div class=\"bakalover-name\">" + nome +
+            "</div>" + links +
+            '<span class="bakalover-official">Bakalover Oficial</span></div>'
+          );
+        })
+        .join("");
+    }
+
+    fetch("/api/bakalovers?official=true")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((members) => {
+        if (members) renderBakalovers(members);
+      })
+      .catch(() => {
+        // mantém o conteúdo estático gerado pelo atualizar_index.py
+      });
 
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") {

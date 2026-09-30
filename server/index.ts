@@ -1541,8 +1541,41 @@ async function startServer() {
   // Lista os bakalovers (apenas oficiais com ?official=true).
   // Privacidade: o site só pode ler o nome e o usuário da Twitch (se houver) —
   // e-mail, avisos e demais campos nunca são expostos publicamente.
-  app.get("/api/bakalovers", (req, res) => {
+  // Fonte: coleção pública bakalovers_public (nome/twitch) + status "oficial"
+  // da coleção privada (lida somente pelo servidor via Admin SDK).
+  app.get("/api/bakalovers", async (req, res) => {
     const officialOnly = req.query.official === "true";
+    if (firebaseReady) {
+      try {
+        const [pubSnap, privSnap] = await Promise.all([
+          getFirestore().collection("bakalovers_public").get(),
+          getFirestore().collection("bakalovers").get(),
+        ]);
+        const oficial = new Set(
+          privSnap.docs
+            .filter((doc) => {
+              const d = doc.data() as Record<string, any>;
+              return d.status !== "rejeitado" && d.status !== "removido";
+            })
+            .map((doc) => doc.id)
+        );
+        let list = pubSnap.docs.map((doc) => {
+          const d = doc.data() as Record<string, any>;
+          return {
+            id: doc.id,
+            nome: typeof d.nome === "string" ? d.nome : doc.id,
+            ...(typeof d.twitch === "string" && d.twitch ? { twitch: d.twitch } : {}),
+            official: oficial.has(doc.id),
+          };
+        });
+        if (officialOnly) list = list.filter((b) => b.official);
+        res.json(list);
+        return;
+      } catch (error) {
+        console.warn("[bakalovers] falha ao ler do Firestore:", error);
+      }
+    }
+    // Fallback: arquivo local .bakalovers.json (já sincronizado/sanitizado)
     const list = officialOnly ? bakalovers.filter((b) => b.official) : bakalovers;
     res.json(
       [...list]
