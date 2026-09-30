@@ -93,6 +93,29 @@
     transition:transform .15s ease, filter .15s ease;
   }
   .support-donate:hover { transform:translateY(-2px); filter:brightness(1.1); }
+  .support-products { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-top:18px; }
+  .support-product {
+    display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center;
+    background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px 12px;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .support-product:hover { transform:translateY(-3px); border-color:var(--gold); }
+  .support-product-emoji { font-size:1.8rem; line-height:1; }
+  .support-product-name { font-weight:700; font-size:.85rem; color:#f1f5f9; }
+  .support-product-desc { font-size:.7rem; color:var(--muted); line-height:1.4; }
+  .support-product-price { font-size:.9rem; font-weight:800; color:var(--gold); }
+  .support-product-price em { font-style:normal; font-size:.68rem; color:var(--muted); font-weight:600; }
+  .support-product-cta {
+    margin-top:6px; display:inline-block; font-size:.78rem; font-weight:800; color:#fff;
+    background:linear-gradient(90deg,var(--accent),var(--accent2)); padding:8px 16px; border-radius:999px;
+    text-decoration:none;
+  }
+  .support-product-actions { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  .support-product-actions .support-product-cta { margin-top:6px; }
+  .support-product-cta.anual {
+    background:linear-gradient(90deg,#f59e0b,#ef4444);
+    box-shadow:0 6px 16px rgba(245,158,11,.28);
+  }
 
   /* REDES SOCIAIS */
   .socials { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
@@ -256,6 +279,14 @@
     color:#fbbf24; background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.3);
     padding:3px 10px; border-radius:999px;
   }
+  .bakalover-apoios { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-top:2px; }
+  .bakalover-apoio {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:28px; font-size:1rem; line-height:1; border-radius:9px;
+    background:var(--panel2); border:1px solid var(--border);
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .bakalover-apoio:hover { transform:scale(1.15); border-color:var(--gold); }
 
   .emojis { display:flex; flex-wrap:wrap; gap:10px; }
   .emoji-chip {
@@ -607,7 +638,47 @@
     <div class="section-title"><img src="https://api.iconify.design/lucide/hand-coins.svg?color=%23f59e0b" alt="" width="20" height="20" loading="lazy" /> Por que apoiar? <span class="bar"></span></div>
     <div class="support-note">
       <p>O apoio da comunidade paga a <strong>hospedagem</strong> da página e o <strong>processo de análise das lives</strong>: transcrição do áudio, leitura dos comentários e geração dos dashboards com <strong>ferramentas de inteligência artificial</strong>.</p>
-      <a href="https://livepix.gg/bakagaijin" target="_blank" rel="noopener" class="support-donate">💛 Apoiar com Pix →</a>
+      <div class="support-products" id="supportProducts">
+        <div class="support-product" data-product="calcinha">
+          <span class="support-product-emoji">🩲</span>
+          <span class="support-product-name">Calcinha no Prédio</span>
+          <span class="support-product-desc">1 mês de apoio e a calcinha continua no prédio.</span>
+          <span class="support-product-price">R$ 2,00 <em>/mês</em> ou <em>R$ 24,00/ano</em></span>
+          <span class="support-product-actions">
+            <a class="support-product-cta" data-periodo="mensal" href="/cadastro">Mensal · R$ 2</a>
+            <a class="support-product-cta anual" data-periodo="anual" href="/cadastro">Anual · R$ 24</a>
+          </span>
+        </div>
+        <div class="support-product" data-product="sexo2">
+          <span class="support-product-emoji">🔥</span>
+          <span class="support-product-name">Atualização Sexo 2</span>
+          <span class="support-product-desc">1 mês de apoio com a atualização que o chat mais gosta.</span>
+          <span class="support-product-price">R$ 5,00 <em>/mês</em> ou <em>R$ 60,00/ano</em></span>
+          <span class="support-product-actions">
+            <a class="support-product-cta" data-periodo="mensal" href="/cadastro">Mensal · R$ 5</a>
+            <a class="support-product-cta anual" data-periodo="anual" href="/cadastro">Anual · R$ 60</a>
+          </span>
+        </div>
+        <div class="support-product" data-product="punhetaco">
+          <span class="support-product-emoji">✊</span>
+          <span class="support-product-name">Punhetaço</span>
+          <span class="support-product-desc">1 mês de apoio no nível Punhetaço.</span>
+          <span class="support-product-price">R$ 10,00 <em>/mês</em> ou <em>R$ 120,00/ano</em></span>
+          <span class="support-product-actions">
+            <a class="support-product-cta" data-periodo="mensal" href="/cadastro">Mensal · R$ 10</a>
+            <a class="support-product-cta anual" data-periodo="anual" href="/cadastro">Anual · R$ 120</a>
+          </span>
+        </div>
+        <div class="support-product" data-product="supremo">
+          <span class="support-product-emoji">👑</span>
+          <span class="support-product-name">Bakalover Supremo</span>
+          <span class="support-product-desc">Apoio vitalício único — vale para sempre.</span>
+          <span class="support-product-price">R$ 100,00 <em>vitalício</em></span>
+          <span class="support-product-actions">
+            <a class="support-product-cta" data-periodo="vitalicio" href="/cadastro">Apoiar</a>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -671,7 +742,7 @@
           'Painel <strong>Bakalover</strong></a>';
       } else {
         wrap.innerHTML =
-          '<a class="hero-badge hero-badge-outline" href="' + base + '/perfil">' +
+          '<a class="hero-badge hero-badge-outline" href="' + base + '/perfil" style="margin-right: 4px;">' +
           '<img src="https://api.iconify.design/lucide/log-in.svg?color=%23cbd5e1" alt="" width="15" height="15" loading="lazy" /> ' +
           'Já sou Bakalover</a>' +
           '<a class="hero-badge" href="' + base + '/cadastro">' +
@@ -685,8 +756,50 @@
       .then((config) => {
         if (config && config.clientUrl) window.bakaloverClientUrl = config.clientUrl;
         refreshBakaloverCta();
+        refreshSupportProducts();
       })
-      .catch(() => refreshBakaloverCta());
+      .catch(() => {
+        refreshBakaloverCta();
+        refreshSupportProducts();
+      });
+
+    // Links dos produtos de apoio: logado -> painel com o produto; senão -> cadastro.
+    // Depois, a API sobrescreve com o link de pagamento (SUPPORT_LINK_<ID> no .env)
+    // e atualiza o consolidado (×N compras por produto).
+    function refreshSupportProducts() {
+      const wrap = document.getElementById("supportProducts");
+      if (!wrap) return;
+      const base = window.bakaloverClientUrl || location.origin;
+      const logged = hasBakaloverSession();
+      wrap.querySelectorAll(".support-product").forEach((card) => {
+        const p = card.dataset.product || "";
+        card.querySelectorAll(".support-product-cta").forEach((cta) => {
+          const periodo = cta.dataset.periodo || "";
+          cta.removeAttribute("target");
+          cta.removeAttribute("rel");
+          cta.href = logged
+            ? base + "/perfil?comprar=" + p + "&periodo=" + periodo
+            : base + "/cadastro?apoiar=1&comprar=" + p + "&periodo=" + periodo;
+        });
+      });
+      fetch("/api/support/products")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (!data || !Array.isArray(data.products)) return;
+          data.products.forEach((p) => {
+            const card = wrap.querySelector('[data-product="' + p.id + '"]');
+            if (!card) return;
+            if (p.link) {
+              card.querySelectorAll(".support-product-cta").forEach((cta) => {
+                cta.href = p.link;
+                cta.target = "_blank";
+                cta.rel = "noopener";
+              });
+            }
+          });
+        })
+        .catch(() => {});
+    }
 
     // Bakalovers oficiais via API (coleção pública bakalovers_public do Firestore)
     function renderBakalovers(members) {
@@ -711,10 +824,20 @@
               '<img src="https://cdn.simpleicons.org/twitch/white" alt="" width="12" height="12" loading="lazy" />' +
               twitch + "</a></div>"
             : "";
+          const apoios = Array.isArray(m.apoios) && m.apoios.length
+            ? '<div class="bakalover-apoios">' +
+              m.apoios
+                .map((a) =>
+                  '<span class="bakalover-apoio" title="Apoia: ' + esc(a.nome || "") + '">' +
+                  esc(a.emoji || "") + "</span>"
+                )
+                .join("") +
+              "</div>"
+            : "";
           return (
             '<div class="bakalover-card"><div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">' +
             inicial + "</div></div><div class=\"bakalover-name\">" + nome +
-            "</div>" + links +
+            "</div>" + links + apoios +
             '<span class="bakalover-official">Bakalover Oficial</span></div>'
           );
         })

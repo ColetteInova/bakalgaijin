@@ -11,8 +11,8 @@ import {
     watchAuth,
 } from "@/lib/firebase";
 import type { User } from "firebase/auth";
-import { ArrowLeft, Heart, Loader2, LogOut, Mail, Twitch, UserRound } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowLeft, CheckCircle2, Heart, Loader2, LogOut, Mail, Twitch, UserRound } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 
@@ -36,6 +36,27 @@ interface Profile {
   notify?: boolean;
   provider?: string;
   status?: string;
+}
+
+interface SupportPurchase {
+  id: string;
+  productId: string;
+  nome: string;
+  preco: number;
+  tipo: string;
+  emoji?: string;
+  status?: string;
+  createdAt: string;
+}
+
+interface SupportProduct {
+  id: string;
+  nome: string;
+  preco: number;
+  precoAnual?: number;
+  tipo: "mensal" | "vitalicio";
+  emoji?: string;
+  desc?: string;
 }
 
 function GoogleIcon() {
@@ -77,6 +98,19 @@ export default function Perfil() {
   const [loading, setLoading] = useState(false);
   const [savingNotify, setSavingNotify] = useState(false);
   const [, setLocation] = useLocation();
+  // Apoios (produtos virtuais) do usuário
+  const [purchases, setPurchases] = useState<SupportPurchase[]>([]);
+  const [supportTotal, setSupportTotal] = useState(0);
+  const purchaseHandled = useRef(false);
+  // Opções de apoio do projeto (catálogo público)
+  const [products, setProducts] = useState<SupportProduct[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  // Abas do painel + paginação dos apoios (10 por vez)
+  const [tab, setTab] = useState<"perfil" | "apoios">("perfil");
+  const [visibleApoios, setVisibleApoios] = useState(10);
+  const [cancelingId, setCancelingId] = useState<string | null>(null);
+  // Retorno do Stripe com /perfil?apoio=ok: mostra a tela de sucesso do apoio
+  const [apoioOk, setApoioOk] = useState(false);
   // Verificação inicial da sessão: só mostra os botões de login depois de
   // confirmar que NÃO há sessão válida (Firebase e Twitch)
   const [firebaseChecked, setFirebaseChecked] = useState(false);
@@ -260,10 +294,16 @@ export default function Perfil() {
         return;
       }
       if (res.status === 404) {
-        // Autenticado mas sem cadastro: usa a página de cadastro
+        // Autenticado mas sem cadastro: manda pro cadastro preservando a intenção de compra
         toast.info("Complete seu cadastro para virar Bakalover.");
         setLoading(false);
-        setLocation("/cadastro");
+        const params = new URLSearchParams(window.location.search);
+        const comprar = params.get("comprar");
+        const periodo = params.get("periodo");
+        const q = comprar
+          ? `?apoiar=1&comprar=${encodeURIComponent(comprar)}${periodo ? `&periodo=${encodeURIComponent(periodo)}` : ""}`
+          : "";
+        setLocation(`/cadastro${q}`);
         return;
       }
       const data = await res.json();
@@ -272,11 +312,142 @@ export default function Perfil() {
         setProfile(null);
       } else {
         setProfile(data);
+        void loadPurchases();
+        void loadProducts();
       }
       setLoading(false);
     };
     run().catch(() => setLoading(false));
   }, [user, twitchSession]);
+
+  async function loadPurchases() {
+    try {
+      const isTwitch = !!twitchSession;
+      const token = isTwitch ? null : await getIdToken();
+      const url = isTwitch
+        ? api(`/api/support/purchases?twitchAccessToken=${encodeURIComponent(twitchSession.accessToken)}`)
+        : api("/api/support/purchases");
+      const res = await fetch(url, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setPurchases(Array.isArray(data.purchases) ? data.purchases : []);
+        setSupportTotal(typeof data.total === "number" ? data.total : 0);
+      }
+    } catch {
+      // sem apoios carregados
+    }
+  }
+
+  async function loadProducts() {
+    try {
+      setLoadingProducts(true);
+      const res = await fetch(api("/api/support/products"));
+      const data = await res.json();
+      if (res.ok && Array.isArray(data.products)) {
+        setProducts(data.products as SupportProduct[]);
+      }
+    } catch {
+      // sem opções de apoio carregadas
+    } finally {
+      setLoadingProducts(false);
+    }
+  }
+
+  async function cancelPurchase(p: SupportPurchase) {
+    setCancelingId(p.id);
+    try {
+      const isTwitch = !!twitchSession;
+      const token = isTwitch ? null : await getIdToken();
+      const res = await fetch(api("/api/support/portal"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(
+          isTwitch
+            ? { purchaseId: p.id, twitchAccessToken: twitchSession.accessToken }
+            : { purchaseId: p.id }
+        ),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Falha ao abrir o portal do Stripe.");
+      if (!data.url) throw new Error("Portal do Stripe indisponível no momento.");
+      toast.info("Abrindo o portal do Stripe para gerenciar seu apoio...");
+      window.location.href = data.url;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Falha ao abrir o portal do Stripe.");
+      setCancelingId(null);
+    }
+  }
+
+  async function buyProduct(productId: string, periodo?: string) {
+    try {
+      const isTwitch = !!twitchSession;
+      const token = isTwitch ? null : await getIdToken();
+      const res = await fetch(api("/api/support/checkout"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(
+          isTwitch
+            ? { productId, periodo, twitchAccessToken: twitchSession.accessToken }
+            : { productId, periodo }
+        ),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Falha ao abrir o checkout.");
+      if (!data.url) throw new Error("Checkout indisponível no momento.");
+      toast.info("Abrindo o checkout da Stripe...");
+      window.location.href = data.url;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Falha ao abrir o checkout.");
+    }
+  }
+
+  // Compra vinda da fanpage: /perfil?comprar=<productId>&periodo=<mensal|anual>
+  // Só dispara com o perfil JÁ carregado: evita criar checkout para quem
+  // está logado (ex.: Twitch) mas ainda não virou Bakalover.
+  useEffect(() => {
+    const isLogged = !!user || !!twitchSession;
+    if (!isLogged || !profile || purchaseHandled.current) return;
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("comprar");
+    if (!productId) return;
+    purchaseHandled.current = true;
+    const periodo = params.get("periodo") || undefined;
+    params.delete("comprar");
+    params.delete("periodo");
+    const q = params.toString();
+    history.replaceState(null, "", window.location.pathname + (q ? `?${q}` : ""));
+    void buyProduct(productId, periodo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, twitchSession, profile]);
+
+  // Retorno do Stripe: /perfil?apoio=ok -> tela de sucesso (e limpa o param da URL)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("apoio") !== "ok") return;
+    params.delete("apoio");
+    const q = params.toString();
+    history.replaceState(null, "", window.location.pathname + (q ? `?${q}` : ""));
+    setApoioOk(true);
+  }, []);
+
+  // O webhook pode levar alguns segundos para registrar a compra:
+  // recarrega os apoios algumas vezes enquanto a tela de sucesso está aberta
+  useEffect(() => {
+    if (!apoioOk || !profile) return;
+    const timers = [4000, 9000, 15000].map((ms) =>
+      window.setTimeout(() => void loadPurchases(), ms)
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apoioOk, profile]);
 
   async function toggleNotify(checked: boolean) {
     if (!profile) return;
@@ -409,6 +580,38 @@ export default function Perfil() {
                   Tentar novamente
                 </Button>
               </div>
+            ) : apoioOk ? (
+              <div className="text-center py-10 space-y-4">
+                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-[#22c55e] to-[#10b981] flex items-center justify-center shadow-lg ring-1 ring-white/10">
+                  <CheckCircle2 className="w-10 h-10 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-white">Apoio confirmado! 💛</h2>
+                <p className="text-sm text-[#8b96b5] max-w-md mx-auto">
+                  Muito obrigado por apoiar o projeto! Seu apoio aparece na aba
+                  "Meus apoios" assim que a Stripe confirmar o pagamento
+                  (normalmente em alguns segundos).
+                </p>
+                <div className="flex justify-center gap-3 pt-2">
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setApoioOk(false);
+                      setTab("apoios");
+                    }}
+                    className="h-10 px-5 rounded-xl bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white font-semibold shadow-lg shadow-[#a855f7]/20"
+                  >
+                    Ver meus apoios
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setApoioOk(false)}
+                    className="h-10 px-5 rounded-xl border-[#26304d] bg-[#1a2138]/70 hover:bg-[#1a2138] text-[#cbd5e1]"
+                  >
+                    Voltar ao painel
+                  </Button>
+                </div>
+              </div>
             ) : (
               <>
                 <div className="flex items-center justify-between mb-5 rounded-xl bg-[#0f172a] border border-[#26304d] p-4">
@@ -447,6 +650,38 @@ export default function Perfil() {
                   </div>
                 </div>
 
+                <div className="flex gap-2 mb-5">
+                  <button
+                    type="button"
+                    onClick={() => setTab("perfil")}
+                    className={
+                      "flex-1 h-9 rounded-xl border text-sm font-semibold transition-colors " +
+                      (tab === "perfil"
+                        ? "border-[#a855f7] bg-[#a855f7]/15 text-[#eef2ff]"
+                        : "border-[#26304d] bg-[#1a2138]/70 text-[#8b96b5] hover:text-[#eef2ff]")
+                    }
+                  >
+                    Perfil
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTab("apoios");
+                      setVisibleApoios(10);
+                    }}
+                    className={
+                      "flex-1 h-9 rounded-xl border text-sm font-semibold transition-colors " +
+                      (tab === "apoios"
+                        ? "border-[#a855f7] bg-[#a855f7]/15 text-[#eef2ff]"
+                        : "border-[#26304d] bg-[#1a2138]/70 text-[#8b96b5] hover:text-[#eef2ff]")
+                    }
+                  >
+                    Meus apoios{supportTotal > 0 ? ` · R$ ${supportTotal.toFixed(2).replace(".", ",")}` : ""}
+                  </button>
+                </div>
+
+                {tab === "perfil" ? (
+                  <>
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-3 rounded-xl bg-[#0f172a] border border-[#26304d] p-3.5">
                     <UserRound className="w-4 h-4 text-[#8b96b5] shrink-0" />
@@ -485,10 +720,155 @@ export default function Perfil() {
                     className="data-[state=checked]:bg-[#a855f7] data-[state=unchecked]:bg-[#1a2138]"
                   />
                 </div>
+                  </>
+                ) : (
+                <>
+                <div className="rounded-xl bg-[#0f172a] border border-[#26304d] p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm font-semibold">Meus apoios ao projeto</p>
+                    <span className="text-[11px] text-[#f59e0b] font-bold">
+                      Total: R$ {supportTotal.toFixed(2).replace(".", ",")}
+                    </span>
+                  </div>
+                  {purchases.length === 0 ? (
+                    <p className="text-[11px] text-[#8b96b5]">
+                      Você ainda não apoiou o projeto. Veja os produtos na fanpage! 💛
+                    </p>
+                  ) : (
+                    <>
+                      <ul className="space-y-2">
+                        {purchases.slice(0, visibleApoios).map((p) => (
+                          <li key={p.id} className="flex items-center justify-between text-xs gap-3">
+                            <span className="text-[#cbd5e1] truncate">
+                              {p.emoji ? `${p.emoji} ` : ""}
+                              {p.nome}
+                              {p.tipo === "mensal"
+                                ? " (mês)"
+                                : p.tipo === "anual"
+                                  ? " (anual)"
+                                  : " (vitalício)"}
+                              {p.status === "pausado" && (
+                                <span className="ml-1.5 px-1.5 py-0.5 rounded bg-[#f59e0b]/15 text-[#fbbf24] text-[10px] font-bold uppercase">
+                                  pausado
+                                </span>
+                              )}
+                            </span>
+                            <span className="flex items-center gap-2 shrink-0">
+                              <span className="text-[#8b96b5]">
+                                R$ {p.preco.toFixed(2).replace(".", ",")}
+                                {p.createdAt
+                                  ? ` · ${new Date(p.createdAt).toLocaleDateString("pt-BR")}`
+                                  : ""}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => cancelPurchase(p)}
+                                disabled={cancelingId === p.id}
+                                className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-red-400/40 text-red-300 hover:bg-red-400/10 disabled:opacity-50 transition-colors"
+                              >
+                                {cancelingId === p.id ? "Abrindo..." : "Cancelar apoio"}
+                              </button>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      {purchases.length > visibleApoios && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setVisibleApoios((n) => n + 10)}
+                          className="mt-3 w-full border-[#26304d] bg-[#1a2138]/70 hover:bg-[#1a2138] text-[#cbd5e1]"
+                        >
+                          Carregar mais ({purchases.length - visibleApoios} restantes)
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </div>
+                </>
+                )}
               </>
             )}
           </div>
         </div>
+
+        {profile && (
+          <div className="mt-6 bg-[#141a2e] border border-[#26304d] rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-72 h-72 bg-[#f59e0b]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm font-semibold">Apoiar o projeto</p>
+                <span className="text-[11px] text-[#8b96b5]">Escolha como ajudar 💛</span>
+              </div>
+              {loadingProducts ? (
+                <div className="flex items-center justify-center py-6 text-[#8b96b5]">
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Carregando opções de apoio...
+                </div>
+              ) : products.length === 0 ? (
+                <p className="text-[11px] text-[#8b96b5]">
+                  Nenhuma opção de apoio disponível no momento.
+                </p>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {products.map((p) => {
+                    const bought = purchases.some((x) => x.productId === p.id);
+                    return (
+                      <div
+                        key={p.id}
+                        className="rounded-xl bg-[#0f172a] border border-[#26304d] p-3.5 flex flex-col gap-2"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl leading-none">
+                            {p.emoji || <Heart className="w-4 h-4 text-[#a855f7]" />}
+                          </span>
+                          <p className="text-sm font-semibold truncate">{p.nome}</p>
+                        </div>
+                        <p className="text-[11px] text-[#8b96b5] leading-snug">{p.desc || ""}</p>
+                        {bought ? (
+                          <p className="mt-auto text-[11px] font-bold text-[#f59e0b]">
+                            Você já apoia 💛
+                          </p>
+                        ) : p.tipo === "vitalicio" ? (
+                          <Button
+                            type="button"
+                            size="sm"
+                            onClick={() => buyProduct(p.id)}
+                            className="mt-auto h-8 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white text-xs font-semibold shadow-lg shadow-[#a855f7]/20"
+                          >
+                            Apoiar · R$ {p.preco.toFixed(2).replace(".", ",")}
+                          </Button>
+                        ) : (
+                          <div className="mt-auto flex gap-2">
+                            <Button
+                              type="button"
+                              size="sm"
+                              onClick={() => buyProduct(p.id, "mensal")}
+                              className="flex-1 h-8 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white text-xs font-semibold shadow-lg shadow-[#a855f7]/20"
+                            >
+                              Mensal · R$ {p.preco.toFixed(2).replace(".", ",")}
+                            </Button>
+                            {typeof p.precoAnual === "number" && (
+                              <Button
+                                type="button"
+                                size="sm"
+                                onClick={() => buyProduct(p.id, "anual")}
+                                className="flex-1 h-8 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white text-xs font-semibold shadow-lg shadow-[#a855f7]/20"
+                              >
+                                Anual · R$ {p.precoAnual.toFixed(2).replace(".", ",")}
+                              </Button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </main>
 
       <footer className="border-t border-[#26304d] bg-[#0b0f1a] py-4 text-center text-xs text-[#8b96b5]">

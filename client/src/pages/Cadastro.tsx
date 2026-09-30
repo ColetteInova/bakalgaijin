@@ -69,6 +69,31 @@ export default function Cadastro() {
     email?: string;
   } | null>(null);
   const [, setLocation] = useLocation();
+  // Aviso exibido quando o usuário vem da fanpage querendo apoiar sem estar logado
+  const [apoioAviso, setApoioAviso] = useState("");
+  // Enquanto descobre se já é Bakalover, mostra loading em vez do formulário
+  const [firebaseChecked, setFirebaseChecked] = useState(false);
+  const [twitchChecked, setTwitchChecked] = useState(false);
+  const [redirectPending, setRedirectPending] = useState(false);
+
+  // Se veio da fanpage para apoiar (?apoiar=1), retoma o checkout após virar Bakalover
+  function destinoPosCadastro(): string {
+    const params = new URLSearchParams(window.location.search);
+    const comprar = params.get("comprar");
+    if (params.get("apoiar") !== "1" || !comprar) return "/perfil";
+    const periodo = params.get("periodo") || "";
+    return `/perfil?comprar=${encodeURIComponent(comprar)}&periodo=${encodeURIComponent(periodo)}`;
+  }
+
+  // Aviso específico para quem quer apoiar mas ainda não é Bakalover
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("apoiar") === "1") {
+      setApoioAviso(
+        "Para apoiar é preciso ser Bakalover. 💛 Leva menos de um minuto: entre com Google ou Twitch, confirme seus dados e o checkout abre na sequência."
+      );
+    }
+  }, []);
 
   // Carrega a config do servidor e inicializa o Firebase (Auth) no client
   useEffect(() => {
@@ -89,7 +114,8 @@ export default function Cadastro() {
       })
       .catch(() => {
         // sem config: botões de login permanecem desativados
-      });
+      })
+      .finally(() => setFirebaseChecked(true));
   }, []);
 
   // Observa a sessão do Firebase
@@ -97,6 +123,7 @@ export default function Cadastro() {
     if (!firebaseEnabled) return;
     return watchAuth((u) => {
       setUser(u);
+      setFirebaseChecked(true);
       if (u) {
         setForm((f) => ({
           ...f,
@@ -112,6 +139,7 @@ export default function Cadastro() {
 
   // Se o usuário já tem cadastro no Firebase (Firestore), redireciona para o painel
   async function redirectIfAlreadyRegistered(session: { accessToken: string } | null) {
+    setRedirectPending(true);
     try {
       let res: Response | null = null;
       if (session) {
@@ -128,17 +156,22 @@ export default function Cadastro() {
       }
       if (res?.ok) {
         toast.success("Você já é Bakalover! Abrindo seu painel...");
-        setLocation("/perfil");
+        setLocation(destinoPosCadastro());
       }
     } catch {
       // sem cadastro: segue o fluxo normal
+    } finally {
+      setRedirectPending(false);
     }
   }
 
   // Restaura a sessão da Twitch (validada por fora do Firebase)
   useEffect(() => {
     const raw = sessionStorage.getItem("twitch_oauth_session");
-    if (!raw) return;
+    if (!raw) {
+      setTwitchChecked(true);
+      return;
+    }
     try {
       const parsed = JSON.parse(raw);
       if (parsed?.login && parsed?.accessToken) {
@@ -151,6 +184,8 @@ export default function Cadastro() {
       }
     } catch {
       sessionStorage.removeItem("twitch_oauth_session");
+    } finally {
+      setTwitchChecked(true);
     }
   }, []);
 
@@ -297,7 +332,7 @@ export default function Cadastro() {
       if (!res.ok) throw new Error(data?.error || "Falha ao salvar o cadastro.");
       toast.success("Cadastro concluído! Bem-vindo ao time de Bakalovers oficiais.");
       // Mantém a sessão da Twitch ativa para o painel carregar o perfil na hora
-      setLocation("/perfil");
+      setLocation(destinoPosCadastro());
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Falha ao salvar o cadastro.");
     } finally {
@@ -326,6 +361,18 @@ export default function Cadastro() {
       </header>
 
       <main className="container max-w-3xl mx-auto px-4 py-8 flex-1">
+        {!firebaseChecked || !twitchChecked || redirectPending ? (
+          <div className="bg-[#141a2e] border border-[#26304d] rounded-2xl p-10 shadow-2xl flex flex-col items-center gap-3">
+            <Loader2 className="w-8 h-8 animate-spin text-[#a855f7]" />
+            <p className="text-sm text-[#8b96b5]">Verificando sua sessão...</p>
+          </div>
+        ) : (
+          <>
+        {apoioAviso && (
+          <div className="mb-4 rounded-xl border border-[#f59e0b]/40 bg-[#f59e0b]/10 px-4 py-3 text-sm text-[#fbbf24] text-center">
+            {apoioAviso}
+          </div>
+        )}
         <div className="bg-[#141a2e] border border-[#26304d] rounded-2xl p-6 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-72 h-72 bg-[#a855f7]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#ec4899]/10 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
@@ -505,6 +552,8 @@ export default function Cadastro() {
             )}
           </div>
         </div>
+          </>
+        )}
       </main>
 
       <footer className="border-t border-[#26304d] bg-[#0b0f1a] py-4 text-center text-xs text-[#8b96b5]">

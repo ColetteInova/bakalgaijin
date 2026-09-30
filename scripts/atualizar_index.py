@@ -543,11 +543,24 @@ def render_bakalovers() -> str:
             )
         # tag @ só aparece quando NÃO há link da Twitch (evita duplicar o @login)
         tag = "" if twitch else f'<div class="bakalover-tag">@{apelido}</div>'
+        apoios = [a for a in (member.get("apoios") or []) if isinstance(a, dict)]
+        apoios_html = ""
+        if apoios:
+            chips = "".join(
+                '<span class="bakalover-apoio" title="Apoia: '
+                + _escape(str(a.get("nome") or ""))
+                + '">'
+                + _escape(str(a.get("emoji") or ""))
+                + "</span>"
+                for a in apoios
+            )
+            apoios_html = f'<div class="bakalover-apoios">{chips}</div>'
         cards.append(
             f'<div class="bakalover-card">{avatar}'
             f'<div class="bakalover-name">{nome}</div>'
             + tag
             + links
+            + apoios_html
             + '<span class="bakalover-official">Bakalover Oficial</span></div>'
         )
     return "\n".join(cards)

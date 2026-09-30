@@ -191,6 +191,21 @@ const TWITCH_HELIX_USERS_URL = "https://api.twitch.tv/helix/users";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Verifica a assinatura do webhook do Stripe (t=<ts>,v1=<hmac>) sem dependência externa
+function verifyStripeSignature(rawBody: Buffer, sigHeader: string, secret: string): boolean {
+  try {
+    const parts = sigHeader.split(",").map((s) => s.trim());
+    const ts = parts.find((s) => s.startsWith("t="))?.slice(2) || "";
+    const v1 = parts.find((s) => s.startsWith("v1="))?.slice(3) || "";
+    if (!ts || !v1) return false;
+    const expected = crypto.createHmac("sha256", secret).update(`${ts}.${rawBody.toString("utf8")}`).digest();
+    const received = Buffer.from(v1, "hex");
+    return expected.length === received.length && crypto.timingSafeEqual(expected, received);
+  } catch {
+    return false;
+  }
+}
+
 // Valida um user access token da Twitch e devolve os dados do usuário dono do token.
 async function fetchTwitchUser(accessToken: string) {
   const validation = await fetch(TWITCH_OAUTH_VALIDATE_URL, {
@@ -495,6 +510,211 @@ function folderNameFromFile(filePath: string): string {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // Webhook do Stripe: registrado ANTES do express.json() porque precisa do
+  // corpo bruto para verificar a assinatura (STRIPE_WEBHOOK_SECRET).
+  app.post("/api/stripe/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+    const secret = process.env.STRIPE_WEBHOOK_SECRET || "";
+    const sig = String(req.headers["stripe-signature"] || "");
+    if (!secret) {
+      res.status(503).json({ error: "Webhook do Stripe não configurado" });
+      return;
+    }
+    if (!sig || !verifyStripeSignature(req.body as Buffer, sig, secret)) {
+      res.status(401).json({ error: "Assinatura inválida" });
+      return;
+    }
+    let event: any;
+    try {
+      event = JSON.parse((req.body as Buffer).toString("utf8"));
+    } catch {
+      res.status(400).json({ error: "Corpo inválido" });
+      return;
+    }
+
+    // Pagamento concluído: registra o apoio no usuário (support_purchases),
+    // que alimenta o consolidado público de /api/support/products.
+    if (event.type === "checkout.session.completed") {
+      try {
+        const session = (event.data?.object ?? {}) as Record<string, any>;
+        const metadata = session.metadata ?? {};
+        const productId = typeof metadata.productId === "string" ? metadata.productId : "";
+        const uid =
+          typeof metadata.uid === "string"
+            ? metadata.uid
+            : typeof session.client_reference_id === "string"
+              ? session.client_reference_id
+              : "";
+        if (!firebaseReady || !uid || !productId) {
+          res.status(400).json({ error: "Metadados ausentes (uid/productId)" });
+          return;
+        }
+        const products = await getSupportProducts();
+        const product = products.find((p) => p.id === productId);
+        if (!product) {
+          res.status(400).json({ error: "Produto inválido" });
+          return;
+        }
+        const stripeSessionId = typeof session.id === "string" ? session.id : "";
+        const stripeCustomerId = typeof session.customer === "string" ? session.customer : "";
+        const stripeSubscriptionId =
+          typeof session.subscription === "string" ? session.subscription : "";
+        const periodo = typeof metadata.periodo === "string" ? metadata.periodo : "";
+        const anual = product.tipo === "mensal" && periodo === "anual" && !!product.precoAnual;
+        const preco = anual ? (product.precoAnual as number) : product.preco;
+        const nome = anual ? `${product.nome} (Anual)` : product.nome;
+        const tipo =
+          product.tipo === "vitalicio" ? "vitalicio" : anual ? "anual" : "mensal";
+        // Mensais/anuais são únicos por usuário; Supremo (vitalício) pode repetir
+        if (tipo !== "vitalicio") {
+          const jaTem = await getFirestore()
+            .collection("support_purchases")
+            .where("uid", "==", uid)
+            .where("productId", "==", product.id)
+            .limit(1)
+            .get();
+          if (!jaTem.empty) {
+            console.log(`[stripe] assinatura duplicada ignorada: ${nome} para ${uid}`);
+            res.json({ received: true, duplicated: true });
+            return;
+          }
+        }
+        const existing = await getFirestore()
+          .collection("support_purchases")
+          .where("stripeSessionId", "==", stripeSessionId)
+          .limit(1)
+          .get();
+        if (!existing.empty) {
+          res.json({ received: true, duplicated: true });
+          return;
+        }
+        await getFirestore().collection("support_purchases").add({
+          uid,
+          productId: product.id,
+          nome,
+          preco,
+          tipo,
+          emoji: product.emoji,
+          stripeSessionId,
+          stripeCustomerId,
+          stripeSubscriptionId,
+          status: "ativo",
+          createdAt: FieldValue.serverTimestamp(),
+        });
+        console.log(`[stripe] apoio registrado: ${nome} para ${uid}`);
+        await syncPublicSupportMirror(uid);
+        res.json({ received: true });
+        return;
+      } catch (error) {
+        console.warn("[stripe] falha ao processar webhook:", error);
+        res.status(500).json({ error: "Falha ao processar o webhook" });
+        return;
+      }
+    }
+
+    // Assinatura cancelada no portal do Stripe: remove o apoio do Firestore.
+    if (event.type === "customer.subscription.deleted") {
+      try {
+        const sub = (event.data?.object ?? {}) as Record<string, any>;
+        const subId = typeof sub.id === "string" ? sub.id : "";
+        if (!firebaseReady || !subId) {
+          res.status(400).json({ error: "Subscription id ausente" });
+          return;
+        }
+        const snap = await getFirestore()
+          .collection("support_purchases")
+          .where("stripeSubscriptionId", "==", subId)
+          .limit(1)
+          .get();
+        if (snap.empty) {
+          console.log(`[stripe] cancelamento sem apoio correspondente: ${subId}`);
+          res.json({ received: true, notFound: true });
+          return;
+        }
+        const purchaseData = snap.docs[0].data() as Record<string, any>;
+        const uid = typeof purchaseData.uid === "string" ? purchaseData.uid : "";
+        await snap.docs[0].ref.delete();
+        if (uid) await syncPublicSupportMirror(uid);
+        console.log(`[stripe] apoio removido após cancelamento: ${subId}`);
+        res.json({ received: true });
+        return;
+      } catch (error) {
+        console.warn("[stripe] falha ao processar cancelamento:", error);
+        res.status(500).json({ error: "Falha ao processar o cancelamento" });
+        return;
+      }
+    }
+
+    // Assinatura pausada: marca o apoio como pausado (não remove — pode ser retomada).
+    if (event.type === "customer.subscription.paused") {
+      try {
+        const sub = (event.data?.object ?? {}) as Record<string, any>;
+        const subId = typeof sub.id === "string" ? sub.id : "";
+        if (!firebaseReady || !subId) {
+          res.status(400).json({ error: "Subscription id ausente" });
+          return;
+        }
+        const snap = await getFirestore()
+          .collection("support_purchases")
+          .where("stripeSubscriptionId", "==", subId)
+          .limit(1)
+          .get();
+        if (snap.empty) {
+          console.log(`[stripe] pausa sem apoio correspondente: ${subId}`);
+          res.json({ received: true, notFound: true });
+          return;
+        }
+        await snap.docs[0].ref.update({ status: "pausado" });
+        {
+          const d = snap.docs[0].data() as Record<string, any>;
+          if (typeof d.uid === "string") await syncPublicSupportMirror(d.uid);
+        }
+        console.log(`[stripe] apoio pausado: ${subId}`);
+        res.json({ received: true });
+        return;
+      } catch (error) {
+        console.warn("[stripe] falha ao processar pausa:", error);
+        res.status(500).json({ error: "Falha ao processar a pausa" });
+        return;
+      }
+    }
+
+    // Assinatura retomada: volta o apoio para ativo.
+    if (event.type === "customer.subscription.resumed") {
+      try {
+        const sub = (event.data?.object ?? {}) as Record<string, any>;
+        const subId = typeof sub.id === "string" ? sub.id : "";
+        if (!firebaseReady || !subId) {
+          res.status(400).json({ error: "Subscription id ausente" });
+          return;
+        }
+        const snap = await getFirestore()
+          .collection("support_purchases")
+          .where("stripeSubscriptionId", "==", subId)
+          .limit(1)
+          .get();
+        if (snap.empty) {
+          console.log(`[stripe] retomada sem apoio correspondente: ${subId}`);
+          res.json({ received: true, notFound: true });
+          return;
+        }
+        await snap.docs[0].ref.update({ status: "ativo" });
+        {
+          const d = snap.docs[0].data() as Record<string, any>;
+          if (typeof d.uid === "string") await syncPublicSupportMirror(d.uid);
+        }
+        console.log(`[stripe] apoio retomado: ${subId}`);
+        res.json({ received: true });
+        return;
+      } catch (error) {
+        console.warn("[stripe] falha ao processar retomada:", error);
+        res.status(500).json({ error: "Falha ao processar a retomada" });
+        return;
+      }
+    }
+
+    res.json({ received: true });
+  });
 
   app.use(express.json());
 
@@ -1443,6 +1663,7 @@ async function startServer() {
     foto?: string;
     email?: string;
     notify?: boolean;
+    apoios?: { emoji: string; nome: string }[];
     official: boolean;
     createdAt: string;
   }
@@ -1487,12 +1708,47 @@ async function startServer() {
     }
   }
 
+  // Espelha no doc público os apoios ativos do usuário (emoji + nome de cada
+  // assinatura) para o site exibir os ícones do que ele apoia.
+  async function syncPublicSupportMirror(uid: string) {
+    if (!firebaseReady) return;
+    try {
+      const snap = await getFirestore()
+        .collection("support_purchases")
+        .where("uid", "==", uid)
+        .get();
+      const apoios = snap.docs
+        .map((doc) => {
+          const d = doc.data() as Record<string, any>;
+          if (typeof d.status === "string" && d.status !== "ativo") return null;
+          const nome = typeof d.nome === "string" ? d.nome : "";
+          const emoji = typeof d.emoji === "string" ? d.emoji : "";
+          return nome ? { emoji, nome } : null;
+        })
+        .filter((a): a is { emoji: string; nome: string } => a !== null);
+      await getFirestore()
+        .collection("bakalovers_public")
+        .doc(uid)
+        .set({ apoios }, { merge: true });
+    } catch (error) {
+      console.warn("[bakalovers] falha ao gravar apoios no espelho público:", error);
+    }
+  }
+
   // Sincroniza os bakalovers do Firestore para .bakalovers.json — a fanpage
   // (saida/index.html) é gerada a partir desse arquivo pelo atualizar_index.py.
   async function syncBakaloversFromFirestore() {
     if (!firebaseReady) return;
     try {
-      const snap = await getFirestore().collection("bakalovers").get();
+      const [snap, pubSnap] = await Promise.all([
+        getFirestore().collection("bakalovers").get(),
+        getFirestore().collection("bakalovers_public").get(),
+      ]);
+      const pubApoios = new Map<string, { emoji: string; nome: string }[]>();
+      pubSnap.docs.forEach((doc) => {
+        const d = doc.data() as Record<string, any>;
+        if (Array.isArray(d.apoios)) pubApoios.set(doc.id, d.apoios);
+      });
       const fromFirestore: Bakalover[] = snap.docs.map((doc) => {
         const d = doc.data() as Record<string, any>;
         const createdAt =
@@ -1509,6 +1765,7 @@ async function startServer() {
           apelido: twitch || (email ? email.split("@")[0] : doc.id.slice(0, 8)),
           twitch,
           email,
+          apoios: pubApoios.get(doc.id) || [],
           official: d.status !== "rejeitado" && d.status !== "removido",
           createdAt,
         };
@@ -1565,6 +1822,7 @@ async function startServer() {
             id: doc.id,
             nome: typeof d.nome === "string" ? d.nome : doc.id,
             ...(typeof d.twitch === "string" && d.twitch ? { twitch: d.twitch } : {}),
+            ...(Array.isArray(d.apoios) && d.apoios.length ? { apoios: d.apoios } : {}),
             official: oficial.has(doc.id),
           };
         });
@@ -1587,6 +1845,7 @@ async function startServer() {
           id: b.id,
           nome: b.nome,
           ...(b.twitch ? { twitch: b.twitch } : {}),
+          ...(Array.isArray(b.apoios) && b.apoios.length ? { apoios: b.apoios } : {}),
           official: b.official,
         }))
     );
@@ -1890,6 +2149,388 @@ async function startServer() {
     } catch (error) {
       res.status(401).json({
         error: error instanceof Error ? error.message : "Falha ao atualizar o perfil",
+      });
+    }
+  });
+
+  // ===== Apoio (produtos virtuais inspirados nas lives) =====
+  interface SupportProduct {
+    id: string;
+    nome: string;
+    preco: number; // em R$
+    precoAnual?: number; // preço anual (12x) para produtos mensais
+    tipo: "mensal" | "vitalicio";
+    emoji: string;
+    desc: string;
+  }
+
+  // Valores padrão usados APENAS para semear o Firestore na primeira execução
+  // (a fonte de verdade é a coleção support_products no Firestore).
+  const DEFAULT_SUPPORT_PRODUCTS: SupportProduct[] = [
+    {
+      id: "calcinha",
+      nome: "Calcinha no Prédio",
+      preco: 2,
+      precoAnual: 24,
+      tipo: "mensal",
+      emoji: "🩲",
+      desc: "1 mês de apoio e a calcinha continua no prédio.",
+    },
+    {
+      id: "sexo2",
+      nome: "Atualização Sexo 2",
+      preco: 5,
+      precoAnual: 60,
+      tipo: "mensal",
+      emoji: "🔥",
+      desc: "1 mês de apoio com a atualização que o chat mais gosta.",
+    },
+    {
+      id: "punhetaco",
+      nome: "Punhetaço",
+      preco: 10,
+      precoAnual: 120,
+      tipo: "mensal",
+      emoji: "✊",
+      desc: "1 mês de apoio no nível Punhetaço todos oss dias as 00h.",
+    },
+    {
+      id: "supremo",
+      nome: "Bakalover Supremo",
+      preco: 100,
+      tipo: "vitalicio",
+      emoji: "👑",
+      desc: "Apoio vitalício único",
+    },
+  ];
+
+  // Lê os produtos do Firestore (semeia com os padrões na primeira vez).
+  // O retorno é anotado como SupportProduct para o tipo de `tipo` não alargar para string.
+  async function getSupportProducts(): Promise<SupportProduct[]> {
+    if (!firebaseReady) return DEFAULT_SUPPORT_PRODUCTS;
+    try {
+      const snap = await getFirestore().collection("support_products").get();
+      if (!snap.empty) {
+        return snap.docs
+          .map((doc): SupportProduct => {
+            const d = doc.data() as Record<string, any>;
+            return {
+              id: typeof d.id === "string" ? d.id : doc.id,
+              nome: typeof d.nome === "string" ? d.nome : doc.id,
+              preco: typeof d.preco === "number" ? d.preco : 0,
+              precoAnual: typeof d.precoAnual === "number" ? d.precoAnual : undefined,
+              tipo: (d.tipo === "vitalicio" ? "vitalicio" : "mensal") as SupportProduct["tipo"],
+              emoji: typeof d.emoji === "string" ? d.emoji : "",
+              desc: typeof d.desc === "string" ? d.desc : "",
+            };
+          })
+          .filter((p) => p.id && p.nome);
+      }
+      // primeira execução: semeia os produtos padrão no Firestore
+      const batch = getFirestore().batch();
+      for (const p of DEFAULT_SUPPORT_PRODUCTS) {
+        batch.set(getFirestore().collection("support_products").doc(p.id), { ...p });
+      }
+      await batch.commit();
+      console.log("[apoio] produtos semeados no Firestore");
+      return DEFAULT_SUPPORT_PRODUCTS;
+    } catch (error) {
+      console.warn("[apoio] falha ao ler produtos do Firestore:", error);
+      return DEFAULT_SUPPORT_PRODUCTS;
+    }
+  }
+
+  // Catálogo público + consolidado: produtos (Firestore), contagem de compras
+  // e link de pagamento por produto vindo de variáveis de ambiente
+  // (SUPPORT_LINK_<ID>, ex.: SUPPORT_LINK_CALCINHA). Em local, use os links
+  // de teste; em produção, os links de produção.
+  app.get("/api/support/products", async (_req, res) => {
+    try {
+      const [products, purchSnap] = await Promise.all([
+        getSupportProducts(),
+        firebaseReady
+          ? getFirestore().collection("support_purchases").get()
+          : Promise.resolve(null),
+      ]);
+      const counts: Record<string, number> = {};
+      let totalRaised = 0;
+      if (purchSnap) {
+        purchSnap.docs.forEach((doc) => {
+          const d = doc.data() as Record<string, any>;
+          const pid = typeof d.productId === "string" ? d.productId : "";
+          if (pid) counts[pid] = (counts[pid] || 0) + 1;
+          totalRaised += typeof d.preco === "number" ? d.preco : 0;
+        });
+      }
+      res.json({
+        products: products.map((p) => ({
+          ...p,
+          link: process.env[`SUPPORT_LINK_${p.id.toUpperCase()}`] || "",
+          compras: counts[p.id] || 0,
+        })),
+        totalRaised,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error instanceof Error ? error.message : "Falha ao carregar os produtos",
+      });
+    }
+  });
+
+  // Cria uma sessão de checkout no Stripe para o produto (usuário logado).
+  // O webhook /api/stripe/webhook registra a compra quando o pagamento concluir.
+  app.post("/api/support/checkout", async (req, res) => {
+    const secretKey = process.env.STRIPE_SECRET_KEY || "";
+    if (!secretKey) {
+      res.status(503).json({ error: "Stripe não configurado no servidor" });
+      return;
+    }
+    try {
+      const { uid } = await resolveProfileIdentity(req);
+      const { productId, periodo } = (req.body ?? {}) as { productId?: string; periodo?: string };
+      const products = await getSupportProducts();
+      const product = products.find((p) => p.id === productId);
+      if (!product) {
+        res.status(400).json({ error: "Produto inválido" });
+        return;
+      }
+      // Apoiar é exclusivo de Bakalovers cadastrados (evita checkout automático
+      // para quem só fez login na Twitch mas ainda não confirmou o cadastro).
+      const profileDoc = await getFirestore().collection("bakalovers").doc(uid).get();
+      if (!profileDoc.exists) {
+        res.status(403).json({ error: "Complete seu cadastro para virar Bakalover antes de apoiar." });
+        return;
+      }
+      // Mensais são únicos por usuário (Supremo pode repetir)
+      if (product.tipo === "mensal") {
+        const existing = await getFirestore()
+          .collection("support_purchases")
+          .where("uid", "==", uid)
+          .where("productId", "==", product.id)
+          .limit(1)
+          .get();
+        if (!existing.empty) {
+          res.status(409).json({ error: `Você já tem "${product.nome}" — cada apoio mensal é único.` });
+          return;
+        }
+      }
+      const vitalicio = product.tipo === "vitalicio";
+      const anual = !vitalicio && periodo === "anual" && !!product.precoAnual;
+      const preco = vitalicio ? product.preco : anual ? (product.precoAnual as number) : product.preco;
+      const nome = vitalicio ? product.nome : anual ? `${product.nome} (Anual)` : product.nome;
+      // Price IDs do Stripe por produto/período (STRIPE_PRICE_<ID>_<MENSAL|ANUAL>).
+      // Vitalício (Supremo) usa price_data dinâmico. Sem price id configurado,
+      // cai no price_data dinâmico também.
+      const idUpper = product.id.toUpperCase();
+      const priceId = vitalicio
+        ? ""
+        : process.env[`STRIPE_PRICE_${idUpper}_${anual ? "ANUAL" : "MENSAL"}`] || "";
+      const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+      // Mensais/anuais viram assinaturas no Stripe (modo subscription) para
+      // poderem ser canceladas pelo portal de gerenciamento do cliente.
+      const profileData = (profileDoc.data() ?? {}) as Record<string, any>;
+      const customerEmail = typeof profileData.email === "string" ? profileData.email : "";
+      const params = new URLSearchParams({
+        "line_items[0][quantity]": "1",
+        mode: vitalicio ? "payment" : "subscription",
+        client_reference_id: uid,
+        "metadata[productId]": product.id,
+        "metadata[uid]": uid,
+        "metadata[periodo]": vitalicio ? "vitalicio" : anual ? "anual" : "mensal",
+        success_url: `${clientUrl}/perfil?apoio=ok`,
+        cancel_url: `${clientUrl}/perfil`,
+      });
+      if (!vitalicio) {
+        if (customerEmail) params.set("customer_email", customerEmail);
+      }
+      if (priceId) {
+        params.set("line_items[0][price]", priceId);
+      } else {
+        params.set("line_items[0][price_data][currency]", "brl");
+        params.set("line_items[0][price_data][product_data][name]", nome);
+        params.set("line_items[0][price_data][unit_amount]", String(Math.round(preco * 100)));
+        if (!vitalicio) {
+          params.set("line_items[0][price_data][recurring][interval]", anual ? "year" : "month");
+        }
+      }
+      const stripeRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${secretKey}` },
+        body: params,
+      });
+      const data = (await stripeRes.json()) as any;
+      if (!stripeRes.ok) {
+        throw new Error(data?.error?.message || `Stripe respondeu ${stripeRes.status}`);
+      }
+      res.json({ url: typeof data.url === "string" ? data.url : "" });
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao criar o checkout",
+      });
+    }
+  });
+
+  // Registra a compra de um produto de apoio (Google ou Twitch)
+  app.post("/api/support/purchase", async (req, res) => {
+    if (!firebaseReady) {
+      res.status(503).json({ error: "Firebase não configurado no servidor" });
+      return;
+    }
+    try {
+      const { uid } = await resolveProfileIdentity(req);
+      const { productId, periodo } = (req.body ?? {}) as { productId?: string; periodo?: string };
+      const products = await getSupportProducts();
+      const product = products.find((p) => p.id === productId);
+      if (!product) {
+        res.status(400).json({ error: "Produto inválido" });
+        return;
+      }
+      let tipo: "mensal" | "anual" | "vitalicio";
+      let preco: number;
+      let nome: string;
+      if (product.tipo === "vitalicio") {
+        tipo = "vitalicio";
+        preco = product.preco;
+        nome = product.nome;
+      } else if (periodo === "anual" && product.precoAnual) {
+        tipo = "anual";
+        preco = product.precoAnual;
+        nome = `${product.nome} (Anual)`;
+      } else {
+        tipo = "mensal";
+        preco = product.preco;
+        nome = product.nome;
+      }
+      // Mensais/anuais: apenas UMA assinatura por produto por usuário.
+      // Supremo (vitalício): pode ser comprado quantas vezes quiser.
+      if (tipo !== "vitalicio") {
+        const existing = await getFirestore()
+          .collection("support_purchases")
+          .where("uid", "==", uid)
+          .where("productId", "==", product.id)
+          .limit(1)
+          .get();
+        if (!existing.empty) {
+          res.status(409).json({ error: `Você já tem "${product.nome}" — cada assinatura é única.` });
+          return;
+        }
+      }
+      const purchase = {
+        uid,
+        productId: product.id,
+        nome,
+        preco,
+        tipo,
+        emoji: product.emoji,
+        createdAt: FieldValue.serverTimestamp(),
+      };
+      const ref = await getFirestore().collection("support_purchases").add(purchase);
+      await syncPublicSupportMirror(uid);
+      res.status(201).json({ id: ref.id, ...purchase, createdAt: new Date().toISOString() });
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao registrar o apoio",
+      });
+    }
+  });
+
+  // Histórico de apoios do usuário + total já ajudado
+  app.get("/api/support/purchases", async (req, res) => {
+    if (!firebaseReady) {
+      res.status(503).json({ error: "Firebase não configurado no servidor" });
+      return;
+    }
+    try {
+      const { uid } = await resolveProfileIdentity(req);
+      const snap = await getFirestore()
+        .collection("support_purchases")
+        .where("uid", "==", uid)
+        .get();
+      const purchases = snap.docs
+        .map((doc) => {
+          const d = doc.data() as Record<string, any>;
+          const createdAt =
+            d.createdAt && typeof d.createdAt.toDate === "function"
+              ? d.createdAt.toDate().toISOString()
+              : typeof d.createdAt === "string"
+                ? d.createdAt
+                : "";
+          return {
+            id: doc.id,
+            productId: typeof d.productId === "string" ? d.productId : "",
+            nome: typeof d.nome === "string" ? d.nome : "",
+            preco: typeof d.preco === "number" ? d.preco : 0,
+            tipo: typeof d.tipo === "string" ? d.tipo : "",
+            emoji: typeof d.emoji === "string" ? d.emoji : "",
+            status: typeof d.status === "string" ? d.status : "",
+            createdAt,
+          };
+        })
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      const total = purchases.reduce((sum, p) => sum + p.preco, 0);
+      res.json({ purchases, total });
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao carregar os apoios",
+      });
+    }
+  });
+
+  // Abre o portal de gerenciamento do Stripe para o usuário cancelar um apoio.
+  // A remoção do Firestore acontece no webhook customer.subscription.deleted.
+  app.post("/api/support/portal", async (req, res) => {
+    const secretKey = process.env.STRIPE_SECRET_KEY || "";
+    if (!secretKey) {
+      res.status(503).json({ error: "Stripe não configurado no servidor" });
+      return;
+    }
+    try {
+      const { uid } = await resolveProfileIdentity(req);
+      const { purchaseId } = (req.body ?? {}) as { purchaseId?: string };
+      if (!purchaseId) {
+        res.status(400).json({ error: "Apoio inválido" });
+        return;
+      }
+      const purchaseDoc = await getFirestore()
+        .collection("support_purchases")
+        .doc(purchaseId)
+        .get();
+      if (!purchaseDoc.exists) {
+        res.status(404).json({ error: "Apoio não encontrado" });
+        return;
+      }
+      const d = purchaseDoc.data() as Record<string, any>;
+      if (d.uid !== uid) {
+        res.status(403).json({ error: "Este apoio não pertence a você" });
+        return;
+      }
+      const customerId = typeof d.stripeCustomerId === "string" ? d.stripeCustomerId : "";
+      if (!customerId) {
+        res.status(400).json({
+          error: "Este apoio não tem cliente Stripe vinculado. Fale com o suporte para cancelar.",
+        });
+        return;
+      }
+      const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+      const params = new URLSearchParams({
+        customer: customerId,
+        return_url: `${clientUrl}/perfil`,
+      });
+      const portalConfig = process.env.STRIPE_PORTAL_CONFIGURATION || "";
+      if (portalConfig) params.set("configuration", portalConfig);
+      const stripeRes = await fetch("https://api.stripe.com/v1/billing_portal/sessions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${secretKey}` },
+        body: params,
+      });
+      const data = (await stripeRes.json()) as any;
+      if (!stripeRes.ok) {
+        throw new Error(data?.error?.message || `Stripe respondeu ${stripeRes.status}`);
+      }
+      res.json({ url: typeof data.url === "string" ? data.url : "" });
+    } catch (error) {
+      res.status(401).json({
+        error: error instanceof Error ? error.message : "Falha ao abrir o portal do Stripe",
       });
     }
   });

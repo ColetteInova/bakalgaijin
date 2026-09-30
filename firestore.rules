@@ -21,5 +21,17 @@ service cloud.firestore {
       allow create, update, delete: if request.auth != null
                                       && request.auth.uid == uid;
     }
+
+    // ===== Compras de apoio (produtos virtuais) =====
+    // Tudo é feito pelo servidor (Admin SDK) — nenhum acesso direto no client.
+    match /support_purchases/{purchaseId} {
+      allow read, write: if false;
+    }
+
+    // ===== Catálogo de produtos de apoio =====
+    // Gerido pelo servidor (Admin SDK) — o client lê via API.
+    match /support_products/{productId} {
+      allow read, write: if false;
+    }
   }
 }

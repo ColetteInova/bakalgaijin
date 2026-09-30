@@ -5,6 +5,7 @@
     "apelido": "contato",
     "twitch": "",
     "email": "contato@coletteinova.com.br",
+    "apoios": [],
     "official": true,
     "createdAt": "2026-09-30T14:30:07.030Z"
   },
@@ -14,16 +15,8 @@
     "apelido": "coletteinova",
     "twitch": "coletteinova",
     "email": "contato@coletteinova.com.br",
+    "apoios": [],
     "official": true,
     "createdAt": "2026-09-30T14:13:28.115Z"
-  },
-  {
-    "id": "twitch:coletteinova",
-    "nome": "Tets",
-    "apelido": "coletteinova",
-    "twitch": "coletteinova",
-    "email": "",
-    "official": true,
-    "createdAt": "2026-09-30T13:09:55.987Z"
   }
 ]
