@@ -12,19 +12,19 @@
 | Views | 18.6k |
 | Likes (estimado) | 223 |
 | Comentários | 5015 |
-| Taxa de likes | 1.197% |
-| Taxa de engajamento | 28.122% |
+| Taxa de likes | 1.196% |
+| Taxa de engajamento | 28.096% |
 | Duração | 2h09min |
 
 ## 2. Comparação com o Canal
 
 | Indicador | Valor | Variação |
 | --- | --- | --- |
-| Mediana de views do canal | 20.3k | — |
+| Mediana de views do canal | 20.4k | — |
 | Média de views do canal | 22.7k | — |
-| Mediana dos pares (outros VODs) | 22.0k | — |
+| Mediana dos pares (outros VODs) | 22.1k | — |
 | Este VOD vs. mediana | 18.6k | -8.4% |
-| Este VOD vs. média | 18.6k | -17.8% |
+| Este VOD vs. média | 18.6k | -17.9% |
 
 ## 3. Sentimento dos Comentários
 

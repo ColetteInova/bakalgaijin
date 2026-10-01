@@ -12,19 +12,19 @@
 | Views | 37.9k |
 | Likes (estimado) | 454 |
 | Comentários | 8726 |
-| Taxa de likes | 1.199% |
-| Taxa de engajamento | 24.237% |
+| Taxa de likes | 1.198% |
+| Taxa de engajamento | 24.229% |
 | Duração | 2h42min |
 
 ## 2. Comparação com o Canal
 
 | Indicador | Valor | Variação |
 | --- | --- | --- |
-| Mediana de views do canal | 20.3k | — |
+| Mediana de views do canal | 20.4k | — |
 | Média de views do canal | 22.7k | — |
 | Mediana dos pares (outros VODs) | 18.6k | — |
-| Este VOD vs. mediana | 37.9k | 86.3% |
-| Este VOD vs. média | 37.9k | 67.1% |
+| Este VOD vs. mediana | 37.9k | 86.2% |
+| Este VOD vs. média | 37.9k | 66.9% |
 
 ## 3. Sentimento dos Comentários
 
@@ -46,7 +46,7 @@
 | baka voltou | 17.8% | baka, baka voltou, baka vai, baka volta |
 | voltou japão | 6.2% | japão, voltou, voltou japão, volta japão |
 | vai ficar | 5.8% | vai, ficar, vai ficar, vai voltar |
-| live gravada | 4.3% | live, live gravada, fazer live, faz live |
+| live gravada | 4.3% | live, live gravada, faz live, fazer live |
 | voltou morar | 3.3% | morar, voltar, voltou morar |
 | bom dia | 2.0% | dia, bom, bom dia |
 | quanto tempo | 2.0% | quanto, tempo, fica, quanto tempo |

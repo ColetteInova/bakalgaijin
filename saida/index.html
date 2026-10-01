@@ -103,18 +103,17 @@
   .support-product-emoji { font-size:1.8rem; line-height:1; }
   .support-product-name { font-weight:700; font-size:.85rem; color:#f1f5f9; }
   .support-product-desc { font-size:.7rem; color:var(--muted); line-height:1.4; }
-  .support-product-price { font-size:.9rem; font-weight:800; color:var(--gold); }
-  .support-product-price em { font-style:normal; font-size:.68rem; color:var(--muted); font-weight:600; }
   .support-product-cta {
-    margin-top:6px; display:inline-block; font-size:.78rem; font-weight:800; color:#fff;
-    background:linear-gradient(90deg,var(--accent),var(--accent2)); padding:8px 16px; border-radius:999px;
-    text-decoration:none;
+    margin-top:6px; display:block; width:94%; text-align:center;
+    font-size:.78rem; font-weight:800; color:#e2e8f0;
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14);
+    padding:9px 16px; border-radius:999px; text-decoration:none;
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
   }
-  .support-product-actions { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-  .support-product-actions .support-product-cta { margin-top:6px; }
-  .support-product-cta.anual {
-    background:linear-gradient(90deg,#f59e0b,#ef4444);
-    box-shadow:0 6px 16px rgba(245,158,11,.28);
+  .support-product-actions { display:flex; flex-direction:column; align-items:center; gap:6px; width:100%; }
+  .support-product-actions .support-product-cta { margin-top:2px; }
+  .support-product-cta:hover {
+    transform:translateY(-1px); border-color:var(--gold); background:rgba(255,255,255,.1);
   }
 
   /* REDES SOCIAIS */
@@ -637,13 +636,12 @@
   <section class="section">
     <div class="section-title"><img src="https://api.iconify.design/lucide/hand-coins.svg?color=%23f59e0b" alt="" width="20" height="20" loading="lazy" /> Por que apoiar? <span class="bar"></span></div>
     <div class="support-note">
-      <p>O apoio da comunidade paga a <strong>hospedagem</strong> da página e o <strong>processo de análise das lives</strong>: transcrição do áudio, leitura dos comentários e geração dos dashboards com <strong>ferramentas de inteligência artificial</strong>.</p>
+      <p>O apoio da comunidade paga a <strong>hospedagem</strong> da página e o <strong>processo de análise das lives</strong>: transcrição do áudio, leitura dos comentários e geração dos dashboards com <strong>ferramentas de inteligência artificial</strong>. Além desses dois, o projeto tem um objetivo maior: <strong>preservar o arquivo do Baka</strong> — os vídeos na Twitch ficam disponíveis por apenas <strong>60 dias</strong>, e aqui as lives continuam guardadas por anos.</p>
       <div class="support-products" id="supportProducts">
         <div class="support-product" data-product="calcinha">
           <span class="support-product-emoji">🩲</span>
           <span class="support-product-name">Calcinha no Prédio</span>
-          <span class="support-product-desc">1 mês de apoio e a calcinha continua no prédio.</span>
-          <span class="support-product-price">R$ 2,00 <em>/mês</em> ou <em>R$ 24,00/ano</em></span>
+          <span class="support-product-desc">Apoie e a calcinha continua no prédio.</span>
           <span class="support-product-actions">
             <a class="support-product-cta" data-periodo="mensal" href="/cadastro">Mensal · R$ 2</a>
             <a class="support-product-cta anual" data-periodo="anual" href="/cadastro">Anual · R$ 24</a>
@@ -652,8 +650,7 @@
         <div class="support-product" data-product="sexo2">
           <span class="support-product-emoji">🔥</span>
           <span class="support-product-name">Atualização Sexo 2</span>
-          <span class="support-product-desc">1 mês de apoio com a atualização que o chat mais gosta.</span>
-          <span class="support-product-price">R$ 5,00 <em>/mês</em> ou <em>R$ 60,00/ano</em></span>
+          <span class="support-product-desc">Apoio garante a atualização que o chat mais gosta.</span>
           <span class="support-product-actions">
             <a class="support-product-cta" data-periodo="mensal" href="/cadastro">Mensal · R$ 5</a>
             <a class="support-product-cta anual" data-periodo="anual" href="/cadastro">Anual · R$ 60</a>
@@ -662,8 +659,7 @@
         <div class="support-product" data-product="punhetaco">
           <span class="support-product-emoji">✊</span>
           <span class="support-product-name">Punhetaço</span>
-          <span class="support-product-desc">1 mês de apoio no nível Punhetaço.</span>
-          <span class="support-product-price">R$ 10,00 <em>/mês</em> ou <em>R$ 120,00/ano</em></span>
+          <span class="support-product-desc">Apoio garante punhetaço todos os dias as 00h.</span>
           <span class="support-product-actions">
             <a class="support-product-cta" data-periodo="mensal" href="/cadastro">Mensal · R$ 10</a>
             <a class="support-product-cta anual" data-periodo="anual" href="/cadastro">Anual · R$ 120</a>
@@ -672,10 +668,9 @@
         <div class="support-product" data-product="supremo">
           <span class="support-product-emoji">👑</span>
           <span class="support-product-name">Bakalover Supremo</span>
-          <span class="support-product-desc">Apoio vitalício único — vale para sempre.</span>
-          <span class="support-product-price">R$ 100,00 <em>vitalício</em></span>
+          <span class="support-product-desc">Apoio único.</span>
           <span class="support-product-actions">
-            <a class="support-product-cta" data-periodo="vitalicio" href="/cadastro">Apoiar</a>
+            <a class="support-product-cta" data-periodo="vitalicio" href="/cadastro">Apoiar · R$ 100</a>
           </span>
         </div>
       </div>
