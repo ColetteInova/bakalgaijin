@@ -2456,6 +2456,56 @@ def _in_boxes(lat: float, lng: float, boxes: list[tuple[float, float, float, flo
     )
 
 
+# Com bairro definido, nenhuma inferência/marco pode passar de 10 km do centro
+# do bairro informado (a bbox do OSM pode ser grande demais).
+BAIRRO_RADIUS_KM = 10.0
+
+
+def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    """Distância em km entre dois pontos (fórmula de Haversine)."""
+    r = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp = math.radians(lat2 - lat1)
+    dl = math.radians(lng2 - lng1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(a))
+
+
+def _bairro_centers(boxes: list[tuple[float, float, float, float]]) -> list[tuple[float, float]]:
+    """Centro (lat, lng) de cada caixa de bairro."""
+    return [
+        ((lat_min + lat_max) / 2, (lng_min + lng_max) / 2)
+        for lat_min, lat_max, lng_min, lng_max in boxes
+    ]
+
+
+def _in_radius(lat: float, lng: float, boxes: list[tuple[float, float, float, float]]) -> bool:
+    """Com bairro definido, o ponto precisa estar a no máximo 10 km do centro de
+    algum bairro informado (sem bairro, tudo passa)."""
+    if not boxes:
+        return True
+    return any(
+        _haversine_km(lat, lng, clat, clng) <= BAIRRO_RADIUS_KM
+        for clat, clng in _bairro_centers(boxes)
+    )
+
+
+def _clamp_to_radius(
+    lat: float, lng: float, boxes: list[tuple[float, float, float, float]]
+) -> tuple[float, float]:
+    """Puxa o ponto para a borda do círculo de 10 km ao redor do centro do bairro
+    mais próximo (usar depois do clamp de bbox)."""
+    centers = _bairro_centers(boxes)
+    if not centers or _in_radius(lat, lng, boxes):
+        return lat, lng
+    clat, clng = min(centers, key=lambda c: _haversine_km(lat, lng, c[0], c[1]))
+    d = _haversine_km(lat, lng, clat, clng)
+    if d <= 0:
+        return lat, lng
+    f = BAIRRO_RADIUS_KM / d
+    return clat + (lat - clat) * f, clng + (lng - clng) * f
+
+
 def _clamp_point(lat: float, lng: float, boxes: list[tuple[float, float, float, float]]) -> tuple[float, float]:
     """Puxa um ponto para dentro do bairro (borda da caixa mais próxima)."""
     if not boxes or _in_boxes(lat, lng, boxes):
@@ -2473,7 +2523,8 @@ def _clamp_point(lat: float, lng: float, boxes: list[tuple[float, float, float, 
 
 
 def _clamp_to_bairros(stops: list[dict], boxes: list[tuple[float, float, float, float]]) -> None:
-    """Nenhum marco sai do bairro: pontos fora são puxados para a borda mais próxima."""
+    """Nenhum marco sai do bairro: pontos fora da bbox são puxados para a borda
+    mais próxima e, depois, para dentro do raio de 10 km do centro do bairro."""
     if not boxes:
         return
     for s in stops:
@@ -2481,6 +2532,7 @@ def _clamp_to_bairros(stops: list[dict], boxes: list[tuple[float, float, float, 
         if lat is None or lng is None:
             continue
         new_lat, new_lng = _clamp_point(lat, lng, boxes)
+        new_lat, new_lng = _clamp_to_radius(new_lat, new_lng, boxes)
         if (new_lat, new_lng) != (lat, lng):
             s["lat"], s["lng"] = new_lat, new_lng
             if s.get("confianca") in ("alta", "media"):
@@ -2559,7 +2611,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
     3. Frame com confiança baixa: tenta extrair um frame vizinho (+2s) e reanalisa.
     4. Sem API/resultado: fallback determinístico (âncoras + interpolação).
     5. Se o bairro foi definido (input livre, separado por ';'), nenhum marco
-       sai dos bairros informados.
+       sai dos bairros informados nem do raio de 10 km do centro do bairro.
 
     O resultado é cacheado em mapa/geoloc.json (invalidado quando o local muda).
     """
@@ -2642,6 +2694,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
             lat is not None and lng is not None
             and lat_lo <= lat <= lat_hi and lng_lo <= lng <= lng_hi
             and _in_boxes(lat, lng, boxes)
+            and _in_radius(lat, lng, boxes)
         ):
             return lat, lng
         city_name = str(info.get("cidade_provavel") or city["prompt_place"])
@@ -2649,7 +2702,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
         for est in (info.get("estabelecimentos_visiveis") or []) + (info.get("ruas_cruzamento") or []):
             q = f"{est}, {city_name} {state}".strip()
             hit = _nominatim_geocode(q)
-            if hit and lat_lo <= hit[0] <= lat_hi and lng_lo <= hit[1] <= lng_hi and _in_boxes(hit[0], hit[1], boxes):
+            if hit and lat_lo <= hit[0] <= lat_hi and lng_lo <= hit[1] <= lng_hi and _in_boxes(hit[0], hit[1], boxes) and _in_radius(hit[0], hit[1], boxes):
                 return hit
             time.sleep(1.1)  # gentileza com a API pública do OSM
         return None
@@ -2937,6 +2990,7 @@ def ensure_map_assets(
     if synced and bairro_boxes:
         for point in synced:
             point["lat"], point["lng"] = _clamp_point(point["lat"], point["lng"], bairro_boxes)
+            point["lat"], point["lng"] = _clamp_to_radius(point["lat"], point["lng"], bairro_boxes)
     coords = (
         [[p["lat"], p["lng"]] for p in synced]
         if synced
@@ -4272,7 +4326,7 @@ function buildQualityOptions(){
     return;
   }
   let html = '<option value="auto">Auto (conexão)</option>';
-  html += '<option value="original">Original</option>';
+  html += '<option value="original">1080p</option>';
   for (const k of keys) html += `<option value="${k}">${k}p</option>`;
   sel.innerHTML = html;
   sel.value = "auto";
@@ -5414,7 +5468,6 @@ function renderCortes(ct) {
        <div class="grid two" style="margin-top:10px;gap:10px">
          ${videoSrc ? `
          <div class="corte-player">
-           <div class="muted" style="margin-bottom:4px">🎬 Vídeo${corteFile ? " (arquivo cortado)" : ""}</div>
            <video class="corte-video" controls preload="none"
              src="${videoSrc}"
              onplay="pauseOthers(this,'video')"></video>
@@ -5471,6 +5524,7 @@ function renderComments() {
 // CDN (opcional): se existir cdn.json ao lado do dashboard (deploy em hosting
 // sem os arquivos de mídia), os links do CDN substituem os arquivos locais.
 // Formato: { "video.mp4": "https://cdn.../video.mp4", "cortes/corte-01.mp4": "..." }
+// Localmente (localhost/rede local), o cdn.json é ignorado: usa a pasta.
 // Sem o cdn.json (ou com valores vazios), continua carregando os arquivos da pasta.
 // ---------------------------------------------------------------------------
 function applyCdnOverrides(map){
@@ -5499,7 +5553,20 @@ function applyCdnOverrides(map){
   }
 }
 
+function isLocalHost(){
+  const h = (location.hostname || "").replace(/^\[|\]$/g, "");
+  return h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0" || h === "::1"
+      || /^192\.168\./.test(h) || /^10\./.test(h)
+      || /^172\.(1[6-9]|2\d|3[01])\./.test(h) || h.endsWith(".local");
+}
+
 function boot(){
+  if (isLocalHost()) {
+    // Local: usa os arquivos da pasta (ignora o cdn.json)
+    render();
+    initLiveMap();
+    return;
+  }
   fetch("cdn.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : null))
     .then((json) => applyCdnOverrides(json))

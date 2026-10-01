@@ -16,6 +16,7 @@ CDN_BLOCK = """// --------------------------------------------------------------
 // CDN (opcional): se existir cdn.json ao lado do dashboard (deploy em hosting
 // sem os arquivos de mídia), os links do CDN substituem os arquivos locais.
 // Formato: { "video.mp4": "https://cdn.../video.mp4", "cortes/corte-01.mp4": "..." }
+// Localmente (localhost/rede local), o cdn.json é ignorado: usa a pasta.
 // Sem o cdn.json (ou com valores vazios), continua carregando os arquivos da pasta.
 // ---------------------------------------------------------------------------
 function applyCdnOverrides(map){
@@ -44,7 +45,20 @@ function applyCdnOverrides(map){
   }
 }
 
+function isLocalHost(){
+  const h = (location.hostname || "").replace(/^\[|\]$/g, "");
+  return h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0" || h === "::1"
+      || /^192\.168\./.test(h) || /^10\./.test(h)
+      || /^172\.(1[6-9]|2\d|3[01])\./.test(h) || h.endsWith(".local");
+}
+
 function boot(){
+  if (isLocalHost()) {
+    // Local: usa os arquivos da pasta (ignora o cdn.json)
+    render();
+    initLiveMap();
+    return;
+  }
   fetch("cdn.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : null))
     .then((json) => applyCdnOverrides(json))

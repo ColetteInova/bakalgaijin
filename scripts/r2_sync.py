@@ -6,7 +6,8 @@ Padrão de chave no R2 (pasta fixa analises):
     analises/<pasta-do-episódio>/<caminho-relativo-do-arquivo>
 
 Depois do upload, atualiza o cdn.json de cada pasta com as URLs públicas
-seguindo o mesmo padrão, para os dashboards carregarem do CDN.
+(para os dashboards carregarem do CDN) e o local.json (chave "media") com os
+caminhos locais relativos de cada mídia.
 
 Credenciais (variáveis de ambiente ou .env):
     R2_ACCESS_KEY_ID        (token S3 da API do R2)
@@ -18,7 +19,7 @@ Credenciais (variáveis de ambiente ou .env):
                              https://pub-85988ab9688b40be9a59d8d917fc8535.r2.dev)
 
 Uso:
-    python3 scripts/r2_sync.py               # sobe o que falta e grava cdn.json
+    python3 scripts/r2_sync.py               # sobe o que falta e grava cdn.json + local.json
     python3 scripts/r2_sync.py --dry-run     # só mostra o que subiria
     python3 scripts/r2_sync.py --only 2885710366
 """
@@ -200,8 +201,31 @@ def update_cdn(folder: Path, public_base: str, urls: dict[str, str]) -> bool:
     return changed
 
 
+def update_local_media(folder: Path, urls: dict[str, str]) -> bool:
+    """Escreve (ou atualiza) a chave "media" do local.json com os links locais
+    relativos de cada mídia — consumo local sem depender do cdn.json. Preserva
+    as demais chaves do local.json (local, bairro, auto_detectado...)."""
+    local_path = folder / "local.json"
+    local: dict = {}
+    if local_path.is_file():
+        try:
+            loaded = json.loads(local_path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                local = loaded
+        except json.JSONDecodeError:
+            local = {}
+    media = {rel: rel for rel in urls}
+    if isinstance(local.get("media"), dict) and local["media"] == media:
+        return False
+    local["media"] = media
+    local_path.write_text(
+        json.dumps(local, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return True
+
+
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Sobe mídias de saida/ para o R2 e atualiza cdn.json")
+    parser = argparse.ArgumentParser(description="Sobe mídias de saida/ para o R2 e atualiza cdn.json + local.json")
     parser.add_argument("--dry-run", action="store_true", help="só mostra o que subiria")
     parser.add_argument("--only", metavar="PASTA", help="processa só uma pasta de saida/")
     args = parser.parse_args()
@@ -262,6 +286,8 @@ def main() -> int:
             continue
         if update_cdn(folder, public_base, cdn_urls):
             print(f"  cdn.json atualizado ({len(cdn_urls)} URLs)")
+        if update_local_media(folder, cdn_urls):
+            print(f"  local.json atualizado (media: {len(cdn_urls)} links locais)")
     return 0
 
 

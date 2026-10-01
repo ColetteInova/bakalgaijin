@@ -883,7 +883,7 @@ function buildQualityOptions(){
     return;
   }
   let html = '<option value="auto">Auto (conexão)</option>';
-  html += '<option value="original">Original</option>';
+  html += '<option value="original">1080p</option>';
   for (const k of keys) html += `<option value="${k}">${k}p</option>`;
   sel.innerHTML = html;
   sel.value = "auto";
@@ -2025,7 +2025,6 @@ function renderCortes(ct) {
        <div class="grid two" style="margin-top:10px;gap:10px">
          ${videoSrc ? `
          <div class="corte-player">
-           <div class="muted" style="margin-bottom:4px">🎬 Vídeo${corteFile ? " (arquivo cortado)" : ""}</div>
            <video class="corte-video" controls preload="none"
              src="${videoSrc}"
              onplay="pauseOthers(this,'video')"></video>
@@ -2110,7 +2109,20 @@ function applyCdnOverrides(map){
   }
 }
 
+function isLocalHost(){
+  const h = (location.hostname || "").replace(/^\[|\]$/g, "");
+  return h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0" || h === "::1"
+      || /^192\.168\./.test(h) || /^10\./.test(h)
+      || /^172\.(1[6-9]|2\d|3[01])\./.test(h) || h.endsWith(".local");
+}
+
 function boot(){
+  if (isLocalHost()) {
+    // Local: usa os arquivos da pasta (ignora o cdn.json)
+    render();
+    initLiveMap();
+    return;
+  }
   fetch("cdn.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : null))
     .then((json) => applyCdnOverrides(json))
