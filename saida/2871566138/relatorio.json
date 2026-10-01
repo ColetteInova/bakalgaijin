@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T17:57:28",
+  "gerado_em": "2026-10-01T19:20:41",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -14,21 +14,21 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37901,
+    "views": 37921,
     "views_label": "37.9k",
-    "likes_estimado": 454,
-    "likes_label": "454",
+    "likes_estimado": 455,
+    "likes_label": "455",
     "comentarios": 8726,
-    "taxa_likes": 1.198,
-    "taxa_engajamento": 24.221,
-    "followers_canal": 248246,
+    "taxa_likes": 1.2,
+    "taxa_engajamento": 24.211,
+    "followers_canal": 248242,
     "comparacao_canal": {
-      "mediana_views": 20366.5,
-      "media_views": 22730.5,
-      "mediana_pares": 18659,
-      "views_vs_mediana_pct": 86.1,
-      "views_vs_media_pct": 66.7,
-      "views_vs_pares_pct": 103.1,
+      "mediana_views": 20370.5,
+      "media_views": 22755.0,
+      "mediana_pares": 18666,
+      "views_vs_mediana_pct": 86.2,
+      "views_vs_media_pct": 66.6,
+      "views_vs_pares_pct": 103.2,
       "n_videos_canal": 4
     }
   },
@@ -85,7 +85,7 @@
           "baka vai",
           "baka volta",
           "baka qual",
-          "japão baka"
+          "baka como"
         ],
         "n_comentarios": 1555,
         "pct": 17.8
@@ -108,8 +108,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "vai fazer",
-          "quando vai"
+          "quando vai",
+          "vai fazer"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -103086,70 +103086,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "que saudades",
-        "descricao": "que saudades"
+        "descricao": "Baka derruba lanternas amarelas e compara com abelha, criando caos cômico no meio da live."
       },
       {
         "inicio": "40:00",
         "minuto": 40,
         "tipo": "pergunta",
         "trecho": "Que passeio, José? Desculpa",
-        "descricao": "Que passeio, José? Desculpa"
+        "descricao": "Ele se choca com japoneses atravessando fora da faixa às 6h, quebrando o mito da civilidade."
       },
       {
         "inicio": "50:00",
         "minuto": 50,
         "tipo": "piada",
         "trecho": "É, tudo cafona, né?",
-        "descricao": "É, tudo cafona, né?"
+        "descricao": "Baka zoa produtos aleatórios tipo pokebolas e Narutos, com piada de 'quem tem cu tem medo'."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Aí é foda",
-        "descricao": "Aí é foda"
+        "descricao": "Ele culpa a chuva do Japão por ter trazido o clima do RJ, num momento de auto-zoeira total."
       },
       {
         "inicio": "1:10:00",
         "minuto": 70,
         "tipo": "piada",
         "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
-        "descricao": "E outra pra punhetinha, porque eu também sou filho de Deus."
+        "descricao": "Agachado como japonês, ele conta moedas e aceita que parece lésbica, gerando risada instantânea."
       },
       {
         "inicio": "1:20:00",
         "minuto": 80,
         "tipo": "piada",
         "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
-        "descricao": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano"
+        "descricao": "Baka fica quieto vendo um velho varrer a chuva e filosofa: 'só eu, o corvo e o velho'."
       },
       {
         "inicio": "1:30:00",
         "minuto": 90,
         "tipo": "piada",
         "trecho": "Olha só, hein",
-        "descricao": "Olha só, hein"
+        "descricao": "Piada sobre social credits negando visto por atravessar fora do sinal, e decepção com GTA 6."
       },
       {
         "inicio": "1:40:00",
         "minuto": 100,
         "tipo": "piada",
         "trecho": "Esse cara é bonitinho, me deixou passar",
-        "descricao": "Esse cara é bonitinho, me deixou passar"
+        "descricao": "Ele planeja andar até Harajuku e compara a si mesmo com maluco religioso do centro."
       },
       {
         "inicio": "1:50:00",
         "minuto": 110,
         "tipo": "piada",
         "trecho": "Acho que não vai ter nada aberto ainda",
-        "descricao": "Acho que não vai ter nada aberto ainda"
+        "descricao": "Baka inventa 'Sexo 3.5: O Retorno do Bilal' e reclama de dor nas cócoras, puro non-sense."
       },
       {
         "inicio": "2:00:00",
         "minuto": 120,
         "tipo": "piada",
         "trecho": "Ah é? Vamos ver",
-        "descricao": "Ah é? Vamos ver"
+        "descricao": "Após 2h de live, ele se surpreende com o tempo e teme ditadura japonesa por filmar."
       }
     ],
     "alertas": [
@@ -114835,7 +114835,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 37.9k views está acima da mediana do canal em 86.1% (mediana 20.4k)."
+      "acao": "VOD com 37.9k views está acima da mediana do canal em 86.2% (mediana 20.4k)."
     },
     {
       "titulo": "Clima do chat",
@@ -114847,7 +114847,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.221% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.211% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",
