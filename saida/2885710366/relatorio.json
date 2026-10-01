@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-30T19:41:10",
+  "gerado_em": "2026-09-30T20:45:15",
   "local": "sao-paulo",
   "local_pais": "brasil",
   "local_cidade": "sao-paulo",
@@ -14,20 +14,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/c8d05a80c8452022531d_bakagaijinlive_319151009140_1790533506//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7554,
     "duration_label": "2h05min",
-    "views": 12109,
+    "views": 12123,
     "views_label": "12.1k",
     "likes_estimado": 145,
     "likes_label": "145",
     "comentarios": 6373,
-    "taxa_likes": 1.197,
-    "taxa_engajamento": 53.828,
-    "followers_canal": 248244,
+    "taxa_likes": 1.196,
+    "taxa_engajamento": 53.766,
+    "followers_canal": 248243,
     "comparacao_canal": {
-      "mediana_views": 20330.5,
-      "media_views": 22661.5,
-      "mediana_pares": 22035,
+      "mediana_views": 20331.5,
+      "media_views": 22665.8,
+      "mediana_pares": 22037,
       "views_vs_mediana_pct": -40.4,
-      "views_vs_media_pct": -46.6,
+      "views_vs_media_pct": -46.5,
       "views_vs_pares_pct": -45.0,
       "n_videos_canal": 4
     }
@@ -94,8 +94,8 @@
           "faz live",
           "fazer live",
           "live boa",
-          "live brasil",
-          "live gravada"
+          "live gravada",
+          "live brasil"
         ],
         "n_comentarios": 360,
         "pct": 5.6
@@ -74300,70 +74300,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Vai se fuder",
-        "descricao": "Baka reclama que não nasceu pra andar de carrinho de bebê em Tóquio, mochila caindo e vergonha de filmar — caos puro e identificável."
+        "descricao": "Baka reclama que não nasceu pra andar com carrinho de bebê e quase derruba a mochila, vergonha pura em Tóquio."
       },
       {
         "inicio": "36:00",
         "minuto": 36,
         "tipo": "piada",
         "trecho": "Eu cheguei na conclusão que deve ser porque eu não paguei o imposto do cacique cobra coral, né?",
-        "descricao": "Ele confunde um inscrito com figura do submundo e filosofa sobre novo ciclo ancestral no meio da rua — delírio espiritual hilário."
+        "descricao": "Ele confunde um inscrito com figura do submundo e ainda 'farma aura' no meio da rua, delírio total."
       },
       {
         "inicio": "42:00",
         "minuto": 42,
         "tipo": "piada",
         "trecho": "Vem tudo aqui pra baixo",
-        "descricao": "Trancado num percurso aleatório, ele culpa Deus pelas linhas tortas e acha lixo brasileiro no Japão — resenha existencial."
+        "descricao": "Trancado num percurso aleatório, filosofa 'Deus escreve certo por linhas tortas' e acha lixo brasileiro no Japão."
       },
       {
         "inicio": "48:00",
         "minuto": 48,
         "tipo": "piada",
         "trecho": "Voltou ou não?",
-        "descricao": "Samurai, gueixa e climão: ele pondera ir andando até a Praça da Sé e tira os óculos pra não ser reconhecido — crise de identidade."
+        "descricao": "Confunde samurai com geisha, climão, e cogita ir andando até a Praça da Sé em plena Tóquio."
       },
       {
         "inicio": "54:00",
         "minuto": 54,
         "tipo": "pergunta",
         "trecho": "Bem-vindo ao Inferno 2, é mais ou menos isso",
-        "descricao": "Ele pergunta se vale a pena tentar entrar num lugar lotado sabendo que pode ser expulso — paranoia de estrangeiro no próprio país."
+        "descricao": "Reclama que tudo tá fechado, sol lindo, e pergunta se vale a pena tentar entrar num lugar lotado."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Esse que é o bairro japonês?",
-        "descricao": "Baka narra suas estrelinhas de infância, quase dá zoom numa mina chorando e desiste — timing cômico perfeito."
+        "descricao": "Dá 360 no meio da rua, quase filma mina chorando, e admite que na infância não tinha essa habilidade."
       },
       {
         "inicio": "1:06:00",
         "minuto": 66,
         "tipo": "pergunta",
         "trecho": "A lata toda mole, rapaz",
-        "descricao": "Ele avalia entrar numa loja chique, lembra que vai ser expulso e comenta o susto na senhorinha — autossabotagem divertida."
+        "descricao": "Foge de loja 'bem insustível', assusta senhorinha e ainda acha que os caras vão expulsar ele."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "pergunta",
         "trecho": "Eu queria entrar ali, mas vai cair também, né?",
-        "descricao": "Sinal cai do nada e ele teoriza que estão usando arma de guerra pra calar a live — teoria da conspiração clássica do Baka."
+        "descricao": "Acha que sofreu ataque de guerra que tirou todo o sinal e culpa 'eles' por estar calando a live."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "Ficou chovendo a viagem inteira lá que eu fui pro Japão",
-        "descricao": "Pôr do sol, pagode no Japão e um cara falando chinês do lado: ele celebra a hibridação cultural — momento aleatório e engraçado."
+        "descricao": "Pagode tocando no Japão, pôr do sol bonito e ele solta 'hibridação cultural' do nada, genial."
       },
       {
         "inicio": "1:24:00",
         "minuto": 84,
         "tipo": "piada",
         "trecho": "Logo depois de dar o autógrafo",
-        "descricao": "Fã Davi aparece com caneta pra autógrafo, Baka pede pra ele segurar a live e quase perde o livro — interação caótica e fofa."
+        "descricao": "Fã Davi aparece do nada, segura a live e Baka reclama que a letra é feia pra caralho."
       }
     ],
     "alertas": [
@@ -82586,7 +82586,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 53.828% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 53.766% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",
