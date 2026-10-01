@@ -2545,6 +2545,14 @@ def _in_boxes(lat: float, lng: float, boxes: list[tuple[float, float, float, flo
 # do bairro informado (a bbox do OSM pode ser grande demais).
 BAIRRO_RADIUS_KM = 10.0
 
+# Versão do formato de mapa/geoloc.json: incremente quando a lógica de
+# geolocalização mudar (ex.: âncora de início) para invalidar caches antigos.
+GEOLOC_CACHE_VERSION = 3
+
+# Versão do formato de mapa/osrm_route.json: incremente quando a lógica de
+# roteamento mudar (ex.: fallback sem rodovias) para invalidar caches antigos.
+OSRM_CACHE_VERSION = 2
+
 
 def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
     """Distância em km entre dois pontos (fórmula de Haversine)."""
@@ -2657,7 +2665,7 @@ def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | No
         '  "nivel_de_confianca": "alto/medio/baixo",\n'
         '  "lat": <float ou null>,\n'
         '  "lng": <float ou null>,\n'
-        '  "justificativa": "breve explicação do que foi identificado"\n'
+        '  "justificativa": "explicação detalhada (2 a 4 frases) do que foi identificado: lojas, placas, arquitetura e por que o ponto está ali"\n'
         "}"
     )
     if phrase:
@@ -2668,7 +2676,7 @@ def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | No
             "Você é um geolocalizador OSINT de lives IRL. Responda apenas JSON válido.",
             prompt,
             [frame_path],
-            max_tokens=1200,
+            max_tokens=1500,
         )
         if not resp:
             return None
@@ -2732,6 +2740,20 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
     cache_file = folder / "mapa" / "geoloc.json"
     mapa_dir = folder / "mapa"
 
+    def anchor_start() -> None:
+        """Força o PRIMEIRO marco no ponto de início informado (local.json →
+        "inicio"). Sem isso a rota começa no primeiro frame geolocalizado
+        (~12 min de live, já depois do trim), ignorando o ponto definido."""
+        if not inicio_anchor or not stops:
+            return
+        s = min(stops, key=lambda x: int(x["sec"]))
+        s["nome"] = f"Início: {inicio}"[:60]
+        s["rua"] = inicio.split(",")[0].strip()[:60]
+        s["lat"], s["lng"] = inicio_anchor
+        s["confianca"] = "alta"
+        s["estabelecimentos"] = []
+        s["justificativa"] = f"Ponto de início informado: {inicio}"[:600]
+
     def apply(by_sec: dict) -> None:
         for s in stops:
             hit = by_sec.get(str(int(s["sec"])))
@@ -2753,18 +2775,21 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
             cached_bairro = str(cached.get("bairro") or "")
             cached_inicio = str(cached.get("inicio") or "")
             cached_provider = str(cached.get("provider") or "")
+            cached_v = int(cached.get("v") or 0)
             keys = {int(k) for k in cached if str(k).isdigit()}
             if (
                 isinstance(cached, dict)
                 and cached_local == local
                 and cached_bairro == bairro
                 and cached_inicio == inicio
+                and cached_v >= GEOLOC_CACHE_VERSION
                 and (cached_provider == provider or (not cached_provider and not provider))
                 and {int(s["sec"]) for s in stops} <= keys
             ):
                 _enforce_walking_speed(cached, only_osint=True)
                 apply(cached)
                 _clamp_to_bairros(stops, boxes)
+                anchor_start()
                 print(f"  ✓ Mapa: geoloc em cache ({len(stops)} marcos) — pulando OSINT")
                 return stops, boxes
             if cached_provider and cached_provider != provider:
@@ -2879,7 +2904,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
                 "lng": lng,
                 "estabelecimentos": ests,
                 "confianca": conf if conf in ("alta", "media", "baixa") else "baixa",
-                "justificativa": str(info.get("justificativa") or "")[:240],
+                "justificativa": str(info.get("justificativa") or "")[:600],
             }
             print(f"  ✓ Mapa OSINT [{fmt_ts(sec)}] {by_sec[str(sec)]['nome']} "
                   f"({lat:.4f},{lng:.4f}) conf={by_sec[str(sec)]['confianca']}")
@@ -2889,6 +2914,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
     _enforce_walking_speed(by_sec)
     apply(by_sec)
     _clamp_to_bairros(stops, boxes)
+    anchor_start()
 
     if _vision_available() or by_sec:
         # grava o cache COMPLETO (marcos OSINT + fallback) para que futuras
@@ -2910,7 +2936,18 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
                 full[sec]["osint"] = True
         cache_file.parent.mkdir(exist_ok=True)
         cache_file.write_text(
-            json.dumps({"local": local, "bairro": bairro, "inicio": inicio, "provider": provider, **full}, ensure_ascii=False, indent=2),
+            json.dumps(
+                {
+                    "local": local,
+                    "bairro": bairro,
+                    "inicio": inicio,
+                    "provider": provider,
+                    "v": GEOLOC_CACHE_VERSION,
+                    **full,
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
             encoding="utf-8",
         )
         if by_sec:
@@ -3006,6 +3043,7 @@ def _fetch_osrm_synced(
                 data.get("local") == local
                 and data.get("n") == len(stops)
                 and data.get("sig") == sig
+                and int(data.get("v") or 0) >= OSRM_CACHE_VERSION
                 and isinstance(synced, list)
                 and len(synced) >= 2
             ):
@@ -3020,25 +3058,45 @@ def _fetch_osrm_synced(
         t1, t2 = float(a["sec"]), float(b["sec"])
         w1, w2 = _walk_time(t1), _walk_time(t2)
         seg: list[list[float]] = []
-        for profile in ("foot", "driving"):
+        straight = [[a["lat"], a["lng"]], [b["lat"], b["lng"]]]
+        straight_km = _route_km(straight)
+
+        def ask_osrm(profile: str) -> list[list[float]] | None:
             url = (
                 "https://router.project-osrm.org/route/v1/"
                 f"{profile}/{a['lng']:.6f},{a['lat']:.6f};{b['lng']:.6f},{b['lat']:.6f}"
                 "?overview=full&geometries=geojson&steps=false"
             )
             req = urllib.request.Request(url, headers={"User-Agent": "bakalgaijin-mapa/1.0 (análise OSINT de VOD)"})
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            routes = data.get("routes") or []
+            if data.get("code") == "Ok" and routes and routes[0].get("geometry"):
+                return [[p[1], p[0]] for p in routes[0]["geometry"]["coordinates"]]
+            return None
+
+        # 1) foot: rota a pé mais curta — anda pelas ruas do bairro, nunca em rodovia
+        for attempt in range(2):
             try:
-                with urllib.request.urlopen(req, timeout=30) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                routes = data.get("routes") or []
-                if data.get("code") == "Ok" and routes and routes[0].get("geometry"):
-                    seg = [[p[1], p[0]] for p in routes[0]["geometry"]["coordinates"]]
+                seg = ask_osrm("foot") or []
+                if seg:
                     break
             except Exception as exc:  # noqa: BLE001
-                print(f"  [!] OSRM ({profile}) {fmt_ts(int(t1))}→{fmt_ts(int(t2))} falhou: {exc}", file=sys.stderr)
+                print(f"  [!] OSRM (foot) {fmt_ts(int(t1))}→{fmt_ts(int(t2))} falhou: {exc}", file=sys.stderr)
+            time.sleep(0.25)
+        # 2) driving como último recurso, MAS só se não for um desvio de estrada:
+        #    se a rota de carro for muito maior que a linha reta (pegou rodovia/
+        #    viaduto), descarta e fica com a linha reta — ele anda a pé.
+        if not seg:
+            try:
+                cand = ask_osrm("driving")
+                if cand and _route_km(cand) <= straight_km * 2.5 + 0.5:
+                    seg = cand
+            except Exception as exc:  # noqa: BLE001
+                print(f"  [!] OSRM (driving) {fmt_ts(int(t1))}→{fmt_ts(int(t2))} falhou: {exc}", file=sys.stderr)
             time.sleep(0.25)
         if not seg:
-            seg = [[a["lat"], a["lng"]], [b["lat"], b["lng"]]]
+            seg = straight
 
         # distância acumulada no trecho → tempo proporcional à distância
         cum = [0.0]
@@ -3051,7 +3109,10 @@ def _fetch_osrm_synced(
         time.sleep(0.25)  # gentileza com a API pública do OSRM
 
     cache_file.write_text(
-        json.dumps({"local": local, "n": len(stops), "sig": sig, "synced": out}, ensure_ascii=False),
+        json.dumps(
+            {"local": local, "n": len(stops), "sig": sig, "v": OSRM_CACHE_VERSION, "synced": out},
+            ensure_ascii=False,
+        ),
         encoding="utf-8",
     )
     print(f"  ✓ Mapa: rota OSRM sincronizada ({len(out)} pontos com tempo de caminhada)")
@@ -3853,6 +3914,26 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     white-space: nowrap;
   }
   .frames-cell .fc-sub { font-size: .66rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* roteiro turístico */
+  .map-itinerary { margin-top: 14px; }
+  .map-itinerary-list { list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 560px; overflow-y: auto; padding-right: 4px; }
+  .iti-item {
+    display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    cursor: pointer; transition: border-color .12s ease; text-align: left; color: var(--text);
+  }
+  .iti-item:hover { border-color: var(--accent); }
+  .iti-num {
+    width: 22px; height: 22px; min-width: 22px; border-radius: 50%; color: #fff;
+    font-size: 10px; font-weight: 800; display: inline-flex; align-items: center;
+    justify-content: center; margin-top: 2px;
+  }
+  .iti-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; width: 100%; }
+  .iti-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .iti-head b { font-size: .85rem; }
+  .iti-time { font-size: .72rem; color: var(--muted); white-space: nowrap; }
+  .iti-rua, .iti-lojas { font-size: .74rem; color: #a5b4fc; }
+  .iti-just { font-size: .76rem; color: var(--muted); line-height: 1.5; }
   .muted { color: var(--muted); font-size: .78rem; }
   ul { list-style: none; }
   li { padding: 6px 0; border-bottom: 1px solid #1e293b; font-size: .85rem; }
@@ -4207,6 +4288,20 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         <span id="googleMapTitle">Google Maps</span>
       </div>
       <iframe id="googleMapFrame" title="Google Maps" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <div class="google-map-shell" id="googleEarthShell">
+      <div class="google-map-title">
+        <i class="fa-solid fa-earth-americas"></i>
+        <span id="googleEarthTitle">Vista aérea (satélite)</span>
+        <a id="googleEarthLink" href="#" target="_blank" rel="noopener" class="gmaps-btn gmaps-primary" style="margin-left:auto" title="Abrir no Google Earth 3D">
+          <i class="fa-solid fa-globe"></i> Google Earth 3D
+        </a>
+      </div>
+      <iframe id="googleEarthFrame" title="Vista aérea (satélite)" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <div class="map-itinerary">
+      <div class="map-car-title"><i class="fa-solid fa-map-signs"></i> Roteiro turístico da live — os pontos por onde ele passou (clique para assistir)</div>
+      <ol class="map-itinerary-list" id="mapItinerary"></ol>
     </div>
   </div>
   </div>
@@ -4933,6 +5028,7 @@ function initLiveMap() {
   });
 
   buildMapCarousel();
+  buildItinerary();
   mapFitAll();
   if (MAP_STOPS[0]) updateGoogleMap(MAP_STOPS[0]);
 }
@@ -4971,9 +5067,32 @@ function mapCardHTML(s, i) {
   </button>`;
 }
 
+// ---------------------------------------------------------------------------
+// Roteiro turístico: lista vertical de todos os pontos (5 em 5 min) abaixo dos mapas
+// ---------------------------------------------------------------------------
+function buildItinerary() {
+  const el = document.getElementById("mapItinerary");
+  if (!el) return;
+  el.innerHTML = MAP_STOPS.map((s, i) => {
+    const rua = (s.rua && s.rua !== s.nome)
+      ? `<span class="iti-rua"><i class="fa-solid fa-road"></i> ${esc(s.rua)}</span>` : "";
+    const lojas = (s.estabelecimentos && s.estabelecimentos.length)
+      ? `<span class="iti-lojas">🏪 ${s.estabelecimentos.map(x => esc(x)).join(" · ")}</span>` : "";
+    const just = s.justificativa
+      ? `<span class="iti-just">${esc(s.justificativa)}</span>` : "";
+    return `<li class="iti-item" onclick="jumpToStop(MAP_STOPS[${i}])" title="Pular o player para ${fmtClock(s.sec)}">
+      <span class="iti-num" style="background:${s.cor}">${i + 1}</span>
+      <span class="iti-body">
+        <span class="iti-head"><b>${esc(s.nome)}</b><span class="iti-time">⏱ ${fmtClock(s.sec)}</span></span>
+        ${rua} ${lojas}
+        ${just}
+      </span>
+    </li>`;
+  }).join("");
+}
+
 function buildMapCarousel() {
-  const track = document.getElementById("mapCarouselTrack");
-  if (!track) return;
+  const track = document.getElementById("mapCarouselTrack");  if (!track) return;
   const pages = [];
   for (let i = 0; i < MAP_STOPS.length; i += MAP_PAGE_SIZE) {
     const page = MAP_STOPS.slice(i, i + MAP_PAGE_SIZE);
@@ -5099,6 +5218,9 @@ function updateGoogleMap(s) {
   const link = document.getElementById("mapGmapsLink");
   const frame = document.getElementById("googleMapFrame");
   const title = document.getElementById("googleMapTitle");
+  const earthFrame = document.getElementById("googleEarthFrame");
+  const earthLink = document.getElementById("googleEarthLink");
+  const earthTitle = document.getElementById("googleEarthTitle");
   const coordinates = `${s.lat},${s.lng}`;
   if (link) {
     link.href = `https://www.google.com/maps?q=${coordinates}`;
@@ -5106,6 +5228,12 @@ function updateGoogleMap(s) {
   }
   if (frame) frame.src = `https://www.google.com/maps?q=${coordinates}&z=17&output=embed`;
   if (title) title.textContent = `${s.nome} · ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}`;
+  if (earthFrame) earthFrame.src = `https://www.google.com/maps?q=${coordinates}&z=17&t=k&output=embed`;
+  if (earthLink) {
+    earthLink.href = `https://earth.google.com/web/search/${encodeURIComponent(coordinates)}/a,400d`;
+    earthLink.style.display = "";
+  }
+  if (earthTitle) earthTitle.textContent = `Vista aérea (satélite)`;
 }
 
 function mapFitAll() {
