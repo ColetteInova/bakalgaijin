@@ -3159,65 +3159,72 @@ def _write_map_gpx(folder: Path, stops: list[dict], route: list[list[float]] | N
 
 
 def _write_map_kml(folder: Path, stops: list[dict], synced: list[dict] | None = None) -> Path | None:
-    """Exporta a rota em KML com <gx:Track> + timestamps: no Google Earth
-    (Pro ou web), a animação de tempo percorre a rota com um marcador andando.
+    """Exporta a rota em KML compatível com o Google Earth (web, mobile e Pro).
+
+    Usa apenas KML 2.2 básico (LineString + pontos nomeados): o <gx:Track>
+    (animação no tempo) é rejeitado pelo Earth web/mobile com o erro
+    "Elemento incompatível: gx:Track".
     """
     if synced and len(synced) >= 2:
-        pts = [(float(p["lat"]), float(p["lng"]), float(p.get("t", i))) for i, p in enumerate(synced)]
+        pts = [(float(p["lat"]), float(p["lng"])) for p in synced]
     else:
         pts = [
-            (float(s["lat"]), float(s["lng"]), float(s.get("sec", i)))
-            for i, s in enumerate(stops)
+            (float(s["lat"]), float(s["lng"]))
+            for s in stops
             if s.get("lat") is not None and s.get("lng") is not None
         ]
     if len(pts) < 2:
         return None
 
-    # base de tempo: data de criação da live (relatorio.json) quando disponível
-    base_ts = datetime.datetime(2000, 1, 1, tzinfo=datetime.timezone.utc)
-    rel = folder / "relatorio.json"
-    if rel.is_file():
-        try:
-            created = ((json.loads(rel.read_text(encoding="utf-8")).get("metricas") or {}).get("created_at")) or ""
-            base_ts = datetime.datetime.fromisoformat(str(created).replace("Z", "+00:00")).astimezone(datetime.timezone.utc)
-        except Exception:  # noqa: BLE001
-            pass
+    def esc(txt: str) -> str:
+        return str(txt).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-    whens: list[str] = []
-    coords: list[str] = []
-    for lat, lng, t in pts:
-        when = (base_ts + datetime.timedelta(seconds=max(0.0, t))).strftime("%Y-%m-%dT%H:%M:%SZ")
-        whens.append(f"        <when>{when}</when>")
-        coords.append(f"        <gx:coord>{lng:.6f} {lat:.6f} 0</gx:coord>")
+    coords = " ".join(f"{lng:.6f},{lat:.6f},0" for lat, lng in pts)
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">',
+        '<kml xmlns="http://www.opengis.net/kml/2.2">',
         "  <Document>",
         "    <name>Rota da live — Baka Gaijin</name>",
-        "    <Style id=\"track\">",
-        "      <LineStyle><color>ff00aaff</color><width>4</width></LineStyle>",
-        "      <IconStyle>",
-        "        <scale>0.6</scale>",
-        "        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>",
-        "      </IconStyle>",
-        "    </Style>",
+        '    <Style id="route"><LineStyle><color>ff00aaff</color><width>4</width></LineStyle></Style>',
+        '    <Style id="stop"><IconStyle><scale>0.7</scale>',
+        '      <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>',
+        "    </IconStyle></Style>",
         "    <Placemark>",
         "      <name>Trajeto da live</name>",
-        "      <styleUrl>#track</styleUrl>",
-        "      <gx:Track>",
+        "      <styleUrl>#route</styleUrl>",
+        "      <LineString>",
+        "        <tessellate>1</tessellate>",
         "        <altitudeMode>clampToGround</altitudeMode>",
-        *whens,
-        *coords,
-        "      </gx:Track>",
+        "        <coordinates>",
+        f"          {coords}",
+        "        </coordinates>",
+        "      </LineString>",
         "    </Placemark>",
-        "  </Document>",
-        "</kml>",
     ]
+    idx = 0
+    for s in stops:
+        if not s.get("visivel") or s.get("lat") is None or s.get("lng") is None:
+            continue
+        idx += 1
+        nome = esc(s.get("nome") or "")
+        rua = esc(s.get("rua") or "")
+        desc = esc(s.get("justificativa") or "")
+        lines += [
+            "    <Placemark>",
+            f"      <name>{idx}. {nome}</name>",
+            "      <styleUrl>#stop</styleUrl>",
+            f"      <description>{rua} — {desc}</description>",
+            "      <Point>",
+            f"        <coordinates>{s['lng']:.6f},{s['lat']:.6f},0</coordinates>",
+            "      </Point>",
+            "    </Placemark>",
+        ]
+    lines += ["  </Document>", "</kml>"]
     dest = folder / "mapa" / "rota.kml"
     dest.parent.mkdir(exist_ok=True)
     dest.write_text("\n".join(lines), encoding="utf-8")
-    print(f"  ✓ Mapa: rota animada exportada em mapa/rota.kml ({len(pts)} pontos com tempo)")
+    print(f"  ✓ Mapa: rota exportada em mapa/rota.kml ({len(pts)} pontos de linha + {idx} marcos)")
     return dest
 
 
@@ -3303,7 +3310,7 @@ def ensure_map_assets(
     - rota OSRM sincronizada (trecho a trecho, com tempo por micro-ponto):
       cacheada em mapa/osrm_route.json;
     - rota.gpx: exportado para uso em uMap/JOSM/GPS;
-    - rota.kml: exportado para o Google Earth (animação <gx:Track> com tempo).
+    - rota.kml: exportado para o Google Earth (LineString compatível com web/mobile/Pro).
 
     Retorna (stops, rota_sincronizada) — rota_sincronizada é lista de
     {lat, lng, t} ou None.
@@ -3700,6 +3707,8 @@ def write_cdn_template(
         keys.setdefault(name, "")
     if (folder / "mapa" / "rota.gpx").exists():
         keys.setdefault("mapa/rota.gpx", "")
+    if (folder / "mapa" / "rota.kml").exists():
+        keys.setdefault("mapa/rota.kml", "")
     if any((folder / "mapa").glob("marco_*.jpg")):
         keys.setdefault("mapa/", "")
     if not keys:
@@ -3797,7 +3806,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         else ""
     )
     map_kml_btn = (
-        '<a class="btn" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth: animação do trajeto na linha do tempo">'
+        '<a class="btn" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth (web, mobile ou Pro) — linha da rota + marcos">'
         '<i class="fa-solid fa-earth-americas"></i> Google Earth (KML)</a>'
         if (FOLDER / "mapa" / "rota.kml").exists()
         else ""
@@ -4177,6 +4186,21 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   h2.topic-heading.collapsed .chev { transform: rotate(-90deg); }
   .section-body { overflow: hidden; }
   .section-body.hidden { display: none; }
+  .support-cta-dash {
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;
+    background:#141a2e; border:1px dashed rgba(245,158,11,.4); border-radius:14px; padding:16px 18px;
+    margin-top:34px;
+  }
+  .support-cta-dash-text { margin:0; font-size:.85rem; color:#cbd5e1; line-height:1.5; }
+  .support-cta-dash-text strong { color:#f59e0b; }
+  .support-cta-dash-btn {
+    display:inline-flex; align-items:center; gap:6px; flex:none;
+    background:linear-gradient(90deg,#f59e0b,#ef4444); color:#fff;
+    border-radius:999px; padding:9px 20px; font-size:.85rem; font-weight:700; text-decoration:none;
+    box-shadow:0 8px 22px rgba(245,158,11,.25);
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .support-cta-dash-btn:hover { transform:translateY(-2px); filter:brightness(1.1); }
 </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
@@ -4305,6 +4329,11 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     </div>
   </div>
   </div>
+  </div>
+
+  <div class="support-cta-dash">
+    <p class="support-cta-dash-text">Aí, gostou do projeto? Gostaria de <strong>nos apoiar</strong> para continuar a trazer as análises dos vídeos?</p>
+    <a class="support-cta-dash-btn" id="supportCtaDash" href="/cadastro?apoiar=1">Quero apoiar 💛</a>
   </div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="clima"><i class="fa-solid fa-cloud-sun-rain"></i> Clima do Dia & Esforço do Streamer</h2>
@@ -6168,6 +6197,22 @@ function boot(){
 }
 
 boot();
+
+// Botão de apoio: resolve o client (cadastro/perfil) via /api/config quando
+// disponível; sem a API, mantém o link padrão da mesma origem.
+function resolveSupportCta(){
+  const cta = document.getElementById("supportCtaDash");
+  if (!cta) return;
+  fetch("/api/config", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((cfg) => {
+      if (cfg && typeof cfg.clientUrl === "string" && cfg.clientUrl) {
+        cta.href = cfg.clientUrl.replace(/\/+$/, "") + "/cadastro?apoiar=1";
+      }
+    })
+    .catch(() => { /* mantém o link padrão */ });
+}
+resolveSupportCta();
 </script>
 </body>
 </html>

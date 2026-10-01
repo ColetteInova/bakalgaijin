@@ -41,7 +41,7 @@ DEFAULT_ACCOUNT_ID = "decd7551d814995e702664a7de0c5c34"
 DEFAULT_BUCKET = "bakalovers"
 DEFAULT_PREFIX = "analises"
 
-MEDIA_EXTS = (".mp4", ".wav", ".gpx", ".srt", ".jpg")
+MEDIA_EXTS = (".mp4", ".wav", ".gpx", ".kml", ".srt", ".jpg")
 SIGV4 = "aws:amz:auto:s3"
 SINGLE_PUT_LIMIT = 5 * 1024**3  # R2: PUT único até 5 GiB
 PART_SIZE = 1024**3  # 1 GiB por parte no multipart

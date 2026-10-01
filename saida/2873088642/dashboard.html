@@ -319,6 +319,21 @@
   h2.topic-heading.collapsed .chev { transform: rotate(-90deg); }
   .section-body { overflow: hidden; }
   .section-body.hidden { display: none; }
+  .support-cta-dash {
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;
+    background:#141a2e; border:1px dashed rgba(245,158,11,.4); border-radius:14px; padding:16px 18px;
+    margin-top:34px;
+  }
+  .support-cta-dash-text { margin:0; font-size:.85rem; color:#cbd5e1; line-height:1.5; }
+  .support-cta-dash-text strong { color:#f59e0b; }
+  .support-cta-dash-btn {
+    display:inline-flex; align-items:center; gap:6px; flex:none;
+    background:linear-gradient(90deg,#f59e0b,#ef4444); color:#fff;
+    border-radius:999px; padding:9px 20px; font-size:.85rem; font-weight:700; text-decoration:none;
+    box-shadow:0 8px 22px rgba(245,158,11,.25);
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .support-cta-dash-btn:hover { transform:translateY(-2px); filter:brightness(1.1); }
 </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
@@ -429,6 +444,11 @@
     </div>
   </div>
   </div>
+  </div>
+
+  <div class="support-cta-dash">
+    <p class="support-cta-dash-text">Aí, gostou do projeto? Gostaria de <strong>nos apoiar</strong> para continuar a trazer as análises dos vídeos?</p>
+    <a class="support-cta-dash-btn" id="supportCtaDash" href="/cadastro?apoiar=1">Quero apoiar 💛</a>
   </div>
 
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="clima"><i class="fa-solid fa-cloud-sun-rain"></i> Clima do Dia & Esforço do Streamer</h2>
@@ -2170,6 +2190,22 @@ function boot(){
 }
 
 boot();
+
+// Botão de apoio: resolve o client (cadastro/perfil) via /api/config quando
+// disponível; sem a API, mantém o link padrão da mesma origem.
+function resolveSupportCta(){
+  const cta = document.getElementById("supportCtaDash");
+  if (!cta) return;
+  fetch("/api/config", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((cfg) => {
+      if (cfg && typeof cfg.clientUrl === "string" && cfg.clientUrl) {
+        cta.href = cfg.clientUrl.replace(/\/+$/, "") + "/cadastro?apoiar=1";
+      }
+    })
+    .catch(() => { /* mantém o link padrão */ });
+}
+resolveSupportCta();
 </script>
 </body>
 </html>

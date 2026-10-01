@@ -112,6 +112,8 @@ def write_cdn_template(folder: Path) -> None:
                 keys.setdefault(f"cortes/{p.name}", "")
     if (folder / "mapa" / "rota.gpx").exists():
         keys.setdefault("mapa/rota.gpx", "")
+    if (folder / "mapa" / "rota.kml").exists():
+        keys.setdefault("mapa/rota.kml", "")
     if any((folder / "mapa").glob("marco_*.jpg")):
         keys.setdefault("mapa/", "")
     if keys:
