@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""r2_sync.py — Sincroniza as mídias (mp4/wav/gpx/srt) das análises em saida/
+"""r2_sync.py — Sincroniza as mídias (mp4/wav/gpx/srt/jpg) das análises em saida/
 para o Cloudflare R2 (S3 Compatible API), subindo apenas o que ainda não existe.
 
 Padrão de chave no R2 (pasta fixa analises):
@@ -41,7 +41,7 @@ DEFAULT_ACCOUNT_ID = "decd7551d814995e702664a7de0c5c34"
 DEFAULT_BUCKET = "bakalovers"
 DEFAULT_PREFIX = "analises"
 
-MEDIA_EXTS = (".mp4", ".wav", ".gpx", ".srt")
+MEDIA_EXTS = (".mp4", ".wav", ".gpx", ".srt", ".jpg")
 SIGV4 = "aws:amz:auto:s3"
 SINGLE_PUT_LIMIT = 5 * 1024**3  # R2: PUT único até 5 GiB
 PART_SIZE = 1024**3  # 1 GiB por parte no multipart
@@ -204,7 +204,9 @@ def update_cdn(folder: Path, public_base: str, urls: dict[str, str]) -> bool:
 def update_local_media(folder: Path, urls: dict[str, str]) -> bool:
     """Escreve (ou atualiza) a chave "media" do local.json com os links locais
     relativos de cada mídia — consumo local sem depender do cdn.json. Preserva
-    as demais chaves do local.json (local, bairro, auto_detectado...)."""
+    as demais chaves do local.json (local, bairro, auto_detectado...).
+    Prefixos de pasta (chaves terminando em "/") não entram em "media".
+    """
     local_path = folder / "local.json"
     local: dict = {}
     if local_path.is_file():
@@ -214,7 +216,7 @@ def update_local_media(folder: Path, urls: dict[str, str]) -> bool:
                 local = loaded
         except json.JSONDecodeError:
             local = {}
-    media = {rel: rel for rel in urls}
+    media = {rel: rel for rel in urls if not rel.endswith("/")}
     if isinstance(local.get("media"), dict) and local["media"] == media:
         return False
     local["media"] = media
@@ -284,6 +286,15 @@ def main() -> int:
         if args.dry_run:
             print(f"  (dry-run) atualizaria {len(cdn_urls)} entradas do cdn.json")
             continue
+        # frames do mapa (marco_XXXX.jpg): em vez de 100+ URLs no cdn.json,
+        # grava UM prefixo de pasta ("mapa/") que o dashboard concatena com
+        # o nome do jpg (local ou CDN).
+        mapa_frames = [rel for rel in cdn_urls if rel.startswith("mapa/") and rel.endswith(".jpg")]
+        if len(mapa_frames) > 8:
+            for rel in mapa_frames:
+                cdn_urls.pop(rel, None)
+            cdn_urls["mapa/"] = f"{PREFIX}/{folder.name}/mapa/"
+            print(f"  mapa/: prefixo único para {len(mapa_frames)} frames")
         if update_cdn(folder, public_base, cdn_urls):
             print(f"  cdn.json atualizado ({len(cdn_urls)} URLs)")
         if update_local_media(folder, cdn_urls):

@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T10:42:02",
+  "gerado_em": "2026-10-01T12:13:00",
   "local": "sao-paulo",
   "local_pais": "brasil",
   "local_cidade": "sao-paulo",
@@ -14,20 +14,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/c8d05a80c8452022531d_bakagaijinlive_319151009140_1790533506//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7554,
     "duration_label": "2h05min",
-    "views": 12219,
+    "views": 12229,
     "views_label": "12.2k",
     "likes_estimado": 146,
     "likes_label": "146",
     "comentarios": 6373,
-    "taxa_likes": 1.195,
-    "taxa_engajamento": 53.351,
+    "taxa_likes": 1.194,
+    "taxa_engajamento": 53.308,
     "followers_canal": 248245,
     "comparacao_canal": {
-      "mediana_views": 20355.0,
-      "media_views": 22705.0,
+      "mediana_views": 20356.5,
+      "media_views": 22708.2,
       "mediana_pares": 22065,
-      "views_vs_mediana_pct": -40.0,
-      "views_vs_media_pct": -46.2,
+      "views_vs_mediana_pct": -39.9,
+      "views_vs_media_pct": -46.1,
       "views_vs_pares_pct": -44.6,
       "n_videos_canal": 4
     }
@@ -94,8 +94,8 @@
           "faz live",
           "fazer live",
           "live boa",
-          "live brasil",
-          "live gravada"
+          "live gravada",
+          "live brasil"
         ],
         "n_comentarios": 360,
         "pct": 5.6
@@ -5075,16 +5075,6 @@
         "confianca": 1.0
       },
       {
-        "id": "1b5c4534-e553-4d48-9bf0-ee9f98000ee6",
-        "offset": 692,
-        "timestamp": "11:32",
-        "usuario": "mateusrangel0",
-        "nome": "mateusrangel0",
-        "texto": "cadê os npc?",
-        "sentimento": "confuso",
-        "confianca": 1.0
-      },
-      {
         "id": "90f61210-34d9-4d80-a4d4-9ddc3b8a9ff1",
         "offset": 692,
         "timestamp": "11:32",
@@ -5092,6 +5082,16 @@
         "nome": "bhcbmds_0",
         "texto": "Toca",
         "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "1b5c4534-e553-4d48-9bf0-ee9f98000ee6",
+        "offset": 692,
+        "timestamp": "11:32",
+        "usuario": "mateusrangel0",
+        "nome": "mateusrangel0",
+        "texto": "cadê os npc?",
+        "sentimento": "confuso",
         "confianca": 1.0
       },
       {
@@ -38768,8 +38768,8 @@
         "id": "63b946a5-b052-4ad9-a2e5-4c0668b6c95b",
         "offset": 4834,
         "timestamp": "1:20:34",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "de volta ao bostil",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -41338,8 +41338,8 @@
         "id": "3cbac2a3-722e-403e-9ce2-a7455e264eaf",
         "offset": 5051,
         "timestamp": "1:24:11",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "kkkkkkk krl",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -60145,22 +60145,22 @@
         "confianca": 1.0
       },
       {
-        "id": "cbbe31b4-456e-4a7c-8565-00880efe39e8",
-        "offset": 7202,
-        "timestamp": "2:00:02",
-        "usuario": "beatrizcrotti",
-        "nome": "beatrizcrotti",
-        "texto": "CUIDADO VÊ O VALOR WUE VAI PASSAR",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "3cc00c71-93aa-4b08-8673-e49c9c5ec79f",
         "offset": 7202,
         "timestamp": "2:00:02",
         "usuario": "rickpowd",
         "nome": "リックパウダー",
         "texto": "@MAGNUSnoos",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "cbbe31b4-456e-4a7c-8565-00880efe39e8",
+        "offset": 7202,
+        "timestamp": "2:00:02",
+        "usuario": "beatrizcrotti",
+        "nome": "beatrizcrotti",
+        "texto": "CUIDADO VÊ O VALOR WUE VAI PASSAR",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -71943,6 +71943,11 @@
         "sentimento": "engraçado"
       },
       {
+        "usuario": "Kotegawa_san",
+        "n": 2,
+        "sentimento": "neutro"
+      },
+      {
         "usuario": "KratosZxKun",
         "n": 2,
         "sentimento": "neutro"
@@ -72171,11 +72176,6 @@
         "usuario": "yumemorreu",
         "n": 2,
         "sentimento": "confuso"
-      },
-      {
-        "usuario": "zkote28",
-        "n": 2,
-        "sentimento": "neutro"
       },
       {
         "usuario": "zlucasgrz",
@@ -74300,70 +74300,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Vai se fuder",
-        "descricao": "Baka reclama que não nasceu pra andar com carrinho de bebê e quase derruba a mochila, vergonha pura em Tóquio."
+        "descricao": "Baka reclama que não nasceu pra andar de carrinho de bebê em Tóquio, mochila caindo e vergonha de filmar — caos puro e hilário."
       },
       {
         "inicio": "36:00",
         "minuto": 36,
         "tipo": "piada",
         "trecho": "Eu cheguei na conclusão que deve ser porque eu não paguei o imposto do cacique cobra coral, né?",
-        "descricao": "Fã finge que não conhece o Baka e depois tenta consertar; Baka farma aura ancestral no meio da rua."
+        "descricao": "Ele confunde um inscrito com figura do submundo e filosofa sobre 'farmar aura' no meio da rua — delírio espiritual divertido."
       },
       {
         "inicio": "42:00",
         "minuto": 42,
         "tipo": "piada",
         "trecho": "Vem tudo aqui pra baixo",
-        "descricao": "Trancado num percurso aleatório, Baka filosofa 'Deus escreve certo por linhas tortas' e acha lixo brasileiro no Japão."
+        "descricao": "Trancado num percurso, ele solta 'Deus escreve certo por linhas tortas' e reclama do lixo no Brasil — reflexão caótica e engraçada."
       },
       {
         "inicio": "48:00",
         "minuto": 48,
         "tipo": "piada",
         "trecho": "Voltou ou não?",
-        "descricao": "Baka vê samurai e geisha, climão, e considera ir andando até a Praça da Sé; sinal cai e ele tira os óculos."
+        "descricao": "Baka vê samurai e geisha, pergunta se dá pra ir andando até a Praça da Sé e tira os óculos — confusão de turista perdido."
       },
       {
         "inicio": "54:00",
         "minuto": 54,
         "tipo": "pergunta",
         "trecho": "Bem-vindo ao Inferno 2, é mais ou menos isso",
-        "descricao": "Baka quer entrar num lugar lotado mas tem medo de ser expulso de novo, no próprio país, num domingo sem comércio aberto."
+        "descricao": "Ele pondera ser expulso de novo, reclama que tudo tá fechado e pergunta se vale a pena tentar entrar — frustração cômica."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Esse que é o bairro japonês?",
-        "descricao": "Baka manda estrelinha, quase dá zoom em mina chorando e desiste; 'esse pá aqui nada a ver' vira bordão."
+        "descricao": "Baka narra 'estrelinha', quase dá zoom em mina chorando e desiste — timing perfeito de vergonha alheia."
       },
       {
         "inicio": "1:06:00",
         "minuto": 66,
         "tipo": "pergunta",
         "trecho": "A lata toda mole, rapaz",
-        "descricao": "Baka vê maluco puxando fino na cara dele, chama de frágil e quase entra em loja que vai expulsá-lo."
+        "descricao": "Ele foge de loja 'bem insustínio', assusta senhorinha e admite tentação — sequência de trapalhadas em Tóquio."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "pergunta",
         "trecho": "Eu queria entrar ali, mas vai cair também, né?",
-        "descricao": "Sinal cai do nada e Baka culpa ataques de guerra; volta pelos mesmos lugares tudo off, teoria da conspiração."
+        "descricao": "Sinal cai do nada, Baka culpa 'ataques de guerra' e cogita Starlink — paranoia tecnológica divertida."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "Ficou chovendo a viagem inteira lá que eu fui pro Japão",
-        "descricao": "Baka quase cai, vê pôr do sol, ouve pagode no Japão e chama de hibridação cultural; Tadala morreu na ponte."
+        "descricao": "Pagode tocando no Japão, Baka celebra 'hibridação cultural' e quase cai — choque cultural engraçado."
       },
       {
         "inicio": "1:24:00",
         "minuto": 84,
         "tipo": "piada",
         "trecho": "Logo depois de dar o autógrafo",
-        "descricao": "Fã Davi aparece do Canandiru, Baka pede pra segurar a live e o cara dobra tudo; letra feia no livro."
+        "descricao": "Fã Davi aparece, Baka pede pra segurar a live e quase perde o celular — interação caótica e espontânea."
       }
     ],
     "alertas": [
@@ -82574,7 +82574,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 12.2k views está abaixo da mediana do canal em 40.0% (mediana 20.4k)."
+      "acao": "VOD com 12.2k views está abaixo da mediana do canal em 39.9% (mediana 20.4k)."
     },
     {
       "titulo": "Clima do chat",
@@ -82586,7 +82586,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 53.351% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 53.308% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

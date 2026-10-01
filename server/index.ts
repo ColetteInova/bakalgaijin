@@ -898,7 +898,8 @@ async function startServer() {
     folderPath: string,
     step: string,
     local?: string,
-    bairro?: string
+    bairro?: string,
+    inicio?: string
   ) {
     const pipeline = job.pipeline!;
     const folderName = path.basename(folderPath);
@@ -906,31 +907,33 @@ async function startServer() {
       if (step === "local") {
         const localFile = path.join(folderPath, "local.json");
         const bairroLimpo = (bairro || "").trim();
-        if (!local || local === "auto") {
-          if (bairroLimpo) {
-            fs.writeFileSync(
-              localFile,
-              JSON.stringify({ local: "auto", bairro: bairroLimpo }, null, 2),
-              "utf8"
-            );
-          } else {
-            fs.rmSync(localFile, { force: true });
+        const inicioLimpo = (inicio || "").trim();
+        if ((!local || local === "auto") && !bairroLimpo && !inicioLimpo) {
+          fs.rmSync(localFile, { force: true });
+        } else {
+          let data: Record<string, unknown> = {};
+          if (fs.existsSync(localFile)) {
+            try {
+              const loaded = JSON.parse(fs.readFileSync(localFile, "utf8"));
+              if (loaded && typeof loaded === "object") data = loaded as Record<string, unknown>;
+            } catch {
+              data = {};
+            }
           }
-        } else if (local === "japao" || local === "sao-paulo") {
-          fs.writeFileSync(
-            localFile,
-            JSON.stringify(
-              {
-                pais: local === "japao" ? "japao" : "brasil",
-                cidade: local === "japao" ? "toquio" : "sao-paulo",
-                local,
-                bairro: bairroLimpo,
-              },
-              null,
-              2
-            ),
-            "utf8"
-          );
+          if (local === "japao" || local === "sao-paulo") {
+            data.pais = local === "japao" ? "japao" : "brasil";
+            data.cidade = local === "japao" ? "toquio" : "sao-paulo";
+            data.local = local;
+          } else {
+            delete data.pais;
+            delete data.cidade;
+            data.local = "auto";
+          }
+          if (bairroLimpo) data.bairro = bairroLimpo;
+          else delete data.bairro;
+          if (inicioLimpo) data.inicio = inicioLimpo;
+          else delete data.inicio;
+          fs.writeFileSync(localFile, JSON.stringify(data, null, 2), "utf8");
         }
         // invalida o cache de geoloc para re-geolocalizar na nova cidade
         fs.rmSync(path.join(folderPath, "mapa", "geoloc.json"), { force: true });
@@ -1219,10 +1222,11 @@ async function startServer() {
 
   // Re-roda a preparação (comentários -> transcrição -> análise) de um vídeo já baixado
   app.post("/api/vod/prepare", (req, res) => {
-    const { filename, local, bairro } = (req.body ?? {}) as {
+    const { filename, local, bairro, inicio } = (req.body ?? {}) as {
       filename?: string;
       local?: string;
       bairro?: string;
+      inicio?: string;
     };
     if (!filename || typeof filename !== "string") {
       res.status(400).json({ error: "Nome de arquivo é obrigatório" });
@@ -1246,29 +1250,34 @@ async function startServer() {
       const folder = path.join(SAIDA_DIR, folderNameForVideo(target));
       const localFile = path.join(folder, "local.json");
       const bairroLimpo = (bairro || "").trim();
-      if (local === "auto") {
-        if (bairroLimpo) {
-          fs.mkdirSync(folder, { recursive: true });
-          fs.writeFileSync(localFile, JSON.stringify({ local: "auto", bairro: bairroLimpo }, null, 2), "utf8");
-        } else {
-          fs.rmSync(localFile, { force: true });
-        }
+      const inicioLimpo = (inicio || "").trim();
+      if (local === "auto" && !bairroLimpo && !inicioLimpo) {
+        fs.rmSync(localFile, { force: true });
       } else {
+        let data: Record<string, unknown> = {};
+        if (fs.existsSync(localFile)) {
+          try {
+            const loaded = JSON.parse(fs.readFileSync(localFile, "utf8"));
+            if (loaded && typeof loaded === "object") data = loaded as Record<string, unknown>;
+          } catch {
+            data = {};
+          }
+        }
+        if (local === "auto") {
+          delete data.pais;
+          delete data.cidade;
+          data.local = "auto";
+        } else {
+          data.pais = local === "japao" ? "japao" : "brasil";
+          data.cidade = local === "japao" ? "toquio" : "sao-paulo";
+          data.local = local;
+        }
+        if (bairroLimpo) data.bairro = bairroLimpo;
+        else delete data.bairro;
+        if (inicioLimpo) data.inicio = inicioLimpo;
+        else delete data.inicio;
         fs.mkdirSync(folder, { recursive: true });
-        fs.writeFileSync(
-          localFile,
-          JSON.stringify(
-            {
-              pais: local === "japao" ? "japao" : "brasil",
-              cidade: local === "japao" ? "toquio" : "sao-paulo",
-              local,
-              bairro: bairroLimpo,
-            },
-            null,
-            2
-          ),
-          "utf8"
-        );
+        fs.writeFileSync(localFile, JSON.stringify(data, null, 2), "utf8");
       }
     }
 
@@ -1312,11 +1321,13 @@ async function startServer() {
 
         let local = "auto";
         let bairro = "";
+        let inicio = "";
         if (has("local.json")) {
           try {
             const localData = JSON.parse(fs.readFileSync(path.join(folderPath, "local.json"), "utf8"));
             local = localData.local || localData.cidade || "auto";
             bairro = localData.bairro || "";
+            inicio = typeof localData.inicio === "string" ? localData.inicio : "";
           } catch {
             // mantém "auto"
           }
@@ -1375,6 +1386,7 @@ async function startServer() {
           title,
           local,
           bairro,
+          inicio,
           hasComments: has("comentarios.json"),
           commentsCount,
           hasSrt: has("audio.srt"),
@@ -1469,11 +1481,12 @@ async function startServer() {
   // Re-executa UMA etapa de um episódio já preparado.
   // step: analise | cortes | mapa | comentarios | transcricao | local
   app.post("/api/vod/prepare-folder", (req, res) => {
-    const { folder, step, local, bairro } = (req.body ?? {}) as {
+    const { folder, step, local, bairro, inicio } = (req.body ?? {}) as {
       folder?: string;
       step?: string;
       local?: string;
       bairro?: string;
+      inicio?: string;
     };
     if (!folder || path.basename(folder) !== folder) {
       res.status(400).json({ error: "Pasta inválida" });
@@ -1523,7 +1536,7 @@ async function startServer() {
     job.pipeline = pipeline;
     jobs.set(id, job);
 
-    runPreparedFolderStep(job, folderPath, step, local, bairro);
+    runPreparedFolderStep(job, folderPath, step, local, bairro, inicio);
 
     res.json({ id });
   });

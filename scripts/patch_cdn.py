@@ -12,7 +12,7 @@ from pathlib import Path
 
 SAIDA = Path(__file__).resolve().parent.parent / "saida"
 
-CDN_BLOCK = """// ---------------------------------------------------------------------------
+CDN_BLOCK = r"""// ---------------------------------------------------------------------------
 // CDN (opcional): se existir cdn.json ao lado do dashboard (deploy em hosting
 // sem os arquivos de mídia), os links do CDN substituem os arquivos locais.
 // Formato: { "video.mp4": "https://cdn.../video.mp4", "cortes/corte-01.mp4": "..." }
@@ -24,8 +24,16 @@ function applyCdnOverrides(map){
   const resolve = (name) => {
     if (!name) return name;
     if (map[name]) return map[name];
-    const base = name.includes("/") ? name.split("/").pop() : name;
-    return map[base] || name;
+    const slash = name.lastIndexOf("/");
+    if (slash >= 0) {
+      const base = name.slice(slash + 1);
+      if (map[base]) return map[base];
+      const prefix = map[name.slice(0, slash + 1)];
+      if (prefix) return prefix + base;
+    } else if (map[name]) {
+      return map[name];
+    }
+    return name;
   };
   FILES.video = resolve(FILES.video);
   FILES.audio = resolve(FILES.audio);
@@ -40,7 +48,7 @@ function applyCdnOverrides(map){
   MAP_STOPS.forEach((s) => { if (s.img) s.img = resolve(s.img); });
   const gpx = document.getElementById("gpxLink");
   if (gpx) {
-    const url = map["mapa/rota.gpx"];
+    const url = map["mapa/rota.gpx"] || (map["mapa/"] ? map["mapa/"] + "rota.gpx" : "");
     if (url) gpx.setAttribute("href", url);
   }
 }
@@ -86,22 +94,31 @@ MEDIA_EXTS = (".mp4", ".webm", ".mov", ".m4v", ".wav", ".mp3", ".m4a", ".aac", "
 
 def write_cdn_template(folder: Path) -> None:
     cdn_path = folder / "cdn.json"
-    if cdn_path.exists():
-        return
     keys: dict[str, str] = {}
+    if cdn_path.exists():
+        try:
+            loaded = json.loads(cdn_path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                keys = loaded
+        except json.JSONDecodeError:
+            keys = {}
     for p in sorted(folder.iterdir()):
         if p.is_file() and p.suffix.lower() in MEDIA_EXTS:
-            keys[p.name] = ""
+            keys.setdefault(p.name, "")
     cortes_dir = folder / "cortes"
     if cortes_dir.is_dir():
         for p in sorted(cortes_dir.iterdir()):
             if p.is_file() and p.suffix.lower() == ".mp4":
-                keys[f"cortes/{p.name}"] = ""
+                keys.setdefault(f"cortes/{p.name}", "")
     if (folder / "mapa" / "rota.gpx").exists():
-        keys["mapa/rota.gpx"] = ""
+        keys.setdefault("mapa/rota.gpx", "")
+    if any((folder / "mapa").glob("marco_*.jpg")):
+        keys.setdefault("mapa/", "")
     if keys:
-        cdn_path.write_text(json.dumps(keys, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        print(f"  cdn.json criado em {folder.name}")
+        new_json = json.dumps(keys, ensure_ascii=False, indent=2) + "\n"
+        if not cdn_path.exists() or cdn_path.read_text(encoding="utf-8") != new_json:
+            cdn_path.write_text(new_json, encoding="utf-8")
+            print(f"  cdn.json atualizado em {folder.name}")
 
 
 def patch_dashboard(path: Path) -> None:

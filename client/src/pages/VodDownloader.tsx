@@ -5,24 +5,24 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-    AlertTriangle,
-    ArrowLeft,
-    CheckCircle2,
-    Clock,
-    Download,
-    FileJson,
-    FileSpreadsheet,
-    FileText,
-    Film,
-    Loader2,
-    MessageSquare,
-    MonitorDown,
-    Music,
-    RefreshCw,
-    Search,
-    Twitch,
-    User,
-    X,
+  AlertTriangle,
+  ArrowLeft,
+  CheckCircle2,
+  Clock,
+  Download,
+  FileJson,
+  FileSpreadsheet,
+  FileText,
+  Film,
+  Loader2,
+  MessageSquare,
+  MonitorDown,
+  Music,
+  RefreshCw,
+  Search,
+  Twitch,
+  User,
+  X,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -73,6 +73,7 @@ interface PreparedFolder {
   title?: string;
   local: string;
   bairro?: string;
+  inicio?: string;
   hasComments: boolean;
   commentsCount?: number;
   hasSrt: boolean;
@@ -356,12 +357,12 @@ export default function VodDownloader() {
     previousGlobalReprepareRef.current = running;
   }, [jobs, fetchPrepared]);
 
-  const runPreparedStep = async (folder: string, step: string, local?: string, bairro?: string) => {
+  const runPreparedStep = async (folder: string, step: string, local?: string, bairro?: string, inicio?: string) => {
     try {
       const res = await fetch("/api/vod/prepare-folder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ folder, step, local, bairro }),
+        body: JSON.stringify({ folder, step, local, bairro, inicio }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar etapa");
@@ -1099,6 +1100,24 @@ export default function VodDownloader() {
                                 const valor = e.target.value.trim();
                                 if (valor !== (p.bairro ?? "")) {
                                   runPreparedStep(p.folder, "local", p.local, valor);
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                              }}
+                            />
+                            <input
+                              type="text"
+                              key={p.folder + (p.inicio ?? "")}
+                              defaultValue={p.inicio ?? ""}
+                              disabled={running}
+                              placeholder="Início da live (livre)"
+                              className="h-8 w-36 rounded-lg bg-slate-950/70 border border-slate-700 px-2 text-xs text-slate-200 placeholder:text-slate-500 outline-none focus:border-purple-500 disabled:opacity-50"
+                              title="Onde a live começou (ex.: loja da Liberdade) — o início do trajeto no mapa parte daí. Vazio mantém a análise como está."
+                              onBlur={(e) => {
+                                const valor = e.target.value.trim();
+                                if (valor !== (p.inicio ?? "")) {
+                                  runPreparedStep(p.folder, "local", p.local, p.bairro ?? "", valor);
                                 }
                               }}
                               onKeyDown={(e) => {

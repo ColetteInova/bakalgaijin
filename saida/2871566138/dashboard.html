@@ -789,6 +789,7 @@ function wireMedia(media, id, barId, timeId, overlayId, labelId){
     updateSeek(media, barId, timeId);
     pumpFeed();
     updateWalker(media.el.currentTime);
+    syncStopToTime(media.el.currentTime);
   });
   el.addEventListener("seeked", () => {
     updateSubs(media, overlayId, labelId);
@@ -1040,6 +1041,37 @@ function updateWalker(t) {
   const f = dt > 0 ? (w - times[i]) / dt : 0; // dt=0 => pausa de descanso: fica parado
   const a = MAP_ROUTE[i], b = MAP_ROUTE[i + 1];
   walkerMarker.setLatLng([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
+}
+
+// Marcos da live: conforme o player avança, o marco "atual" acompanha o tempo —
+// destaca o card do carrossel, mostra o raio de incerteza e centraliza o mapa
+// (só mexe na câmera quando o marco está fora da área visível).
+let autoStopIdx = -1;
+
+function syncStopToTime(t) {
+  if (!MAP_STOPS || !MAP_STOPS.length) return;
+  let idx = -1;
+  for (let i = 0; i < MAP_STOPS.length; i++) {
+    if (MAP_STOPS[i].sec <= t) idx = i;
+    else break;
+  }
+  if (idx < 0 || idx === autoStopIdx) return;
+  autoStopIdx = idx;
+  const s = MAP_STOPS[idx];
+  document.querySelectorAll(".map-card").forEach(x => x.classList.remove("active"));
+  const chip = document.querySelector(`.map-card[data-idx="${idx}"]`);
+  if (chip) chip.classList.add("active");
+  mapPageIndex = Math.floor(idx / MAP_PAGE_SIZE);
+  updateCarousel();
+  if (liveMap) {
+    if (!liveMap.getBounds().contains([s.lat, s.lng])) {
+      liveMap.flyTo([s.lat, s.lng], Math.max(liveMap.getZoom(), 16), { duration: .6 });
+    }
+    showStopRadius(s);
+  }
+  const el = document.getElementById("mapNow");
+  if (el) el.textContent = `▶ ${s.nome} — ${fmtClock(s.sec)}`;
+  updateGoogleMap(s);
 }
 
 function initLiveMap() {
