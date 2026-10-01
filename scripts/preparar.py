@@ -1333,7 +1333,7 @@ def build_engagement_analysis(blocks: list[dict], comments_analysis: dict, metri
             q = c["texto"].strip()
             if len(q) >= 8:
                 perguntas_freq[q[:80]] += 1
-    perguntas_frequentes = [{"pergunta": q, "n": n} for q, n in perguntas_freq.most_common(10) if n >= 2]
+    perguntas_frequentes = [{"pergunta": q, "n": n} for q, n in perguntas_freq.most_common(10)]
 
     # --- séries de sentimento por minuto (para gráfico de área empilhada) ---
     sent_series: dict[str, list[int]] = {cat: [0] * total_minutes for cat in SENTIMENT_CATEGORIES}
@@ -2120,6 +2120,11 @@ MAP_FALLBACK_NAMED = MAP_CITIES["japao"]["named"]
 # em 5 min) são puxados para uma posição plausível entre os vizinhos.
 MAP_MAX_WALK_KMH = 7.0
 
+# O stream está a pé: 1 km leva ~10 min. Ao propor o ponto seguinte, o ponto
+# anterior é a referência — distância máxima entre dois marcos consecutivos.
+WALK_KM_PER_MIN = 0.1  # 1 km a cada 10 min (~6 km/h)
+MAX_STEP_KM = 1.0      # raio máximo entre um ponto e o anterior
+
 
 def _dist_km(lat_a: float, lng_a: float, lat_b: float, lng_b: float) -> float:
     """Distância haversine em km entre dois pontos."""
@@ -2192,6 +2197,43 @@ def _enforce_walking_speed(by_sec: dict[str, dict], only_osint: bool = False) ->
         print(
             f"  ✓ Mapa: {adjusted} marco(s) ajustado(s) pela velocidade a pé "
             f"(máx {MAP_MAX_WALK_KMH:.0f} km/h) — sem teleportes"
+        )
+
+
+def _enforce_walk_chain(stops: list[dict]) -> None:
+    """Corrente a pé: o ponto seguinte nunca fica longe do anterior.
+
+    O stream está a pé (1 km em ~10 min), então cada marco proposto olha o
+    marco ANTERIOR: a distância máxima é min(MAX_STEP_KM, WALK_KM_PER_MIN ×
+    minutos decorridos). A correção é em CADEIA — cada ponto usa o anterior
+    já corrigido — e vale para todos os subsequentes. Pontos puxados têm a
+    confiança rebaixada para "baixa".
+    """
+    ordered = sorted(
+        (s for s in stops if s.get("lat") is not None and s.get("lng") is not None),
+        key=lambda s: int(s["sec"]),
+    )
+    adjusted = 0
+    prev: dict | None = None
+    for s in ordered:
+        if prev is None:
+            prev = s
+            continue
+        dt_min = max(1, int(s["sec"]) - int(prev["sec"])) / 60.0
+        max_km = min(MAX_STEP_KM, WALK_KM_PER_MIN * dt_min)
+        d = _dist_km(prev["lat"], prev["lng"], s["lat"], s["lng"])
+        if d > max_km:
+            frac = max_km / max(d, 1e-9)
+            s["lat"] = prev["lat"] + (s["lat"] - prev["lat"]) * frac
+            s["lng"] = prev["lng"] + (s["lng"] - prev["lng"]) * frac
+            s["confianca"] = "baixa"
+            s["ajustado"] = True
+            adjusted += 1
+        prev = s
+    if adjusted:
+        print(
+            f"  ✓ Mapa: {adjusted} marco(s) ajustado(s) pela corrente a pé "
+            f"(máx {MAX_STEP_KM:.0f} km do ponto anterior)"
         )
 
 MAP_COLORS = [
@@ -3439,6 +3481,7 @@ def ensure_map_assets(
     _extract_map_frames(folder, video_file, stops)
     stops, bairro_boxes = _geolocate_stops(folder, stops, local)
     _unwrap_collapsed_stops(stops)
+    _enforce_walk_chain(stops)
     _enrich_stops_with_places(folder, stops)
     synced = _fetch_osrm_synced(folder, stops, local)
     if synced and bairro_boxes:
@@ -3567,6 +3610,7 @@ def _reverse_geocode(folder: Path, lat: float, lng: float) -> dict:
         "estado": merge(pt[2], en[2]),
         "pais": merge(pt[3], en[3]),
     }
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
     cache_file.write_text(json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"  ✓ Região identificada: {' · '.join(v for v in info.values() if isinstance(v, str) and v)}")
     return info
@@ -3620,6 +3664,7 @@ def _fetch_weather(folder: Path, lat: float, lng: float, day: str) -> dict | Non
             "temps": [round(t, 1) for t in temps],
             "codigos": codes,
         }
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
         cache_file.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
         print(f"  ✓ Clima de {day} obtido (Open-Meteo)")
         return out
@@ -3802,6 +3847,7 @@ def write_cdn_template(
     srt_file: str | None,
     corte_files: list[str],
     qualidades_disponiveis: dict[str, str],
+    corte_thumbs: list[str] | None = None,
 ) -> None:
     """Gera/atualiza o cdn.json (modelo) com uma chave por mídia + o prefixo
     "mapa/" para os frames da análise.
@@ -3825,6 +3871,9 @@ def write_cdn_template(
             keys.setdefault(name, "")
     for name in corte_files:
         keys.setdefault(f"cortes/{name}", "")
+    for name in corte_thumbs or []:
+        if name:
+            keys.setdefault(f"cortes/{name}", "")
     for name in qualidades_disponiveis.values():
         keys.setdefault(name, "")
     if (folder / "mapa" / "rota.gpx").exists():
@@ -3844,6 +3893,18 @@ def write_cdn_template(
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
     """Página HTML auto-contida (dados embutidos) com players + análise."""
     import json as _json
+
+    # Perguntas frequentes: até 10 do chat. Recomputa aqui também para que
+    # dashboards antigos (relatorio.json gerado com o filtro de repetição)
+    # passem a exibir a lista completa ao regenerar o HTML.
+    perguntas_freq = Counter()
+    for c in (report.get("comentarios") or {}).get("comentarios", []):
+        q = (c.get("texto") or "").strip()
+        if "?" in q and len(q) >= 8:
+            perguntas_freq[q[:80]] += 1
+    report.setdefault("engajamento", {})["perguntas_frequentes"] = [
+        {"pergunta": q, "n": n} for q, n in perguntas_freq.most_common(10)
+    ]
 
     input_files = sorted(
         p.name for p in FOLDER.iterdir()
@@ -3866,18 +3927,36 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     if cortes_dir.is_dir():
         corte_files = sorted(p.name for p in cortes_dir.iterdir() if p.suffix.lower() == ".mp4")
 
+    # thumbs dos cortes: primeiro frame de cada corte (cache — só extrai se faltar)
+    corte_thumbs: list[str] = []
+    if cortes_dir.is_dir():
+        for i, name in enumerate(corte_files, 1):
+            thumb_name = f"thumb-corte-{i:02d}.jpg"
+            thumb_path = cortes_dir / thumb_name
+            if not thumb_path.exists():
+                try:
+                    subprocess.run(
+                        ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+                         "-ss", "0", "-i", str(cortes_dir / name),
+                         "-frames:v", "1", "-q:v", "3", str(thumb_path)],
+                        check=True, capture_output=True, timeout=180,
+                    )
+                except Exception as exc:
+                    print(f"  [!] ffmpeg (thumb {name}) falhou: {exc}", file=sys.stderr)
+            corte_thumbs.append(thumb_name if thumb_path.exists() else "")
+
     qualidades_disponiveis = {
         str(altura): nome
         for altura, nome in ((720, "video_720.mp4"), (480, "video_480.mp4"), (360, "video_360.mp4"))
         if (FOLDER / nome).is_file()
     }
     files_json = _json.dumps(
-        {"video": video_file, "audio": audio_file, "srt": srt_file, "cortes": corte_files, "qualidades": qualidades_disponiveis}
+        {"video": video_file, "audio": audio_file, "srt": srt_file, "cortes": corte_files, "thumbs": corte_thumbs, "qualidades": qualidades_disponiveis}
     )
     # cdn.json (modelo): preencha com os links do CDN para publicar o dashboard
     # em um hosting sem os arquivos de mídia. Valores vazios mantêm os arquivos
     # locais; valores preenchidos substituem os srcs no dashboard.
-    write_cdn_template(FOLDER, video_file, audio_file, srt_file, corte_files, qualidades_disponiveis)
+    write_cdn_template(FOLDER, video_file, audio_file, srt_file, corte_files, qualidades_disponiveis, corte_thumbs)
     cues_json = _json.dumps(
         [{"s": b["start"], "e": b["end"], "t": b["text"]} for b in (srt_blocks or [])],
         ensure_ascii=False,
@@ -3894,12 +3973,10 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         print("  SKIP_MAPA=1 — pulando frames/geoloc/rota do mapa (marcos aproximados)")
     else:
         map_stops, map_synced = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
-    # marcadores no mapa: TODOS os marcos (1/min) com opacidade baixa; o marco
-    # "atual" (último antes do tempo do player) fica opaco. Carrossel/roteiro
-    # continuam com os visíveis (5 em 5 min). Spread é só exibição: não altera
-    # a rota nem o cache.
+    # marcadores no mapa: só os marcos visíveis (5 em 5 min) — os pontos de
+    # 1 em 1 min ficam fora do mapa. Posições exatas: pontos empilhados (mesmo
+    # local) NÃO são afastados do lugar.
     map_stops_all = [dict(s) for s in map_stops]
-    _spread_overlapping_markers(map_stops_all)
     map_stops_vis = [s for s in map_stops_all if s.get("visivel")]
     map_stops_json = _json.dumps(map_stops_vis, ensure_ascii=False)
     map_stops_all_json = _json.dumps(map_stops_all, ensure_ascii=False)
@@ -4107,8 +4184,8 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     .player-map-wrap.layout-stacked .player-video-shell { width: 100%; max-width: 960px; }
     .player-map-wrap.layout-stacked #liveMap { height: 420px; }
   }
-  /* Replay dos comentários em colunas: o feed estica até o fim da coluna
-     do player (em vez de ficar fixo em 480px). */
+  /* Replay dos comentários em colunas: o feed acompanha a altura da seção do
+     mapa — a coluna do player estica até o fim do grid e o feed rola internamente. */
   @media (min-width: 1200px) {
     .player-map-wrap:not(.layout-stacked) > .pm-col:first-child {
       align-self: stretch; display: flex; flex-direction: column;
@@ -4120,7 +4197,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
     }
     .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child .comment-feed {
-      flex: 1 1 auto; max-height: none;
+      flex: 1 1 0; min-height: 120px; max-height: none;
     }
   }
   .player {
@@ -4166,7 +4243,11 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .comment-feed {
     background: #0b1120; border: 1px solid var(--border); border-radius: 12px;
     padding: 12px; max-height: 480px; overflow-y: auto;
+    scrollbar-width: thin; scrollbar-color: #475569 #0f172a;
   }
+  .comment-feed::-webkit-scrollbar { width: 8px; }
+  .comment-feed::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+  .comment-feed::-webkit-scrollbar-track { background: #0f172a; }
   .comment-feed li { display: flex; gap: 8px; align-items: flex-start; }
   .comment-feed .ts { color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: .75rem; }
   .comment-feed .cbody { flex: 1; font-size: .82rem; }
@@ -4174,9 +4255,17 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .comment-feed li.new { animation: fadein .25s ease; }
   @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
   .corte-player { display:flex; flex-direction:column; align-items:center; width:100%; }
-  .corte-player video, .corte-player audio { width:100%; display:block; border-radius:8px; background:#000; }
-  .corte-player video { aspect-ratio:16/9; object-fit:contain; }
-  .corte-player audio { height:40px; }
+  .corte-player video { width:100%; display:block; border-radius:8px; background:#000; aspect-ratio:16/9; object-fit:contain; }
+  .corte-player audio { display:none; }
+  .corte-stack { display:flex; flex-direction:column; gap:10px; margin-top:10px; width:100%; }
+  .corte-audio-ui {
+    display:flex; align-items:center; gap:8px; width:100%;
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:8px 10px;
+  }
+  .corte-audio-ui .btn { flex:none; padding:4px 10px; font-size:.75rem; }
+  .corte-audio-ui .timebar { flex:1 1 auto; min-width:60px; }
+  .corte-audio-ui .muted { flex:none; white-space:nowrap; }
   .chapter-menu { display:flex; align-items:center; gap:8px; min-width:0; padding-top:2px; }
   .chapter-menu label { color:var(--muted); font-size:.75rem; white-space:nowrap; }
   .chapter-menu select {
@@ -4375,8 +4464,8 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <div class="pm-col">
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="player">Player de Vídeo &amp; Áudio</h2>
   <div style="display:flex;gap:8px;margin-bottom:12px">
-    <button class="btn active" id="modeVideo" onclick="setPlayerMode('video')">🎬 Vídeo</button>
-    <button class="btn" id="modeAudio" onclick="setPlayerMode('audio')">🎧 Somente Áudio</button>
+    <button class="btn active" id="modeVideo" onclick="setPlayerMode('video')"><i class="fa-solid fa-film"></i> Vídeo</button>
+    <button class="btn" id="modeAudio" onclick="setPlayerMode('audio')"><i class="fa-solid fa-headphones"></i> Somente Áudio</button>
     <button type="button" class="btn layout-toggle" id="layoutBtn" onclick="toggleLayout()" aria-pressed="false" title="Alterna a disposição do player e do mapa entre colunas e linhas">
       <i class="fa-solid fa-table-columns"></i> Layout: <span id="layoutLabel">colunas</span>
     </button>
@@ -4414,20 +4503,19 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     </div>
     <div class="player-wrap" id="audioWrap">
       <div class="player-video-shell">
-        <div class="player player-video" style="display:flex;align-items:center;justify-content:center;padding:12px">
-          <audio id="audioPlayer" controls style="border-radius:8px;width:100%"></audio>
+        <div class="player player-video" style="padding:12px">
+          <audio id="audioPlayer" style="display:none"></audio>
+          <div class="corte-audio-ui">
+            <button type="button" class="btn" id="audioPlayBtn" title="Tocar / Pausar" aria-label="Tocar / Pausar"><i class="fa-solid fa-play"></i></button>
+            <input type="range" class="timebar" id="audioSeekUi" min="0" max="100" step="0.1" value="0" aria-label="Posição do áudio" />
+            <span class="muted" id="audioTimeUi">0:00 / 0:00</span>
+            <button type="button" class="btn" onclick="setPlaybackRate(-0.5)" title="Diminuir velocidade">-0.5×</button>
+            <button type="button" class="btn" onclick="setPlaybackRate(0.5)" title="Aumentar velocidade">+0.5×</button>
+            <span class="muted" id="audioRateUi" title="Velocidade de reprodução">1×</span>
+            <span class="segment"><span class="tag neutro" id="audioNowLabel">—</span><span class="muted">agora</span></span>
+          </div>
           <div class="media-error" id="audioError"></div>
           <div class="subtitle-overlay" style="position:static;transform:none;width:100%;max-width:none;margin-top:10px" id="audioSubs"></div>
-        </div>
-      </div>
-      <div class="player timeline">
-        <input type="range" class="timebar" id="audioSeek" min="0" max="100" step="0.1" value="0" />
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <span class="muted" id="audioTime">0:00 / 0:00</span>
-          <button class="btn" onclick="setPlaybackRate(-0.5)">-0.5×</button>
-          <button class="btn" onclick="setPlaybackRate(0.5)">+0.5×</button>
-          <span class="muted" id="audioRate" title="Velocidade de reprodução">1×</span>
-          <span class="segment"><span class="tag neutro" id="audioNowLabel">—</span><span class="muted">agora</span></span>
         </div>
       </div>
     </div>
@@ -4464,7 +4552,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     </div>
     <div class="map-carousel">
       <div class="map-carousel-top">
-        <span class="map-car-title"><i class="fa-solid fa-location-dot"></i> Marcos da live — a cada 5 min (análise a cada 1 min)</span>
+        <span class="map-car-title"><i class="fa-solid fa-location-dot"></i> Marcos da live</span>
         <span class="map-car-navs">
           <button class="btn car-nav" id="mapPrevBtn" onclick="mapPage(-1)" aria-label="Página anterior"><i class="fa-solid fa-chevron-left"></i></button>
           <span class="muted" id="mapCarouselInfo"></span>
@@ -4748,7 +4836,7 @@ function activeMedia(){
 function updateRateLabels(){
   const label = playbackRate.toFixed(1).replace(".0", "") + "×";
   const lv = document.getElementById("videoRate");
-  const la = document.getElementById("audioRate");
+  const la = document.getElementById("audioRateUi");
   if (lv) lv.textContent = label;
   if (la) la.textContent = label;
 }
@@ -4984,7 +5072,21 @@ function initPlayers(){
   if (FILES.audio) document.getElementById("audioPlayer").src = FILES.audio;
   buildQualityOptions();
   wireMedia(V, "videoPlayer", "videoSeek", "videoTime", "videoSubs", "videoNowLabel");
-  wireMedia(A, "audioPlayer", "audioSeek", "audioTime", "audioSubs", "audioNowLabel");
+  wireMedia(A, "audioPlayer", "audioSeekUi", "audioTimeUi", "audioSubs", "audioNowLabel");
+  // botão play/pause do player de áudio customizado (modo "Somente Áudio")
+  const audioPlayBtn = document.getElementById("audioPlayBtn");
+  if (audioPlayBtn && A.el) {
+    const refreshPlay = () => {
+      audioPlayBtn.innerHTML = A.el.paused
+        ? '<i class="fa-solid fa-play"></i>'
+        : '<i class="fa-solid fa-pause"></i>';
+    };
+    audioPlayBtn.addEventListener("click", () => {
+      if (A.el.paused) { A.el.play().catch(() => {}); } else { A.el.pause(); }
+    });
+    ["play", "pause", "ended"].forEach(ev => A.el.addEventListener(ev, refreshPlay));
+    refreshPlay();
+  }
   if (!FILES.video && !FILES.audio) {
     document.getElementById("videoPlayer").style.display = "none";
   }
@@ -5160,8 +5262,9 @@ function initLiveMap() {
 
   let visIdx = 0;
   MAP_STOPS_ALL.forEach((s, i) => {
-    const isVis = !!s.visivel;
-    if (isVis) visIdx++;
+    if (!s.visivel) return; // pontos de 1 em 1 min não entram no mapa
+    visIdx++;
+    const isVis = true;
     const m = L.marker([s.lat, s.lng], {
       icon: numIcon(s.cor, isVis ? visIdx : 0, isVis),
       opacity: 0.7,
@@ -5743,10 +5846,12 @@ function renderEngajamento() {
       `<div class="quote"><strong>${esc(r.inicio)}</strong> — ${esc(r.texto)}</div>`
     ).join("") || "<div class='muted'>Sem resumo.</div>";
 
-  // Perguntas frequentes
+  // Perguntas frequentes (mesmo estilo das demais listas: .quote com borda colorida)
   document.getElementById("perguntasFreq").innerHTML =
     (eng.perguntas_frequentes || []).map((q, i) =>
-      `<li><strong>${esc(q.pergunta)}</strong> <span class="muted">× ${q.n}</span></li>`
+      `<div class="quote" style="border-left-color:#3b82f6">
+        <strong>#${i+1}</strong> ${esc(q.pergunta)} <span class="muted">× ${q.n}</span>
+      </div>`
     ).join("") || "<div class='muted'>Sem perguntas recorrentes.</div>";
 
   // --- novos gráficos ---
@@ -6270,6 +6375,7 @@ function renderCapitulos(ct) {
 
 function renderCortes(ct) {
   const cortes = FILES.cortes || [];
+  const thumbs = FILES.thumbs || [];
   document.getElementById("cortesBody").innerHTML = ct.cortes_virais.map((c,i) => {
     const corteFile = cortes[i] || null;
     const corteSrc = corteFile
@@ -6277,26 +6383,89 @@ function renderCortes(ct) {
       : null;
     const videoSrc = corteSrc || (FILES.video ? `${FILES.video}#t=${c.inicio_sec},${c.fim_sec}` : null);
     const audioSrc = FILES.audio ? `${FILES.audio}#t=${c.inicio_sec},${c.fim_sec}` : null;
+    const thumbFile = thumbs[i] || null;
+    const thumbSrc = thumbFile
+      ? (/^https?:\/\//i.test(thumbFile) ? thumbFile : "cortes/" + thumbFile)
+      : null;
+    // thumb dentro do componente de vídeo: primeiro frame como poster
+    const posterAttr = thumbSrc ? ` poster="${thumbSrc}"` : "";
     return `<div class="card" style="margin-bottom:10px">
        <div class="label">Corte ${i+1} · ${c.inicio}–${c.fim} · ${c.duracao_min}min</div>
        <div class="quote">${esc(c.justificativa)}</div>
-       <div class="grid two" style="margin-top:10px;gap:10px">
+       <div class="corte-stack">
          ${videoSrc ? `
          <div class="corte-player">
-           <video class="corte-video" controls preload="none"
+           <video class="corte-video" controls preload="none"${posterAttr}
              src="${videoSrc}"
              onplay="pauseOthers(this,'video')"></video>
          </div>` : ''}
          ${audioSrc ? `
          <div class="corte-player">
-           <div class="muted" style="margin-bottom:4px">🎧 Áudio</div>
-           <audio class="corte-audio" controls preload="none"
+           <audio class="corte-audio" preload="none"
              src="${audioSrc}"
              onplay="pauseOthers(this,'audio')"></audio>
+           <div class="label" style="align-self:stretch;text-align:left;margin-bottom:6px"><i class="fa-solid fa-headphones"></i> Áudio do corte</div>
+           <div class="corte-audio-ui">
+             <button type="button" class="btn corte-play" title="Tocar / Pausar" aria-label="Tocar / Pausar"><i class="fa-solid fa-play"></i></button>
+             <input type="range" class="timebar corte-seek" min="0" max="100" step="0.1" value="0" aria-label="Posição do áudio" />
+             <span class="muted corte-time">0:00 / 0:00</span>
+             <button type="button" class="btn corte-rate" data-delta="-0.5" title="Diminuir velocidade">-0.5×</button>
+             <button type="button" class="btn corte-rate" data-delta="0.5" title="Aumentar velocidade">+0.5×</button>
+             <span class="muted corte-rate-label">1×</span>
+           </div>
          </div>` : ''}
        </div>
      </div>`;
   }).join("") || "<div class='muted'>Sem cortes identificados.</div>";
+  wireCortePlayers();
+}
+
+function wireCortePlayers(){
+  // Player de áudio dos cortes no padrão da página (barra de tempo, relógio,
+  // velocidade) — o <audio> nativo fica oculto e a UI é customizada.
+  document.querySelectorAll(".corte-player").forEach(container => {
+    const el = container.querySelector(".corte-audio");
+    const playBtn = container.querySelector(".corte-play");
+    const seek = container.querySelector(".corte-seek");
+    const time = container.querySelector(".corte-time");
+    const rateLabel = container.querySelector(".corte-rate-label");
+    if (!el || !playBtn || !seek || !time || !rateLabel) return;
+    const fmt = (s) => {
+      if (!isFinite(s) || s < 0) s = 0;
+      const m = Math.floor(s / 60);
+      return m + ":" + String(Math.floor(s % 60)).padStart(2, "0");
+    };
+    const refresh = () => {
+      const d = el.duration;
+      if (isFinite(d) && d > 0) seek.max = String(d);
+      if (!seek._drag) seek.value = String(el.currentTime || 0);
+      time.textContent = fmt(el.currentTime) + " / " + fmt(el.duration);
+      playBtn.innerHTML = el.paused ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
+    };
+    playBtn.addEventListener("click", () => {
+      if (el.paused) { el.play().catch(() => {}); } else { el.pause(); }
+    });
+    ["play", "pause", "ended", "loadedmetadata", "timeupdate"].forEach(ev =>
+      el.addEventListener(ev, refresh)
+    );
+    const seekTo = () => {
+      const v = Number(seek.value);
+      if (isFinite(v)) el.currentTime = v;
+    };
+    seek.addEventListener("input", seekTo);
+    seek.addEventListener("pointerdown", () => { seek._drag = true; });
+    ["pointerup", "pointercancel", "blur", "lostpointercapture"].forEach(ev =>
+      seek.addEventListener(ev, () => { seek._drag = false; seekTo(); refresh(); })
+    );
+    container.querySelectorAll(".corte-rate").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const rate = Math.min(3, Math.max(0.5, (el.playbackRate || 1) + Number(btn.dataset.delta)));
+        el.playbackRate = rate;
+        rateLabel.textContent = rate.toFixed(1).replace(".0", "") + "×";
+      });
+    });
+    refresh();
+  });
 }
 
 function pauseOthers(el, kind) {
@@ -6366,6 +6535,11 @@ function applyCdnOverrides(map){
   if (Array.isArray(FILES.cortes)) {
     for (let i = 0; i < FILES.cortes.length; i++) {
       FILES.cortes[i] = resolve("cortes/" + FILES.cortes[i]);
+    }
+  }
+  if (Array.isArray(FILES.thumbs)) {
+    for (let i = 0; i < FILES.thumbs.length; i++) {
+      if (FILES.thumbs[i]) FILES.thumbs[i] = resolve("cortes/" + FILES.thumbs[i]);
     }
   }
   const q = FILES.qualidades || {};

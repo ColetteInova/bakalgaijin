@@ -162,6 +162,7 @@ export default function VodDownloader() {
   });
   const [skipCortes, setSkipCortes] = useState(false);
   const [skipMapa, setSkipMapa] = useState(false);
+  const [skipAnalise, setSkipAnalise] = useState(false);
   const [batchStep, setBatchStep] = useState("mapa");
   const [startingBatchReprocess, setStartingBatchReprocess] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -385,12 +386,12 @@ export default function VodDownloader() {
       const res = await fetch("/api/vod/reprepare-all", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ skipCortes, skipMapa }),
+        body: JSON.stringify({ skipCortes, skipMapa, skipAnalise }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar o re-preparo global");
       toast.success(
-        `Re-preparo iniciado para ${data.eligibleCount} episódio(s)${skipCortes ? " (sem cortes virais)" : ""}${skipMapa ? " (sem mapas)" : ""}. Acompanhe em Downloads.`
+        `Re-preparo iniciado para ${data.eligibleCount} episódio(s)${skipCortes ? " (sem cortes virais)" : ""}${skipMapa ? " (sem mapas)" : ""}${skipAnalise ? " (sem análise)" : ""}. Acompanhe em Downloads.`
       );
       if (data.skippedCount > 0) {
         toast.info(`${data.skippedCount} pasta(s) sem comentários ou transcrição serão puladas.`);
@@ -1066,6 +1067,17 @@ export default function VodDownloader() {
                       className="border-slate-600 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
                     />
                     Pular mapas
+                  </label>
+                  <label
+                    className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer select-none"
+                    title="Não refaz a análise (relatório e dashboard) — mantém os arquivos atuais e só refaz cortes faltantes + índice"
+                  >
+                    <Checkbox
+                      checked={skipAnalise}
+                      onCheckedChange={(checked) => setSkipAnalise(checked === true)}
+                      className="border-slate-600 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
+                    />
+                    Pular análise
                   </label>
                   <div className="flex items-center gap-2">
                     <select

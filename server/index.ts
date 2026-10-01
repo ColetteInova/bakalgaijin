@@ -1404,12 +1404,13 @@ async function startServer() {
     res.json(folders);
   });
 
-  async function runGlobalReprepare(job: VodJob, skipCortes: boolean, skipMapa: boolean) {
+  async function runGlobalReprepare(job: VodJob, skipCortes: boolean, skipMapa: boolean, skipAnalise: boolean) {
     const pipeline = job.pipeline!;
     let pendingOutput = "";
     const env: Record<string, string> = {};
     if (skipCortes) env.SKIP_CORTES = "1";
     if (skipMapa) env.SKIP_MAPA = "1";
+    if (skipAnalise) env.SKIP_ANALISE = "1";
     let idx = 0;
     let total = 0;
     let current = "";
@@ -1440,6 +1441,8 @@ async function startServer() {
               stage = "pulando cortes virais";
             } else if (/==> SKIP_MAPA=1/.test(line)) {
               stage = "pulando mapas";
+            } else if (/==> SKIP_ANALISE=1/.test(line)) {
+              stage = "pulando análise (mantendo relatório/dashboard)";
             } else if (/==> \[pulando\]/.test(line)) {
               stage = "pulado (sem pré-requisitos)";
             } else if (/==> Atualizando índice geral/.test(line)) {
@@ -1474,7 +1477,11 @@ async function startServer() {
       return;
     }
 
-    const { skipCortes, skipMapa } = (req.body ?? {}) as { skipCortes?: boolean; skipMapa?: boolean };
+    const { skipCortes, skipMapa, skipAnalise } = (req.body ?? {}) as {
+      skipCortes?: boolean;
+      skipMapa?: boolean;
+      skipAnalise?: boolean;
+    };
 
     const folders = fs.readdirSync(SAIDA_DIR, { withFileTypes: true }).filter((entry) => entry.isDirectory());
     const eligibleCount = folders.filter((entry) => {
@@ -1506,7 +1513,7 @@ async function startServer() {
       },
     };
     jobs.set(job.id, job);
-    void runGlobalReprepare(job, skipCortes === true, skipMapa === true);
+    void runGlobalReprepare(job, skipCortes === true, skipMapa === true, skipAnalise === true);
     res.status(202).json({ id: job.id, eligibleCount, skippedCount: folders.length - eligibleCount });
   });
 

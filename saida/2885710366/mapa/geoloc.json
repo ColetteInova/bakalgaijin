@@ -5,149 +5,150 @@
   "provider": "gemini",
   "v": 4,
   "725": {
-    "nome": "Galeria Soffitel / Mini shopping Galvão Bueno",
-    "rua": "Rua Tomás Gonzaga",
-    "lat": -23.55817695619667,
-    "lng": -46.634821549037596,
+    "nome": "Rua da Glória",
+    "rua": "Rua dos Estudantes",
+    "lat": -23.55745,
+    "lng": -46.63462,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "785": {
-    "nome": "Galeria comercial",
-    "rua": "Rua Tomás Gonzaga",
-    "lat": -23.55817695619667,
-    "lng": -46.634821549037596,
+    "nome": "Galeria Comercial",
+    "rua": "Rua dos Estudantes",
+    "lat": -23.55745,
+    "lng": -46.63462,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "845": {
-    "nome": "Escola Estadual Pandiá Calógeras",
-    "rua": "Rua Tomás Gonzaga",
-    "lat": -23.55817695619667,
-    "lng": -46.634821549037596,
+    "nome": "Escola Estadual Caetano de Campos",
+    "rua": "Rua dos Estudantes",
+    "lat": -23.55745,
+    "lng": -46.63462,
     "estabelecimentos": [
-      "Escola Estadual Pandiá Calógeras"
+      "Escola Estadual Caetano de Campos",
+      "Templo Budista Busshinji"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Tomás Gonzaga, em direção à Rua Galvão Bueno. Do outro lado da rua é visível o prédio histórico amarelo da EE Pandiá Calógeras e os tradicionais postes de iluminação vermelhos (suzuranto) típicos do bairro da Liberdade.",
+    "justificativa": "O streamer está caminhando pela calçada da Rua dos Estudantes em direção à Rua São Joaquim / Rua da Glória no bairro da Liberdade. Ao fundo do lado esquerdo vê-se o portal em pedra característico do Templo Budista Soto Zenshu Busshinji (número 199). Do outro lado da rua observa-se o muro e prédio histórico da Escola Estadual Caetano de Campos e as tradicionais luminárias orientais vermelhas (suzuranto).",
     "skip": false,
     "osint": true
   },
   "905": {
-    "nome": "Rua Galvão Bueno",
-    "rua": "Rua Galvão Bueno",
-    "lat": -23.558227978098337,
-    "lng": -46.6346235245188,
-    "estabelecimentos": [],
+    "nome": "Escola Estadual Professora Maria José",
+    "rua": "Rua da Glória",
+    "lat": -23.55748,
+    "lng": -46.63422,
+    "estabelecimentos": [
+      "Escola Estadual Professora Maria José"
+    ],
     "confianca": "baixa",
-    "justificativa": "A cena exibe os clássicos postes vermelhos de iluminação com luminárias suzuranto, típicos do bairro da Liberdade. O streamer observa a fachada de um casarão histórico/institucional amarelo com gradil e grafites do outro lado da via. A posição sob uma pérgula de madeira na calçada corresponde ao trecho central da Rua Galvão Bueno.",
+    "justificativa": "A imagem mostra a fachada histórica e característica da Escola Estadual Professora Maria José, com sua arquitetura escolar paulista do início do século XX e muro grafitado. Na calçada e na via são visíveis as tradicionais luminárias orientais (suzuranto) vermelhas típicas do bairro da Liberdade ao longo da Rua da Glória. O streamer está posicionado na calçada oposta ao edifício escolar.",
     "skip": false,
     "osint": true
   },
   "965": {
-    "nome": "Rua Barão de Iguape",
-    "rua": "Rua Barão de Iguape",
-    "lat": -23.558279,
-    "lng": -46.634425500000006,
+    "nome": "Rua Tomás Gonzaga",
+    "rua": "Rua Tomás Gonzaga",
+    "lat": -23.55838,
+    "lng": -46.634445,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada de mosaico português característica de São Paulo na Rua Barão de Iguape, virando em direção à Rua Galvão Bueno. Ao fundo, avista-se a interseção com a Rua Galvão Bueno, onde são visíveis os tradicionais postes/luminárias vermelhas japonesas (Suzuranto) e as fachadas comerciais do coração da Liberdade.",
+    "justificativa": "O streamer está caminhando pela calçada em padrão geométrico paulista na Rua Tomás Gonzaga em direção à esquina com a Rua Galvão Bueno. Ao fundo, no cruzamento, são visíveis as tradicionais luminárias orientais vermelhas (suzuranto) e o prédio de fachada amarela/vermelha na esquina com a Galvão Bueno. A lateral do edifício com pilares e recuos cinzas corresponde exatamente à fachada dos fundos/lateral na Tomás Gonzaga próximo ao número 80-100.",
     "skip": false,
     "osint": true
   },
   "1025": {
     "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.5578645,
-    "lng": -46.63438775,
+    "lat": -23.55793,
+    "lng": -46.6342825,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está descendo a calçada da Rua Galvão Bueno em direção ao viaduto sobre a Ligação Leste-Oeste / cruzamento com a Rua Américo de Campos. A calçada apresenta o clássico mosaico português com símbolos orientais (tomoe) e postes vermelhos no estilo suzuranto típicos do bairro da Liberdade. Ao fundo nota-se a esquina com prédios tradicionais e carros subindo a via de mão única.",
+    "justificativa": "O streamer está descendo a calçada característica com o mosaico tradicional de símbolos Tomoe (típico da Liberdade) na Rua Galvão Bueno. À esquerda, vê-se a parede com azulejos horizontais escuros e cinzas da lateral do Viaduto Cidade de Osaka / edificação adjacente, caminhando em direção ao cruzamento com a Rua Américo de Campos, onde se vê ao fundo os postes vermelhos orientais (suzuranto).",
     "skip": false,
     "osint": true
   },
   "1085": {
-    "nome": "Maid Café (referenciado na fala/área)",
-    "rua": "Rua Tomás Gonzaga",
-    "lat": -23.55745,
-    "lng": -46.63435,
+    "nome": "Fachadas comerciais locais",
+    "rua": "Rua dos Estudantes",
+    "lat": -23.55748,
+    "lng": -46.63412,
     "estabelecimentos": [
-      "Maid Café (referenciado na fala/área)",
-      "Fachadas comerciais da Liberdade"
+      "Fachadas comerciais locais"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Tomás Gonzaga, famosa por restaurantes e pelo Chestnut Maid Café/Cosplay cafés. Ao fundo e nas luminárias características ('suzurantō' estilizadas vermelhas da Liberdade) reconhece-se o traçado que desce em direção à Rua Galvão Bueno / Rua dos Estudantes.",
+    "justificativa": "O streamer caminha pela calçada da Rua dos Estudantes no bairro da Liberdade, identificável pelos postes vermelhos típicos em estilo oriental (Suzuran-tō) e pela arquitetura comercial com portas de enrolar. A fala do streamer faz referência a um maid café ('meio de café' na transcrição fonética), ponto característico das imediações entre a Rua dos Estudantes e a Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "1145": {
-    "nome": "Esquina Grill do Gonzaga",
-    "rua": "Rua Tomás Gonzaga",
-    "lat": -23.5577,
-    "lng": -46.6346,
+    "nome": "Esquina da Lins (Bar e Restaurante)",
+    "rua": "Rua Galvão Bueno",
+    "lat": -23.55745,
+    "lng": -46.63435,
     "estabelecimentos": [
-      "Esquina Grill do Gonzaga",
-      "Restaurante Esquina"
+      "Esquina da Lins (Bar e Restaurante)"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está atravessando a faixa de pedestres na Rua Tomás Gonzaga, na esquina com a icônica Rua Galvão Bueno, no bairro da Liberdade. Na esquina vê-se o restaurante com fachada amarela e vermelha 'Esquina Grill do Gonzaga' (antigo Chopp do Gonzaga/Esquina) e ao fundo a continuação da Rua Tomás Gonzaga com postes tradicionais Suzuranto da Liberdade. A topografia da rua inclinada à esquerda confirma a subida da Rua Tomás Gonzaga em direção à Galvão Bueno.",
+    "justificativa": "O streamer está na faixa de pedestres no cruzamento da Rua Galvão Bueno com a Rua Américo de Campos, no bairro da Liberdade. Na esquina oposta destaca-se o comércio com fachada amarela e vermelha e o letreiro 'esquina'. Ao fundo, na Rua Galvão Bueno, são visíveis os tradicionais postes de iluminação no estilo suzuran-tō da Liberdade.",
     "skip": false,
     "osint": true
   },
   "1205": {
-    "nome": "Rua Américo de Campos",
-    "rua": "Rua Américo de Campos",
-    "lat": -23.556986000000002,
-    "lng": -46.634749,
+    "nome": "Rua Galvão Bueno",
+    "rua": "Rua Galvão Bueno",
+    "lat": -23.556860999999998,
+    "lng": -46.6344895,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer caminha pela calçada da Rua Américo de Campos em direção ao cruzamento com a Rua Galvão Bueno, cujas tradicionais luminárias orientais vermelhas (suzuranto) são visíveis ao fundo. No primeiro plano nota-se o piso com o padrão de mitsudomoe característico do bairro da Liberdade e a lixeira pública da prefeitura de São Paulo.",
+    "justificativa": "O streamer caminha pela calçada da Rua Galvão Bueno na Liberdade, caracterizada pelo mosaico português com o símbolo 'tomoe' no piso. Ao fundo observa-se a perspectiva da rua em declive/aclive com as tradicionais luminárias orientais (suzuranto) e o muro característico à esquerda próximo à saída do viaduto ou trecho central do bairro.",
     "skip": false,
     "osint": true
   },
   "1265": {
     "nome": "Limited Edition",
-    "rua": "Rua Galvão Bueno",
+    "rua": "Rua dos Estudantes",
     "lat": -23.556272,
-    "lng": -46.634898,
+    "lng": -46.634629,
     "estabelecimentos": [
       "Limited Edition",
       "Outlet"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está na Rua Galvão Bueno, no bairro da Liberdade, caminhando em direção ao sul próximo ao número 200/300. Do lado direito da rua é visível a fachada da conhecida loja colecionável 'Limited Edition' (Rua Galvão Bueno, 212). Além disso, vê-se os postes vermelhos típicos (suzuranto) da Liberdade e a clássica calçada de pedras portuguesas com motivos geométricos.",
+    "justificativa": "O streamer está na Rua dos Estudantes, próximo ao cruzamento com a Rua Galvão Bueno no bairro da Liberdade. Do lado direito é visível a vitrine da famosa loja de colecionáveis 'Limited Edition' (Rua dos Estudantes, 38). Ao fundo na esquina são visíveis as tradicionais luminárias suzuran da Liberdade na Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "1325": {
-    "nome": "Galeria SoGo Plaza Shopping",
-    "rua": "Rua Galvão Bueno",
+    "nome": "Galeria / Loja de colecionáveis e eletrônicos da Liberdade",
+    "rua": "Rua dos Estudantes",
     "lat": -23.556389799999998,
-    "lng": -46.6348202,
+    "lng": -46.6346011,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "1385": {
-    "nome": "Sogo Plaza Shopping",
-    "rua": "Rua Galvão Bueno",
+    "nome": "Limited Edition",
+    "rua": "Rua dos Estudantes",
     "lat": -23.5565076,
-    "lng": -46.6347424,
+    "lng": -46.6345732,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "1445": {
-    "nome": "Shopping Sogo Plaza",
-    "rua": "Rua Galvão Bueno",
+    "nome": "Galeria SoGo Plaza Shopping",
+    "rua": "Rua dos Estudantes",
     "lat": -23.556625399999998,
-    "lng": -46.6346646,
+    "lng": -46.6345453,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -155,29 +156,29 @@
   },
   "1505": {
     "nome": "25:05",
-    "rua": "Rua Galvão Bueno",
+    "rua": "Rua dos Estudantes",
     "lat": -23.5567432,
-    "lng": -46.6345868,
+    "lng": -46.6345174,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "1565": {
-    "nome": "SoGo Plaza Shopping",
-    "rua": "Rua Galvão Bueno",
+    "nome": "Galeria SoGo Plaza Shopping",
+    "rua": "Rua dos Estudantes",
     "lat": -23.556860999999998,
-    "lng": -46.634509,
+    "lng": -46.634489499999994,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "1625": {
-    "nome": "Galeria SoGo Plaza Shopping",
-    "rua": "Rua Galvão Bueno",
+    "nome": "Rua Galvão Bueno",
+    "rua": "Rua dos Estudantes",
     "lat": -23.5569788,
-    "lng": -46.6344312,
+    "lng": -46.634461599999995,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -185,19 +186,19 @@
   },
   "1685": {
     "nome": "Sogo Plaza Shopping",
-    "rua": "Rua Galvão Bueno",
+    "rua": "Rua dos Estudantes",
     "lat": -23.557096599999998,
-    "lng": -46.6343534,
+    "lng": -46.634433699999995,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "1745": {
-    "nome": "SoGo Plaza Shopping",
-    "rua": "Rua Galvão Bueno",
+    "nome": "Rua Galvão Bueno",
+    "rua": "Rua dos Estudantes",
     "lat": -23.5572144,
-    "lng": -46.6342756,
+    "lng": -46.634405799999996,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -207,124 +208,124 @@
     "nome": "Estátua do Shenlong / Vitrine Geek temática",
     "rua": "Rua Galvão Bueno",
     "lat": -23.557332199999998,
-    "lng": -46.6341978,
+    "lng": -46.6343779,
     "estabelecimentos": [
       "Estátua do Shenlong / Vitrine Geek temática",
       "Ikesaki Cosméticos"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada decorada com o padrão tradicional em mosaico português da Liberdade na Rua Galvão Bueno. À direita, vê-se a vitrine com uma grande estátua do Shenlong (Dragon Ball) de uma loja temática/galeria geek próxima ao número 40 da Rua Galvão Bueno, a poucos metros da Praça da Liberdade e do Viaduto Cidade de Osaka.",
+    "justificativa": "O streamer está caminhando pela calçada com o padrão clássico de mosaico japonês (tomoe) característico da Rua Galvão Bueno no bairro da Liberdade. À direita é visível a vitrine com uma grande escultura do dragão Shenlong (Dragon Ball) na altura do número 40-60 da Rua Galvão Bueno, próximo ao início da rua junto à Praça da Liberdade/Metrô Japão-Liberdade. Ao fundo nota-se a arquitetura comercial típica e as luminárias orientais suzuran-tō.",
     "skip": false,
     "osint": true
   },
   "1865": {
-    "nome": "Claro / Odontocompany",
+    "nome": "Bradesco",
     "rua": "Rua Galvão Bueno",
     "lat": -23.55745,
-    "lng": -46.63412,
+    "lng": -46.63435,
     "estabelecimentos": [
-      "Claro / Odontocompany",
-      "Estacionamento / Edifício Comercial"
+      "Bradesco",
+      "Claro"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno na Liberdade, caracterizada pelas tradicionais luminárias orientais vermelhas (suzuranto). Ao fundo, observa-se a esquina com a Rua Américo de Campos, com prédios comerciais e a sinalização urbana típica do bairro da Liberdade.",
+    "justificativa": "O streamer caminha pela calçada da Rua Galvão Bueno na Liberdade, caracterizada pelas tradicionais luminárias orientais vermelhas (Suzuranto) e piso em mosaico português com temática zodiacal/oriental. No fundo, é visível a esquina com a Rua Américo de Campos e a fachada de edifícios comerciais conhecidos no cruzamento.",
     "skip": false,
     "osint": true
   },
   "1925": {
     "nome": "Sogo Plaza Shopping",
     "rua": "Rua dos Estudantes",
-    "lat": -23.55743,
-    "lng": -46.63462,
+    "lat": -23.55663,
+    "lng": -46.63454,
     "estabelecimentos": [
-      "Sogo Plaza Shopping",
-      "Edifício número 257"
+      "Sogo Plaza Shopping"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está descendo a Rua dos Estudantes, no bairro da Liberdade, em direção à Rua Galvão Bueno, que pode ser vista ao fundo com as tradicionais lanternas vermelhas e placas azuis de sinalização. À direita é visível o número predial 257 e mais adiante o acesso lateral do Sogo Plaza Shopping. A inclinação da via e a arquitetura circundante confirmam o trecho exato entre a Praça da Liberdade e a Galvão Bueno.",
+    "justificativa": "O streamer está descendo a Rua dos Estudantes em direção à Rua Galvão Bueno/Praça da Liberdade. É visível o número 257 no edifício à direita e a entrada do Sogo Plaza Shopping ao fundo, além dos tradicionais postes/luminárias Suzuranto da Liberdade no cruzamento à frente.",
     "skip": false,
     "osint": true
   },
   "1985": {
     "nome": "Banco do Brasil",
-    "rua": "Rua dos Estudantes",
-    "lat": -23.55688,
-    "lng": -46.6348275,
+    "rua": "Rua Galvão Bueno",
+    "lat": -23.55710925,
+    "lng": -46.63517125,
     "estabelecimentos": [
       "Banco do Brasil",
-      "Edifício Tozan",
+      "Edifício Tóquio",
       "Lotte"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está na calçada da Rua dos Estudantes, próximo ao cruzamento com a Rua Galvão Bueno no bairro da Liberdade. Do outro lado da rua são claramente visíveis uma agência do Banco do Brasil, o letreiro do 'Edifício Tozan' e a loja 'Lotte', além dos postes tradicionais 'Suzuranto' em estilo oriental.",
+    "justificativa": "A imagem mostra a Rua Galvão Bueno, no bairro da Liberdade, com as tradicionais luminárias Suzuranto visíveis ao fundo. Do outro lado da rua vê-se claramente uma agência do Banco do Brasil (Edifício Tóquio, Rua Galvão Bueno, 212) e um letreiro da loja Lotte. O streamer caminha pela calçada leste da Galvão Bueno, logo ao sul da esquina com a Rua dos Estudantes e em frente à entrada da Rua dos Aflitos.",
     "skip": false,
     "osint": true
   },
   "2045": {
     "nome": "Lotte",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556330000000003,
-    "lng": -46.635035,
+    "lat": -23.5575885,
+    "lng": -46.6358025,
     "estabelecimentos": [
       "Lotte",
-      "Lojas e galerias da Galvão Bueno"
+      "Suzy Lee (ao fundo)"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, no bairro da Liberdade, em direção sul/norte. Do outro lado da via é visível a fachada da loja 'LOTTE' (Rua Galvão Bueno, aprox. nº 200-210) e os postes de iluminação típicos (suzuranto) da Liberdade. As placas de estacionamento e o fluxo de pedestres confirmam o trecho comercial central da Galvão Bueno.",
+    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, no bairro da Liberdade, em direção sul/sudeste. Do outro lado da rua é visível a loja de cosméticos/produtos coreanos e asiáticos 'LOTTE' (número 205 da Rua Galvão Bueno). Ao fundo, observa-se as luminárias no estilo suzuran e a movimentação típica próxima à esquina com a Rua Américo de Campos.",
     "skip": false,
     "osint": true
   },
   "2105": {
-    "nome": "Torii da Liberdade",
+    "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55654175,
-    "lng": -46.6359495,
-    "estabelecimentos": [
-      "Torii da Liberdade"
-    ],
+    "lat": -23.5572845,
+    "lng": -46.635859499999995,
+    "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra o início da Rua Galvão Bueno, logo ao sul da Praça da Liberdade, com o icônico portal Torii vermelho visível à esquerda sobre a via. À direita, observa-se a calçada com ladrilhos característicos da Liberdade e o mural colorido grafitado na lateral do prédio onde artistas de rua andinos frequentemente se apresentam. A localização exata fica a poucos metros da esquina com a Praça da Liberdade.",
+    "justificativa": "O streamer está na Rua Galvão Bueno, exatamente ao lado do icônico grande Torii vermelho da Liberdade, que marca o início da via junto à Praça da Liberdade. Na parede à direita há murais grafitados característicos da esquina e artistas de rua peruanos se apresentando na calçada decorada com padrão oriental.",
     "skip": false,
     "osint": true
   },
   "2165": {
-    "nome": "Viaduto Cidade de Osaka",
-    "rua": "Viaduto Cidade de Osaka",
-    "lat": -23.5567535,
-    "lng": -46.636864,
+    "nome": "Viaduto Mie Ken",
+    "rua": "Viaduto Mie Ken",
+    "lat": -23.5569805,
+    "lng": -46.6359165,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem foi registrada sobre o Viaduto Cidade de Osaka (continuação da Rua Galvão Bueno / Praça Almeida Júnior), olhando no sentido oeste por cima da Ligação Leste-Oeste (Radial Leste / Av. Alcântara Machado / Rua Conde de Sarzedas). Mais à frente é visível o Viaduto Mie Ken (Rua da Glória) cruzando por cima da mesma via expressa, além do casarão histórico amarelo na encosta à direita.",
+    "justificativa": "O streamer está filmando a partir da mureta do Viaduto Mie Ken (ligação da Rua Conde de Pinhal / Rua Fagundes), olhando em direção ao norte/centro ao longo da Avenida 23 de Maio (Corredor Norte-Sul). À frente vê-se o Viaduto Pedroso cruzando a avenida, além dos muros de contenção e vegetação característicos desta trincheira viária na divisa entre a Liberdade e a Bela Vista.",
     "skip": false,
     "osint": true
   },
   "2225": {
-    "nome": "Viaduto Cidade de Osaka",
-    "rua": "Viaduto Cidade de Osaka",
-    "lat": -23.556486749999998,
-    "lng": -46.635772,
+    "nome": "Viaduto Cidade de Osaka (Rua Galvão Bueno)",
+    "rua": "Viaduto Cidade de Osaka (Rua Galvão Bueno)",
+    "lat": -23.55716525,
+    "lng": -46.63501825,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está sobre o Viaduto Cidade de Osaka (continuação da Rua Galvão Bueno), olhando no sentido norte em direção ao Centro histórico por cima da Avenida Vinte e Três de Maio. Ao fundo é visível o Viaduto Condessa de São Joaquim cruzando a avenida, além dos edifícios característicos da região da Bela Vista e Liberdade. A sombra das tradicionais lanternas orientais (suzuranto) da Liberdade pode ser vista projetada na pista abaixo.",
+    "justificativa": "O streamer está sobre o Viaduto Cidade de Osaka, na Rua Galvão Bueno, olhando em direção ao norte/noroeste por cima da Ligação Leste-Oeste (Viaduto Radial Leste). É possível ver a trincheira expressa abaixo e o viaduto da Rua São Paulo/Rua Conselheiro Furtado mais à frente. As sombras na pista mostram as distintas luminárias de estilo japonês (suzuranto) características do viaduto da Liberdade.",
     "skip": false,
     "osint": true
   },
   "2285": {
-    "nome": "Rua Galvão Bueno",
+    "nome": "Feira da Liberdade (bancas de artesanato)",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55622,
-    "lng": -46.63468,
-    "estabelecimentos": [],
+    "lat": -23.55735,
+    "lng": -46.63412,
+    "estabelecimentos": [
+      "Feira da Liberdade (bancas de artesanato)",
+      "Lojas e galerias comerciais da Galvão Bueno"
+    ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela Rua Galvão Bueno no sentido sul, próximo ao início da rua junto à Praça da Liberdade. São visíveis os postes e arandelas vermelhas típicos (suzuranto) e o piso com faixa verde/pintura da área de pedestres. Também se observam barracas da feira da Liberdade e a movimentação característica de pedestres na calçada e leito carroçável.",
+    "justificativa": "O streamer caminha pela Rua Galvão Bueno em direção ao sul, logo após a Praça da Liberdade. As tradicionais luminárias orientais vermelhas (suzuranto) margeiam a via, que apresenta pintura de calçadão/área compartilhada e diversas barracas de artesanato e comércio ambulante típicos dos fins de semana no bairro da Liberdade.",
     "skip": false,
     "osint": true
   },
   "2345": {
-    "nome": "Jardim Oriental da Liberdade (área interna comercial/galeria",
+    "nome": "Jardim Oriental da Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.5565275,
-    "lng": -46.63454,
+    "lat": -23.557485,
+    "lng": -46.63418,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -333,94 +334,96 @@
   "2405": {
     "nome": "Jardim Oriental da Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556835,
-    "lng": -46.6344,
-    "estabelecimentos": [],
+    "lat": -23.55762,
+    "lng": -46.63424,
+    "estabelecimentos": [
+      "Jardim Oriental da Liberdade"
+    ],
     "confianca": "baixa",
-    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
-    "skip": false
+    "justificativa": "O streamer está percorrendo o caminho estreito cercado por bambuzal e muro característico do Jardim Oriental da Liberdade, situado no miolo de quadra na Rua Galvão Bueno. A fala sobre ter ficado 'preso/trancado pra dentro' e ter que fazer o percurso condiz com o circuito fechado e os portões de controle de acesso desse jardim público.",
+    "skip": false,
+    "osint": true
   },
   "2465": {
     "nome": "41:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.557142499999998,
-    "lng": -46.634260000000005,
+    "lat": -23.557526,
+    "lng": -46.634434,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "2525": {
-    "nome": "Jardim Oriental da Liberdade",
+    "nome": "Jardim Oriental",
     "rua": "Jardim Oriental da Liberdade (acesso pela Rua Galvão Bueno)",
-    "lat": -23.55745,
-    "lng": -46.63412,
+    "lat": -23.557432,
+    "lng": -46.634628,
     "estabelecimentos": [
-      "Jardim Oriental da Liberdade"
+      "Jardim Oriental"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está percorrendo uma trilha estreita com bambus e cerca rústica pertencente à área interna e encosta do Jardim Oriental da Liberdade, localizado na Rua Galvão Bueno. Ao fundo, avista-se a estrutura em estilo tradicional japonês (vermelha) e os prédios circundantes típicos do bairro da Liberdade. A pergunta 'Tem saída por aqui, mano?' corrobora o fato de ele estar explorando o caminho lateral/fundos do jardim oriental.",
+    "justificativa": "O streamer está percorrendo o caminho estreito e arborizado do Jardim Oriental na Liberdade, com cercas de bambu características e vegetação densa ao lado do declive. Ao fundo e à direita, são visíveis as estruturas vermelhas tradicionais japonesas e construções no entorno da Rua Galvão Bueno. A pergunta do streamer ('Tem saída por aqui, mano?') reflete a trilha sem saída/caminho interno do próprio Jardim Oriental.",
     "skip": false,
     "osint": true
   },
   "2585": {
     "nome": "Jardim Oriental da Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556815,
-    "lng": -46.634344999999996,
+    "lat": -23.5567785,
+    "lng": -46.634494000000004,
     "estabelecimentos": [
       "Jardim Oriental da Liberdade"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está no acesso/interior aberto do Jardim Oriental da Liberdade, situado na Rua Galvão Bueno, nº 72. Através das grades vermelhas à direita, é visível a movimentação da calçada e os comércios do outro lado da Rua Galvão Bueno. Os elementos de jardim de pedra, bambu e o portão característico confirmam a localização exata do espaço público.",
+    "justificativa": "O streamer está no acesso do Jardim Oriental da Liberdade, localizado na Rua Galvão Bueno, 72. É possível ver os elementos paisagísticos típicos do jardim (pedras, caminho de acesso, grades vermelhas orientais) e o gradil que separa o espaço da calçada movimentada da Rua Galvão Bueno. A movimentação de pessoas e a saída em direção à calçada corroboram a frase de que ele vai sair do local.",
     "skip": false,
     "osint": true
   },
   "2645": {
-    "nome": "Galeria Tokyo Box",
+    "nome": "Galeria Tokyo Rose",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556611875,
-    "lng": -46.634646875,
+    "lat": -23.556125,
+    "lng": -46.63436,
     "estabelecimentos": [
-      "Galeria Tokyo Box"
+      "Galeria Tokyo Rose",
+      "Sogo Plaza Shopping"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer caminha pelo início da Rua Galvão Bueno, partindo da Praça da Liberdade. À direita é possível observar a entrada da galeria comercial e a icônica fachada em arquitetura oriental tradicional em vermelho e branco. As luminárias suzuran-tō e a aglomeração típica da feirinha confirmam o ponto exato no coração do bairro da Liberdade.",
+    "justificativa": "O streamer está caminhando pela Rua Galvão Bueno no bairro da Liberdade. À direita é possível ver a entrada da 'Galeria Tokyo Rose' com sua fachada oriental vermelha característica, além dos postes com luminárias Suzuranto típicos da via. O fluxo segue em direção à Praça da Liberdade, próximo ao cruzamento com a Rua dos Estudantes.",
     "skip": false,
     "osint": true
   },
   "2705": {
-    "nome": "Galeria SoGo Plaza Shopping",
+    "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556408750000003,
-    "lng": -46.63494875,
-    "estabelecimentos": [
-      "Galeria SoGo Plaza Shopping"
-    ],
+    "lat": -23.5567875,
+    "lng": -46.63449,
+    "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer caminha pela calçada da Rua Galvão Bueno, em frente à fachada vermelha da Galeria SoGo Plaza Shopping (Rua Galvão Bueno, 40-44). No alto à esquerda, são visíveis as tradicionais luminárias Suzuranto vermelhas características da Liberdade e a movimentação típica de pedestres perto do Viaduto Cidade de Osaka e Praça da Liberdade.",
+    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, no coração do bairro da Liberdade, como evidenciado pelo poste característico vermelho com luminárias suzuranto à esquerda. A área apresenta intensa movimentação de pedestres e comércios de rua típicos do trecho entre a Praça da Liberdade e o Viaduto Cidade de Osaka.",
     "skip": false,
     "osint": true
   },
   "2765": {
     "nome": "Feira da Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556755833333334,
-    "lng": -46.634749166666666,
+    "lat": -23.55745,
+    "lng": -46.63462,
     "estabelecimentos": [
       "Feira da Liberdade",
       "Café"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada com ciclofaixa/área pintada de verde na Rua Galvão Bueno, logo no início ao sul da Praça da Liberdade. São visíveis os postes vermelhos com lanternas típicas (suzuran-tō), barracas de feira de rua e comércios locais, além da movimentação de pedestres próxima à estação Japão-Liberdade.",
+    "justificativa": "O streamer está caminhando na Rua Galvão Bueno em direção à Praça da Liberdade, visível pela ciclovia/faixa verde ao centro, postes suzurantou característicos da Liberdade e a estrutura dos quiosques da feira de rua nos finais de semana. À esquerda vê-se um quiosque fixo e à direita a movimentação de pedestres e barracas na calçada próxima a cafeterias e comércios locais.",
     "skip": false,
     "osint": true
   },
   "2825": {
     "nome": "47:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556436255555553,
-    "lng": -46.63471341111111,
+    "lat": -23.557276333333334,
+    "lng": -46.634650888888885,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -429,130 +432,128 @@
   "2885": {
     "nome": "Rua dos Estudantes",
     "rua": "Rua dos Estudantes",
-    "lat": -23.556116677777776,
-    "lng": -46.634677655555556,
+    "lat": -23.557102666666665,
+    "lng": -46.63468177777778,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando por uma rua de pedestres na Liberdade, visivelmente no trecho da Rua dos Estudantes próximo à Rua Galvão Bueno e à Praça da Liberdade, com grande movimentação de pedestres, mesas na calçada e sinalização viária no solo ('CAMINHÃO'). A pavimentação mista de asfalto estreito com calçadas em mosaico português e construções comerciais típicas é característica dessa área fechada para carros aos fins de semana/feirinha.",
+    "justificativa": "O streamer está caminhando por uma rua de pedestres/comércio intenso na Liberdade, próxima à Praça da Liberdade e à Rua Galvão Bueno (típica área com calçadão/rua compartilhada como a Rua dos Estudantes ou Rua dos Aflitos). O asfalto apresenta faixas de demarcação de tráfego/carga e piso de paralelepípedo/intertravado característico das vias reformadas do entorno central da Liberdade com intensa circulação de pessoas.",
     "skip": false,
     "osint": true
   },
   "2945": {
-    "nome": "Rua dos Aflitos",
-    "rua": "Rua dos Aflitos",
-    "lat": -23.556783338888888,
-    "lng": -46.63464882777778,
-    "estabelecimentos": [],
+    "nome": "Capela de Nossa Senhora dos Aflitos",
+    "rua": "Beco dos Aflitos",
+    "lat": -23.556928999999997,
+    "lng": -46.634712666666665,
+    "estabelecimentos": [
+      "Capela de Nossa Senhora dos Aflitos"
+    ],
     "confianca": "baixa",
-    "justificativa": "A frase falada pelo streamer ('Como que é a história da capela?') faz referência direta à Capela de Nossa Senhora dos Aflitos, um marco histórico icônico e folclórico do bairro da Liberdade. O streamer está parado em frente a portas de comércio de enrolar no acesso ou imediações da Rua dos Aflitos / Beco dos Aflitos, próximo ao cruzamento com a Rua Galvão Bueno.",
+    "justificativa": "O streamer está em frente a uma porta de enrolar comercial com grafite no bairro da Liberdade. A menção direta à história da 'capela' refere-se à famosa Capela de Nossa Senhora dos Aflitos, localizada no Beco dos Aflitos, um ponto histórico e turístico muito visitado por quem explora a região a pé.",
     "skip": false,
     "osint": true
   },
   "3005": {
     "nome": "Rua dos Estudantes",
     "rua": "Rua dos Estudantes",
-    "lat": -23.556290219444442,
-    "lng": -46.63464536388889,
+    "lat": -23.556363049999998,
+    "lng": -46.63467728333333,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A cena mostra a saída de um imóvel comercial com portão/porta de tela metálica preta perfurada, voltada para uma calçada ou recuo com piso cimentado. Ao fundo vê-se a fachada de um prédio antigo com blocos de alvenaria/pedra amarelada, janelas baixas gradeadas e diversas pichações, padrão muito comum nas travessas do miolo da Liberdade, próximo à Rua dos Estudantes e Rua da Glória.",
+    "justificativa": "O streamer está em uma área externa ou saída de galeria/prédio recém-reformado com fachada de esquadrias pretas e tela metálica, de frente para uma parede de alvenaria antiga com acabamento em blocos e bastante pichação característica do centro e da Liberdade. Devido à ausência de placas com nomes visíveis ou letreiros de comércio no enquadramento imediato, a localização é estimada na região central do bairro da Liberdade com base no trajeto a pé habitual.",
     "skip": false,
     "osint": true
   },
   "3065": {
-    "nome": "Igreja Nossa Senhora dos Aflitos",
+    "nome": "Capela dos Aflitos",
     "rua": "Rua dos Aflitos",
-    "lat": -23.556860109722223,
-    "lng": -46.634382681944444,
+    "lat": -23.556911524999997,
+    "lng": -46.63476864166667,
     "estabelecimentos": [
-      "Igreja Nossa Senhora dos Aflitos",
-      "Galeria"
+      "Capela dos Aflitos"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela Rua dos Aflitos, um beco característico e estreito na Liberdade que dá acesso à histórica Capela dos Aflitos ao fundo (onde há grande aglomeração e decorações). A frase dita ('Será que pode entrar no...') refere-se à própria Capela/Igreja dos Aflitos situada no final do beco. A saída do beco para a movimentada Rua Galvão Bueno fica logo atrás do ponto de visão.",
+    "justificativa": "O streamer está caminhando pela Rua dos Aflitos, um beco característico sem saída (ou com acesso restrito) situado no bairro da Liberdade. Ao fundo observa-se o cruzamento e movimentação de pessoas que dão acesso à Rua Galvão Bueno, além da proximidade histórica com a Capela de Nossa Senhora dos Aflitos, justificando a fala do streamer sobre entrar no local.",
     "skip": false,
     "osint": true
   },
   "3125": {
     "nome": "Cápsula",
-    "rua": "Rua dos Estudantes",
-    "lat": -23.55659005486111,
-    "lng": -46.634666340972224,
+    "rua": "Rua dos Aflitos",
+    "lat": -23.556643262499996,
+    "lng": -46.63505182083333,
     "estabelecimentos": [
       "Cápsula",
-      "Laoma"
+      "Laomaizi"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando na Rua dos Estudantes, no trecho exclusivo para pedestres próximo à Praça da Liberdade e à Rua Galvão Bueno. À direita é possível ver a fachada colorida e grafitada com o letreiro 'Cápsula' e a calçada decorada/pintada, enquanto à esquerda avista-se o letreiro da lanchonete/restaurante asiático Laoma.",
+    "justificativa": "O streamer está caminhando na Rua dos Aflitos, um conhecido beco de pedestres na Liberdade com fachadas e calçadas coloridas/pintadas. É visível à direita a loja temática Cápsula com seu mural pintado e à esquerda estabelecimentos como o restaurante Laomaizi. A via conecta a Rua Galvão Bueno com a Capela dos Aflitos.",
     "skip": false,
     "osint": true
   },
   "3185": {
-    "nome": "Fachada vermelha tradicional / comércio da Liberdade",
+    "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55632,
-    "lng": -46.63495,
-    "estabelecimentos": [
-      "Fachada vermelha tradicional / comércio da Liberdade"
-    ],
+    "lat": -23.556375,
+    "lng": -46.635335,
+    "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela Rua Galvão Bueno em direção ao sul, como evidenciado pelos postes vermelhos típicos de iluminação estilo suzuran-tō da Liberdade visíveis ao fundo e na lateral direita. A arquitetura comercial característica com portas de enrolar e fachadas vermelhas, somada ao fluxo denso de pedestres típico do bairro da Liberdade, confirma a via principal. A iluminação solar vinda do poente reforça a orientação espacial ao longo da Galvão Bueno entre a Praça da Liberdade e a Rua Américo de Campos.",
+    "justificativa": "O streamer caminha pela Rua Galvão Bueno no bairro da Liberdade, perceptível pelas características luminárias orientais vermelhas (suzuranto) e o fluxo denso de pedestres no asfalto. Vê-se ao fundo o icônico pórtico Torii vermelho próximo ao Viaduto Cidade de Osaka / Praça da Liberdade. A fachada vermelha e a arquitetura das portas de enrolar correspondem exatamente ao trecho comercial da Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "3245": {
-    "nome": "Feira da Liberdade",
+    "nome": "Feira da Liberdade (Feirinha de Artesanato)",
     "rua": "Praça da Liberdade",
-    "lat": -23.555775,
-    "lng": -46.635415,
+    "lat": -23.5558025,
+    "lng": -46.635572499999995,
     "estabelecimentos": [
-      "Feira da Liberdade",
-      "Feira de Arte e Artesanato da Liberdade"
+      "Feira da Liberdade (Feirinha de Artesanato)"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pelos corredores da tradicional Feira de Arte, Artesanato e Cultura da Liberdade, montada na Praça da Liberdade. São visíveis as características barracas com toldos listrados em vermelho e branco comercializando produtos artesanais e crochê. Ao fundo ao topo esquerdo avistam-se os edifícios que circundam a praça nas imediações da saída do Metrô Japão-Liberdade.",
+    "justificativa": "O streamer está caminhando pelos corredores de barracas listradas em vermelho e branco características da tradicional Feira da Liberdade, realizada na Praça da Liberdade. Ao fundo são visíveis prédios comerciais típicos do entorno da praça e da saída da estação de metrô Japão-Liberdade. O streamer comenta sobre artigos de crochê e artesanato vendidos nas barracas locais.",
     "skip": false,
     "osint": true
   },
   "3305": {
     "nome": "Feira da Liberdade",
     "rua": "Praça da Liberdade",
-    "lat": -23.5557575,
-    "lng": -46.635112500000005,
+    "lat": -23.556008249999998,
+    "lng": -46.635192249999996,
     "estabelecimentos": [
       "Feira da Liberdade",
       "Metrô Japão-Liberdade"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela Praça da Liberdade durante a tradicional Feirinha da Liberdade, marcada pelas barracas listradas de vermelho e branco. Ao fundo é visível a entrada e os acessos da Estação Japão-Liberdade do Metrô, com edifícios comerciais clássicos voltados para a praça e o início da Rua Galvão Bueno.",
+    "justificativa": "O streamer está caminhando pela Praça da Liberdade, em meio às barracas listradas características da tradicional Feira da Liberdade. Ao fundo são visíveis as muretas e estruturas de acesso à estação de metrô Japão-Liberdade e edifícios comerciais no entorno da praça. O piso em mosaico/intertravado avermelhado e a presença de pedestres e feirantes confirmam com precisão o local.",
     "skip": false,
     "osint": true
   },
   "3365": {
-    "nome": "Sukiya Liberdade",
+    "nome": "Sukiya",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55574,
-    "lng": -46.63481,
+    "lat": -23.556214,
+    "lng": -46.634812,
     "estabelecimentos": [
-      "Sukiya Liberdade",
+      "Sukiya",
       "McDonald's"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno em direção ao sul, exatamente em frente ao restaurante da rede Sukiya, localizado no número 63. Na imagem também são visíveis os tradicionais postes vermelhos (suzuranto) da Liberdade e a fachada do McDonald's ao fundo na mesma calçada.",
+    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, no bairro da Liberdade, logo em frente ao restaurante da rede Sukiya (número 83). Ao fundo da mesma calçada é possível ver o logotipo e letreiro de um McDonald's, além dos tradicionais postes vermelhos (suzuranto) típicos da Liberdade. A fala do streamer ('Aqui o Sukiaka') faz referência direta ao restaurante Sukiya visível à direita da imagem.",
     "skip": false,
     "osint": true
   },
   "3425": {
     "nome": "Ikesaki Cosméticos",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.555485,
-    "lng": -46.635345,
+    "lat": -23.555722000000003,
+    "lng": -46.635346,
     "estabelecimentos": [
       "Ikesaki Cosméticos",
       "McDonald's"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando na calçada da Rua Galvão Bueno, no bairro da Liberdade. Do outro lado da via é visível a fachada vermelha da tradicional loja Ikesaki Cosméticos (Rua Galvão Bueno, 37). À frente, do mesmo lado da calçada, observa-se o totem/marquise de um McDonald's e ônibus do transporte público municipal de São Paulo (SPTrans).",
+    "justificativa": "O streamer caminha pela calçada da Rua Galvão Bueno em direção ao sul da Liberdade. Do outro lado da rua é visível a fachada vermelha e branca da loja Ikesaki Cosméticos (Rua Galvão Bueno, 37). À frente na mesma calçada nota-se a marquise e o totem com os arcos dourados do McDonald's (Rua Galvão Bueno, 55).",
     "skip": false,
     "osint": true
   },
@@ -563,108 +564,108 @@
     "lng": -46.63588,
     "estabelecimentos": [
       "Feira da Liberdade",
-      "Totem da Estação Japão-Liberdade do Metrô"
+      "Estação Japão-Liberdade (Metrô)"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando em meio às tradicionais barracas listradas da Feira da Liberdade, na Praça da Liberdade. Ao fundo à direita é visível o totem preto com a inscrição 'Liberda...' da estação de Metrô Japão-Liberdade (Linha 1-Azul). Ao fundo também se observam os edifícios característicos do entorno da praça e o início da Rua Galvão Bueno.",
+    "justificativa": "O streamer está caminhando pela Praça da Liberdade durante a tradicional Feira da Liberdade, caracterizada pelas barracas listradas em vermelho e branco e venda de plantas e artesanato. No canto superior direito, é visível o totem preto de identificação da Estação Japão-Liberdade com o texto 'Liberda...'. O piso de mosaico português e os prédios ao fundo no alinhamento da Avenida da Liberdade e Rua Galvão Bueno confirmam a localização exata.",
     "skip": false,
     "osint": true
   },
   "3545": {
     "nome": "Feira da Liberdade",
     "rua": "Praça da Liberdade",
-    "lat": -23.55529,
-    "lng": -46.63582,
+    "lat": -23.55526,
+    "lng": -46.63567,
     "estabelecimentos": [
       "Feira da Liberdade",
       "Metrô Japão-Liberdade"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela Praça da Liberdade durante a tradicional Feira da Liberdade (Feirinha da Liberdade), evidenciada pelas barracas listradas de vermelho e branco. O piso de mosaico e ladrilhos hidráulicos com piso tátil característico confirma a localização na esplanada central da praça, junto à saída da estação Japão-Liberdade do Metrô.",
+    "justificativa": "O streamer está caminhando pela Praça da Liberdade (Praça Japão-Liberdade) durante a tradicional Feira de Artesanato e Comidas Típicas, identificável pelas barracas padronizadas listradas de vermelho e branco. Ao fundo é visível a vegetação da praça, as fachadas comerciais do entorno e o fluxo de pedestres típico próximo à saída da Estação Japão-Liberdade do Metrô.",
     "skip": false,
     "osint": true
   },
   "3605": {
-    "nome": "Feira da Liberdade (barracas de comida)",
+    "nome": "Feira da Liberdade (barracas de rua)",
     "rua": "Praça da Liberdade",
-    "lat": -23.5558275,
-    "lng": -46.6355225,
+    "lat": -23.555795000000003,
+    "lng": -46.63534,
     "estabelecimentos": [
-      "Feira da Liberdade (barracas de comida)"
+      "Feira da Liberdade (barracas de rua)"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando em meio à tradicional Feira da Liberdade, realizada na Praça da Liberdade e trecho inicial da Av. da Liberdade. São visíveis as barracas de comida de rua com toldos listrados e o fluxo intenso de pedestres pela pista fechada para carros. Ao fundo, identificam-se os edifícios modernistas e comerciais que cercam o largo da Praça da Liberdade.",
+    "justificativa": "O streamer está caminhando em meio à tradicional Feirinha da Liberdade na Praça da Liberdade, com o tráfego fechado para pedestres e barracas de comidas típicas em ambos os lados da via. Ao fundo é possível avistar os edifícios característicos do entorno da praça e o início do eixo comercial que leva à Rua Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "3665": {
-    "nome": "Igreja Santa Cruz das Almas dos Enforcados",
+    "nome": "Feira da Liberdade",
     "rua": "Praça da Liberdade",
-    "lat": -23.556365,
-    "lng": -46.635225,
+    "lat": -23.556330000000003,
+    "lng": -46.635009999999994,
     "estabelecimentos": [
+      "Feira da Liberdade",
       "Igreja Santa Cruz das Almas dos Enforcados",
-      "Feira da Liberdade"
+      "Van da Prefeitura de São Paulo"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está atravessando a faixa de pedestres na Praça da Liberdade, na transição para o início da Rua Galvão Bueno. Ao fundo à esquerda é claramente visível a fachada histórica da Igreja Santa Cruz das Almas dos Enforcados e barracas da Feirinha da Liberdade, além de uma van da Prefeitura de São Paulo estacionada.",
+    "justificativa": "O streamer está atravessando a faixa de pedestres na Praça da Liberdade em direção à entrada da Igreja Santa Cruz das Almas dos Enforcados, cuja fachada histórica e escadaria são claramente visíveis ao fundo. À esquerda, veem-se barracas típicas da tradicional Feirinha da Liberdade. À direita, há uma van de atendimento móvel da Prefeitura de São Paulo estacionada junto à via.",
     "skip": false,
     "osint": true
   },
   "3725": {
-    "nome": "Banca de jornal / revistas Galvão Bueno",
+    "nome": "Banca de jornal/revistaria Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.5569075,
-    "lng": -46.6350525,
+    "lat": -23.5561405,
+    "lng": -46.635132625,
     "estabelecimentos": [
-      "Banca de jornal / revistas Galvão Bueno",
-      "Muro com grafites artísticos"
+      "Banca de jornal/revistaria Galvão Bueno"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, na Liberdade, passando ao lado de uma tradicional banca de jornal com toldo azul/verde curvo. À esquerda é visível o extenso muro grafitado e as aberturas do edifício escolar/comercial típico desse trecho da rua entre a Rua dos Estudantes e a Praça da Liberdade. O piso de mosaico português e o perfil do mobiliário urbano confirmam a via principal do bairro.",
+    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, próximo a uma clássica banca de jornal com toldo curvado azul e mercadorias geek/japonesas. À esquerda, vê-se o longo muro grafitado e colorido característico desse trecho da Galvão Bueno em direção ao viaduto e à Praça da Liberdade.",
     "skip": false,
     "osint": true
   },
   "3785": {
     "nome": "Avenida da Liberdade",
     "rua": "Avenida da Liberdade",
-    "lat": -23.55597875,
-    "lng": -46.63483625,
+    "lat": -23.555951,
+    "lng": -46.63525525,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada leste da Avenida da Liberdade, no sentido bairro (sul), próximo ao cruzamento com a Rua Américo de Campos. Ao fundo, do outro lado da avenida, vê-se a fileira de prédios comerciais e residenciais característicos do trecho próximo à Praça da Liberdade e à saída da estação Japão-Liberdade do Metrô, com bandeiras de propaganda eleitoral ao longo do canteiro/grade.",
+    "justificativa": "O streamer caminha pela calçada da Avenida da Liberdade, no sentido sul/bairro, próximo ao cruzamento com a Rua Américo de Campos. Do outro lado da avenida, é visível o canteiro/calçadão central e edifícios altos típicos do início da Liberdade perto da estação Japão-Liberdade, além de diversas bandeiras de campanha eleitoral espalhadas pela via.",
     "skip": false,
     "osint": true
   },
   "3845": {
-    "nome": "Feira da Liberdade (barracas de comida)",
+    "nome": "Feira da Liberdade (barracas de rua)",
     "rua": "Praça da Liberdade",
-    "lat": -23.55505,
-    "lng": -46.63462,
+    "lat": -23.556135875,
+    "lng": -46.63517584375,
     "estabelecimentos": [
-      "Feira da Liberdade (barracas de comida)",
+      "Feira da Liberdade (barracas de rua)",
       "Igreja Santa Cruz das Almas dos Enforcados"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada em frente à Paróquia Santa Cruz das Almas dos Enforcados, na Praça da Liberdade. À direita é possível ver as grades de ferro trabalhadas e a escadaria da igreja histórica. À esquerda encontram-se as barracas da tradicional Feira da Liberdade, com vista em direção à descida da Rua Galvão Bueno.",
+    "justificativa": "O streamer está caminhando na calçada leste da Praça da Liberdade, logo em frente às grades e escadaria da Paróquia Santa Cruz das Almas dos Enforcados. À esquerda da imagem são visíveis as barracas da tradicional Feirinha da Liberdade e os postes Suzuranto típicos do bairro. Ao fundo, nota-se a continuação da praça em direção ao metrô Japão-Liberdade e à Rua Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "3905": {
-    "nome": "Empório Marukai",
+    "nome": "Mercearia / Empório Oriental na Liberdade",
     "rua": "Praça da Liberdade",
-    "lat": -23.555077,
-    "lng": -46.63479314285714,
+    "lat": -23.556023765625,
+    "lng": -46.63520348828125,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "3965": {
-    "nome": "Empório Marukai",
+    "nome": "Supermercado Marukai",
     "rua": "Praça da Liberdade",
-    "lat": -23.555104,
-    "lng": -46.634966285714285,
+    "lat": -23.55591165625,
+    "lng": -46.6352311328125,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -673,8 +674,8 @@
   "4025": {
     "nome": "Empório Marukai",
     "rua": "Praça da Liberdade",
-    "lat": -23.555131,
-    "lng": -46.63513942857143,
+    "lat": -23.555799546875,
+    "lng": -46.63525877734375,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -683,8 +684,8 @@
   "4085": {
     "nome": "Empório Marukai",
     "rua": "Praça da Liberdade",
-    "lat": -23.555158000000002,
-    "lng": -46.63531257142857,
+    "lat": -23.555687437499998,
+    "lng": -46.635286421874994,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -693,8 +694,8 @@
   "4145": {
     "nome": "1:09:05",
     "rua": "Praça da Liberdade",
-    "lat": -23.555185,
-    "lng": -46.635485714285714,
+    "lat": -23.555575328125,
+    "lng": -46.635314066406245,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -703,8 +704,8 @@
   "4205": {
     "nome": "1:10:05",
     "rua": "Praça da Liberdade",
-    "lat": -23.555212,
-    "lng": -46.63565885714286,
+    "lat": -23.55546321875,
+    "lng": -46.635341710937496,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -712,207 +713,201 @@
   },
   "4265": {
     "nome": "YoGuTi",
-    "rua": "Praça da Liberdade",
-    "lat": -23.555239,
-    "lng": -46.635832,
+    "rua": "Rua Galvão Bueno",
+    "lat": -23.555351109375,
+    "lng": -46.63536935546875,
     "estabelecimentos": [
       "YoGuTi",
       "Feira da Liberdade"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer caminha pelo calçadão da Praça da Liberdade em direção à Rua Galvão Bueno, passando em frente às tradicionais barracas da Feira da Liberdade (com listras vermelhas e brancas). À direita, é possível ver com clareza o letreiro da loja 'YoGuTi' com o número 143, acompanhado de uma estátua da Hello Kitty na calçada e das icônicas luminárias Suzuranto vermelhas características do bairro.",
+    "justificativa": "O streamer está caminhando pela Rua Galvão Bueno em direção à Praça da Liberdade, com barracas da tradicional Feira da Liberdade à esquerda. À direita, é claramente visível o letreiro e fachada da loja 'YoGuTi' (Rua Galvão Bueno, 143) com decorações da Hello Kitty e postes vermelhos no estilo suzuranto típicos do bairro.",
     "skip": false,
     "osint": true
   },
   "4325": {
     "nome": "Towa Empório Oriental",
     "rua": "Praça da Liberdade",
-    "lat": -23.554944499999998,
-    "lng": -46.635226,
+    "lat": -23.555239,
+    "lng": -46.635397,
     "estabelecimentos": [
       "Towa Empório Oriental",
       "Estacionamento 24 Horas"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está na calçada em frente ao tradicional estabelecimento Towa Empório Oriental, localizado na Praça da Liberdade, número 268/270, bem no início da conexão com a Rua Galvão Bueno. Ao fundo, vê-se a arquitetura oriental típica do bairro da Liberdade e barracas da tradicional feira de rua. O pavimento avermelhado e as características urbanas confirmam com precisão este ponto geográfico.",
+    "justificativa": "O streamer está na calçada em frente ao famoso 'Towa Empório Oriental' (Praça da Liberdade, 268), bem no início da transição para a Rua Galvão Bueno. A imagem exibe as barracas da tradicional Feira da Liberdade à direita e a arquitetura oriental típica do bairro ao fundo. O piso avermelhado com blocos intertravados e o grande fluxo de pedestres confirmam o local exato na Praça da Liberdade.",
     "skip": false,
     "osint": true
   },
   "4385": {
     "nome": "Feira da Liberdade",
     "rua": "Praça da Liberdade",
-    "lat": -23.555465249999997,
-    "lng": -46.6353085,
+    "lat": -23.554974,
+    "lng": -46.6354952,
     "estabelecimentos": [
       "Feira da Liberdade",
       "Igreja Santa Cruz das Almas dos Enforcados"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela Praça da Liberdade durante a tradicional Feira da Liberdade, caracterizada pelas barracas listradas em vermelho e branco e pelo calçamento de paralelepípedos avermelhados intertravados. Ao fundo, avista-se a torre da Igreja Santa Cruz das Almas dos Enforcados e os edifícios no entorno da praça, próximo à transição para o início da Rua Galvão Bueno.",
+    "justificativa": "O streamer está caminhando pela Praça da Liberdade no piso de blocos intertravados vermelhos característico, onde ocorrem as tradicionais feirinhas da Liberdade com barracas listradas em vermelho e branco. Ao fundo é visível a torre sineira da Igreja Santa Cruz das Almas dos Enforcados e o fluxo de pessoas na confluência em direção à Rua Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "4445": {
-    "nome": "Bradesco",
-    "rua": "Rua Galvão Bueno",
-    "lat": -23.555986,
-    "lng": -46.635391,
+    "nome": "Bradesco Prime",
+    "rua": "Praça da Liberdade",
+    "lat": -23.554621,
+    "lng": -46.634691,
     "estabelecimentos": [
-      "Bradesco",
-      "YoGuTi"
+      "Bradesco Prime",
+      "Yoguti"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está na calçada da Rua Galvão Bueno em frente a uma agência do Bradesco (com placa informando atendimento e letreiros típicos). Logo ao lado é visível a fachada da loja YoGuTi. Ao fundo no reflexo do vidro é possível identificar o topo característico da torre da Igreja Santa Cruz das Almas dos Enforcados na Praça da Liberdade.",
+    "justificativa": "O streamer está na calçada da Praça da Liberdade, em frente a uma agência do Bradesco Prime (com letras '...de sco Prime' e o logotipo vermelho visíveis no vidro). Ao lado, nota-se a fachada da sorveteria/iogurteria 'Yoguti'. Ao fundo pelo reflexo e linha de visão da praça, percebe-se a ambientação típica do entorno imediato da estação Japão-Liberdade do metrô.",
     "skip": false,
     "osint": true
   },
   "4505": {
-    "nome": "Café Sol (Restaurante Café Sol)",
+    "nome": "Restaurante Café Sol",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.555608,
-    "lng": -46.6350305,
+    "lat": -23.5554355,
+    "lng": -46.6344055,
     "estabelecimentos": [
-      "Café Sol (Restaurante Café Sol)",
-      "Barracas da Feira da Liberdade"
+      "Restaurante Café Sol"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando na Rua Galvão Bueno em direção à Praça da Liberdade, logo no início da via decorada com as tradicionais lanternas suzuran-tō. À esquerda é claramente visível a fachada do 'Restaurante Café Sol' (Rua Galvão Bueno, 23). Ao fundo, vê-se a entrada da Praça da Liberdade e barracas típicas de feira de rua.",
+    "justificativa": "O streamer está no início da Rua Galvão Bueno, bem próximo à Praça da Liberdade, caminhando em direção ao sul. É claramente visível à esquerda a fachada do estabelecimento 'Restaurante Café Sol' (Rua Galvão Bueno, 23). Também são visíveis as tradicionais luminárias orientais (Suzuranto) e as barracas de rua típicas da feirinha da Liberdade.",
     "skip": false,
     "osint": true
   },
   "4565": {
-    "nome": "Yanime",
+    "nome": "Yanime Store",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556070599999998,
-    "lng": -46.6351059,
+    "lat": -23.556442750000002,
+    "lng": -46.63451275,
     "estabelecimentos": [
-      "Yanime",
-      "Barracas de artesanato e anime"
+      "Yanime Store"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno no bairro da Liberdade, em frente ao banner promocional da loja Yanime (com o desenho de um gato IA estilo anime). Ao fundo e ao redor observam-se barracas de rua com produtos orientais/anime e as tradicionais luminárias orientais (suzuranto) características do trecho inicial da via.",
+    "justificativa": "O streamer caminha pela calçada da Rua Galvão Bueno, no coração da Liberdade, em frente a barracas de rua e comércios locais. É claramente visível o wind banner da loja 'Yanime' com a ilustração de um gato gerado por IA com cabelo do Zoro (One Piece), além das tradicionais luminárias orientais vermelhas (suzuranto) ao fundo.",
     "skip": false,
     "osint": true
   },
   "4625": {
-    "nome": "Feira da Liberdade (barracas de rua)",
-    "rua": "Viaduto Cidade de Osaka",
-    "lat": -23.5565332,
-    "lng": -46.6351813,
+    "nome": "Feira da Liberdade",
+    "rua": "Rua Galvão Bueno",
+    "lat": -23.55745,
+    "lng": -46.63462,
     "estabelecimentos": [
-      "Feira da Liberdade (barracas de rua)",
-      "Torii da Liberdade"
+      "Feira da Liberdade",
+      "Viaduto Cidade de Osaka"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando sobre o Viaduto Cidade de Osaka (continuação pedonal da Rua Galvão Bueno que passa por cima da Radial Leste / Ligação Leste-Oeste). É visível o icônico Torii vermelho com lanternas estilizadas na entrada do viaduto em direção à Galvão Bueno, além das grades vermelhas laterais e das barracas de comércio de rua típicas da Liberdade.",
+    "justificativa": "O streamer está caminhando sobre o Viaduto Cidade de Osaka / extensão da Rua Galvão Bueno, no bairro da Liberdade. Ao fundo é visível o icônico pórtico vermelho japonês (torii) com luminárias orientais (suzuranto) e diversas barracas de artesanato e feirantes ao longo do gradil vermelho do viaduto sobre a Radial Leste (Ligação Leste-Oeste).",
     "skip": false,
     "osint": true
   },
   "4685": {
-    "nome": "Feira da Liberdade",
+    "nome": "Feira da Liberdade (bancadas)",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556980250000002,
-    "lng": -46.634966937499996,
+    "lat": -23.55734,
+    "lng": -46.63468,
     "estabelecimentos": [
-      "Feira da Liberdade",
-      "Torii da Liberdade"
+      "Feira da Liberdade (bancadas)",
+      "Torii da Liberdade / Viaduto Cidade de Osaka"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando sobre o Viaduto Cidade de Osaka / extensão pedonal da Rua Galvão Bueno em direção ao icônico Torii vermelho da Liberdade. Ao lado direito é visível a arquibancada/bancos de madeira instalados no espaço aberto sobre a Radial Leste e a arte urbana típica da área. A perspectiva aponta diretamente para o Torii na entrada da Rua Galvão Bueno no coração do bairro da Liberdade.",
+    "justificativa": "O streamer está caminhando sobre o Viaduto Cidade de Osaka / extensão da Rua Galvão Bueno em direção ao grande Torii vermelho tradicional da Liberdade, que marca a entrada da área comercial do bairro. É visível o piso pintado de verde/ciclovia-calçadão, os bancos de madeira escalonados à direita e as barracas de feira à esquerda. Ao fundo, após o Torii, vê-se a continuação da Rua Galvão Bueno.",
     "skip": false,
     "osint": true
   },
   "4745": {
-    "nome": "EcoBox Operação Centro Limpo",
-    "rua": "Rua dos Estudantes",
-    "lat": -23.5574273,
-    "lng": -46.63475257499999,
+    "nome": "EcoBox Loga",
+    "rua": "Rua Galvão Bueno",
+    "lat": -23.55745,
+    "lng": -46.63435,
     "estabelecimentos": [
-      "EcoBox Operação Centro Limpo",
-      "Poste Suzuranto"
+      "EcoBox Loga",
+      "Lojas da Galvão Bueno"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra o início da Rua dos Estudantes quase no cruzamento com a Rua Galvão Bueno, no bairro da Liberdade. É visível a típica calçada com padrão oriental (tomoe), a lixeira EcoBox da Prefeitura de São Paulo e, ao fundo, os postes vermelhos Suzuranto característicos do bairro na esquina com a Galvão Bueno.",
+    "justificativa": "O streamer está caminhando pela calçada da Rua Galvão Bueno, no bairro da Liberdade, próximo à esquina com a Rua dos Estudantes. É possível identificar as tradicionais luminárias orientais vermelhas (suzuranto), a lixeira Ecobox da Prefeitura de São Paulo/Loga e o edifício de estacionamento vertical ao fundo, característico dessa interseção central do bairro.",
     "skip": false,
     "osint": true
   },
   "4805": {
     "nome": "Rua dos Estudantes",
     "rua": "Rua dos Estudantes",
-    "lat": -23.55742865,
-    "lng": -46.634436287499994,
+    "lat": -23.5579,
+    "lng": -46.63393,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando na calçada da Rua dos Estudantes, no coração da Liberdade, famosa pela grande movimentação de pedestres, filas para lojas de cultura pop/anime e eventos (indicada pela pessoa com banquinho dobrável na calçada). A arquitetura dos edifícios à esquerda, os postes vermelhos orientais (Suzuranto) e a calçada em blocos intertravados confirmam o trecho entre a Praça da Liberdade / Rua Galvão Bueno e a Rua da Glória.",
+    "justificativa": "O streamer está caminhando pela calçada de paralelepípedos/intertravado da Rua dos Estudantes, próximo ao cruzamento com a Rua Galvão Bueno na Liberdade. O chat menciona proximidade com lojas conhecidas do trecho nerd/anime da região. A perspectiva da ladeira estreita com pedestres e postes característicos confirma a localização no trecho inicial da Rua dos Estudantes.",
     "skip": false,
     "osint": true
   },
   "4865": {
-    "nome": "Postes Suzuranto da Liberdade",
-    "rua": "Rua Tomás Gonzaga",
-    "lat": -23.556704325,
-    "lng": -46.63465814375,
-    "estabelecimentos": [
-      "Postes Suzuranto da Liberdade",
-      "Restaurantes locais"
-    ],
+    "nome": "Rua dos Estudantes",
+    "rua": "Rua dos Estudantes",
+    "lat": -23.557675,
+    "lng": -46.634025,
+    "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer caminha pela calçada em obras da Rua Tomás Gonzaga, sentido Rua da Glória / Galvão Bueno, no bairro da Liberdade. São visíveis as tradicionais luminárias vermelhas (suzuranto) características do bairro, o casario histórico preservado à esquerda e a descida/declive típica desta via gastronômica.",
+    "justificativa": "O streamer caminha pela calçada da Rua dos Estudantes em direção à Rua da Glória no bairro da Liberdade. São visíveis os postes orientais (suzuran-tō) vermelhos característicos da região, a arquitetura com casarões históricos preservados à esquerda e as obras de requalificação de calçadas em andamento.",
     "skip": false,
     "osint": true
   },
   "4925": {
-    "nome": "169",
+    "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.5571521625,
-    "lng": -46.634479071875006,
-    "estabelecimentos": [
-      "169"
-    ],
+    "lat": -23.55745,
+    "lng": -46.63412,
+    "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está caminhando em frente ao número 169 de uma rua comercial do bairro da Liberdade, com toldo escuro e banners de cafeteria/sucos na fachada. No trajeto a pé habitual do streamer saindo da Praça da Liberdade rumo ao viaduto, a Rua Galvão Bueno, 169 abriga estabelecimentos de lanches/cafeteria compatíveis com a imagem.",
+    "justificativa": "O streamer está caminhando na calçada em frente a um comércio com toldo escuro exibindo o número 169 e painéis com fotos de café, pão de queijo e sucos naturais. Na Rua Galvão Bueno, principal via comercial de pedestres da Liberdade, a numeração 169 corresponde a um ponto comercial/lanchonete entre a Rua dos Estudantes e a Rua Américo de Campos.",
     "skip": false,
     "osint": true
   },
   "4985": {
     "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55648108125,
-    "lng": -46.6349295359375,
+    "lat": -23.5576,
+    "lng": -46.6343,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está na calçada sob um toldo e fachada pretos típicos do comércio da Liberdade, provavelmente ao longo da Rua Galvão Bueno. O enquadramento é fechado nos participantes, não exibindo nomes de estabelecimentos de forma legível, mas mantendo a continuidade do trajeto a pé pelo centro comercial do bairro.",
+    "justificativa": "O streamer está na calçada em frente a um comércio com toldo preto retrátil e fachada com revestimento escuro, característico do trecho comercial da Rua Galvão Bueno na Liberdade. Pelo ângulo fechado com um fã, os elementos de fundo estão limitados a detalhes da vitrine com cartazes promocionais de bebidas. A coordenada é aproximada para o eixo central de pedestres do bairro.",
     "skip": false,
     "osint": true
   },
   "5045": {
-    "nome": "Estação Liberdade (proximidades)",
+    "nome": "Estátua/decoração temática japonesa",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55581,
-    "lng": -46.63538,
+    "lat": -23.55681,
+    "lng": -46.63467,
     "estabelecimentos": [
-      "Estação Liberdade (proximidades)"
+      "Estátua/decoração temática japonesa",
+      "Lojas da Rua Galvão Bueno"
     ],
     "confianca": "baixa",
-    "justificativa": "O streamer está na calçada da Rua Galvão Bueno, logo no início próximo à Praça da Liberdade, vendo-se um ônibus da SPTrans (Prefeitura de São Paulo) com porta aberta e a clássica luminária estilo suzuran vermelha da Liberdade ao fundo. A lateral do ônibus e os pedestres na calçada estreita com tapumes de obra e comércio local caracterizam o trecho movimentado de pedestres perto da saída do metrô Japão-Liberdade.",
+    "justificativa": "O streamer está na calçada da Rua Galvão Bueno, no bairro da Liberdade, logo em frente a um ônibus municipal da SPTrans (Piso Baixo, Prefeitura de São Paulo) parado no ponto. Ao fundo é visível a iluminação tradicional vermelha (suzuran-tō) característica da Liberdade e decorações comerciais típicas da rua, no trecho entre a Rua dos Aflitos e a Rua Américo de Campos.",
     "skip": false,
     "osint": true
   },
   "5105": {
-    "nome": "Espaço Asiatica",
+    "nome": "Galeria dos Pães / Galeria Comercial Oriental",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55585542857143,
-    "lng": -46.63535771428571,
+    "lat": -23.556829393939392,
+    "lng": -46.6346603030303,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5165": {
-    "nome": "Galeria dos Pães / Praça de alimentação oriental",
+    "nome": "Kakigori Cream",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55590085714286,
-    "lng": -46.63533542857142,
+    "lat": -23.556848787878785,
+    "lng": -46.6346506060606,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -921,78 +916,78 @@
   "5225": {
     "nome": "1:27:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55594628571429,
-    "lng": -46.63531314285714,
+    "lat": -23.55686818181818,
+    "lng": -46.63464090909091,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5285": {
-    "nome": "Restaurante / Lámen na Liberdade",
+    "nome": "Kaigori Dream",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.555991714285714,
-    "lng": -46.635290857142856,
+    "lat": -23.556887575757575,
+    "lng": -46.634631212121214,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5345": {
-    "nome": "Restaurante / Galeria na Liberdade",
+    "nome": "Restaurante / Izakaya na Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556037142857143,
-    "lng": -46.63526857142857,
+    "lat": -23.556906969696968,
+    "lng": -46.634621515151515,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5405": {
-    "nome": "Restaurante / Izakaya na Liberdade (possivelmente Izakaya Is",
+    "nome": "Restaurante / Lamen / Culinária Asiática",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556082571428572,
-    "lng": -46.63524628571428,
+    "lat": -23.55692636363636,
+    "lng": -46.63461181818182,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5465": {
-    "nome": "Restaurante / Izakaya",
+    "nome": "Restaurante japonês / Lámen",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556128,
-    "lng": -46.635224,
+    "lat": -23.556945757575757,
+    "lng": -46.63460212121212,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5525": {
-    "nome": "Sushiro",
+    "nome": "1:32:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55617342857143,
-    "lng": -46.635201714285714,
+    "lat": -23.55696515151515,
+    "lng": -46.63459242424242,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5585": {
-    "nome": "Rua dos Estudantes",
+    "nome": "Restaurante / Izakaya na Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55621885714286,
-    "lng": -46.635179428571426,
+    "lat": -23.556984545454544,
+    "lng": -46.63458272727273,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5645": {
-    "nome": "Rua Galvão Bueno",
+    "nome": "1:34:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55626428571429,
-    "lng": -46.63515714285714,
+    "lat": -23.557003939393937,
+    "lng": -46.63457303030303,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -1001,8 +996,8 @@
   "5705": {
     "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556309714285714,
-    "lng": -46.63513485714286,
+    "lat": -23.557023333333333,
+    "lng": -46.63456333333333,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -1011,38 +1006,38 @@
   "5765": {
     "nome": "1:36:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556355142857143,
-    "lng": -46.63511257142857,
+    "lat": -23.557042727272727,
+    "lng": -46.634553636363634,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5825": {
-    "nome": "Rua Tomás Gonzaga",
+    "nome": "Bairro da Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556400571428572,
-    "lng": -46.635090285714284,
+    "lat": -23.55706212121212,
+    "lng": -46.634543939393936,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5885": {
-    "nome": "Restaurante / Lanchonete de Culinária Japonesa",
+    "nome": "Restaurante / Izakaya na Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556446,
-    "lng": -46.635068,
+    "lat": -23.557081515151513,
+    "lng": -46.634534242424245,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "5945": {
-    "nome": "Restaurante japonês / balcão de street food (Karê e Takoyaki",
+    "nome": "Porque Sim Karaoke Box e Lamen House",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55649142857143,
-    "lng": -46.63504571428571,
+    "lat": -23.55710090909091,
+    "lng": -46.634524545454546,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -1051,58 +1046,58 @@
   "6005": {
     "nome": "Restaurante / Galeria na Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55653685714286,
-    "lng": -46.63502342857143,
+    "lat": -23.557120303030302,
+    "lng": -46.63451484848485,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6065": {
-    "nome": "Cafeteria temática / Lanchonete na Liberdade",
+    "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55658228571429,
-    "lng": -46.63500114285714,
+    "lat": -23.557139696969696,
+    "lng": -46.63450515151515,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6125": {
-    "nome": "Restaurante / Lanchonete Oriental",
+    "nome": "Restaurante asiático / hamburgueria oriental na Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556627714285714,
-    "lng": -46.634978857142855,
+    "lat": -23.55715909090909,
+    "lng": -46.63449545454545,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6185": {
-    "nome": "1:43:05",
+    "nome": "Restaurante / Lanchonete de Curry/Comida Asiática",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556673142857143,
-    "lng": -46.63495657142857,
+    "lat": -23.557178484848485,
+    "lng": -46.63448575757575,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6245": {
-    "nome": "1:44:05",
+    "nome": "Kakigori Cream",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556718571428572,
-    "lng": -46.63493428571429,
+    "lat": -23.55719787878788,
+    "lng": -46.63447606060606,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6305": {
-    "nome": "1:45:05",
+    "nome": "Kakigori Cream",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556764,
-    "lng": -46.634912,
+    "lat": -23.55721727272727,
+    "lng": -46.63446636363636,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
@@ -1111,149 +1106,154 @@
   "6365": {
     "nome": "Kakigori Cream",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55680942857143,
-    "lng": -46.63488971428571,
+    "lat": -23.557236666666665,
+    "lng": -46.634456666666665,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6425": {
-    "nome": "Liberdade",
+    "nome": "1:47:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55685485714286,
-    "lng": -46.634867428571425,
+    "lat": -23.55725606060606,
+    "lng": -46.63444696969697,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6485": {
-    "nome": "Restaurante/Izakaya na Liberdade",
+    "nome": "Restaurante asiático / pastelaria",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55690028571429,
-    "lng": -46.63484514285714,
+    "lat": -23.557275454545454,
+    "lng": -46.63443727272727,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6545": {
-    "nome": "Restaurante / Izakaya na Liberdade",
+    "nome": "Restaurante oriental",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556945714285714,
-    "lng": -46.63482285714286,
+    "lat": -23.557294848484847,
+    "lng": -46.63442757575758,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6605": {
-    "nome": "1:50:05",
+    "nome": "Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.556991142857143,
-    "lng": -46.63480057142857,
+    "lat": -23.55731424242424,
+    "lng": -46.63441787878788,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6665": {
-    "nome": "1:51:05",
+    "nome": "Restaurante / Lanchonete na Liberdade",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.557036571428572,
-    "lng": -46.63477828571428,
+    "lat": -23.557333636363637,
+    "lng": -46.63440818181818,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6725": {
-    "nome": "1:52:05",
+    "nome": "X-Karê",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.557082,
-    "lng": -46.634755999999996,
+    "lat": -23.55735303030303,
+    "lng": -46.63439848484848,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6785": {
-    "nome": "Kakigori House / Café japonês",
+    "nome": "We Coffee / Galeria ou Praça de Alimentação / KAKIGORI Cream",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55712742857143,
-    "lng": -46.634733714285716,
+    "lat": -23.557372424242423,
+    "lng": -46.634388787878784,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6845": {
-    "nome": "X-Kare Liberdade",
+    "nome": "1:54:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55717285714286,
-    "lng": -46.63471142857143,
+    "lat": -23.557391818181816,
+    "lng": -46.634379090909086,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6905": {
-    "nome": "Kaishi Sushi / Restaurante oriental na Rua dos Estudantes",
+    "nome": "Kaishi Ramen Bar",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.55721828571429,
-    "lng": -46.63468914285714,
+    "lat": -23.557411212121213,
+    "lng": -46.634369393939394,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "6965": {
-    "nome": "1:56:05",
+    "nome": "X-Kare",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.557263714285714,
-    "lng": -46.634666857142854,
+    "lat": -23.557430606060606,
+    "lng": -46.634359696969696,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
     "skip": false
   },
   "7025": {
-    "nome": "1:57:05",
-    "rua": "Rua Galvão Bueno",
-    "lat": -23.557309142857143,
-    "lng": -46.634644571428574,
-    "estabelecimentos": [],
+    "nome": "Hospital Leforte Liberdade",
+    "rua": "Rua dos Estudantes",
+    "lat": -23.55745,
+    "lng": -46.63435,
+    "estabelecimentos": [
+      "Hospital Leforte Liberdade",
+      "Izakaya Issa"
+    ],
     "confianca": "baixa",
-    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
-    "skip": false
+    "justificativa": "O streamer está na faixa de pedestres da Rua dos Estudantes, cruzamento imediato com a Rua Galvão Bueno no bairro da Liberdade. Ao fundo é visível a fachada e placa do Hospital Leforte Liberdade, além de luminárias típicas 'suzuranto' e estabelecimentos característicos da esquina da Galvão Bueno com Estudantes.",
+    "skip": false,
+    "osint": true
   },
   "7085": {
-    "nome": "1:58:05",
+    "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.557354571428572,
-    "lng": -46.634622285714286,
+    "lat": -23.55745,
+    "lng": -46.63435,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
-    "skip": false
+    "justificativa": "O streamer está na calçada da Rua Galvão Bueno, no bairro da Liberdade, de frente para um vendedor ambulante de pulseiras. Ao fundo na via é visível a iluminação tradicional vermelha (suzuran-tō) e postes típicos da Liberdade, bem como a descida em direção ao Viaduto Mie Ken / Praça da Liberdade. A fachada branca clássica com grades e o fluxo de veículos identificam com precisão este trecho entre a Rua Américo de Campos e a Rua dos Aflitos.",
+    "skip": false,
+    "osint": true
   },
   "7145": {
     "nome": "Rua Galvão Bueno",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.5574,
-    "lng": -46.6346,
+    "lat": -23.55745,
+    "lng": -46.63435,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "O streamer está na calçada da Rua Galvão Bueno, no bairro da Liberdade, interagindo com um vendedor ambulante de pulseiras artesanais. Ao fundo à esquerda nota-se o gradil branco característico de muretas e construções ao longo da descida da Galvão Bueno/viaduto, e à direita os paralelepípedos e calçada típicos da região central.",
+    "justificativa": "O streamer está na calçada da Rua Galvão Bueno no bairro da Liberdade, abordado por um vendedor ambulante de pulseiras artesanais. Ao fundo à esquerda observa-se uma grade ornamental com desenho geométrico e desnível de terreno característico da descida para o viaduto/trilhos da região. O piso com placas claras de concreto é o padrão das calçadas do eixo central da Liberdade.",
     "skip": false,
     "osint": true
   },
   "7205": {
     "nome": "2:00:05",
     "rua": "Rua Galvão Bueno",
-    "lat": -23.5574,
-    "lng": -46.6346,
+    "lat": -23.55745,
+    "lng": -46.63435,
     "estabelecimentos": [],
     "confianca": "baixa",
     "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",

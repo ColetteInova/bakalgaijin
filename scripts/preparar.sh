@@ -54,8 +54,13 @@ if [ -z "${DEEPSEEK_API_KEY:-}" ]; then
 fi
 export DEEPSEEK_API_KEY
 
-echo "==> Analisando: $DIR"
-"$PY" scripts/preparar.py "$DIR"
+if [ "${SKIP_ANALISE:-0}" = "1" ]; then
+  echo ""
+  echo "==> SKIP_ANALISE=1 — pulando análise (relatório e dashboard mantidos)"
+else
+  echo "==> Analisando: $DIR"
+  "$PY" scripts/preparar.py "$DIR"
+fi
 
 CORTES_DIR="$DIR/cortes"
 if [ "${SKIP_CORTES:-0}" = "1" ]; then
@@ -66,9 +71,14 @@ elif [ ! -d "$CORTES_DIR" ] || [ -z "$(ls -A "$CORTES_DIR" 2>/dev/null)" ]; then
   echo "==> Cortando trechos virais (subpasta cortes/)"
   "$PY" scripts/cortar.py "$DIR"
 
-  echo ""
-  echo "==> Atualizando dashboard com os cortes gerados"
-  "$PY" scripts/preparar.py "$DIR"
+  if [ "${SKIP_ANALISE:-0}" = "1" ]; then
+    echo ""
+    echo "==> SKIP_ANALISE=1 — pulando atualização do dashboard (mantido como está)"
+  else
+    echo ""
+    echo "==> Atualizando dashboard com os cortes gerados"
+    "$PY" scripts/preparar.py "$DIR"
+  fi
 else
   echo ""
   echo "==> Cortes já existem em cortes/ — pulando corte e re-run"
