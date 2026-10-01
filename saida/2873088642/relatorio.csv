@@ -134,7 +134,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 6:09,369,ebuzz250,Ebuzz250,engraçado,1.0,Ebuzz250 subscribed at Tier 1. They've subscribed for 17 months!
 6:10,370,o___fortuna,o___fortuna,confuso,1.0,Ele voltou voltando ou só tá visitando ?
 6:11,371,yukizinhojp,yukizinhojp,engraçado,1.0,baka paz interior
-6:13,373,zkote28,zkote28,neutro,1.0,fala baka
+6:13,373,kotegawa_san,Kotegawa_san,neutro,1.0,fala baka
 6:18,378,caua26k_,caua26k_,neutro,1.0,Obaaaaa
 6:18,378,riperoso,Riperoso,confuso,1.0,"Baka envelheceu bastante em pouco tempo hein, é de hj essa foto?"
 6:19,379,yumemorreu,yumemorreu,neutro,1.0,confucio type beat
@@ -609,7 +609,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 16:58,1018,eaeflorencio,eaeflorencio,neutro,1.0,Acordou cedo em irmão
 16:58,1018,l7ucas_bueno,l7ucas_bueno,positivo,1.0,bakagaPikagasm bakagaPikagasm
 16:59,1019,mozafu_,mozafu_,neutro,1.0,AEEE
-17:02,1022,mimillaszz,Mimillaszz,positivo,1.0,dia bom
+17:02,1022,eusouacamis_,eusouacamis_,positivo,1.0,dia bom
 17:04,1024,strikewolf5,strikewolf5,confuso,1.0,Poze do rodo ta no Japão?
 17:06,1026,tiimoz,tiimoz,neutro,1.0,"até o Baka ta passando fome, imagina ter um dalmata"
 17:10,1030,o_wattfox,O_Wattfox,engraçado,1.0,O_Wattfox subscribed with Prime.
@@ -675,7 +675,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 19:22,1162,pulchram12,pulchram12,engraçado,1.0,KKKKKKKKKKKKKKKKKKKKKKKK
 19:22,1162,ninikoo3,ninikoo3,neutro,1.0,Paia
 19:22,1162,pablovisilva,pablovisilva,engraçado,1.0,Kkkkkkkkkkk
-19:23,1163,zkote28,zkote28,engraçado,1.0,kkkkkkkkkkkkkkkkk
+19:23,1163,kotegawa_san,Kotegawa_san,engraçado,1.0,kkkkkkkkkkkkkkkkk
 19:23,1163,alpharius_456,Alpharius_456,engraçado,1.0,mds kkkkkkkkkkkkkkk
 19:23,1163,riperoso,Riperoso,engraçado,1.0,kkkkkkkkkkkkkkkkkkkkkk
 19:23,1163,aizenr6ss,aizenr6ss,engraçado,1.0,kkkkkkkkkkkkkkkkkkkkkkkkkkk
@@ -834,8 +834,8 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 22:58,1378,atereza01,atereza01,neutro,1.0,da p ver ne
 22:59,1379,strikewolf5,strikewolf5,neutro,1.0,Meu casal
 23:00,1380,atereza01,atereza01,neutro,1.0,nd
-23:00,1380,idley1,Idley1,confuso,1.0,Aqui que é a live do Baka Gracinha ?
 23:00,1380,pablovisilva,pablovisilva,neutro,1.0,Essa é feliz no simples
+23:00,1380,idley1,Idley1,confuso,1.0,Aqui que é a live do Baka Gracinha ?
 23:00,1380,reis_bohnen,reis_bohnen,engraçado,1.0,"pera, pra fazer pausa Kappa"
 23:00,1380,generaldosgado,generaldosgado,neutro,1.0,Momentos de felicidade
 23:04,1384,jhons0ns,jhons0ns,neutro,1.0,@gustavo_todo pprt
@@ -1106,7 +1106,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 32:14,1934,xenohfanes,xenohfanes,neutro,1.0,Na terceira vez é deportação heim
 32:19,1939,pablovisilva,pablovisilva,negativo,1.0,Flopado
 32:22,1942,miqueslift,Miqueslift,neutro,1.0,cobrada ao vivo
-32:23,1943,zkote28,zkote28,neutro,1.0,true da true
+32:23,1943,kotegawa_san,Kotegawa_san,neutro,1.0,true da true
 32:30,1950,riperoso,Riperoso,neutro,1.0,"oia a mentirada, nem postou mais foto"
 32:34,1954,idley1,Idley1,neutro,1.0,"""Place but Japan"""
 32:35,1955,yerbamatth,yerbamatth,neutro,1.0,vale
@@ -1178,7 +1178,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 34:01,2041,ninikoo3,ninikoo3,neutro,1.0,Já ia chupar
 34:04,2044,kthyosu,kthyosu,engraçado,1.0,KKKKKKK
 34:04,2044,wandy_cdt,Wandy_CDT,engraçado,1.0,Kkkkkkkkkk
-34:04,2044,zkote28,zkote28,engraçado,1.0,kkkkk
+34:04,2044,kotegawa_san,Kotegawa_san,engraçado,1.0,kkkkk
 34:05,2045,palhaco7,palhaco7,confuso,1.0,Era meu pai?
 34:06,2046,grayoden,Grayoden,neutro,1.0,Meu pai tá duro
 34:08,2048,morisleepy,morisleepy,neutro,1.0,Oloko
@@ -2057,7 +2057,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 57:09,3429,edubuscador,edubuscador,engraçado,1.0,kkkkkk
 57:09,3429,vandeeeeer,vandeeeeer,neutro,1.0,crl
 57:10,3430,zenith_2xko,zenith_2xko,neutro,1.0,ta pórra
-57:11,3431,zkote28,zkote28,engraçado,1.0,kkkkkkkkkkkkkkkkkkkkkk
+57:11,3431,kotegawa_san,Kotegawa_san,engraçado,1.0,kkkkkkkkkkkkkkkkkkkkkk
 57:11,3431,vandeeeeer,vandeeeeer,engraçado,1.0,kkkkkkkkkk
 57:12,3432,fnaticpe,fnaticpe,neutro,1.0,GG
 57:14,3434,negzus,Negzus,neutro,1.0,KRL
@@ -2081,7 +2081,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 57:16,3436,heartonlyheart,HeartOnlyHeart,engraçado,1.0,Kkkkkkkkkkkkkkkkk
 57:16,3436,sixkush,SixKush,engraçado,1.0,NEM FUDENDO KKKKKKKKKKKKK
 57:17,3437,lanadka,Lanadka,engraçado,1.0,Kkkkkkkkkkkkkkkkkkk oloko
-57:17,3437,zkote28,zkote28,neutro,1.0,krlllllllllllllllllllll
+57:17,3437,kotegawa_san,Kotegawa_san,neutro,1.0,krlllllllllllllllllllll
 57:17,3437,paomofadoo_,paomofadoo_,neutro,1.0,ggg porra
 57:17,3437,dalton_tw,Dalton_TW,neutro,1.0,xiter
 57:17,3437,peterdcn,peterdcn,neutro,1.0,farmou demais
@@ -2526,8 +2526,8 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 1:04:32,3872,tomiso9001,TomISO9001,neutro,1.0,Hoje sim
 1:04:33,3873,a_palavra_cabalistica_eh,凹凸凹凸凹凸凹凸凹凸凹,engraçado,0.667,q isso kkkkkkkkkkkkkkkkk
 1:04:33,3873,pulchram12,pulchram12,engraçado,1.0,Krl kkkkkkk
-1:04:33,3873,thrillerzs,thrillerzs,neutro,1.0,mentira
 1:04:33,3873,kratoscarecaa,kratoscarecaa,neutro,1.0,Porra
+1:04:33,3873,thrillerzs,thrillerzs,neutro,1.0,mentira
 1:04:33,3873,alpharius_456,Alpharius_456,neutro,1.0,AURA
 1:04:34,3874,paomofadoo_,paomofadoo_,neutro,1.0,YES!!!
 1:04:34,3874,annoyinger,Annoyinger,neutro,1.0,Kobe!
@@ -4406,7 +4406,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 1:58:11,7091,paomofadoo_,paomofadoo_,positivo,1.0,@jantardameianoite é sim mano
 1:58:12,7092,urahara_iwnl,urahara_iwnl,neutro,1.0,Live gravada ao vivo
 1:58:14,7094,kratoszxkun,KratosZxKun,neutro,1.0,real
-1:58:15,7095,mimillaszz,Mimillaszz,confuso,1.0,qual a proxima live? so pra eu ver se vale a pena esperar
+1:58:15,7095,eusouacamis_,eusouacamis_,confuso,1.0,qual a proxima live? so pra eu ver se vale a pena esperar
 1:58:16,7096,jantardameianoite,jantardameianoite,neutro,1.0,Toma
 1:58:17,7097,otaku_maliguino,otaku_maliguino,neutro,1.0,live gravada sim
 1:58:17,7097,tainshok_,Tainshok_,positivo,1.0,"Vc ficou gostosinho com esse óculos baka, gostei"
@@ -4811,7 +4811,7 @@ timestamp,offset_segundos,usuario,nome,sentimento,confianca,comentario
 2:07:19,7639,atereza01,atereza01,neutro,1.0,adeus <\\\\\3
 2:07:19,7639,kyry7i,kyry7i,positivo,1.0,Vlw Baka
 2:07:19,7639,morrismky,MorrisMky,neutro,1.0,HypeWave
-2:07:19,7639,mimillaszz,Mimillaszz,neutro,1.0,depressao de domingo
+2:07:19,7639,eusouacamis_,eusouacamis_,neutro,1.0,depressao de domingo
 2:07:20,7640,yawniess,yawniess,inspirado,1.0,porra de raid caraaaaa continua a livezuda
 2:07:20,7640,pedreirosensualizador,pedreirosensualizador,neutro,1.0,Não po
 2:07:21,7641,rickpowd,リックパウダー,engraçado,0.5,e o salário do erick?

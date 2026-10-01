@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T08:34:47",
+  "gerado_em": "2026-10-01T18:58:36",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -14,20 +14,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/1d819639288c8a680ef2_bakagaijinlive_316452665202_1789303348//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7744,
     "duration_label": "2h09min",
-    "views": 18643,
-    "views_label": "18.6k",
+    "views": 18664,
+    "views_label": "18.7k",
     "likes_estimado": 223,
     "likes_label": "223",
     "comentarios": 5015,
-    "taxa_likes": 1.196,
-    "taxa_engajamento": 28.096,
-    "followers_canal": 248245,
+    "taxa_likes": 1.195,
+    "taxa_engajamento": 28.065,
+    "followers_canal": 248243,
     "comparacao_canal": {
-      "mediana_views": 20351.5,
-      "media_views": 22700.2,
-      "mediana_pares": 22060,
+      "mediana_views": 20369.5,
+      "media_views": 22748.8,
+      "mediana_pares": 22075,
       "views_vs_mediana_pct": -8.4,
-      "views_vs_media_pct": -17.9,
+      "views_vs_media_pct": -18.0,
       "views_vs_pares_pct": -15.5,
       "n_videos_canal": 4
     }
@@ -1549,8 +1549,8 @@
         "id": "9e228b8a-17da-4321-8094-5f45d86d6373",
         "offset": 373,
         "timestamp": "6:13",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "fala baka",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -6299,8 +6299,8 @@
         "id": "b2d19822-9dd5-40ff-8a1b-0bb022d0a99f",
         "offset": 1022,
         "timestamp": "17:02",
-        "usuario": "mimillaszz",
-        "nome": "Mimillaszz",
+        "usuario": "eusouacamis_",
+        "nome": "eusouacamis_",
         "texto": "dia bom",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -6959,8 +6959,8 @@
         "id": "44cfe3f7-b4fd-4ecc-846f-2992ba218dfb",
         "offset": 1163,
         "timestamp": "19:23",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "kkkkkkkkkkkkkkkkk",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -8546,16 +8546,6 @@
         "confianca": 1.0
       },
       {
-        "id": "4660206f-5e3b-4029-a091-adb5beec26a9",
-        "offset": 1380,
-        "timestamp": "23:00",
-        "usuario": "idley1",
-        "nome": "Idley1",
-        "texto": "Aqui que é a live do Baka Gracinha ?",
-        "sentimento": "confuso",
-        "confianca": 1.0
-      },
-      {
         "id": "80936c40-99e9-4109-8933-d73ad274c127",
         "offset": 1380,
         "timestamp": "23:00",
@@ -8563,6 +8553,16 @@
         "nome": "pablovisilva",
         "texto": "Essa é feliz no simples",
         "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "4660206f-5e3b-4029-a091-adb5beec26a9",
+        "offset": 1380,
+        "timestamp": "23:00",
+        "usuario": "idley1",
+        "nome": "Idley1",
+        "texto": "Aqui que é a live do Baka Gracinha ?",
+        "sentimento": "confuso",
         "confianca": 1.0
       },
       {
@@ -11269,8 +11269,8 @@
         "id": "973e8e3a-58cf-4b04-af94-b84a4a71a061",
         "offset": 1943,
         "timestamp": "32:23",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "true da true",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -11989,8 +11989,8 @@
         "id": "8b297944-d245-4526-8647-8901ad058f76",
         "offset": 2044,
         "timestamp": "34:04",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "kkkkk",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -20779,8 +20779,8 @@
         "id": "fc30a9ba-1b88-428c-8e08-3ece4dec157c",
         "offset": 3431,
         "timestamp": "57:11",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "kkkkkkkkkkkkkkkkkkkkkk",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -21019,8 +21019,8 @@
         "id": "f3b74998-8316-4256-a475-6a8217ee5682",
         "offset": 3437,
         "timestamp": "57:17",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "krlllllllllllllllllllll",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -25466,22 +25466,22 @@
         "confianca": 1.0
       },
       {
-        "id": "a480c868-b1da-4623-9786-a7807e75103f",
-        "offset": 3873,
-        "timestamp": "1:04:33",
-        "usuario": "thrillerzs",
-        "nome": "thrillerzs",
-        "texto": "mentira",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "c610a100-db64-45f1-b403-3fe44a495d58",
         "offset": 3873,
         "timestamp": "1:04:33",
         "usuario": "kratoscarecaa",
         "nome": "kratoscarecaa",
         "texto": "Porra",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "a480c868-b1da-4623-9786-a7807e75103f",
+        "offset": 3873,
+        "timestamp": "1:04:33",
+        "usuario": "thrillerzs",
+        "nome": "thrillerzs",
+        "texto": "mentira",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -44269,8 +44269,8 @@
         "id": "ae29d3d1-08ae-40f3-a352-fbd261debf52",
         "offset": 7095,
         "timestamp": "1:58:15",
-        "usuario": "mimillaszz",
-        "nome": "Mimillaszz",
+        "usuario": "eusouacamis_",
+        "nome": "eusouacamis_",
         "texto": "qual a proxima live? so pra eu ver se vale a pena esperar",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -48319,8 +48319,8 @@
         "id": "b687940a-ed3f-4ac7-830c-1b23dfff8872",
         "offset": 7639,
         "timestamp": "2:07:19",
-        "usuario": "mimillaszz",
-        "nome": "Mimillaszz",
+        "usuario": "eusouacamis_",
+        "nome": "eusouacamis_",
         "texto": "depressao de domingo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -57391,6 +57391,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "Kotegawa_san",
+        "n": 6,
+        "sentimento": "neutro"
+      },
+      {
         "usuario": "leopaju",
         "n": 6,
         "sentimento": "confuso"
@@ -57467,11 +57472,6 @@
       },
       {
         "usuario": "yviniss",
-        "n": 6,
-        "sentimento": "neutro"
-      },
-      {
-        "usuario": "zkote28",
         "n": 6,
         "sentimento": "neutro"
       },
@@ -57866,6 +57866,11 @@
         "sentimento": "confuso"
       },
       {
+        "usuario": "eusouacamis_",
+        "n": 3,
+        "sentimento": "positivo"
+      },
+      {
         "usuario": "forseofcourse",
         "n": 3,
         "sentimento": "neutro"
@@ -57999,11 +58004,6 @@
         "usuario": "menel01",
         "n": 3,
         "sentimento": "engraçado"
-      },
-      {
-        "usuario": "Mimillaszz",
-        "n": 3,
-        "sentimento": "positivo"
       },
       {
         "usuario": "Miqueslift",
@@ -60994,70 +60994,70 @@
         "minuto": 30,
         "tipo": "pergunta",
         "trecho": "Olha o sapo.",
-        "descricao": "Confusão de idades vira meme instantâneo com '18 só de Senai' e a pizza que era Pochita; caos puro que rende clip."
+        "descricao": "Confusão de idades vira debate caótico e hilário sobre hotel e tecnologia, com direito a pizza imaginária."
       },
       {
         "inicio": "37:00",
         "minuto": 37,
         "tipo": "piada",
         "trecho": "Porque se eu tivesse tido antes, todos esses caras iam ficar enchendo meu saco",
-        "descricao": "Teoria hilária de que o Datena é culpado do povo gostar de desgraça; comentário ácido que vira bordão."
+        "descricao": "Baka culpa Datena por gostar de desgraça e revela que seus vídeos mais vistos são na região."
       },
       {
         "inicio": "44:00",
         "minuto": 44,
         "tipo": "pergunta",
         "trecho": "Mas quando está o México",
-        "descricao": "Acham carta de Pokémon falsa e brincam com 'racismo é paia'; humor aleatório que prende a atenção."
+        "descricao": "Piada com 'racismo é paia' e carta de Pokémon falsa, terminando com medo de eletrocutar a Marinha."
       },
       {
         "inicio": "51:00",
         "minuto": 51,
         "tipo": "piada",
         "trecho": "Caralho, Júlia.",
-        "descricao": "História de assalto de patinete em Itacano e suspeita de loja de vestido; narrativa absurda que rende risada."
+        "descricao": "Baka flagra treta de assalto a relógios com fuga de patinete e questiona loja de vestido suspeita."
       },
       {
         "inicio": "58:00",
         "minuto": 58,
         "tipo": "piada",
         "trecho": "Pronto, aqui não cai, legal",
-        "descricao": "Julinha surta jogando e grita 'vai embora'; reação exagerada que é ouro para clipe de rage."
+        "descricao": "Julinha joga dinheiro no jogo e Baka surta com gritos e reações exageradas ao vivo."
       },
       {
         "inicio": "1:05:00",
         "minuto": 65,
         "tipo": "piada",
         "trecho": "Sai fora, Gita.",
-        "descricao": "Julinha viciada em jogo e 'cheatando' skills; momento gamer caótico que mostra evolução suspeita."
+        "descricao": "Baka acusa Julinha de viciada em jogos e ela admite estar cheatando, enquanto ele foge de barata."
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "piada",
         "trecho": "O carro do lixo.",
-        "descricao": "Troca de pau e pergunta 'quanto dinheiro você tem?'; duplo sentido e improviso que gera risada."
+        "descricao": "Baka troca de pau com Juninho e mostra dinheiro, tudo com confusão sobre japonês e óculos."
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "É, vamos aqui.",
-        "descricao": "Confusão com 'táxi-free' e flashback 'fire in the hole'; mistura de inglês e português que vira meme."
+        "descricao": "Baka se sente congestionado, fala de táxi-free e solta 'fire in the hole' antes de bater 169."
       },
       {
         "inicio": "1:26:00",
         "minuto": 86,
         "tipo": "pergunta",
         "trecho": "Você deu show, tá ligado?",
-        "descricao": "Pergunta se são atração turística no Beco; situação de live em Tóquio que rende comentário engraçado."
+        "descricao": "Baka se pergunta se é atração turística no Beco e procura lugar de lamen com lanterna."
       },
       {
         "inicio": "1:33:00",
         "minuto": 93,
         "tipo": "piada",
         "trecho": "A vaca está na cesta do nada",
-        "descricao": "Piada sobre foto 'ficou uma merda' e lencinho do Brasil com capivara; autocrítica divertida que vira clipe."
+        "descricao": "Baka tira foto atrás de flor, critica edição e mostra lencinho do Brasil com capivara no capuz."
       }
     ],
     "alertas": [
@@ -61245,6 +61245,34 @@
       {
         "pergunta": "???????????",
         "n": 2
+      },
+      {
+        "pergunta": "pq ele voltou pra cá ?",
+        "n": 1
+      },
+      {
+        "pergunta": "Ué, que milagre é esse?",
+        "n": 1
+      },
+      {
+        "pergunta": "Baka voltou?????",
+        "n": 1
+      },
+      {
+        "pergunta": "E logo aqui???",
+        "n": 1
+      },
+      {
+        "pergunta": "voltou pro japão baka??",
+        "n": 1
+      },
+      {
+        "pergunta": "Ja pode sacar pra fora?",
+        "n": 1
+      },
+      {
+        "pergunta": "gente o baka voltou pro jp??? eu não vi a live passada dele, só vi o título e nã",
+        "n": 1
       }
     ],
     "busca_transcricao": [
@@ -72201,7 +72229,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 18.6k views está abaixo da mediana do canal em 8.4% (mediana 20.4k)."
+      "acao": "VOD com 18.7k views está abaixo da mediana do canal em 8.4% (mediana 20.4k)."
     },
     {
       "titulo": "Clima do chat",
@@ -72213,7 +72241,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 28.096% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 28.065% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

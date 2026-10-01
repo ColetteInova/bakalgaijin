@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T15:55:10",
+  "gerado_em": "2026-10-01T18:14:56",
   "local": "sao-paulo",
   "local_pais": "brasil",
   "local_cidade": "sao-paulo",
@@ -14,21 +14,21 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d1m7jfoe9zdc1j/c8d05a80c8452022531d_bakagaijinlive_319151009140_1790533506//thumb/thumb0-640x360.jpg",
     "duration_seconds": 7554,
     "duration_label": "2h05min",
-    "views": 12254,
+    "views": 12299,
     "views_label": "12.3k",
     "likes_estimado": 147,
     "likes_label": "147",
     "comentarios": 6373,
-    "taxa_likes": 1.2,
-    "taxa_engajamento": 53.207,
-    "followers_canal": 248243,
+    "taxa_likes": 1.195,
+    "taxa_engajamento": 53.012,
+    "followers_canal": 248245,
     "comparacao_canal": {
-      "mediana_views": 20361.0,
-      "media_views": 22717.8,
-      "mediana_pares": 22070,
-      "views_vs_mediana_pct": -39.8,
-      "views_vs_media_pct": -46.1,
-      "views_vs_pares_pct": -44.5,
+      "mediana_views": 20367.0,
+      "media_views": 22734.5,
+      "mediana_pares": 22074,
+      "views_vs_mediana_pct": -39.6,
+      "views_vs_media_pct": -45.9,
+      "views_vs_pares_pct": -44.3,
       "n_videos_canal": 4
     }
   },
@@ -1998,8 +1998,8 @@
         "id": "15080310-72a7-4745-937d-22ba17382495",
         "offset": 376,
         "timestamp": "6:16",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "Quando vc quiser poha",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -58275,22 +58275,22 @@
         "confianca": 0.667
       },
       {
-        "id": "36051fe9-9658-4cc6-a15c-c67f05859691",
-        "offset": 7136,
-        "timestamp": "1:58:56",
-        "usuario": "vigarioficial",
-        "nome": "vigarioficial",
-        "texto": "ajuda",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "68961946-c3a9-4e6c-ba75-d1a84ccdf945",
         "offset": 7136,
         "timestamp": "1:58:56",
         "usuario": "suplaia",
         "nome": "suplaia",
         "texto": "TAAA PORRAAAA",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "36051fe9-9658-4cc6-a15c-c67f05859691",
+        "offset": 7136,
+        "timestamp": "1:58:56",
+        "usuario": "vigarioficial",
+        "nome": "vigarioficial",
+        "texto": "ajuda",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -72248,6 +72248,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "aquilxss",
+        "n": 1,
+        "sentimento": "neutro"
+      },
+      {
         "usuario": "artCharlesCosta",
         "n": 1,
         "sentimento": "engraçado"
@@ -72521,11 +72526,6 @@
         "usuario": "ggabriel_c_1",
         "n": 1,
         "sentimento": "engraçado"
-      },
-      {
-        "usuario": "ghxstxk_",
-        "n": 1,
-        "sentimento": "neutro"
       },
       {
         "usuario": "giowink_o",
@@ -74300,70 +74300,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Vai se fuder",
-        "descricao": "Baka Gaijin reclama que não nasceu pra andar de carrinho de bebê em Tóquio, com mochila caindo e vergonha de filmar."
+        "descricao": "Vai se fuder"
       },
       {
         "inicio": "36:00",
         "minuto": 36,
         "tipo": "piada",
         "trecho": "Eu cheguei na conclusão que deve ser porque eu não paguei o imposto do cacique cobra coral, né?",
-        "descricao": "Ele confunde um inscrito com figura do submundo e filosofa sobre ciclo ancestral no meio da rua."
+        "descricao": "Eu cheguei na conclusão que deve ser porque eu não paguei o imposto do cacique cobra coral, né?"
       },
       {
         "inicio": "42:00",
         "minuto": 42,
         "tipo": "piada",
         "trecho": "Vem tudo aqui pra baixo",
-        "descricao": "Trancado num percurso, ele culpa Deus pelas linhas tortas e reclama do lixo no Brasil."
+        "descricao": "Vem tudo aqui pra baixo"
       },
       {
         "inicio": "48:00",
         "minuto": 48,
         "tipo": "piada",
         "trecho": "Voltou ou não?",
-        "descricao": "Baka Gaijin vê samurai e geisha, perde o sinal e cogita ir andando até a Praça da Sé."
+        "descricao": "Voltou ou não?"
       },
       {
         "inicio": "54:00",
         "minuto": 54,
         "tipo": "pergunta",
         "trecho": "Bem-vindo ao Inferno 2, é mais ou menos isso",
-        "descricao": "Ele questiona se vale entrar em lugar lotado e lembra que já foi expulso de maneiras inacreditáveis no próprio país."
+        "descricao": "Bem-vindo ao Inferno 2, é mais ou menos isso"
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Esse que é o bairro japonês?",
-        "descricao": "Ele narra suas estrelinhas de infância e quase dá zoom numa mina chorando, mas recua de última hora."
+        "descricao": "Esse que é o bairro japonês?"
       },
       {
         "inicio": "1:06:00",
         "minuto": 66,
         "tipo": "pergunta",
         "trecho": "A lata toda mole, rapaz",
-        "descricao": "Baka Gaijin foge de loja chique, vê senhorinha assustada e admite que quase caiu na tentação."
+        "descricao": "A lata toda mole, rapaz"
       },
       {
         "inicio": "1:12:00",
         "minuto": 72,
         "tipo": "pergunta",
         "trecho": "Eu queria entrar ali, mas vai cair também, né?",
-        "descricao": "Ele culpa ataques de guerra pelo sinal cair, volta tudo off e cogita usar Starlink por ser novo na vida."
+        "descricao": "Eu queria entrar ali, mas vai cair também, né?"
       },
       {
         "inicio": "1:19:00",
         "minuto": 79,
         "tipo": "piada",
         "trecho": "Ficou chovendo a viagem inteira lá que eu fui pro Japão",
-        "descricao": "Ele quase cai, vê pôr do sol e ouve pagode no Japão, chamando de hibridação cultural."
+        "descricao": "Ficou chovendo a viagem inteira lá que eu fui pro Japão"
       },
       {
         "inicio": "1:24:00",
         "minuto": 84,
         "tipo": "piada",
         "trecho": "Logo depois de dar o autógrafo",
-        "descricao": "Fã Davi aparece do nada, segura a live e Baka Gaijin reclama que a letra dele é feia pra caralho."
+        "descricao": "Logo depois de dar o autógrafo"
       }
     ],
     "alertas": [
@@ -74542,6 +74542,42 @@
       {
         "pergunta": "agr que voltou para o brasil faz o pão de alho do Davy jones ?????",
         "n": 2
+      },
+      {
+        "pergunta": "a yakuza ja te deportou?",
+        "n": 1
+      },
+      {
+        "pergunta": "Opa, live do bakagaijones?",
+        "n": 1
+      },
+      {
+        "pergunta": "Live em SP?KAAKAKKAKA",
+        "n": 1
+      },
+      {
+        "pergunta": "e esse título?",
+        "n": 1
+      },
+      {
+        "pergunta": "Sao Paulo? Vish paia",
+        "n": 1
+      },
+      {
+        "pergunta": "Já voltou e virou estatística ?",
+        "n": 1
+      },
+      {
+        "pergunta": "ja levaram tudo?",
+        "n": 1
+      },
+      {
+        "pergunta": "Já foi deportado?",
+        "n": 1
+      },
+      {
+        "pergunta": "trouxe a julinha?",
+        "n": 1
       }
     ],
     "busca_transcricao": [
@@ -82574,7 +82610,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 12.3k views está abaixo da mediana do canal em 39.8% (mediana 20.4k)."
+      "acao": "VOD com 12.3k views está abaixo da mediana do canal em 39.6% (mediana 20.4k)."
     },
     {
       "titulo": "Clima do chat",
@@ -82586,7 +82622,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 53.207% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 53.012% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

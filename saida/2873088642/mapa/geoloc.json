@@ -1,0 +1,1127 @@
+{
+  "local": "japao",
+  "bairro": "",
+  "inicio": "",
+  "provider": "gemini",
+  "v": 4,
+  "725": {
+    "nome": "12:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "785": {
+    "nome": "13:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "845": {
+    "nome": "14:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "905": {
+    "nome": "15:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "965": {
+    "nome": "16:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1025": {
+    "nome": "17:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1085": {
+    "nome": "18:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1145": {
+    "nome": "19:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1205": {
+    "nome": "20:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1265": {
+    "nome": "21:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1325": {
+    "nome": "22:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1385": {
+    "nome": "23:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1445": {
+    "nome": "24:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1505": {
+    "nome": "25:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1565": {
+    "nome": "26:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1625": {
+    "nome": "27:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1685": {
+    "nome": "28:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1745": {
+    "nome": "29:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1805": {
+    "nome": "30:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1865": {
+    "nome": "31:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1925": {
+    "nome": "32:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "1985": {
+    "nome": "33:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2045": {
+    "nome": "34:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2105": {
+    "nome": "35:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2165": {
+    "nome": "36:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2225": {
+    "nome": "37:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2285": {
+    "nome": "38:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2345": {
+    "nome": "39:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2405": {
+    "nome": "40:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2465": {
+    "nome": "41:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2525": {
+    "nome": "42:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2585": {
+    "nome": "43:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2645": {
+    "nome": "44:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2705": {
+    "nome": "45:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2765": {
+    "nome": "46:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2825": {
+    "nome": "47:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2885": {
+    "nome": "48:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "2945": {
+    "nome": "49:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3005": {
+    "nome": "50:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3065": {
+    "nome": "51:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3125": {
+    "nome": "52:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3185": {
+    "nome": "53:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3245": {
+    "nome": "54:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3305": {
+    "nome": "55:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3365": {
+    "nome": "56:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3425": {
+    "nome": "57:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3485": {
+    "nome": "58:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3545": {
+    "nome": "59:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3605": {
+    "nome": "1:00:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3665": {
+    "nome": "1:01:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3725": {
+    "nome": "1:02:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3785": {
+    "nome": "1:03:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3845": {
+    "nome": "1:04:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3905": {
+    "nome": "1:05:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "3965": {
+    "nome": "1:06:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4025": {
+    "nome": "1:07:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4085": {
+    "nome": "1:08:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4145": {
+    "nome": "1:09:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4205": {
+    "nome": "1:10:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4265": {
+    "nome": "1:11:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4325": {
+    "nome": "1:12:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4385": {
+    "nome": "1:13:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4445": {
+    "nome": "1:14:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4505": {
+    "nome": "1:15:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4565": {
+    "nome": "1:16:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4625": {
+    "nome": "1:17:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4685": {
+    "nome": "1:18:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4745": {
+    "nome": "1:19:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4805": {
+    "nome": "1:20:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4865": {
+    "nome": "1:21:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4925": {
+    "nome": "1:22:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "4985": {
+    "nome": "1:23:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5045": {
+    "nome": "1:24:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5105": {
+    "nome": "1:25:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5165": {
+    "nome": "1:26:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5225": {
+    "nome": "1:27:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5285": {
+    "nome": "1:28:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5345": {
+    "nome": "1:29:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5405": {
+    "nome": "1:30:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5465": {
+    "nome": "1:31:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5525": {
+    "nome": "1:32:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5585": {
+    "nome": "1:33:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5645": {
+    "nome": "1:34:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5705": {
+    "nome": "1:35:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5765": {
+    "nome": "1:36:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5825": {
+    "nome": "1:37:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5885": {
+    "nome": "1:38:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "5945": {
+    "nome": "1:39:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6005": {
+    "nome": "1:40:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6065": {
+    "nome": "1:41:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6125": {
+    "nome": "1:42:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6185": {
+    "nome": "1:43:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6245": {
+    "nome": "1:44:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6305": {
+    "nome": "1:45:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6365": {
+    "nome": "1:46:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6425": {
+    "nome": "1:47:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6485": {
+    "nome": "1:48:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6545": {
+    "nome": "1:49:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6605": {
+    "nome": "1:50:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6665": {
+    "nome": "1:51:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6725": {
+    "nome": "1:52:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6785": {
+    "nome": "1:53:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6845": {
+    "nome": "1:54:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6905": {
+    "nome": "1:55:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "6965": {
+    "nome": "1:56:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7025": {
+    "nome": "1:57:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7085": {
+    "nome": "1:58:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7145": {
+    "nome": "1:59:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7205": {
+    "nome": "2:00:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7265": {
+    "nome": "2:01:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7325": {
+    "nome": "2:02:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  },
+  "7385": {
+    "nome": "2:03:05",
+    "rua": "",
+    "lat": 35.6932,
+    "lng": 139.703,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": "",
+    "skip": true
+  }
+}

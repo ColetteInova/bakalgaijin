@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T12:59:46",
+  "gerado_em": "2026-10-01T17:57:28",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -14,21 +14,21 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37891,
+    "views": 37901,
     "views_label": "37.9k",
     "likes_estimado": 454,
     "likes_label": "454",
     "comentarios": 8726,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 24.227,
-    "followers_canal": 248244,
+    "taxa_engajamento": 24.221,
+    "followers_canal": 248246,
     "comparacao_canal": {
-      "mediana_views": 20358.0,
-      "media_views": 22710.0,
-      "mediana_pares": 18649,
+      "mediana_views": 20366.5,
+      "media_views": 22730.5,
+      "mediana_pares": 18659,
       "views_vs_mediana_pct": 86.1,
-      "views_vs_media_pct": 66.8,
-      "views_vs_pares_pct": 103.2,
+      "views_vs_media_pct": 66.7,
+      "views_vs_pares_pct": 103.1,
       "n_videos_canal": 4
     }
   },
@@ -119,8 +119,8 @@
         "palavras_chave": [
           "live",
           "live gravada",
-          "fazer live",
-          "faz live"
+          "faz live",
+          "fazer live"
         ],
         "n_comentarios": 375,
         "pct": 4.3
@@ -270,8 +270,8 @@
         "id": "51b7d09f-ea44-4951-a9b8-1c03c0b22289",
         "offset": 45,
         "timestamp": "0:45",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "Não",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -350,8 +350,8 @@
         "id": "3a0d884f-7350-4317-84f6-808b9af4b843",
         "offset": 50,
         "timestamp": "0:50",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "Do nada",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -570,8 +570,8 @@
         "id": "f281dc75-2302-46da-8ad2-3f94cb088fbc",
         "offset": 61,
         "timestamp": "1:01",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "O brasil tá diferente",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -790,8 +790,8 @@
         "id": "e8aca815-5970-4917-970a-b8a0814aa1e0",
         "offset": 73,
         "timestamp": "1:13",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Não acreditem nele rapazeada, ele ta usando chroma",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -840,8 +840,8 @@
         "id": "a561bc45-a132-4b37-937b-de7a71c915bf",
         "offset": 77,
         "timestamp": "1:17",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "Esse aí que é a liberdade?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -1790,8 +1790,8 @@
         "id": "33ff68bf-4c45-454f-b8bc-2038a9834683",
         "offset": 199,
         "timestamp": "3:19",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Ele falou que ia voltar na live passada, chat. É true mesmo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -2580,8 +2580,8 @@
         "id": "b16c53a6-d61d-4dc7-8679-845b6379673a",
         "offset": 332,
         "timestamp": "5:32",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@beatrizcrotti Japão - Paraná 📍",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -4700,8 +4700,8 @@
         "id": "718c021c-b2df-40ae-af72-b886f599eccf",
         "offset": 467,
         "timestamp": "7:47",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "É São Paulo isso dai",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -4860,8 +4860,8 @@
         "id": "80e7008c-1f6c-4bf8-824a-1429a1a9cd18",
         "offset": 470,
         "timestamp": "7:50",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Fake",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -5800,8 +5800,8 @@
         "id": "88b550ac-0a79-4972-9b82-c9e7e429836d",
         "offset": 496,
         "timestamp": "8:16",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Caba acorda 6 da manhã pra fazer live",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -7670,8 +7670,8 @@
         "id": "a658daa2-5d80-4d66-b0b7-578829177702",
         "offset": 630,
         "timestamp": "10:30",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Agora parece protagonista genérico",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -7950,8 +7950,8 @@
         "id": "3ce35d56-5899-4cc9-8bd6-66e98553f28c",
         "offset": 649,
         "timestamp": "10:49",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Sabadou",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -8270,8 +8270,8 @@
         "id": "bfac8589-a4ef-4238-ac87-afc079123425",
         "offset": 678,
         "timestamp": "11:18",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@wesleykolomar_br Perdi",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -8720,8 +8720,8 @@
         "id": "bf6a611a-52d5-47a9-ad45-3d7f77a05d76",
         "offset": 713,
         "timestamp": "11:53",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "67 graus",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -9670,8 +9670,8 @@
         "id": "7705c4e5-0ff1-4f32-a7db-0e5b5d3939b6",
         "offset": 778,
         "timestamp": "12:58",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Ja gravou quantos videos nessa chuva ai?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -11280,8 +11280,8 @@
         "id": "0c0eec3b-ed9d-4a38-b043-a44815e2ea5c",
         "offset": 920,
         "timestamp": "15:20",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Tenis todo capengo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -11560,8 +11560,8 @@
         "id": "5792489c-d9de-4182-9ae7-b66a60cd4740",
         "offset": 960,
         "timestamp": "16:00",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "@Takireo_ Entre 6 ou 7",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -12240,8 +12240,8 @@
         "id": "920fe460-04d4-41e3-acae-9c2f0cc58b34",
         "offset": 1007,
         "timestamp": "16:47",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Só os fake fã",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -14740,8 +14740,8 @@
         "id": "27174f8f-cf44-4004-9756-30f18bf46dc3",
         "offset": 1239,
         "timestamp": "20:39",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "ta dee boas",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -15710,8 +15710,8 @@
         "id": "868b02ff-745b-4b08-90de-945ae1773032",
         "offset": 1315,
         "timestamp": "21:55",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Vai naquele bar das muié musculosas",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -16710,8 +16710,8 @@
         "id": "78a20e20-5f81-476c-858b-9e4c523acec0",
         "offset": 1390,
         "timestamp": "23:10",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Japão Official Soundtrack",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -17410,8 +17410,8 @@
         "id": "4ffc104f-040c-4f0f-af02-d925a9313401",
         "offset": 1478,
         "timestamp": "24:38",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Faz o L",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -17970,8 +17970,8 @@
         "id": "89997acf-1859-4d75-ad11-7158c3ce5bf4",
         "offset": 1554,
         "timestamp": "25:54",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Câmbio de carro?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -18990,8 +18990,8 @@
         "id": "da91d2a2-07e3-409a-bd47-8c59702b97df",
         "offset": 1650,
         "timestamp": "27:30",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Tietê 2.0",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -20590,8 +20590,8 @@
         "id": "1ebb71a5-3966-4a2a-90cf-a1ff678a8e55",
         "offset": 1801,
         "timestamp": "30:01",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Claro q é RR, ta de dia na live",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -22440,8 +22440,8 @@
         "id": "81628992-eb58-4e88-baeb-bd3ffa43fa21",
         "offset": 1966,
         "timestamp": "32:46",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Fake fãs",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -23280,8 +23280,8 @@
         "id": "0ddb9651-ea91-4f0e-ab42-5118e4738487",
         "offset": 2017,
         "timestamp": "33:37",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "VAI NO BAR DAS MUIÉ MUSCULOSA",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -24030,8 +24030,8 @@
         "id": "37f1d8e7-6c61-4062-bbbc-4e03cda9aa0a",
         "offset": 2062,
         "timestamp": "34:22",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "18:67",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -25050,8 +25050,8 @@
         "id": "29f991ad-7b17-4b73-9bec-540905d697e9",
         "offset": 2170,
         "timestamp": "36:10",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Caba apitando as 6 da manhã",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -25680,8 +25680,8 @@
         "id": "4af6b672-bd4f-4349-a790-708c5ca4df64",
         "offset": 2217,
         "timestamp": "36:57",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Eles tbm tao com jet lag",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -26540,8 +26540,8 @@
         "id": "130da900-b147-4782-86d5-1731c42fe3b2",
         "offset": 2311,
         "timestamp": "38:31",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Eu ja vi essa rua no jujutsu kaisen",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -26690,8 +26690,8 @@
         "id": "60385be5-dd2a-4652-8e87-8abc35bff60f",
         "offset": 2331,
         "timestamp": "38:51",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "eu acho que isso é chroma key",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -27270,8 +27270,8 @@
         "id": "9b0b6231-04bd-4c0e-96f5-7005ab274816",
         "offset": 2396,
         "timestamp": "39:56",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Passeio de 6 meses",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -29030,8 +29030,8 @@
         "id": "0ad4d07e-ca08-46ab-acef-1604075551aa",
         "offset": 2620,
         "timestamp": "43:40",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Fofo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -30480,8 +30480,8 @@
         "id": "562a17ae-d5d5-4339-94f8-507b67f04a6e",
         "offset": 2813,
         "timestamp": "46:53",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Vc era de qual aldeia?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -31000,8 +31000,8 @@
         "id": "2f470bea-85e9-403b-8e47-b0f295f125de",
         "offset": 2893,
         "timestamp": "48:13",
-        "usuario": "e006cr",
-        "nome": "e006cr",
+        "usuario": "eduuh006",
+        "nome": "eduuh006",
         "texto": "Capitalismo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -32320,8 +32320,8 @@
         "id": "c1267589-e1f7-4140-baf0-b7464805b068",
         "offset": 3072,
         "timestamp": "51:12",
-        "usuario": "fentary_",
-        "nome": "fentary_",
+        "usuario": "fentarry",
+        "nome": "fentarry",
         "texto": "come back veio forte",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -32570,8 +32570,8 @@
         "id": "166c21db-938d-4e7f-8057-f30fd7f95532",
         "offset": 3109,
         "timestamp": "51:49",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "se eu biscoito, eu existo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -34600,8 +34600,8 @@
         "id": "14781331-f4df-496e-b992-f132320ffac8",
         "offset": 3367,
         "timestamp": "56:07",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "nossa",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -36050,8 +36050,8 @@
         "id": "9f04923e-6f87-46f7-ac8b-a8b8b044b826",
         "offset": 3500,
         "timestamp": "58:20",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "kook",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -43910,8 +43910,8 @@
         "id": "aa6af7e7-4bc0-4d67-b0d2-0c1bb137e991",
         "offset": 4421,
         "timestamp": "1:13:41",
-        "usuario": "zkote28",
-        "nome": "zkote28",
+        "usuario": "kotegawa_san",
+        "nome": "Kotegawa_san",
         "texto": "kkkkkkkk",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -45280,8 +45280,8 @@
         "id": "478e5e25-7a97-4dab-a3cb-f8c0ab9992cd",
         "offset": 4561,
         "timestamp": "1:16:01",
-        "usuario": "filhodumaputa",
-        "nome": "filhodumaputa",
+        "usuario": "desrespeitando",
+        "nome": "desrespeitando",
         "texto": "continua gostoso",
         "sentimento": "positivo",
         "confianca": 0.5
@@ -46330,8 +46330,8 @@
         "id": "5a27ec94-ab15-4736-bde4-61c9807ea9a8",
         "offset": 4707,
         "timestamp": "1:18:27",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "quem esse japones gritando?",
         "sentimento": "engraçado",
         "confianca": 0.5
@@ -46790,8 +46790,8 @@
         "id": "9332a1b7-4373-4ebb-b6bf-6c30a0e4a267",
         "offset": 4769,
         "timestamp": "1:19:29",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "oq vc falaria pra quem não faz?",
         "sentimento": "confuso",
         "confianca": 0.667
@@ -47450,8 +47450,8 @@
         "id": "7e18e45e-32ca-4a34-a5ca-7b7d04caecb4",
         "offset": 4853,
         "timestamp": "1:20:53",
-        "usuario": "ghxstxk_",
-        "nome": "ghxstxk_",
+        "usuario": "aquilxss",
+        "nome": "aquilxss",
         "texto": "isso mesmo, bebe tudo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -49160,8 +49160,8 @@
         "id": "3fab020e-f41b-452a-9183-2a491b2cc18f",
         "offset": 5098,
         "timestamp": "1:24:58",
-        "usuario": "lm__a",
-        "nome": "LM__a",
+        "usuario": "lmatheus04",
+        "nome": "lmatheus04",
         "texto": "baka voltando as origens",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -58890,8 +58890,8 @@
         "id": "e7cabc41-176b-458c-bf0e-bbaa3f945862",
         "offset": 6373,
         "timestamp": "1:46:13",
-        "usuario": "mimillaszz",
-        "nome": "Mimillaszz",
+        "usuario": "eusouacamis_",
+        "nome": "eusouacamis_",
         "texto": "so coisa boa",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -60330,8 +60330,8 @@
         "id": "a14348ba-eea6-4faa-829a-8f2fb84e7bff",
         "offset": 6523,
         "timestamp": "1:48:43",
-        "usuario": "mimillaszz",
-        "nome": "Mimillaszz",
+        "usuario": "eusouacamis_",
+        "nome": "eusouacamis_",
         "texto": "a solda esta molhada?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -66750,8 +66750,8 @@
         "id": "de93df32-66e9-4775-8989-622782c34f0d",
         "offset": 7470,
         "timestamp": "2:04:30",
-        "usuario": "baka_denji",
-        "nome": "Baka_Denji",
+        "usuario": "nyd_sanryn",
+        "nome": "Nyd_Sanryn",
         "texto": "Super campeões",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -95174,7 +95174,7 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "e006cr",
+        "usuario": "eduuh006",
         "n": 30,
         "sentimento": "neutro"
       },
@@ -95749,6 +95749,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "aquilxss",
+        "n": 11,
+        "sentimento": "neutro"
+      },
+      {
         "usuario": "Filipi_21",
         "n": 11,
         "sentimento": "neutro"
@@ -95765,11 +95770,6 @@
       },
       {
         "usuario": "Gallack000",
-        "n": 11,
-        "sentimento": "neutro"
-      },
-      {
-        "usuario": "ghxstxk_",
         "n": 11,
         "sentimento": "neutro"
       },
@@ -98174,6 +98174,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "eusouacamis_",
+        "n": 2,
+        "sentimento": "positivo"
+      },
+      {
         "usuario": "evertonryden",
         "n": 2,
         "sentimento": "neutro"
@@ -98439,6 +98444,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "Kotegawa_san",
+        "n": 2,
+        "sentimento": "positivo"
+      },
+      {
         "usuario": "kratzhii",
         "n": 2,
         "sentimento": "positivo"
@@ -98607,11 +98617,6 @@
         "usuario": "Mi_de_Mikasa",
         "n": 2,
         "sentimento": "engraçado"
-      },
-      {
-        "usuario": "Mimillaszz",
-        "n": 2,
-        "sentimento": "positivo"
       },
       {
         "usuario": "mitsuuh",
@@ -99004,11 +99009,6 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "zkote28",
-        "n": 2,
-        "sentimento": "positivo"
-      },
-      {
         "usuario": "zNatron",
         "n": 2,
         "sentimento": "neutro"
@@ -99220,11 +99220,6 @@
       },
       {
         "usuario": "azule_lalune",
-        "n": 1,
-        "sentimento": "neutro"
-      },
-      {
-        "usuario": "Baka_Denji",
         "n": 1,
         "sentimento": "neutro"
       },
@@ -99639,6 +99634,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "desrespeitando",
+        "n": 1,
+        "sentimento": "positivo"
+      },
+      {
         "usuario": "devmosts2",
         "n": 1,
         "sentimento": "neutro"
@@ -99834,7 +99834,7 @@
         "sentimento": "engraçado"
       },
       {
-        "usuario": "fentary_",
+        "usuario": "fentarry",
         "n": 1,
         "sentimento": "neutro"
       },
@@ -99842,11 +99842,6 @@
         "usuario": "fgshanks",
         "n": 1,
         "sentimento": "engraçado"
-      },
-      {
-        "usuario": "filhodumaputa",
-        "n": 1,
-        "sentimento": "positivo"
       },
       {
         "usuario": "FlipTripRip",
@@ -100489,7 +100484,7 @@
         "sentimento": "confuso"
       },
       {
-        "usuario": "LM__a",
+        "usuario": "lmatheus04",
         "n": 1,
         "sentimento": "engraçado"
       },
@@ -100855,6 +100850,11 @@
       },
       {
         "usuario": "nxsszx",
+        "n": 1,
+        "sentimento": "neutro"
+      },
+      {
+        "usuario": "Nyd_Sanryn",
         "n": 1,
         "sentimento": "neutro"
       },
@@ -103086,70 +103086,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "que saudades",
-        "descricao": "Baka derruba lanternas e fala 'check this out' com microfone mutado, clássico desastre cômico."
+        "descricao": "que saudades"
       },
       {
         "inicio": "40:00",
         "minuto": 40,
         "tipo": "pergunta",
         "trecho": "Que passeio, José? Desculpa",
-        "descricao": "Ele se choca com japoneses atravessando fora da faixa às 6h, quebrando o mito da civilidade."
+        "descricao": "Que passeio, José? Desculpa"
       },
       {
         "inicio": "50:00",
         "minuto": 50,
         "tipo": "piada",
         "trecho": "É, tudo cafona, né?",
-        "descricao": "Baka zoa produtos aleatórios tipo 'quem tem cu tem medo' e pokebolas, humor absurdo garantido."
+        "descricao": "É, tudo cafona, né?"
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Aí é foda",
-        "descricao": "Ele culpa a chuva do Japão por trazer do Brasil e chama alguém de 'cunhudo', pura zoeira."
+        "descricao": "Aí é foda"
       },
       {
         "inicio": "1:10:00",
         "minuto": 70,
         "tipo": "piada",
         "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
-        "descricao": "Baka se agacha como japonês e admite parecer lésbica, auto-depreciação hilária."
+        "descricao": "E outra pra punhetinha, porque eu também sou filho de Deus."
       },
       {
         "inicio": "1:20:00",
         "minuto": 80,
         "tipo": "piada",
         "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
-        "descricao": "Ele filosofa sobre setembro chove e um velho varrendo na chuva, momento poético e engraçado."
+        "descricao": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano"
       },
       {
         "inicio": "1:30:00",
         "minuto": 90,
         "tipo": "piada",
         "trecho": "Olha só, hein",
-        "descricao": "Piada sobre social credits negando visto por atravessar fora do sinal, crítica social divertida."
+        "descricao": "Olha só, hein"
       },
       {
         "inicio": "1:40:00",
         "minuto": 100,
         "tipo": "piada",
         "trecho": "Esse cara é bonitinho, me deixou passar",
-        "descricao": "Baka compara a si mesmo com maluco da bíblia e planeja andar até Harajuku, caos ambulante."
+        "descricao": "Esse cara é bonitinho, me deixou passar"
       },
       {
         "inicio": "1:50:00",
         "minuto": 110,
         "tipo": "piada",
         "trecho": "Acho que não vai ter nada aberto ainda",
-        "descricao": "Ele inventa 'Sexo 3.5' e reclama de dor nas cócoras, humor nonsense no ponto."
+        "descricao": "Acho que não vai ter nada aberto ainda"
       },
       {
         "inicio": "2:00:00",
         "minuto": 120,
         "tipo": "piada",
         "trecho": "Ah é? Vamos ver",
-        "descricao": "Baka celebra 2h de live, quase é pego filmando área restrita e solta 'baixa ditadura', ousadia pura."
+        "descricao": "Ah é? Vamos ver"
       }
     ],
     "alertas": [
@@ -103339,6 +103339,30 @@
       {
         "pergunta": "é rerun?",
         "n": 2
+      },
+      {
+        "pergunta": "olokinho bixu ta no japiu?",
+        "n": 1
+      },
+      {
+        "pergunta": "Lembrou a senha gracinha?",
+        "n": 1
+      },
+      {
+        "pergunta": "oloko really?",
+        "n": 1
+      },
+      {
+        "pergunta": "punhetaço que horas?",
+        "n": 1
+      },
+      {
+        "pergunta": "Oloko live nos becos ??",
+        "n": 1
+      },
+      {
+        "pergunta": "2 lives em um periodo de um ano, ta precisando de dinheiro seu???",
+        "n": 1
       }
     ],
     "busca_transcricao": [
@@ -114823,7 +114847,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.227% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.221% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

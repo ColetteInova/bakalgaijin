@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T08:34:24",
+  "gerado_em": "2026-10-01T17:57:54",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -14,20 +14,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/2b11c92948b2c63ef9ca_bakagaijinlive_316462826866_1789507931//thumb/thumb0-640x360.jpg",
     "duration_seconds": 10496,
     "duration_label": "2h54min",
-    "views": 22060,
+    "views": 22074,
     "views_label": "22.1k",
     "likes_estimado": 264,
     "likes_label": "264",
     "comentarios": 7540,
-    "taxa_likes": 1.197,
-    "taxa_engajamento": 35.376,
-    "followers_canal": 248245,
+    "taxa_likes": 1.196,
+    "taxa_engajamento": 35.354,
+    "followers_canal": 248246,
     "comparacao_canal": {
-      "mediana_views": 20351.5,
-      "media_views": 22700.2,
-      "mediana_pares": 18643,
+      "mediana_views": 20366.5,
+      "media_views": 22730.5,
+      "mediana_pares": 18659,
       "views_vs_mediana_pct": 8.4,
-      "views_vs_media_pct": -2.8,
+      "views_vs_media_pct": -2.9,
       "views_vs_pares_pct": 18.3,
       "n_videos_canal": 4
     }
@@ -84,8 +84,8 @@
           "baka voltou",
           "baka vai",
           "baka como",
-          "live baka",
-          "salve baka"
+          "salve baka",
+          "live baka"
         ],
         "n_comentarios": 1141,
         "pct": 15.1
@@ -23834,8 +23834,8 @@
         "id": "aa231fc4-f368-4db8-a417-6b4c4d110628",
         "offset": 3058,
         "timestamp": "50:58",
-        "usuario": "lyu31",
-        "nome": "Lyu31",
+        "usuario": "desmontada",
+        "nome": "Desmontada",
         "texto": "ueeee voltou pro NIHON?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -23974,8 +23974,8 @@
         "id": "202dd4fc-1623-49a5-8dfd-2a8582c51d6c",
         "offset": 3086,
         "timestamp": "51:26",
-        "usuario": "lyu31",
-        "nome": "Lyu31",
+        "usuario": "desmontada",
+        "nome": "Desmontada",
         "texto": "alguem me atualiza da lore do baka pfvr...qq ele ta fazendo no japao novamente?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -24714,8 +24714,8 @@
         "id": "66e719c2-709f-4533-96d6-07307ace3fff",
         "offset": 3164,
         "timestamp": "52:44",
-        "usuario": "lyu31",
-        "nome": "Lyu31",
+        "usuario": "desmontada",
+        "nome": "Desmontada",
         "texto": "qual a lore de vc de volta no Nihon?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -25104,8 +25104,8 @@
         "id": "709695f0-6fc4-4bef-9833-9f3009631e11",
         "offset": 3202,
         "timestamp": "53:22",
-        "usuario": "lyu31",
-        "nome": "Lyu31",
+        "usuario": "desmontada",
+        "nome": "Desmontada",
         "texto": "desistiu do br?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -26861,22 +26861,22 @@
         "confianca": 1.0
       },
       {
-        "id": "0330ba4f-efbc-49a5-996b-04edc654b72c",
-        "offset": 3377,
-        "timestamp": "56:17",
-        "usuario": "mtbrazil",
-        "nome": "MTBRAZIL",
-        "texto": "Ah que delicia, sons de manufatura e trabalho escravo",
-        "sentimento": "neutro",
-        "confianca": 1.0
-      },
-      {
         "id": "c9000acb-30a0-48ad-b093-4b9295afadba",
         "offset": 3377,
         "timestamp": "56:17",
         "usuario": "reptilianomestre",
         "nome": "ReptilianoMestre",
         "texto": "F",
+        "sentimento": "neutro",
+        "confianca": 1.0
+      },
+      {
+        "id": "0330ba4f-efbc-49a5-996b-04edc654b72c",
+        "offset": 3377,
+        "timestamp": "56:17",
+        "usuario": "mtbrazil",
+        "nome": "MTBRAZIL",
+        "texto": "Ah que delicia, sons de manufatura e trabalho escravo",
         "sentimento": "neutro",
         "confianca": 1.0
       },
@@ -39464,8 +39464,8 @@
         "id": "ca728fd2-1cab-4cda-beee-def5d4b01c4e",
         "offset": 5186,
         "timestamp": "1:26:26",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "cannabis",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -40524,8 +40524,8 @@
         "id": "fa2fcfd6-9756-4675-981f-7390cff09de9",
         "offset": 5284,
         "timestamp": "1:28:04",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "esse panda ta muito lonely",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -40874,8 +40874,8 @@
         "id": "f0385262-2ebb-4fe3-933b-9528363ef19b",
         "offset": 5351,
         "timestamp": "1:29:11",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "sushi",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -41084,8 +41084,8 @@
         "id": "2a70a54d-751d-4d45-a358-b5d6102041f0",
         "offset": 5366,
         "timestamp": "1:29:26",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "imita um peixe ai pra chamar eles",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -41314,8 +41314,8 @@
         "id": "f9546925-356a-4a96-9d29-daa010f41164",
         "offset": 5413,
         "timestamp": "1:30:13",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "pq tem um desenho no meio de uma fita isolante",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -41604,8 +41604,8 @@
         "id": "7e6b7403-ef0f-40e1-9f37-d6135610f7f9",
         "offset": 5446,
         "timestamp": "1:30:46",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@Guirin_ sou do parana e aqui é meio dia",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -41954,8 +41954,8 @@
         "id": "2e4a7411-4392-41bf-9bc4-79e9a8d0c2e3",
         "offset": 5500,
         "timestamp": "1:31:40",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@Guirin_ make oceania great",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -42144,8 +42144,8 @@
         "id": "f6384cce-834d-4a1c-bef1-9b9c56e98248",
         "offset": 5526,
         "timestamp": "1:32:06",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@Guirin_ parana ta só nos tempos gorgeous kk",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -42444,8 +42444,8 @@
         "id": "8ae2b585-7c84-4122-aa13-195e7def5a56",
         "offset": 5580,
         "timestamp": "1:33:00",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "é só tirar do loop cara",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -43014,8 +43014,8 @@
         "id": "4d03b7ed-f262-4730-8b54-2e239220ad51",
         "offset": 5625,
         "timestamp": "1:33:45",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@Guirin_ eu bato com antecedencia",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -44054,8 +44054,8 @@
         "id": "fd76b2a4-aff2-4e75-9ad9-59595cb6cd32",
         "offset": 5713,
         "timestamp": "1:35:13",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "sera que o peixe fica com vontade de mijar quando eles bebem o ar, já que a gente fica com vontade de mijar quando bebe agua",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -44304,8 +44304,8 @@
         "id": "eaf4d1c9-fb7c-4257-b190-bacfc9d95c78",
         "offset": 5739,
         "timestamp": "1:35:39",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "ele tem a disciplina",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -44594,8 +44594,8 @@
         "id": "f3bfebf8-e650-40b7-92c6-b82bbd72f216",
         "offset": 5771,
         "timestamp": "1:36:11",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "Coreias unidas da america do sul",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -44814,8 +44814,8 @@
         "id": "56aad312-477e-414c-9adc-3184dbddc455",
         "offset": 5803,
         "timestamp": "1:36:43",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "da tudo pro caneta azul e fds",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -44844,8 +44844,8 @@
         "id": "02e7e131-34b4-4622-a659-210f0ea641b8",
         "offset": 5807,
         "timestamp": "1:36:47",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "caneta azul",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -45044,8 +45044,8 @@
         "id": "8c0d04fc-fb05-4960-af83-eef823f8a9c7",
         "offset": 5824,
         "timestamp": "1:37:04",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "voce prefere dar o brasil pro caneta azul ou pro monark",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -45494,8 +45494,8 @@
         "id": "063383c0-8884-4351-a7fc-c88b7c80eba9",
         "offset": 5861,
         "timestamp": "1:37:41",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "ele nunca mais vai voltar",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -45554,8 +45554,8 @@
         "id": "9cd7a5c0-f77c-4eb1-8f03-8da3c8370421",
         "offset": 5862,
         "timestamp": "1:37:42",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "KKKKKKKKKKKKK",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -45574,8 +45574,8 @@
         "id": "0b5c1213-ca17-4954-acaf-af8ce4273394",
         "offset": 5864,
         "timestamp": "1:37:44",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "KKKKKKKKKKKKKKKKK",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -45884,8 +45884,8 @@
         "id": "6b1e8911-1bce-4112-991b-d715e59f36c0",
         "offset": 5876,
         "timestamp": "1:37:56",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "KKKKKKKKKKKKKKKKKKKKK",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -46014,8 +46014,8 @@
         "id": "0612d578-ccfc-43f4-ae3f-debd39b198b4",
         "offset": 5890,
         "timestamp": "1:38:10",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "EM PLENO SETEMBRO AMARELO",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -46234,8 +46234,8 @@
         "id": "9a8b1500-f7f4-4c5b-929b-496749ad6a18",
         "offset": 5914,
         "timestamp": "1:38:34",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "ele é vegano",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -46664,8 +46664,8 @@
         "id": "d4385945-e730-4655-a8a7-550b9dbace72",
         "offset": 5945,
         "timestamp": "1:39:05",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "ele é um pato treinado pelo monark para pegar a erva de fumo",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -48034,8 +48034,8 @@
         "id": "113cff47-1fe2-4b5b-962c-b2ed032e32f3",
         "offset": 6105,
         "timestamp": "1:41:45",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "esse é o passaro gremio?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -48714,8 +48714,8 @@
         "id": "85d15d8a-610f-4b3a-aabf-5b5d24f5d7e2",
         "offset": 6159,
         "timestamp": "1:42:39",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "bom dia",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -49784,8 +49784,8 @@
         "id": "4f82ec11-98c8-4d49-8b37-6c25b2ab079a",
         "offset": 6253,
         "timestamp": "1:44:13",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "ele fez o 67",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -50384,8 +50384,8 @@
         "id": "eac0c0d9-d952-4b63-95f0-d1bf07890fa5",
         "offset": 6349,
         "timestamp": "1:45:49",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "çelebro",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -50504,8 +50504,8 @@
         "id": "88e7b23f-a3b3-4c44-aff4-45bec2f73e9f",
         "offset": 6373,
         "timestamp": "1:46:13",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@Ciel_Smile_Phantonhive ele ta em curitiba",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -51664,8 +51664,8 @@
         "id": "c26a5eeb-69fa-47c0-b422-6a6d1d009746",
         "offset": 6527,
         "timestamp": "1:48:47",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "kkkkkkkkkkkkk",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -51984,8 +51984,8 @@
         "id": "f6d39d8f-29c6-4693-930a-bb5a915a6f19",
         "offset": 6568,
         "timestamp": "1:49:28",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "esse cara no volante ta solteiro",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -52004,8 +52004,8 @@
         "id": "781c547c-64a9-4e66-bff9-9a6df9950ebc",
         "offset": 6570,
         "timestamp": "1:49:30",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "?",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -52614,8 +52614,8 @@
         "id": "896f4b66-d81a-4a3c-b9fd-4f0821333014",
         "offset": 6603,
         "timestamp": "1:50:03",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@martybound arrogãntchi",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -53224,8 +53224,8 @@
         "id": "8cd6249e-bb26-4be7-bf62-c1697be4c81d",
         "offset": 6640,
         "timestamp": "1:50:40",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "voce tem 1 hora e 50 de live deve ter ficado umas 5 horas em media",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -53344,8 +53344,8 @@
         "id": "1abf0ff0-6ad6-4ae1-aac7-00f225398e1e",
         "offset": 6666,
         "timestamp": "1:51:06",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@eunaasaa KKKKKKKKKKKKKKKK",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -53594,8 +53594,8 @@
         "id": "f96c4f12-8b14-48b8-a022-0e36981f35a1",
         "offset": 6721,
         "timestamp": "1:52:01",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "zoio desafio voce dar um tibum nessa agua e capturar um passarinho",
         "sentimento": "engraçado",
         "confianca": 1.0
@@ -53944,8 +53944,8 @@
         "id": "a6e704c3-f979-4adf-ad71-1512ab026696",
         "offset": 6788,
         "timestamp": "1:53:08",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "pato donald é melhor que o mickey",
         "sentimento": "positivo",
         "confianca": 1.0
@@ -54484,8 +54484,8 @@
         "id": "d0422ad5-d311-4232-ad99-0547d27e5953",
         "offset": 6924,
         "timestamp": "1:55:24",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "@e006cr aquele bgl da igreja la",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -55084,8 +55084,8 @@
         "id": "87aa143d-b00b-44ae-8736-2ee945107c0c",
         "offset": 7089,
         "timestamp": "1:58:09",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "voce pode voar",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -55984,8 +55984,8 @@
         "id": "4d44d1b9-09e6-4d8e-9a04-07ba00b9d12c",
         "offset": 7231,
         "timestamp": "2:00:31",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "essa e og",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -56064,8 +56064,8 @@
         "id": "93937ed0-3795-44c1-8dfa-7079bae9211b",
         "offset": 7239,
         "timestamp": "2:00:39",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "fds",
         "sentimento": "neutro",
         "confianca": 1.0
@@ -56464,8 +56464,8 @@
         "id": "a4cd47b4-1e52-4453-9b22-83737567cc3e",
         "offset": 7307,
         "timestamp": "2:01:47",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "eu pulo no covil e roubo o barao do seu time o que voce faz",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -56564,8 +56564,8 @@
         "id": "7dc2b6d5-b75f-4a4b-bb47-8a0e61146c44",
         "offset": 7336,
         "timestamp": "2:02:16",
-        "usuario": "sutoff_",
-        "nome": "sutoff_",
+        "usuario": "sutovsk",
+        "nome": "sutovsk",
         "texto": "oq é o sinal azul voce precisa passar parado",
         "sentimento": "confuso",
         "confianca": 1.0
@@ -83693,7 +83693,7 @@
         "sentimento": "neutro"
       },
       {
-        "usuario": "sutoff_",
+        "usuario": "sutovsk",
         "n": 42,
         "sentimento": "neutro"
       },
@@ -85098,6 +85098,11 @@
         "sentimento": "neutro"
       },
       {
+        "usuario": "Desmontada",
+        "n": 4,
+        "sentimento": "confuso"
+      },
+      {
         "usuario": "digxd_",
         "n": 4,
         "sentimento": "engraçado"
@@ -85186,11 +85191,6 @@
         "usuario": "lucasxd2",
         "n": 4,
         "sentimento": "neutro"
-      },
-      {
-        "usuario": "Lyu31",
-        "n": 4,
-        "sentimento": "confuso"
       },
       {
         "usuario": "manodexterplay",
@@ -89891,70 +89891,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Deixa eu ver aqui",
-        "descricao": "Baka Gaijin reconhece beco de Neuromancer e revela que ficou preso numa armadilha de rato ali, misturando referência cult com vergonha pessoal."
+        "descricao": "Deixa eu ver aqui"
       },
       {
         "inicio": "41:00",
         "minuto": 41,
         "tipo": "pergunta",
         "trecho": "Aqui eu vou acabar me degustando",
-        "descricao": "Ele filosofa sobre engordar e emagrecer ao mesmo tempo e ainda cospe na tela pedindo print pra thumbnail, caos puro."
+        "descricao": "Aqui eu vou acabar me degustando"
       },
       {
         "inicio": "52:00",
         "minuto": 52,
         "tipo": "pergunta",
         "trecho": "e pegou mais caro virou turista mesmo amigo",
-        "descricao": "Quase entra em área restrita por seguir chat, mas desiste ao ver placa Staff Only e imagina mulher vindo comer seu cu."
+        "descricao": "e pegou mais caro virou turista mesmo amigo"
       },
       {
         "inicio": "1:03:00",
         "minuto": 63,
         "tipo": "piada",
         "trecho": "Tinha lixo ali, né?",
-        "descricao": "Ele planeja comprar celular barato só pra live na rua do Brasil e aceitar ser roubado, porque não sabe mais fazer live com camera."
+        "descricao": "Tinha lixo ali, né?"
       },
       {
         "inicio": "1:14:00",
         "minuto": 74,
         "tipo": "pergunta",
         "trecho": "Parece um centavo comum",
-        "descricao": "Ele decide ir ao parque Ueno, mas fica confuso se já foi ou não, e descobre um donkey no caminho."
+        "descricao": "Parece um centavo comum"
       },
       {
         "inicio": "1:25:00",
         "minuto": 85,
         "tipo": "pergunta",
         "trecho": "Ai, cara.",
-        "descricao": "Baka Gaijin anda como pinguim, é chamado de gordo e reflete sobre voltar ao Japão como turista pela primeira vez."
+        "descricao": "Ai, cara."
       },
       {
         "inicio": "1:36:00",
         "minuto": 96,
         "tipo": "pergunta",
         "trecho": "Sensato do mundo pra governar o mundo",
-        "descricao": "Ele debate se peixe bebe e mija, sugere aparelho excretor unificado igual Coreias e imita peixe debaixo d'água."
+        "descricao": "Sensato do mundo pra governar o mundo"
       },
       {
         "inicio": "1:47:00",
         "minuto": 107,
         "tipo": "piada",
         "trecho": "Ele tem que coisar",
-        "descricao": "Ele confunde cocô de pássaro com cérebro, reclama de dor de ouvido e quase não vê uma tartaruga camuflada."
+        "descricao": "Ele tem que coisar"
       },
       {
         "inicio": "1:58:00",
         "minuto": 118,
         "tipo": "piada",
         "trecho": "Quem dera se eu pudesse aí",
-        "descricao": "Ele tenta arrumar o cabelo com as mãos ocupadas, não lembra o último filme e admite ter visto Silo."
+        "descricao": "Quem dera se eu pudesse aí"
       },
       {
         "inicio": "2:09:00",
         "minuto": 129,
         "tipo": "piada",
         "trecho": "Como é que abre aqui?",
-        "descricao": "Ele zoa cronograma de lives, lembra do maluco que fez live até ser assaltado e responde pedido de banheiro mandando fazer na rua."
+        "descricao": "Como é que abre aqui?"
       }
     ],
     "alertas": [
@@ -90142,6 +90142,34 @@
       {
         "pergunta": "ja usou o @ pra jantar de graça?",
         "n": 2
+      },
+      {
+        "pergunta": "baka voltou pro Japão?",
+        "n": 1
+      },
+      {
+        "pergunta": "Tá Liberado?? Tá liberado esgurmar??",
+        "n": 1
+      },
+      {
+        "pergunta": "Ainda no Japão ?",
+        "n": 1
+      },
+      {
+        "pergunta": "essa é a categoria etcetera da Twitch?",
+        "n": 1
+      },
+      {
+        "pergunta": "Cadê o passarinho do bom dia ?? TwitchConHYPE",
+        "n": 1
+      },
+      {
+        "pergunta": "É td dia?",
+        "n": 1
+      },
+      {
+        "pergunta": "Live 6 da manhã?",
+        "n": 1
       }
     ],
     "busca_transcricao": [
@@ -102566,7 +102594,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 35.376% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 35.354% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",
