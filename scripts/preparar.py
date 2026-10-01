@@ -2547,7 +2547,11 @@ BAIRRO_RADIUS_KM = 10.0
 
 # Versão do formato de mapa/geoloc.json: incremente quando a lógica de
 # geolocalização mudar (ex.: âncora de início) para invalidar caches antigos.
-GEOLOC_CACHE_VERSION = 3
+GEOLOC_CACHE_VERSION = 4
+
+# Ambientes "fechados" do OSINT: nunca viram coordenada — o minuto é interpolado
+# entre os pontos de rua vizinhos (ou pulado, se não houver nenhuma rua).
+INDOOR_AMBIENTES = ("interno", "interior", "dentro", "loja", "restaurante", "estabelecimento")
 
 # Versão do formato de mapa/osrm_route.json: incremente quando a lógica de
 # roteamento mudar (ex.: fallback sem rodovias) para invalidar caches antigos.
@@ -2653,7 +2657,8 @@ def _analyze_frame_osint(frame_path: Path, phrase: str, city: dict) -> dict | No
         "Classifique o ambiente: use \"ambiente\": \"rua\" se a imagem mostra uma área externa "
         "(rua, beco, calçada, praça, cruzamento) com contexto geográfico, ou \"ambiente\": \"interno\" "
         "se o streamer está DENTRO de um lugar (loja, restaurante, estação, casa, bar) — nesse caso "
-        "lat/lng devem ser null e as listas vazias.\n"
+        "lat/lng devem ser null e \"ruas_cruzamento\" vazio, mas \"estabelecimentos_visiveis\" deve "
+        "conter o NOME do lugar fechado e \"rua_atual\" a rua onde ele fica, se identificáveis.\n"
         "Retorne APENAS um objeto JSON com a estrutura:\n"
         "{\n"
         '  "ambiente": "rua" ou "interno",\n'
@@ -2754,6 +2759,54 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
         s["estabelecimentos"] = []
         s["justificativa"] = f"Ponto de início informado: {inicio}"[:600]
 
+    def interp_indoor() -> None:
+        """Minutos sem rua (local fechado ou análise falhou) NÃO caem no outro
+        lado da cidade: são interpolados entre os pontos de rua vizinhos
+        (antes/depois). Sem NENHUM ponto de rua na live, o minuto é pulado
+        (skip=True) e não aparece no mapa nem na rota."""
+        entries = sorted(
+            (int(k), v) for k, v in by_sec.items() if isinstance(v, dict) and v.get("lat") is not None
+        )
+        if not entries:
+            for s in stops:
+                s["skip"] = True
+            return
+        for s in stops:
+            sec = int(s["sec"])
+            if str(sec) in by_sec:
+                s["skip"] = False
+                continue
+            prev = None
+            nxt = None
+            for k, v in entries:
+                if k <= sec:
+                    prev = (k, v)
+                else:
+                    nxt = (k, v)
+                    break
+            if prev is None and nxt is None:
+                s["skip"] = True
+                continue
+            if prev is not None and nxt is not None:
+                frac = (sec - prev[0]) / max(1, nxt[0] - prev[0])
+                s["lat"] = prev[1]["lat"] + (nxt[1]["lat"] - prev[1]["lat"]) * frac
+                s["lng"] = prev[1]["lng"] + (nxt[1]["lng"] - prev[1]["lng"]) * frac
+                ref = prev[1]
+            elif prev is not None:
+                s["lat"], s["lng"] = prev[1]["lat"], prev[1]["lng"]
+                ref = prev[1]
+            else:
+                s["lat"], s["lng"] = nxt[1]["lat"], nxt[1]["lng"]
+                ref = nxt[1]
+            # o nome vem da IMAGEM (lugar fechado identificado), se houver;
+            # senão fica com o horário — nunca inventa nome de outro lugar
+            s["nome"] = (indoor_names.get(sec) or fmt_ts(sec))[:60]
+            s["rua"] = ref.get("rua") or ""
+            s["estabelecimentos"] = []
+            s["confianca"] = "baixa"
+            s["justificativa"] = "Local fechado/interior — posição interpolada entre pontos de rua"
+            s["skip"] = False
+
     def apply(by_sec: dict) -> None:
         for s in stops:
             hit = by_sec.get(str(int(s["sec"])))
@@ -2765,6 +2818,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
                 s["estabelecimentos"] = hit.get("estabelecimentos", [])
                 s["confianca"] = hit.get("confianca", "")
                 s["justificativa"] = hit.get("justificativa", "")
+                s["skip"] = hit.get("skip") is True
 
     # 1) cache: se já geolocalizou antes (mesmo local e mesmo provider), reusa (o vídeo não muda)
     provider = "gemini" if GEMINI_API_KEY else ("deepseek" if DEEPSEEK_API_KEY else "")
@@ -2790,6 +2844,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
                 apply(cached)
                 _clamp_to_bairros(stops, boxes)
                 anchor_start()
+                stops = [s for s in stops if not s.get("skip")]
                 print(f"  ✓ Mapa: geoloc em cache ({len(stops)} marcos) — pulando OSINT")
                 return stops, boxes
             if cached_provider and cached_provider != provider:
@@ -2801,23 +2856,6 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
         (folder / n for n in ("video.mp4", "video.webm", "video.mov", "video.m4v") if (folder / n).exists()),
         None,
     )
-
-    def fallback_anchor(s: dict) -> None:
-        """Posição determinística (âncoras nomeadas + interpolação) p/ quando não há OSINT."""
-        sec = int(s["sec"])
-        s["rua"] = ""
-        anchor = min(anchors, key=lambda a: abs(a[0] - sec))
-        if abs(anchor[0] - sec) <= 180:
-            s["nome"] = anchor[1]
-            s["lat"], s["lng"] = anchor[2], anchor[3]
-        else:
-            s["nome"] = fmt_ts(sec)
-            t = min(1.0, sec / 7744)
-            s["lat"] = base["lat"] - t * 0.004
-            s["lng"] = base["lng"] + (0.002 if (sec // 600) % 2 == 0 else -0.001)
-        s["estabelecimentos"] = []
-        s["confianca"] = ""
-        s["justificativa"] = ""
 
     def coords_of(info: dict) -> tuple[float, float] | None:
         """Coordenadas válidas: lat/lng direto do modelo OU geocodificação OSM.
@@ -2855,6 +2893,9 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
         return _analyze_frame_osint(alt, phrase, city)
 
     by_sec: dict[str, dict] = {}
+    # nomes vindos da IMAGEM para minutos sem coordenada (lugar fechado ou
+    # geocodificação falhou): o nome do marco é o que a imagem mostrou
+    indoor_names: dict[int, str] = {}
     for s in stops:
         sec = int(s["sec"])
         frame = mapa_dir / f"marco_{sec:04d}.jpg"
@@ -2862,35 +2903,49 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
         if _vision_available() and frame.exists():
             info = _analyze_frame_osint(frame, s.get("frase") or "", city)
         if info:
-            # só frames de RUA têm contexto geográfico — dentro de lugares fica ruim
+            # local FECHADO não vira coordenada (senão o marco cai no outro lado
+            # da cidade): guarda o nome visto na imagem e tenta um frame vizinho
+            # DE RUA; sem rua, o minuto fica para a interpolação.
             ambiente = str(info.get("ambiente") or "").strip().lower()
-            if ambiente in ("interno", "interior", "dentro", "loja", "restaurante", "estabelecimento"):
-                continue
-            conf_ini = str(info.get("nivel_de_confianca") or "").lower()
-            coords_ini = coords_of(info)
-            if conf_ini not in ("alta", "media") or not coords_ini:
-                # frame borrado/sem contexto: tenta um frame vizinho (+2s) e reanalisa
+            if ambiente in INDOOR_AMBIENTES:
+                in_ests = [str(e)[:80] for e in (info.get("estabelecimentos_visiveis") or [])][:6]
+                in_rua = (str(info.get("rua_atual") or "").strip()) or (
+                    (info.get("ruas_cruzamento") or [""])[0] if info.get("ruas_cruzamento") else ""
+                )
+                if in_ests or in_rua:
+                    indoor_names.setdefault(sec, (in_ests[0] if in_ests else in_rua)[:60])
                 alt_info = neighbor_analysis(sec, s.get("frase") or "")
-                if alt_info and (
-                    str(alt_info.get("nivel_de_confianca") or "").lower() in ("alta", "media")
-                    or (coords_of(alt_info) is not None and not coords_ini)
-                ):
-                    info = alt_info
+                info = alt_info if alt_info else None
+            if info:
+                conf_ini = str(info.get("nivel_de_confianca") or "").lower()
+                coords_ini = coords_of(info)
+                if conf_ini not in ("alta", "media") or not coords_ini:
+                    # frame borrado/sem contexto: tenta um frame vizinho (+2s) e reanalisa
+                    alt_info = neighbor_analysis(sec, s.get("frase") or "")
+                    if alt_info and (
+                        str(alt_info.get("nivel_de_confianca") or "").lower() in ("alta", "media")
+                        or (coords_of(alt_info) is not None and not coords_ini)
+                    ):
+                        info = alt_info
         else:
             # análise falhou: tenta frame vizinho (+2s)
             info = neighbor_analysis(sec, s.get("frase") or "")
         if not info:
             continue
         ambiente = str(info.get("ambiente") or "").strip().lower()
-        if ambiente in ("interno", "interior", "dentro", "loja", "restaurante", "estabelecimento"):
+        ests = [str(e)[:80] for e in (info.get("estabelecimentos_visiveis") or [])][:6]
+        rua_info = (str(info.get("rua_atual") or "").strip()) or (
+            (info.get("ruas_cruzamento") or [""])[0] if info.get("ruas_cruzamento") else ""
+        )
+        if ambiente in INDOOR_AMBIENTES:
+            if ests or rua_info:
+                indoor_names.setdefault(sec, (ests[0] if ests else rua_info)[:60])
             continue
         coords = coords_of(info)
-        ests = [str(e)[:80] for e in (info.get("estabelecimentos_visiveis") or [])][:6]
         conf = str(info.get("nivel_de_confianca") or "baixa").lower()
         if coords:
             lat, lng = coords
-            ruas = [str(r).strip() for r in (info.get("ruas_cruzamento") or []) if str(r).strip()]
-            rua = (str(info.get("rua_atual") or "").strip()) or (ruas[0] if ruas else "")
+            rua = rua_info or ""
             nome = (
                 (ests[0] if ests else None)
                 or rua
@@ -2908,20 +2963,27 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
             }
             print(f"  ✓ Mapa OSINT [{fmt_ts(sec)}] {by_sec[str(sec)]['nome']} "
                   f"({lat:.4f},{lng:.4f}) conf={by_sec[str(sec)]['confianca']}")
+        elif ests or rua_info:
+            # a imagem identificou o lugar, mas a coordenada não fechou:
+            # o nome continua vindo da imagem (posição interpolada depois)
+            indoor_names.setdefault(sec, (ests[0] if ests else rua_info)[:60])
 
-    for s in stops:
-        fallback_anchor(s)
     _enforce_walking_speed(by_sec)
     apply(by_sec)
     _clamp_to_bairros(stops, boxes)
+    interp_indoor()
     anchor_start()
+    all_stops = stops
+    stops = [s for s in stops if not s.get("skip")]
+    if stops and not any(s.get("visivel") for s in stops):
+        stops[-1]["visivel"] = True
 
     if _vision_available() or by_sec:
-        # grava o cache COMPLETO (marcos OSINT + fallback) para que futuras
-        # regenerações do dashboard não re-analisem os mesmos frames
+        # grava o cache COMPLETO (marcos OSINT + interpolados + skip) para que
+        # futuras regenerações do dashboard não re-analisem os mesmos frames
         # (o vídeo não muda; a etapa "mapa" do servidor apaga o cache p/ reanalisar)
         full: dict[str, dict] = {}
-        for s in stops:
+        for s in all_stops:
             sec = str(int(s["sec"]))
             full[sec] = {
                 "nome": s["nome"],
@@ -2931,6 +2993,7 @@ def _geolocate_stops(folder: Path, stops: list[dict], local: str) -> tuple[list[
                 "estabelecimentos": s.get("estabelecimentos") or [],
                 "confianca": s.get("confianca") or "",
                 "justificativa": s.get("justificativa") or "",
+                "skip": bool(s.get("skip")),
             }
             if sec in by_sec:
                 full[sec]["osint"] = True
@@ -3159,53 +3222,30 @@ def _write_map_gpx(folder: Path, stops: list[dict], route: list[list[float]] | N
 
 
 def _write_map_kml(folder: Path, stops: list[dict], synced: list[dict] | None = None) -> Path | None:
-    """Exporta a rota em KML compatível com o Google Earth (web, mobile e Pro).
-
-    Usa apenas KML 2.2 básico (LineString + pontos nomeados): o <gx:Track>
-    (animação no tempo) é rejeitado pelo Earth web/mobile com o erro
-    "Elemento incompatível: gx:Track".
+    """Exporta os PONTOS da live em KML compatível com o Google Earth
+    (web, mobile e Pro) — sem linha de rota, só os marcos nomeados.
     """
-    if synced and len(synced) >= 2:
-        pts = [(float(p["lat"]), float(p["lng"])) for p in synced]
-    else:
-        pts = [
-            (float(s["lat"]), float(s["lng"]))
-            for s in stops
-            if s.get("lat") is not None and s.get("lng") is not None
-        ]
-    if len(pts) < 2:
+    visiveis = [
+        s for s in stops
+        if s.get("visivel") and s.get("lat") is not None and s.get("lng") is not None
+    ]
+    if not visiveis:
         return None
 
     def esc(txt: str) -> str:
         return str(txt).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-    coords = " ".join(f"{lng:.6f},{lat:.6f},0" for lat, lng in pts)
-
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<kml xmlns="http://www.opengis.net/kml/2.2">',
         "  <Document>",
-        "    <name>Rota da live — Baka Gaijin</name>",
-        '    <Style id="route"><LineStyle><color>ff00aaff</color><width>4</width></LineStyle></Style>',
+        "    <name>Marcos da live — Baka Gaijin</name>",
         '    <Style id="stop"><IconStyle><scale>0.7</scale>',
         '      <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>',
         "    </IconStyle></Style>",
-        "    <Placemark>",
-        "      <name>Trajeto da live</name>",
-        "      <styleUrl>#route</styleUrl>",
-        "      <LineString>",
-        "        <tessellate>1</tessellate>",
-        "        <altitudeMode>clampToGround</altitudeMode>",
-        "        <coordinates>",
-        f"          {coords}",
-        "        </coordinates>",
-        "      </LineString>",
-        "    </Placemark>",
     ]
     idx = 0
-    for s in stops:
-        if not s.get("visivel") or s.get("lat") is None or s.get("lng") is None:
-            continue
+    for s in visiveis:
         idx += 1
         nome = esc(s.get("nome") or "")
         rua = esc(s.get("rua") or "")
@@ -3224,7 +3264,7 @@ def _write_map_kml(folder: Path, stops: list[dict], synced: list[dict] | None = 
     dest = folder / "mapa" / "rota.kml"
     dest.parent.mkdir(exist_ok=True)
     dest.write_text("\n".join(lines), encoding="utf-8")
-    print(f"  ✓ Mapa: rota exportada em mapa/rota.kml ({len(pts)} pontos de linha + {idx} marcos)")
+    print(f"  ✓ Mapa: marcos exportados em mapa/rota.kml ({idx} pontos)")
     return dest
 
 
@@ -3300,6 +3340,87 @@ def _spread_overlapping_markers(stops: list[dict], min_dist_m: float = MARKER_SP
             s["lng"] = base_lng + d_lng
 
 
+# --------------------------------------------------------------------------- #
+# Google Places: enriquece os marcos com o lugar mais próximo (nome, endereço,
+# tipo, nota e link) para o roteiro do streamer — alternativa recomendada pela
+# Google para dados de lugares.
+# --------------------------------------------------------------------------- #
+
+def _places_nearby(lat: float, lng: float, api_key: str, keyword: str = "") -> dict | None:
+    """Busca o lugar mais próximo do ponto via Places API (Nearby Search)."""
+    params: dict[str, str] = {
+        "location": f"{lat},{lng}",
+        "language": "pt-BR",
+        "key": api_key,
+    }
+    if keyword:
+        params["rankby"] = "distance"
+        params["keyword"] = keyword[:60]
+    else:
+        params["radius"] = "100"
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" + urllib.parse.urlencode(params)
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        if data.get("status") != "OK" or not data.get("results"):
+            return None
+        return data["results"][0]
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] Places falhou ({exc})", file=sys.stderr)
+        return None
+
+
+def _apply_place(s: dict, place: dict) -> None:
+    s["place_nome"] = place.get("name") or ""
+    s["place_endereco"] = place.get("vicinity") or ""
+    tipos = place.get("types") or []
+    s["place_tipo"] = tipos[0].replace("_", " ").title() if tipos else ""
+    s["place_rating"] = place.get("rating")
+    if place.get("place_id"):
+        s["place_url"] = (
+            "https://www.google.com/maps/search/?api=1&query=Google&query_place_id="
+            + str(place["place_id"])
+        )
+
+
+def _enrich_stops_with_places(folder: Path, stops: list[dict]) -> None:
+    """Com GOOGLE_PLACES_API_KEY definida, busca o lugar de cada marco visível
+    e guarda no cache mapa/places.json (chave: sec do marco)."""
+    api_key = os.environ.get("GOOGLE_PLACES_API_KEY", "").strip()
+    if not api_key:
+        return
+    cache_file = folder / "mapa" / "places.json"
+    cache: dict = {}
+    if cache_file.is_file():
+        try:
+            loaded = json.loads(cache_file.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                cache = loaded
+        except json.JSONDecodeError:
+            cache = {}
+    changed = 0
+    for s in stops:
+        if not s.get("visivel") or s.get("lat") is None or s.get("lng") is None:
+            continue
+        sec = str(int(s["sec"]))
+        hit = cache.get(sec)
+        if isinstance(hit, dict) and hit:
+            _apply_place(s, hit)
+            continue
+        nome = str(s.get("nome") or "").strip()
+        keyword = nome if nome and ":" not in nome else ""
+        place = _places_nearby(float(s["lat"]), float(s["lng"]), api_key, keyword)
+        if place:
+            cache[sec] = place
+            _apply_place(s, place)
+            changed += 1
+            time.sleep(0.4)  # quota da Places API
+    if changed:
+        cache_file.parent.mkdir(exist_ok=True)
+        cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"  ✓ Places: {changed} marcos enriquecidos (mapa/places.json)")
+
+
 def ensure_map_assets(
     folder: Path, video_file: str | None, stops: list[dict], local: str
 ) -> tuple[list[dict], list[dict] | None]:
@@ -3318,6 +3439,7 @@ def ensure_map_assets(
     _extract_map_frames(folder, video_file, stops)
     stops, bairro_boxes = _geolocate_stops(folder, stops, local)
     _unwrap_collapsed_stops(stops)
+    _enrich_stops_with_places(folder, stops)
     synced = _fetch_osrm_synced(folder, stops, local)
     if synced and bairro_boxes:
         for point in synced:
@@ -3772,11 +3894,15 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         print("  SKIP_MAPA=1 — pulando frames/geoloc/rota do mapa (marcos aproximados)")
     else:
         map_stops, map_synced = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
-    # marcadores visíveis no mapa/carrossel: só a cada 5 min (análise usa 1/1 min)
-    # cópia rasa: o spread de sobreposição não altera as coordenadas da rota
-    map_stops_vis = [dict(s) for s in map_stops if s.get("visivel")]
-    _spread_overlapping_markers(map_stops_vis)
+    # marcadores no mapa: TODOS os marcos (1/min) com opacidade baixa; o marco
+    # "atual" (último antes do tempo do player) fica opaco. Carrossel/roteiro
+    # continuam com os visíveis (5 em 5 min). Spread é só exibição: não altera
+    # a rota nem o cache.
+    map_stops_all = [dict(s) for s in map_stops]
+    _spread_overlapping_markers(map_stops_all)
+    map_stops_vis = [s for s in map_stops_all if s.get("visivel")]
     map_stops_json = _json.dumps(map_stops_vis, ensure_ascii=False)
+    map_stops_all_json = _json.dumps(map_stops_all, ensure_ascii=False)
     # galeria de frames: TODOS os frames da análise (1/min) em sequência, em modal
     map_frames = []
     for s in map_stops:
@@ -3906,23 +4032,28 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--panel);
   }
   .frames-title { font-size: .95rem; font-weight: 700; }
-  .frames-grid {
-    overflow-y: auto; padding: 16px; display: grid; gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  .frames-carousel {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px; min-height: 0; flex: 1;
   }
+  .frames-nav { flex: none; padding: 10px 13px; font-size: .8rem; }
+  .frames-stage { flex: 1; min-width: 0; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .frames-track { display: flex; width: 100%; transition: transform .25s ease; }
   .frames-cell {
+    flex: 0 0 100%; min-width: 0;
     background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
     overflow: hidden; cursor: pointer; text-align: left; color: var(--text);
-    transition: transform .12s ease, border-color .12s ease;
   }
-  .frames-cell:hover { transform: translateY(-2px); border-color: var(--accent); }
-  .frames-cell img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; background: #000; }
-  .frames-cell .fc-body { padding: 6px 8px; }
+  .frames-cell img { width: 100%; max-height: 62vh; aspect-ratio: 16/10; object-fit: contain; display: block; background: #000; }
+  .frames-cell .fc-body { padding: 6px 10px; }
   .frames-cell .fc-name {
-    font-size: .72rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis;
+    font-size: .78rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .frames-cell .fc-sub { font-size: .66rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .frames-cell .fc-sub { font-size: .7rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .frames-info {
+    text-align: center; padding: 0 16px 12px; font-size: .72rem; color: var(--muted);
+  }
   /* roteiro turístico */
   .map-itinerary { margin-top: 14px; }
   .map-itinerary-list { list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 560px; overflow-y: auto; padding-right: 4px; }
@@ -3942,6 +4073,8 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   .iti-head b { font-size: .85rem; }
   .iti-time { font-size: .72rem; color: var(--muted); white-space: nowrap; }
   .iti-rua, .iti-lojas { font-size: .74rem; color: #a5b4fc; }
+  .iti-place { font-size: .74rem; color: #cbd5e1; }
+  .iti-place a { color: #a5b4fc; text-decoration: underline; }
   .iti-just { font-size: .76rem; color: var(--muted); line-height: 1.5; }
   .muted { color: var(--muted); font-size: .78rem; }
   ul { list-style: none; }
@@ -3973,6 +4106,22 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     .player-map-wrap.layout-stacked { display: block; }
     .player-map-wrap.layout-stacked .player-video-shell { width: 100%; max-width: 960px; }
     .player-map-wrap.layout-stacked #liveMap { height: 420px; }
+  }
+  /* Replay dos comentários em colunas: o feed estica até o fim da coluna
+     do player (em vez de ficar fixo em 480px). */
+  @media (min-width: 1200px) {
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child {
+      align-self: stretch; display: flex; flex-direction: column;
+    }
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child {
+      flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+    }
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child > .card {
+      flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+    }
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child .comment-feed {
+      flex: 1 1 auto; max-height: none;
+    }
   }
   .player {
     background: #000; border: 1px solid var(--border); border-radius: 12px;
@@ -4057,12 +4206,25 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   /* ---- mapa da live ---- */
   #liveMap { height: 420px; width: 100%; background: #0f172a; border-radius: 12px; z-index: 0; }
   .map-shell { position: relative; }
-  .map-legend {
-    position:absolute; bottom:12px; left:12px; z-index:1000; max-width:250px;
-    background:rgba(15,23,42,.92); border:1px solid var(--border); border-radius:10px;
-    padding:8px 10px; font-size:.7rem; color:var(--muted); pointer-events:none;
+  /* fullscreen da PÁGINA (não do sistema): o mapa vira um overlay fixo */
+  .map-fs-close {
+    display: none; position: absolute; top: 14px; right: 14px;
+    z-index: 1001; background: rgba(15,23,42,.92);
   }
-  .map-legend b { color:#e2e8f0; }
+  .map-shell.map-fullscreen {
+    position: fixed; inset: 0; z-index: 9999;
+    width: 100vw; height: 100vh;
+    background: #0b1120; padding: 14px;
+    display: flex; flex-direction: column;
+  }
+  .map-shell.map-fullscreen #liveMap { height: 100%; flex: 1; border-radius: 10px; }
+  .map-shell.map-fullscreen .map-fs-close { display: inline-flex; align-items: center; gap: 6px; }
+  /* controles flutuantes sobre o mapa (onde ficava a legenda) */
+  .map-float-controls {
+    position: absolute; bottom: 12px; left: 12px; z-index: 1000;
+    display: flex; gap: 6px;
+  }
+  .map-float-controls .btn { background: rgba(15,23,42,.92); }
   .map-carousel { margin-top:14px; }
   .map-carousel-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
   .map-car-title { font-size:.8rem; font-weight:700; color:#e2e8f0; }
@@ -4277,7 +4439,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
       <span class="muted" id="mapInfo">Marcos geolocalizados em __MAP_LABEL__ — selecione um ponto no mapa para ver o raio de incerteza (quanto maior o círculo, menor a confiança) e pular o player.</span>
-      <button class="btn" onclick="mapFitAll()">Fit em tudo</button>
       <button class="btn" onclick="openFramesGallery()" title="Ver todos os frames da análise em sequência">
         <i class="fa-solid fa-images"></i> Galeria de frames
       </button>
@@ -4289,7 +4450,13 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     </div>
     <div class="grid two">
       <div class="map-shell"><div id="liveMap"></div>
-        <div class="map-legend"><b>Legenda</b><br/>⭕ raio de incerteza (aparece ao selecionar um marco) · ⓵ marcos numerados a cada 5 min · 🚶 você está aqui</div>
+        <button class="btn map-fs-close" id="mapFsClose" onclick="toggleMapFullscreen()" title="Fechar tela cheia">
+          <i class="fa-solid fa-compress"></i> Fechar
+        </button>
+        <div class="map-float-controls">
+          <button class="btn" onclick="mapFitAll()" title="Enquadrar todos os marcos">Fit em tudo</button>
+          <button class="btn" onclick="toggleMapFullscreen()" title="Mapa em tela cheia"><i class="fa-solid fa-expand"></i> Tela cheia</button>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="muted" id="mapNow">Escolha um marco para assistir o trecho.</div>
@@ -4317,9 +4484,6 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       <div class="google-map-title">
         <i class="fa-solid fa-earth-americas"></i>
         <span id="googleEarthTitle">Vista aérea (satélite)</span>
-        <a id="googleEarthLink" href="#" target="_blank" rel="noopener" class="gmaps-btn gmaps-primary" style="margin-left:auto" title="Abrir no Google Earth 3D">
-          <i class="fa-solid fa-globe"></i> Google Earth 3D
-        </a>
       </div>
       <iframe id="googleEarthFrame" title="Vista aérea (satélite)" loading="lazy" allowfullscreen></iframe>
     </div>
@@ -4351,7 +4515,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         <span class="frames-title"><i class="fa-solid fa-images"></i> Galeria de frames — toda a análise (1 por min)</span>
         <button class="btn" onclick="closeFramesGallery()" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="frames-grid" id="framesGrid"></div>
+      <div class="frames-carousel">
+        <button class="btn frames-nav" id="framesPrev" onclick="framesPage(-1)" aria-label="Frame anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="frames-stage"><div class="frames-track" id="framesTrack"></div></div>
+        <button class="btn frames-nav" id="framesNext" onclick="framesPage(1)" aria-label="Próximo frame"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="frames-info" id="framesInfo"></div>
     </div>
   </div>
   <h2 class="text-lg font-semibold text-slate-200 border-b border-slate-800 pb-2 mt-8 mb-4" id="replay">Replay dos Comentários (ao vivo)</h2>
@@ -4491,6 +4660,7 @@ const DATA = __DATA_INLINE__;
 const FILES = __FILES_JSON__;
 const CUES = __CUES_JSON__;
 const MAP_STOPS = __MAP_STOPS_JSON__;
+const MAP_STOPS_ALL = __MAP_STOPS_ALL_JSON__;
 const MAP_FRAMES = __MAP_FRAMES_JSON__;
 const MAP_ROUTE = __MAP_ROUTE_JSON__;
 const MAP_ROUTE_TIMES = __MAP_ROUTE_TIMES__;
@@ -4911,54 +5081,13 @@ function toggleLayout(){
 // MAPA DA LIVE (Leaflet + OpenStreetMap) — marcos a cada 5 min
 // ---------------------------------------------------------------------------
 let liveMap = null;
-let mapMarkers = {};
-let walkerMarker = null;
+let mapMarkersAll = {};
+let lastActiveMarkerIdx = -1;
 let activeCircle = null;
 
-function walkerIcon() {
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:30px;height:30px;border-radius:50% 50% 50% 0;background:#22c55e;
-      border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.7);transform:rotate(-45deg);
-      display:flex;align-items:center;justify-content:center">
-      <div style="transform:rotate(45deg);font-size:14px">🚶</div></div>`,
-    iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -28]
-  });
-}
-
-// tempo de caminhada efetivo: anda 15 min e descansa 6 min (pausas viram platôs)
-function walkTimeAt(t) {
-  const rel = Math.max(0, t - MAP_TRIM_START);
-  const cycle = 15 * 60 + 6 * 60;
-  const cyc = Math.floor(rel / cycle);
-  const rem = rel - cyc * cycle;
-  return cyc * 15 * 60 + Math.min(rem, 15 * 60);
-}
-
 function updateWalker(t) {
-  if (!liveMap || !walkerMarker || !MAP_ROUTE || !MAP_ROUTE.length) return;
-  const times = MAP_ROUTE_TIMES;
-  if (!times || !times.length) return;
-  // cada micro-ponto da rota tem o tempo de caminhada carimbado:
-  // procura o trecho cujo tempo contém o tempo atual do vídeo
-  const w = walkTimeAt(t);
-  const last = times.length - 1;
-  if (w <= times[0]) {
-    walkerMarker.setLatLng([MAP_ROUTE[0][0], MAP_ROUTE[0][1]]);
-    return;
-  }
-  if (w >= times[last]) {
-    walkerMarker.setLatLng([MAP_ROUTE[last][0], MAP_ROUTE[last][1]]);
-    return;
-  }
-  let i = 0;
-  for (let k = 0; k < last; k++) {
-    if (times[k] <= w && times[k + 1] >= w) { i = k; break; }
-  }
-  const dt = times[i + 1] - times[i];
-  const f = dt > 0 ? (w - times[i]) / dt : 0; // dt=0 => pausa de descanso: fica parado
-  const a = MAP_ROUTE[i], b = MAP_ROUTE[i + 1];
-  walkerMarker.setLatLng([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
+  // destaca o marco atual (o marcador 🚶 e a rota foram removidos)
+  setActiveMarker(t);
 }
 
 // Marcos da live: conforme o player avança, o marco "atual" acompanha o tempo —
@@ -5005,24 +5134,20 @@ function initLiveMap() {
     attribution: "&copy; OpenStreetMap"
   }).addTo(liveMap);
 
-  // rota que o streamer percorreu (sincronizada com o player) — linha tracejada
-  if (MAP_ROUTE && MAP_ROUTE.length > 1) {
-    L.polyline(MAP_ROUTE, {
-      color: "#a855f7", weight: 4, opacity: .7,
-      dashArray: "10 9", lineCap: "round", lineJoin: "round"
-    }).addTo(liveMap);
-  }
-
   // raio de incerteza dos marcos: só aparece ao selecionar um ponto no mapa
   // (showStopRadius) — a geolocalização por frame tem margem de erro,
   // então o raio é mais honesto que uma linha "precisa"
 
-  walkerMarker = L.marker([MAP_ROUTE[0][0], MAP_ROUTE[0][1]], {
-    icon: walkerIcon(), zIndexOffset: 1000
-  }).addTo(liveMap);
-  walkerMarker.bindTooltip("Você está aqui (player)", { direction: "top", offset: [0, -18] });
-
-  function numIcon(color, num) {
+  function numIcon(color, num, visivel) {
+    if (!visivel) {
+      // marcos de 1 em 1 min: bolinha discreta (opacidade do marcador = 0.7)
+      return L.divIcon({
+        className: "",
+        html: `<div style="width:9px;height:9px;border-radius:50%;background:${color};
+          border:1px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>`,
+        iconSize: [9, 9], iconAnchor: [4.5, 4.5], popupAnchor: [0, -8]
+      });
+    }
     return L.divIcon({
       className: "",
       html: `<div style="width:22px;height:22px;border-radius:50%;background:${color};
@@ -5033,8 +5158,15 @@ function initLiveMap() {
     });
   }
 
-  MAP_STOPS.forEach((s, i) => {
-    const m = L.marker([s.lat, s.lng], { icon: numIcon(s.cor, i + 1) }).addTo(liveMap);
+  let visIdx = 0;
+  MAP_STOPS_ALL.forEach((s, i) => {
+    const isVis = !!s.visivel;
+    if (isVis) visIdx++;
+    const m = L.marker([s.lat, s.lng], {
+      icon: numIcon(s.cor, isVis ? visIdx : 0, isVis),
+      opacity: 0.7,
+      zIndexOffset: isVis ? 10 : 0
+    }).addTo(liveMap);
     const lojas = (s.estabelecimentos && s.estabelecimentos.length)
       ? `<div class="pq"><b>🏪 ${s.estabelecimentos.map(x => esc(x)).join(" · ")}</b></div>` : "";
     const rua = (s.rua && s.rua !== s.nome)
@@ -5043,23 +5175,55 @@ function initLiveMap() {
       ? `<span class="conf-badge conf-${esc(s.confianca)}">confiança ${esc(s.confianca)}</span>` : "";
     const just = s.justificativa ? `<div class="pq muted">${esc(s.justificativa)}</div>` : "";
     m.bindPopup(`<div class="pop">
-      <img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />
+      ${isVis ? `<img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />` : ""}
       <div class="pt">${esc(s.nome)} ${conf}</div>
       ${rua}
       <div class="pts">⏱ ${fmtClock(s.sec)} · na live</div>
       ${lojas}
-      <div class="pq">${esc(s.frase || "")}</div>
+      ${isVis ? `<div class="pq">${esc(s.frase || "")}</div>` : ""}
       ${just}
       <a class="pgm" href="https://www.google.com/maps?q=${s.lat},${s.lng}" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Abrir no Google Maps</a>
     </div>`);
-    m.on("click", () => jumpToStop(s));
-    mapMarkers[i] = m;
+    m.on("click", () => {
+      setActiveMarker(s.sec); // selecionado fica opaco; demais voltam a 0.3
+      if (isVis) {
+        jumpToStop(MAP_STOPS[visIdx - 1]);
+      } else {
+        const media = (V.el && FILES.video) ? V : ((A.el && FILES.audio) ? A : null);
+        if (media && media.el) {
+          setPlayerMode(FILES.video ? "video" : "audio");
+          media.el.currentTime = s.sec;
+        }
+        document.getElementById("mapNow").textContent = `▶ ${s.nome} — ${fmtClock(s.sec)}`;
+      }
+    });
+    // hover: marcador fica opaco na passagem; ao sair, volta ao estado normal
+    m.on("mouseover", () => m.setOpacity(1));
+    m.on("mouseout", () => m.setOpacity(i === lastActiveMarkerIdx ? 1 : 0.7));
+    mapMarkersAll[i] = m;
   });
+  setActiveMarker(0);
 
   buildMapCarousel();
   buildItinerary();
   mapFitAll();
   if (MAP_STOPS[0]) updateGoogleMap(MAP_STOPS[0]);
+}
+
+// marco "atual" (último antes do tempo do player) fica opaco; os demais em 0.7
+function setActiveMarker(t) {
+  if (!mapMarkersAll || !MAP_STOPS_ALL) return;
+  let idx = -1;
+  for (let i = 0; i < MAP_STOPS_ALL.length; i++) {
+    if (MAP_STOPS_ALL[i].sec <= t) idx = i;
+    else break;
+  }
+  if (idx === lastActiveMarkerIdx) return;
+  lastActiveMarkerIdx = idx;
+  MAP_STOPS_ALL.forEach((s, i) => {
+    const m = mapMarkersAll[i];
+    if (m) m.setOpacity(i === idx ? 1 : 0.7);
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -5109,11 +5273,17 @@ function buildItinerary() {
       ? `<span class="iti-lojas">🏪 ${s.estabelecimentos.map(x => esc(x)).join(" · ")}</span>` : "";
     const just = s.justificativa
       ? `<span class="iti-just">${esc(s.justificativa)}</span>` : "";
+    const place = (s.place_nome || s.place_endereco)
+      ? `<span class="iti-place">
+          <i class="fa-solid fa-store"></i> ${esc(s.place_nome || "")}${s.place_tipo ? ` · ${esc(s.place_tipo)}` : ""}${s.place_rating ? ` · ⭐ ${Number(s.place_rating).toFixed(1)}` : ""}${s.place_endereco ? ` · ${esc(s.place_endereco)}` : ""}
+          ${s.place_url ? ` · <a href="${esc(s.place_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">abrir no Maps</a>` : ""}
+        </span>` : "";
     return `<li class="iti-item" onclick="jumpToStop(MAP_STOPS[${i}])" title="Pular o player para ${fmtClock(s.sec)}">
       <span class="iti-num" style="background:${s.cor}">${i + 1}</span>
       <span class="iti-body">
         <span class="iti-head"><b>${esc(s.nome)}</b><span class="iti-time">⏱ ${fmtClock(s.sec)}</span></span>
         ${rua} ${lojas}
+        ${place}
         ${just}
       </span>
     </li>`;
@@ -5191,17 +5361,19 @@ function jumpToStop(s) {
 }
 
 // ---------------------------------------------------------------------------
-// Galeria de frames (modal): todos os frames da análise (1/min) em sequência
+// Galeria de frames (carrossel): um frame por vez, com navegação
 // ---------------------------------------------------------------------------
+let framesIndex = 0;
+
 function openFramesGallery() {
   const modal = document.getElementById("framesModal");
-  const grid = document.getElementById("framesGrid");
-  if (!modal || !grid) return;
-  if (!grid.children.length) {
-    grid.innerHTML = MAP_FRAMES.map((f) => {
+  const track = document.getElementById("framesTrack");
+  if (!modal || !track) return;
+  if (!track.children.length) {
+    track.innerHTML = MAP_FRAMES.map((f) => {
       const sub = f.rua && f.rua !== f.nome ? esc(f.rua) : esc(f.nome);
       return `<button class="frames-cell" onclick="jumpToFrame(${f.sec})" title="${esc(f.nome)} — ${fmtClock(f.sec)}">
-        <img src="${f.img}" alt="" loading="lazy" onerror="this.style.display='none'" />
+        <img src="${f.img}" alt="" onerror="this.style.display='none'" />
         <span class="fc-body">
           <span class="fc-name">${esc(f.nome)}</span>
           <span class="fc-sub"><i class="fa-solid fa-road"></i> ${sub} · ${fmtClock(f.sec)}</span>
@@ -5209,9 +5381,30 @@ function openFramesGallery() {
       </button>`;
     }).join("");
   }
+  framesIndex = 0;
+  updateFrames();
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+}
+
+function updateFrames() {
+  const track = document.getElementById("framesTrack");
+  const info = document.getElementById("framesInfo");
+  const prev = document.getElementById("framesPrev");
+  const next = document.getElementById("framesNext");
+  if (!track) return;
+  const total = MAP_FRAMES.length || 1;
+  track.style.transform = `translateX(-${framesIndex * 100}%)`;
+  if (info) info.textContent = `Frame ${framesIndex + 1} de ${total} — clique no frame para pular o player`;
+  if (prev) prev.disabled = framesIndex <= 0;
+  if (next) next.disabled = framesIndex >= total - 1;
+}
+
+function framesPage(d) {
+  const total = MAP_FRAMES.length || 1;
+  framesIndex = Math.min(total - 1, Math.max(0, framesIndex + d));
+  updateFrames();
 }
 
 function closeFramesGallery() {
@@ -5241,6 +5434,15 @@ function jumpToFrame(sec) {
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeFramesGallery();
+  const modal = document.getElementById("framesModal");
+  if (modal && modal.classList.contains("open")) {
+    if (e.key === "ArrowLeft") framesPage(-1);
+    if (e.key === "ArrowRight") framesPage(1);
+  }
+  const mapShell = document.querySelector(".map-shell");
+  if (e.key === "Escape" && mapShell && mapShell.classList.contains("map-fullscreen")) {
+    toggleMapFullscreen();
+  }
 });
 
 function updateGoogleMap(s) {
@@ -5248,7 +5450,6 @@ function updateGoogleMap(s) {
   const frame = document.getElementById("googleMapFrame");
   const title = document.getElementById("googleMapTitle");
   const earthFrame = document.getElementById("googleEarthFrame");
-  const earthLink = document.getElementById("googleEarthLink");
   const earthTitle = document.getElementById("googleEarthTitle");
   const coordinates = `${s.lat},${s.lng}`;
   if (link) {
@@ -5258,16 +5459,22 @@ function updateGoogleMap(s) {
   if (frame) frame.src = `https://www.google.com/maps?q=${coordinates}&z=17&output=embed`;
   if (title) title.textContent = `${s.nome} · ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}`;
   if (earthFrame) earthFrame.src = `https://www.google.com/maps?q=${coordinates}&z=17&t=k&output=embed`;
-  if (earthLink) {
-    earthLink.href = `https://earth.google.com/web/search/${encodeURIComponent(coordinates)}/a,400d`;
-    earthLink.style.display = "";
-  }
   if (earthTitle) earthTitle.textContent = `Vista aérea (satélite)`;
 }
 
 function mapFitAll() {
-  if (!liveMap || !MAP_ROUTE.length) return;
-  liveMap.fitBounds(L.latLngBounds(MAP_ROUTE), { padding: [30, 30] });
+  if (!liveMap) return;
+  const pts = MAP_STOPS_ALL.filter((s) => s.lat != null && s.lng != null).map((s) => [s.lat, s.lng]);
+  if (!pts.length) return;
+  liveMap.fitBounds(L.latLngBounds(pts), { padding: [30, 30] });
+}
+
+function toggleMapFullscreen() {
+  const shell = document.querySelector(".map-shell");
+  if (!shell) return;
+  const on = shell.classList.toggle("map-fullscreen");
+  document.body.style.overflow = on ? "hidden" : "";
+  setTimeout(() => liveMap && liveMap.invalidateSize(), 150);
 }
 
 function fmtDataBR(iso) {
@@ -6223,6 +6430,7 @@ resolveSupportCta();
         .replace("__FILES_JSON__", files_json)
         .replace("__CUES_JSON__", cues_json)
         .replace("__MAP_STOPS_JSON__", map_stops_json)
+        .replace("__MAP_STOPS_ALL_JSON__", map_stops_all_json)
         .replace("__MAP_FRAMES_JSON__", map_frames_json)
         .replace("__MAP_ROUTE_JSON__", map_route_json)
         .replace("__MAP_ROUTE_TIMES__", map_route_times_json)

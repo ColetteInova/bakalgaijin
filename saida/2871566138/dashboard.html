@@ -107,6 +107,22 @@
     .player-map-wrap.layout-stacked .player-video-shell { width: 100%; max-width: 960px; }
     .player-map-wrap.layout-stacked #liveMap { height: 420px; }
   }
+  /* Replay dos comentários em colunas: o feed estica até o fim da coluna
+     do player (em vez de ficar fixo em 480px). */
+  @media (min-width: 1200px) {
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child {
+      align-self: stretch; display: flex; flex-direction: column;
+    }
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child {
+      flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+    }
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child > .card {
+      flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+    }
+    .player-map-wrap:not(.layout-stacked) > .pm-col:first-child > .section-body:last-child .comment-feed {
+      flex: 1 1 auto; max-height: none;
+    }
+  }
   .player {
     background: #000; border: 1px solid var(--border); border-radius: 12px;
     overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,.5);
