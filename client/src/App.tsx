@@ -5,37 +5,18 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Cadastro from "./pages/Cadastro";
-import Home from "./pages/Home";
 import Perfil from "./pages/Perfil";
-import VodDownloader from "./pages/VodDownloader";
 
-
-// Em produção (deploy no Firebase), apenas as páginas de cadastro e perfil são
-// publicadas. As demais (tradutor, downloader) funcionam só no localhost.
-// O build de produção do deploy define VITE_ONLY_BAKALOVERS=1.
-const ONLY_BAKALOVERS = import.meta.env.VITE_ONLY_BAKALOVERS === "1";
-
+// Client dos Bakalovers (produção): apenas cadastro e perfil.
+// O tradutor de voz e o downloader de VODs ficam no client local (vod.html),
+// que não é publicado no Firebase.
 function Router() {
-  if (ONLY_BAKALOVERS) {
-    return (
-      <Switch>
-        <Route path={"/"} component={Cadastro} />
-        <Route path={"/cadastro"} component={Cadastro} />
-        <Route path={"/perfil"} component={Perfil} />
-        <Route path={"/404"} component={NotFound} />
-        <Route component={NotFound} />
-      </Switch>
-    );
-  }
-
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/vod"} component={VodDownloader} />
+      <Route path={"/"} component={Cadastro} />
       <Route path={"/cadastro"} component={Cadastro} />
       <Route path={"/perfil"} component={Perfil} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );

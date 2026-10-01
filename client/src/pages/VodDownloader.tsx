@@ -70,6 +70,7 @@ interface DoneItem {
 
 interface PreparedFolder {
   folder: string;
+  title?: string;
   local: string;
   bairro?: string;
   hasComments: boolean;
@@ -1055,7 +1056,10 @@ export default function VodDownloader() {
                       >
                         <div className="flex items-center justify-between gap-3">
                           <div className="min-w-0">
-                            <p className="text-sm text-slate-200 font-medium truncate">{p.folder}</p>
+                            <p className="text-sm text-slate-200 font-medium truncate">{p.title || p.folder}</p>
+                            {!!p.title && (
+                              <p className="text-[11px] text-slate-500 truncate">{p.folder}</p>
+                            )}
                             <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
                               {statusChips.map((c) => (
                                 <span

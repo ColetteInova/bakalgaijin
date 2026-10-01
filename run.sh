@@ -36,7 +36,7 @@ echo "Iniciando servidor dos VODs (porta fixa 8080)..."
 export BAKA_API_URL="${BAKA_API_URL:-http://localhost:3001}"
 python3 -u scripts/servir.py 8080 &
 
-echo "Iniciando frontend (KotobaLive)..."
-pnpm dev -- --open /
+echo "Iniciando frontend (client local — vod.html: tradutor + downloader de VODs)..."
+pnpm dev -- --open /vod.html
 
 wait

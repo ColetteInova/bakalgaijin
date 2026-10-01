@@ -1322,6 +1322,24 @@ async function startServer() {
           }
         }
 
+        // Nome do episódio: relatorio.json → metricas.title (título da live na Twitch)
+        let title = "";
+        if (has("relatorio.json")) {
+          try {
+            const relatorio = JSON.parse(
+              fs.readFileSync(path.join(folderPath, "relatorio.json"), "utf8")
+            );
+            title =
+              relatorio &&
+              relatorio.metricas &&
+              typeof relatorio.metricas.title === "string"
+                ? relatorio.metricas.title
+                : "";
+          } catch {
+            // sem título
+          }
+        }
+
         let commentsCount: number | undefined;
         if (has("comentarios.json")) {
           try {
@@ -1354,6 +1372,7 @@ async function startServer() {
 
         return {
           folder: d.name,
+          title,
           local,
           bairro,
           hasComments: has("comentarios.json"),
@@ -2248,10 +2267,7 @@ async function startServer() {
     }
   }
 
-  // Catálogo público + consolidado: produtos (Firestore), contagem de compras
-  // e link de pagamento por produto vindo de variáveis de ambiente
-  // (SUPPORT_LINK_<ID>, ex.: SUPPORT_LINK_CALCINHA). Em local, use os links
-  // de teste; em produção, os links de produção.
+  // Catálogo público + consolidado: produtos (Firestore) e contagem de compras.
   app.get("/api/support/products", async (_req, res) => {
     try {
       const [products, purchSnap] = await Promise.all([
@@ -2273,7 +2289,6 @@ async function startServer() {
       res.json({
         products: products.map((p) => ({
           ...p,
-          link: process.env[`SUPPORT_LINK_${p.id.toUpperCase()}`] || "",
           compras: counts[p.id] || 0,
         })),
         totalRaised,
@@ -2326,12 +2341,13 @@ async function startServer() {
       const anual = !vitalicio && periodo === "anual" && !!product.precoAnual;
       const preco = vitalicio ? product.preco : anual ? (product.precoAnual as number) : product.preco;
       const nome = vitalicio ? product.nome : anual ? `${product.nome} (Anual)` : product.nome;
-      // Price IDs do Stripe por produto/período (STRIPE_PRICE_<ID>_<MENSAL|ANUAL>).
-      // Vitalício (Supremo) usa price_data dinâmico. Sem price id configurado,
-      // cai no price_data dinâmico também.
+      // Price IDs do Stripe por produto/período:
+      //   STRIPE_PRICE_<ID>_<MENSAL|ANUAL|VITALICIO>
+      // Vitalício (Supremo) também aceita price fixo (STRIPE_PRICE_SUPREMO_VITALICIO);
+      // sem price id configurado, cai no price_data dinâmico.
       const idUpper = product.id.toUpperCase();
       const priceId = vitalicio
-        ? ""
+        ? process.env[`STRIPE_PRICE_${idUpper}_VITALICIO`] || ""
         : process.env[`STRIPE_PRICE_${idUpper}_${anual ? "ANUAL" : "MENSAL"}`] || "";
       const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
       // Mensais/anuais viram assinaturas no Stripe (modo subscription) para

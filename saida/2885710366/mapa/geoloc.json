@@ -43,11 +43,11 @@
   },
   "1025": {
     "nome": "São Paulo",
-    "lat": -23.5583,
-    "lng": -46.6348,
+    "lat": -23.5585,
+    "lng": -46.6345,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "Calçada com padrão de mosaico português em preto e branco, típico do bairro da Liberdade, em São Paulo. A arquitetura ao redor, com muro revestido de azulejos cinza e árvores na calçada, é compatível com a região central de São Paulo. A aus",
+    "justificativa": "Calçada com padrão de mosaico português em preto e branco, típico do bairro da Liberdade, em São Paulo. A arquitetura ao redor, com muros revestidos de azulejos e árvores na calçada, é compatível com a região central. O streamer está caminh",
     "osint": true
   },
   "1085": {
@@ -59,14 +59,14 @@
     "justificativa": ""
   },
   "1145": {
-    "nome": "Esquina do Esquilo",
-    "lat": -23.5582,
-    "lng": -46.6348,
+    "nome": "Esquina do Espeto",
+    "lat": -23.5585,
+    "lng": -46.635,
     "estabelecimentos": [
-      "Esquina do Esquilo"
+      "Esquina do Espeto"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma esquina com o estabelecimento 'Esquina do Esquilo', identificado como um bar localizado no bairro da Liberdade, em São Paulo. A arquitetura, o mobiliário urbano e a presença de faixas de pedestres são consistentes com a ",
+    "justificativa": "A imagem mostra uma esquina com o estabelecimento 'Esquina do Espeto', com fachada amarela e vermelha, típico da região da Liberdade, em São Paulo. A presença de faixa de pedestres, calçada e edifícios ao redor indica ambiente de rua. O str",
     "osint": true
   },
   "1205": {
@@ -174,34 +174,32 @@
     "justificativa": ""
   },
   "1985": {
-    "nome": "Ouro do Brás",
-    "lat": -23.557546666666664,
-    "lng": -46.63452,
-    "estabelecimentos": [
-      "Ouro do Brás"
-    ],
-    "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada com calçada, carros e pedestres, típica do centro de São Paulo. A placa 'Ouro do Brás' é visível em uma loja, indicando a região do Brás, próxima à Liberdade. A arquitetura e o comércio sugerem uma área u",
-    "osint": true
+    "nome": "Beco do Batman",
+    "lat": -23.5559,
+    "lng": -46.6411186,
+    "estabelecimentos": [],
+    "confianca": "",
+    "justificativa": ""
   },
   "2045": {
     "nome": "LOTTE",
-    "lat": -23.557499999999997,
-    "lng": -46.6345,
+    "lat": -23.555687499999998,
+    "lng": -46.63453125,
     "estabelecimentos": [
-      "LOTTE"
+      "LOTTE",
+      "Yellow"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada com calçada, motos estacionadas, carros e pedestres, além de uma loja com a placa 'LOTTE' em destaque. O contexto da live (São Paulo, centro, bairro Liberdade) e a arquitetura comercial típica sugerem a r",
+    "justificativa": "A imagem mostra uma rua movimentada com calçada, motos estacionadas e pedestres. O letreiro 'LOTTE' é visível em um prédio comercial, e há uma placa amarela 'Yellow' à direita. O contexto de live IRL no bairro Liberdade, em São Paulo, é con",
     "osint": true
   },
   "2105": {
     "nome": "São Paulo",
-    "lat": -23.557499999999997,
+    "lat": -23.5555,
     "lng": -46.6345,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra um grande portal vermelho estilo torii, grafites coloridos e um grupo de pessoas fantasiadas, elementos típicos do bairro da Liberdade, em São Paulo. A presença do torii e do grafite na Rua dos Estudantes é consistente com o",
+    "justificativa": "A imagem mostra um grande portal vermelho estilo torii, típico da entrada do bairro da Liberdade em São Paulo, na Rua Galvão Bueno. Há grafites coloridos, calçada com padrão de ondas e uma placa de trânsito com 'E' (estacionamento proibido)",
     "osint": true
   },
   "2165": {
@@ -221,12 +219,13 @@
     "justificativa": ""
   },
   "2285": {
-    "nome": "38:05",
-    "lat": -23.554499,
-    "lng": -46.634299999999996,
+    "nome": "São Paulo",
+    "lat": -23.5585,
+    "lng": -46.635,
     "estabelecimentos": [],
-    "confianca": "",
-    "justificativa": ""
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com calçada, pedestres e barracas de rua, típica do bairro da Liberdade em São Paulo. A arquitetura ao fundo, com prédios altos e fiação aérea, é consistente com a região central. A presença de barracas e",
+    "osint": true
   },
   "2345": {
     "nome": "39:05",
@@ -269,15 +268,16 @@
     "justificativa": ""
   },
   "2645": {
-    "nome": "Sukiya",
-    "lat": -23.5575,
-    "lng": -46.6345,
+    "nome": "Sogo Plaza",
+    "lat": -23.5583,
+    "lng": -46.6348,
     "estabelecimentos": [
-      "Sukiya",
-      "Sogo"
+      "Sogo Plaza",
+      "China In Box",
+      "Restaurante Yamaga"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada do bairro da Liberdade, em São Paulo, com placas de estabelecimentos comerciais como 'Sukiya' e 'Sogo', além de arquitetura típica e grande fluxo de pedestres. O streamer menciona estar na Liberdade, e a ",
+    "justificativa": "A imagem mostra uma rua movimentada com forte presença da comunidade japonesa, incluindo letreiros em japonês, a fachada do Sogo Plaza e a placa do China In Box, características marcantes do bairro da Liberdade, em São Paulo. A fala do stre",
     "osint": true
   },
   "2705": {
@@ -339,28 +339,28 @@
   "3125": {
     "nome": "São Paulo",
     "lat": -23.5583,
-    "lng": -46.635,
+    "lng": -46.6347,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada com calçada pintada com cores vibrantes e grafites, característica marcante do bairro da Liberdade, em São Paulo. A presença de grande fluxo de pedestres, arquitetura típica e a menção ao deslocamento a p",
+    "justificativa": "A imagem mostra uma rua movimentada com calçada pintada com cores vibrantes e grafites, característica marcante do bairro da Liberdade, em São Paulo. A presença de grande fluxo de pedestres, arquitetura comercial e o estilo urbano são compa",
     "osint": true
   },
   "3185": {
-    "nome": "São Paulo",
-    "lat": -23.5585,
-    "lng": -46.6345,
-    "estabelecimentos": [],
-    "confianca": "baixa",
-    "justificativa": "Imagem externa de rua com calçada, pedestres e veículo, compatível com o bairro da Liberdade, em São Paulo. Não há placas, fachadas ou logotipos legíveis que permitam identificar estabelecimentos ou cruzamentos específicos. A coordenada é u",
-    "osint": true
-  },
-  "3245": {
-    "nome": "54:05",
+    "nome": "53:05",
     "lat": -23.554499,
     "lng": -46.634299999999996,
     "estabelecimentos": [],
     "confianca": "",
     "justificativa": ""
+  },
+  "3245": {
+    "nome": "São Paulo",
+    "lat": -23.5587,
+    "lng": -46.6349,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma feira de rua com barracas de crochê e artesanato, típica da região da Liberdade, em São Paulo. O streamer caminha a pé pelo local, e a arquitetura ao fundo (edifícios altos) e o piso de calçada são compatíveis com o cent",
+    "osint": true
   },
   "3305": {
     "nome": "São Paulo",
@@ -368,38 +368,38 @@
     "lng": -46.6345,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "Imagem externa mostra calçada com padrão de blocos intertravados vermelhos, barracas de feira com toldos vermelhos e brancos, e edifícios comerciais ao fundo. O contexto da live (Baka Gaijin, Liberdade, São Paulo) e a menção a 'feira da lib",
+    "justificativa": "A imagem mostra uma área externa com feira de rua, barracas com toldos vermelhos e brancos, calçamento de bloquetes e edifícios ao fundo, características compatíveis com o bairro da Liberdade, em São Paulo. O streamer menciona 'a liberdade ",
     "osint": true
   },
   "3365": {
     "nome": "Sukiya",
-    "lat": -23.5583,
-    "lng": -46.6345,
+    "lat": -23.55765,
+    "lng": -46.634600000000006,
     "estabelecimentos": [
       "Sukiya"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada em São Paulo com uma fachada vermelha da rede Sukiya, que possui uma unidade na região da Liberdade. O streamer menciona 'Aqui o Sukiaka', provavelmente referindo-se ao Sukiya. A presença de pedestres, co",
+    "justificativa": "A imagem mostra uma calçada com pedestres e a fachada de um restaurante Sukiya, rede japonesa comum na Liberdade, São Paulo. O streamer menciona 'Aqui o Sukiaka', indicando proximidade. A localização é compatível com caminhada no bairro da ",
     "osint": true
   },
   "3425": {
     "nome": "Sukiya",
-    "lat": -23.5583,
-    "lng": -46.6345,
+    "lat": -23.5568,
+    "lng": -46.6347,
     "estabelecimentos": [
       "Sukiya"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma calçada movimentada com o logotipo vermelho da rede Sukiya visível à esquerda, confirmando o contexto de restaurante japonês mencionado pelo streamer. A fala sobre 'sukiyá' e a localização no bairro da Liberdade, em São ",
+    "justificativa": "A imagem mostra uma calçada movimentada com o letreiro vermelho 'Sukiya' visível em um prédio à esquerda, rede de restaurantes japoneses com forte presença na Liberdade, São Paulo. O streamer menciona ter ido ao Sukiya em live no Japão, con",
     "osint": true
   },
   "3485": {
     "nome": "São Paulo",
-    "lat": -23.5585,
-    "lng": -46.6345,
+    "lat": -23.55765,
+    "lng": -46.634600000000006,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma feira de rua com barracas de alimentos e artesanato, calçada com padrão de blocos intertravados, arquitetura urbana densa ao fundo e uma placa vertical com a palavra 'Liberdade' à direita. O conjunto é compatível com a F",
+    "justificativa": "A imagem mostra uma feira de rua ao ar livre com barracas de alimentos e artesanato, calçada com padrão de blocos intercalados e edifícios ao fundo. A placa vertical à direita com a palavra 'Liberdade' indica que o local está no bairro Libe",
     "osint": true
   },
   "3545": {
@@ -408,7 +408,7 @@
     "lng": -46.6345,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua comercial movimentada com barracas de feira livre sob toldos vermelhos e brancos, calçada com piso tátil amarelo e padrão de blocos intertravados, típicos de feiras de rua no centro de São Paulo. A presença de banner",
+    "justificativa": "A imagem mostra uma rua de pedestres com barracas de feira livre (toldos vermelhos e brancos) e piso podotátil, característica comum em feiras de rua no centro de São Paulo. O streamer Baka Gaijin estava fazendo live IRL na região da Liberd",
     "osint": true
   },
   "3605": {
@@ -436,12 +436,13 @@
     "justificativa": ""
   },
   "3785": {
-    "nome": "1:03:05",
-    "lat": -23.554499,
-    "lng": -46.631299999999996,
+    "nome": "São Paulo",
+    "lat": -23.5585,
+    "lng": -46.6345,
     "estabelecimentos": [],
-    "confianca": "",
-    "justificativa": ""
+    "confianca": "baixa",
+    "justificativa": "Imagem externa de calçada urbana com pedestres, carros, árvores e edifícios, compatível com o centro de São Paulo (região da Liberdade). Não há placas, logotipos ou nomes de estabelecimentos legíveis que permitam identificar o cruzamento ex",
+    "osint": true
   },
   "3845": {
     "nome": "1:04:05",
@@ -501,35 +502,34 @@
   },
   "4265": {
     "nome": "Yakisushi",
-    "lat": -23.5585,
-    "lng": -46.6345,
+    "lat": -23.5583,
+    "lng": -46.6348,
     "estabelecimentos": [
-      "Yakisushi",
-      "Barraca de comida (tipo feira)"
+      "Yakisushi"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada com barracas de feira, calçada de bloquetes e fachadas comerciais, incluindo um estabelecimento chamado 'Yakisushi'. O contexto de live IRL no bairro da Liberdade, em São Paulo, e a presença de barracas t",
+    "justificativa": "A imagem mostra uma rua movimentada com barracas de rua e comércio, incluindo uma placa 'Yakisushi'. O contexto de live IRL no bairro da Liberdade, em São Paulo, e a arquitetura típica (calçada de bloquetes, barracas vermelhas e brancas) sã",
     "osint": true
   },
   "4325": {
     "nome": "Towa Empório Oriental",
-    "lat": -23.5585,
-    "lng": -46.635000000000005,
+    "lat": -23.5583,
+    "lng": -46.6345,
     "estabelecimentos": [
       "Towa Empório Oriental",
       "Sushi Yassu"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra a fachada da loja 'Towa Empório Oriental' (letreiro vermelho com caracteres japoneses), estabelecimento tradicional localizado na Rua da Glória, no bairro da Liberdade, em São Paulo. O piso de bloquetes vermelhos, a arquitet",
+    "justificativa": "A imagem mostra a fachada da loja 'Towa Empório Oriental' e a placa 'Sushi Yassu' na Rua da Glória, no bairro da Liberdade, região central de São Paulo. O piso de bloquetes vermelhos e o calçamento são típicos do bairro. O streamer está cam",
     "osint": true
   },
   "4385": {
     "nome": "São Paulo",
-    "lat": -23.5585,
-    "lng": -46.6355,
+    "lat": -23.5583,
+    "lng": -46.6348,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "Imagem externa de calçada com piso vermelho intertravado, barracas de feira com toldos vermelhos e brancos, grande fluxo de pedestres e arquitetura urbana densa. O padrão de piso e o tipo de feira são compatíveis com a região da Liberdade, ",
+    "justificativa": "A imagem mostra uma rua de pedestres com calçamento de bloquetes vermelhos, barracas de feira com toldos vermelhos e brancos, grande fluxo de pessoas e arquitetura típica do bairro da Liberdade, em São Paulo. A torre ao fundo é compatível c",
     "osint": true
   },
   "4445": {
@@ -541,57 +541,57 @@
     "justificativa": ""
   },
   "4505": {
-    "nome": "Café Lour",
-    "lat": -23.557433333333332,
-    "lng": -46.6349,
+    "nome": "Restaurante Café Lá em Casa",
+    "lat": -23.557366666666667,
+    "lng": -46.6346,
     "estabelecimentos": [
-      "Café Lour"
+      "Restaurante Café Lá em Casa"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua movimentada com barracas de comida e grades de contenção, típica de feiras de rua no bairro da Liberdade, em São Paulo. O logotipo 'Café Lour' é visível em uma fachada à esquerda, um estabelecimento conhecido na regi",
+    "justificativa": "A imagem mostra o Restaurante Café Lá em Casa, localizado na Rua dos Estudantes, 44, na Liberdade, São Paulo. O ambiente é uma rua movimentada com barracas de comida típicas, típico da feira da Liberdade, e o streamer está a pé, compatível ",
     "osint": true
   },
   "4565": {
-    "nome": "Yanime",
+    "nome": "YANIME",
     "lat": -23.5569,
-    "lng": -46.634600000000006,
+    "lng": -46.6345,
     "estabelecimentos": [
-      "Yanime"
+      "YANIME"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua comercial movimentada com barracas de rua e uma loja com a bandeira 'Yanime', típica do bairro da Liberdade, em São Paulo. A arquitetura, o comércio de produtos asiáticos e a presença de pedestres são consistentes co",
+    "justificativa": "A imagem mostra uma rua comercial movimentada com barracas de rua, típica do bairro da Liberdade em São Paulo. O banner 'YANIME' e a arquitetura ao redor são consistentes com a região, que é conhecida por sua comunidade japonesa e feiras de",
     "osint": true
   },
   "4625": {
     "nome": "São Paulo",
-    "lat": -23.557125,
-    "lng": -46.6348125,
+    "lat": -23.5571375,
+    "lng": -46.634487500000006,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra um ambiente externo com características do bairro Liberdade, em São Paulo, como os tradicionais arcos vermelhos (torii) e barracas de feira. A via com piso verde e calçada larga é compatível com a Rua Galvão Bueno, principal",
+    "justificativa": "A imagem mostra um ambiente externo com características do bairro Liberdade, em São Paulo: os tradicionais arcos vermelhos de estilo japonês (torii) ao fundo, barracas de feira na calçada e a ciclovia verde no centro. Esses elementos são tí",
     "osint": true
   },
   "4685": {
     "nome": "São Paulo",
-    "lat": -23.55735,
-    "lng": -46.635025,
+    "lat": -23.557375,
+    "lng": -46.634475,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra um grande portal torii vermelho em uma rua com calçada verde, barracas de feira e grafites, características marcantes do bairro da Liberdade, em São Paulo. O local corresponde à Rua Galvão Bueno, próximo à Praça da Liberdade",
+    "justificativa": "A imagem mostra um grande portal vermelho estilo torii japonês, elemento icônico do bairro da Liberdade, em São Paulo. O ambiente é uma rua/calçada movimentada, com barracas de feira, grafites e público típico de um ponto turístico. A local",
     "osint": true
   },
   "4745": {
     "nome": "Ecobox",
-    "lat": -23.557541666666665,
-    "lng": -46.6349375,
+    "lat": -23.5575625,
+    "lng": -46.634479166666665,
     "estabelecimentos": [
       "Ecobox",
-      "Logo",
+      "Loga",
       "SP Regula",
       "Prefeitura de São Paulo"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua externa com um contêiner azul da 'Operação Centro Limpo' da Prefeitura de São Paulo, com logotipos da Ecobox, Logo e SP Regula. O contexto de calçada, faixa de pedestres e prédios ao redor é compatível com a região c",
+    "justificativa": "Contentor Ecobox com 'Operação Centro Limpo' e logotipos da Prefeitura de São Paulo, Loga e SP Regula, típicos do centro da cidade. A calçada com padrão de cruzamentos e a arquitetura ao redor são compatíveis com a região da Liberdade/centr",
     "osint": true
   },
   "4805": {
@@ -632,7 +632,7 @@
     "lng": -46.6345,
     "estabelecimentos": [],
     "confianca": "baixa",
-    "justificativa": "Ônibus urbano com logotipo 'SÃO PAULO' e faixa laranja, típico do transporte público municipal. Calçada estreita, muro verde e arquitetura comercial indicam área central de São Paulo. A ausência de placas legíveis impede a identificação exa",
+    "justificativa": "A imagem mostra um ônibus municipal de São Paulo (SPTrans) com a inscrição 'SÃO PAULO' e o brasão da cidade, em uma via urbana com calçada, faixa de pedestres e comércio local. O contexto da live (bairro Liberdade, centro de SP) e a presenç",
     "osint": true
   },
   "5105": {
@@ -653,15 +653,15 @@
   },
   "5225": {
     "nome": "Sapporo",
-    "lat": -23.5575,
-    "lng": -46.6353,
+    "lat": -23.5578,
+    "lng": -46.6349,
     "estabelecimentos": [
       "Sapporo",
-      "焼鳥 八兵衛",
-      "鰻串 いちょう"
+      "焼鳥 いな屋",
+      "鰻串 はし本"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma rua estreita com fachadas de restaurantes japoneses, placas em japonês (焼鳥 八兵衛, 鰻串 いちょう) e a placa 'SAPPORO', características típicas do bairro da Liberdade, em São Paulo. O streamer está a pé, em ambiente externo, e a c",
+    "justificativa": "Cena noturna em rua estreita com forte concentração de letreiros em japonês (Sapporo, 焼鳥 いな屋, 鰻串 はし本), típica do bairro da Liberdade, em São Paulo. A arquitetura, a sinalização vertical e o comércio de comida japonesa são compatíveis com a ",
     "osint": true
   },
   "5285": {
@@ -898,14 +898,13 @@
   },
   "7025": {
     "nome": "Kokoro",
-    "lat": -23.5583,
+    "lat": -23.5575,
     "lng": -46.6345,
     "estabelecimentos": [
-      "Kokoro",
-      "Bar do Cofre"
+      "Kokoro"
     ],
     "confianca": "baixa",
-    "justificativa": "A imagem mostra uma área externa com calçada, faixa de pedestres e prédios comerciais. O letreiro 'Kokoro' e a arquitetura são compatíveis com a região da Liberdade, em São Paulo. A presença de veículos e pedestres indica um cruzamento movi",
+    "justificativa": "A imagem mostra um cruzamento com faixa de pedestres, carros e pedestres, típico do bairro da Liberdade. A placa 'Kokoro' é visível em um prédio à direita, estabelecimento conhecido na região. A arquitetura e o movimento de rua são consiste",
     "osint": true
   },
   "7085": {

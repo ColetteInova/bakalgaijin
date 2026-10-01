@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-30T19:41:14",
+  "gerado_em": "2026-10-01T08:34:24",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -14,18 +14,18 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/2b11c92948b2c63ef9ca_bakagaijinlive_316462826866_1789507931//thumb/thumb0-640x360.jpg",
     "duration_seconds": 10496,
     "duration_label": "2h54min",
-    "views": 22035,
-    "views_label": "22.0k",
+    "views": 22060,
+    "views_label": "22.1k",
     "likes_estimado": 264,
     "likes_label": "264",
     "comentarios": 7540,
-    "taxa_likes": 1.198,
-    "taxa_engajamento": 35.416,
-    "followers_canal": 248244,
+    "taxa_likes": 1.197,
+    "taxa_engajamento": 35.376,
+    "followers_canal": 248245,
     "comparacao_canal": {
-      "mediana_views": 20330.5,
-      "media_views": 22661.5,
-      "mediana_pares": 18626,
+      "mediana_views": 20351.5,
+      "media_views": 22700.2,
+      "mediana_pares": 18643,
       "views_vs_mediana_pct": 8.4,
       "views_vs_media_pct": -2.8,
       "views_vs_pares_pct": 18.3,
@@ -79169,25 +79169,25 @@
       "receita_por_minuto": 0.498,
       "projecao_3h": 89.64,
       "projecao_2h": 59.76,
-      "usd_brl": 5.2178,
+      "usd_brl": 5.2004,
       "top_bits": [
         {
           "usuario": "karasu2024",
           "bits": 102,
           "valor_usd": 0.71,
-          "valor_brl": 3.73
+          "valor_brl": 3.71
         },
         {
           "usuario": "PsyFoxxx",
           "bits": 101,
           "valor_usd": 0.71,
-          "valor_brl": 3.69
+          "valor_brl": 3.68
         },
         {
           "usuario": "fakedev",
           "bits": 100,
           "valor_usd": 0.7,
-          "valor_brl": 3.65
+          "valor_brl": 3.64
         },
         {
           "usuario": "Corvo__Feroz",
@@ -79220,11 +79220,11 @@
           "valor_brl": 0.04
         }
       ],
-      "receita_liquida_brl": 454.21,
-      "receita_subs_brl": 885.25,
-      "receita_bits_brl": 11.58,
-      "projecao_3h_brl": 467.72,
-      "projecao_2h_brl": 311.82,
+      "receita_liquida_brl": 452.69,
+      "receita_subs_brl": 882.3,
+      "receita_bits_brl": 11.54,
+      "projecao_3h_brl": 466.16,
+      "projecao_2h_brl": 310.78,
       "top_contribuidores": [
         {
           "usuario": "1Marcus",
@@ -79232,7 +79232,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "AlexandreJnR",
@@ -79240,7 +79240,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "Artx_21",
@@ -79248,7 +79248,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "bilnovais",
@@ -79256,7 +79256,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "caiopa3",
@@ -79264,7 +79264,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "calangomago",
@@ -79272,7 +79272,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "ClingerX_",
@@ -79280,7 +79280,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "danielrsrsrs",
@@ -79288,7 +79288,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "digxd_",
@@ -79296,7 +79296,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         },
         {
           "usuario": "duckn_00",
@@ -79304,7 +79304,7 @@
           "subs_presentes": 0,
           "bits": 0,
           "valor_usd": 2.5,
-          "valor_brl": 13.02
+          "valor_brl": 12.97
         }
       ]
     },
@@ -89891,70 +89891,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "Deixa eu ver aqui",
-        "descricao": "Baka Gaijin reconhece beco de Neuromancer e lembra de quando ficou preso numa armadilha de rato ali."
+        "descricao": "Baka Gaijin reconhece beco de Neuromancer e revela que ficou preso numa armadilha de rato ali, misturando referência cult com vergonha pessoal."
       },
       {
         "inicio": "41:00",
         "minuto": 41,
         "tipo": "pergunta",
         "trecho": "Aqui eu vou acabar me degustando",
-        "descricao": "Chat pergunta como engorda e emagrece ao mesmo tempo, e ele responde que a bag vazia escorrega."
+        "descricao": "Ele filosofa sobre engordar e emagrecer ao mesmo tempo e ainda cospe na tela pedindo print pra thumbnail, caos puro."
       },
       {
         "inicio": "52:00",
         "minuto": 52,
         "tipo": "pergunta",
         "trecho": "e pegou mais caro virou turista mesmo amigo",
-        "descricao": "Ele hesita em entrar numa área 'Staff Only' e imagina uma mulher vindo comer seu cu por trás."
+        "descricao": "Quase entra em área restrita por seguir chat, mas desiste ao ver placa Staff Only e imagina mulher vindo comer seu cu."
       },
       {
         "inicio": "1:03:00",
         "minuto": 63,
         "tipo": "piada",
         "trecho": "Tinha lixo ali, né?",
-        "descricao": "Ele planeja comprar um celular barato só pra fazer live na rua no Brasil e se roubarem, foda-se."
+        "descricao": "Ele planeja comprar celular barato só pra live na rua do Brasil e aceitar ser roubado, porque não sabe mais fazer live com camera."
       },
       {
         "inicio": "1:14:00",
         "minuto": 74,
         "tipo": "pergunta",
         "trecho": "Parece um centavo comum",
-        "descricao": "Ele decide ir ao parque de Ueno, mas descobre que está fechado e fica perdido nas opções."
+        "descricao": "Ele decide ir ao parque Ueno, mas fica confuso se já foi ou não, e descobre um donkey no caminho."
       },
       {
         "inicio": "1:25:00",
         "minuto": 85,
         "tipo": "pergunta",
         "trecho": "Ai, cara.",
-        "descricao": "Chat zoa que ele anda como pinguim e ele admite estar de turista no Japão pela primeira vez."
+        "descricao": "Baka Gaijin anda como pinguim, é chamado de gordo e reflete sobre voltar ao Japão como turista pela primeira vez."
       },
       {
         "inicio": "1:36:00",
         "minuto": 96,
         "tipo": "pergunta",
         "trecho": "Sensato do mundo pra governar o mundo",
-        "descricao": "Ele filosofa se peixe bebe água e mija, comparando aparelho excretor unificado com as Coreias."
+        "descricao": "Ele debate se peixe bebe e mija, sugere aparelho excretor unificado igual Coreias e imita peixe debaixo d'água."
       },
       {
         "inicio": "1:47:00",
         "minuto": 107,
         "tipo": "piada",
         "trecho": "Ele tem que coisar",
-        "descricao": "Ele quase pisa numa tartaruga camuflada e vê cocô de pássaro gigante que parecia um cérebro."
+        "descricao": "Ele confunde cocô de pássaro com cérebro, reclama de dor de ouvido e quase não vê uma tartaruga camuflada."
       },
       {
         "inicio": "1:58:00",
         "minuto": 118,
         "tipo": "piada",
         "trecho": "Quem dera se eu pudesse aí",
-        "descricao": "Ele tenta arrumar o cabelo com as mãos ocupadas e decide atravessar a rua mesmo sem morar mais ali."
+        "descricao": "Ele tenta arrumar o cabelo com as mãos ocupadas, não lembra o último filme e admite ter visto Silo."
       },
       {
         "inicio": "2:09:00",
         "minuto": 129,
         "tipo": "piada",
         "trecho": "Como é que abre aqui?",
-        "descricao": "Chat pergunta do Mundial de Futebol de Rua e ele responde que não tem cronograma nenhum de live."
+        "descricao": "Ele zoa cronograma de lives, lembra do maluco que fez live até ser assaltado e responde pedido de banheiro mandando fazer na rua."
       }
     ],
     "alertas": [
@@ -102554,7 +102554,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 22.0k views está acima da mediana do canal em 8.4% (mediana 20.3k)."
+      "acao": "VOD com 22.1k views está acima da mediana do canal em 8.4% (mediana 20.4k)."
     },
     {
       "titulo": "Clima do chat",
@@ -102566,7 +102566,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 35.416% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 35.376% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

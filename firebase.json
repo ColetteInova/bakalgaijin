@@ -2,6 +2,28 @@
   "firestore": {
     "rules": "firestore.rules"
   },
+  "functions": {
+    "source": "functions",
+    "ignore": ["**/node_modules/**", ".git", "src", "tsconfig.json", ".gitignore", ".env", ".env.*"]
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8081
+    },
+    "hosting": {
+      "port": 5050
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    }
+  },
   "hosting": {
     "public": "dist/public",
     "ignore": [
@@ -14,6 +36,13 @@
       "**/*.srt"
     ],
     "rewrites": [
+      {
+        "source": "/api/**",
+        "function": {
+          "functionId": "api",
+          "region": "us-central1"
+        }
+      },
       {
         "source": "**",
         "destination": "/index.html"

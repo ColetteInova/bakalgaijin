@@ -219,6 +219,18 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      // Produção (deploy Firebase) constrói apenas o client dos Bakalovers
+      // (index.html → /cadastro e /perfil). O client local (vod.html) traz o
+      // tradutor de voz e o downloader de VODs e só é servido em dev/local.
+      input:
+        process.env.VITE_ONLY_BAKALOVERS === "1"
+          ? path.resolve(import.meta.dirname, "client", "index.html")
+          : {
+              main: path.resolve(import.meta.dirname, "client", "index.html"),
+              vod: path.resolve(import.meta.dirname, "client", "vod.html"),
+            },
+    },
   },
   server: {
     port: 3000,
