@@ -1404,9 +1404,16 @@ async function startServer() {
     res.json(folders);
   });
 
-  async function runGlobalReprepare(job: VodJob, skipCortes: boolean) {
+  async function runGlobalReprepare(job: VodJob, skipCortes: boolean, skipMapa: boolean) {
     const pipeline = job.pipeline!;
     let pendingOutput = "";
+    const env: Record<string, string> = {};
+    if (skipCortes) env.SKIP_CORTES = "1";
+    if (skipMapa) env.SKIP_MAPA = "1";
+    let idx = 0;
+    let total = 0;
+    let current = "";
+    let stage = "iniciando";
     try {
       await runScript(
         "scripts/repreparar_todos.sh",
@@ -1415,11 +1422,36 @@ async function startServer() {
           const lines = (pendingOutput + chunk).split(/\r?\n/);
           pendingOutput = lines.pop() ?? "";
           for (const line of lines) {
-            const match = line.match(/==> Processando:\s*(.+)/);
-            if (match) pipeline.stepLabel = `Repreparando ${match[1]}...`;
+            const m = line.match(/^==> Processando \((\d+)\/(\d+)\):\s*(.+)$/);
+            if (m) {
+              idx = Number(m[1]);
+              total = Number(m[2]);
+              current = m[3];
+              stage = "análise (IA + relatório)";
+            } else if (/==> Analisando:/.test(line)) {
+              stage = "análise (IA + relatório)";
+            } else if (/==> Cortando trechos virais/.test(line)) {
+              stage = "cortando trechos virais (ffmpeg)";
+            } else if (/==> Atualizando dashboard com os cortes gerados/.test(line)) {
+              stage = "atualizando dashboard";
+            } else if (/==> Cortes já existem/.test(line)) {
+              stage = "cortes mantidos";
+            } else if (/==> SKIP_CORTES=1/.test(line)) {
+              stage = "pulando cortes virais";
+            } else if (/==> SKIP_MAPA=1/.test(line)) {
+              stage = "pulando mapas";
+            } else if (/==> \[pulando\]/.test(line)) {
+              stage = "pulado (sem pré-requisitos)";
+            } else if (/==> Atualizando índice geral/.test(line)) {
+              stage = "atualizando índice do site";
+            }
+            if (current && idx >= 1 && total >= 1) {
+              pipeline.stepLabel = `Repreparando ${idx}/${total}: ${current} — ${stage}`;
+              job.percent = Math.min(99, Math.round((idx / total) * 100));
+            }
           }
         },
-        skipCortes ? { SKIP_CORTES: "1" } : undefined
+        Object.keys(env).length ? env : undefined
       );
       pipeline.status = "done";
       pipeline.stepLabel = "Todos os episódios elegíveis foram re-preparados.";
@@ -1442,7 +1474,7 @@ async function startServer() {
       return;
     }
 
-    const { skipCortes } = (req.body ?? {}) as { skipCortes?: boolean };
+    const { skipCortes, skipMapa } = (req.body ?? {}) as { skipCortes?: boolean; skipMapa?: boolean };
 
     const folders = fs.readdirSync(SAIDA_DIR, { withFileTypes: true }).filter((entry) => entry.isDirectory());
     const eligibleCount = folders.filter((entry) => {
@@ -1474,8 +1506,95 @@ async function startServer() {
       },
     };
     jobs.set(job.id, job);
-    void runGlobalReprepare(job, skipCortes === true);
+    void runGlobalReprepare(job, skipCortes === true, skipMapa === true);
     res.status(202).json({ id: job.id, eligibleCount, skippedCount: folders.length - eligibleCount });
+  });
+
+  async function runGlobalReprocess(job: VodJob, step: string) {
+    const pipeline = job.pipeline!;
+    let pendingOutput = "";
+    try {
+      await runScript(
+        "scripts/reprocessar_todos.sh",
+        [step],
+        (chunk) => {
+          const lines = (pendingOutput + chunk).split(/\r?\n/);
+          pendingOutput = lines.pop() ?? "";
+          for (const line of lines) {
+            const match = line.match(/==> Processando:\s*(.+)/);
+            if (match) pipeline.stepLabel = `Reprocessando ${step} de ${match[1]}...`;
+          }
+        },
+        undefined
+      );
+      pipeline.status = "done";
+      pipeline.stepLabel = `Etapa "${step}" reprocessada em todos os episódios.`;
+      pipeline.finishedAt = Date.now();
+      job.status = "done";
+      job.percent = 100;
+    } catch (err) {
+      pipeline.status = "error";
+      pipeline.stepLabel = `Falha ao reprocessar a etapa "${step}" em lote.`;
+      pipeline.error = err instanceof Error ? err.message : `Falha no reprocessamento de "${step}"`;
+      pipeline.finishedAt = Date.now();
+      job.status = "error";
+      job.error = pipeline.error;
+    }
+  }
+
+  app.post("/api/vod/reprocess-all", (req, res) => {
+    if (Array.from(jobs.values()).some((job) => job.status === "running")) {
+      res.status(409).json({ error: "Aguarde o processamento atual terminar antes de iniciar o lote." });
+      return;
+    }
+
+    const { step } = (req.body ?? {}) as { step?: string };
+    const validSteps = ["mapa", "cortes", "qualidade"];
+    if (!step || !validSteps.includes(step)) {
+      res.status(400).json({ error: `Etapa inválida. Use: ${validSteps.join(", ")}` });
+      return;
+    }
+
+    const folders = fs.readdirSync(SAIDA_DIR, { withFileTypes: true }).filter((entry) => entry.isDirectory());
+    const hasVideo = (folderPath: string) =>
+      ["video.mp4", "video.webm", "video.mov", "video.m4v"].some((f) => fs.existsSync(path.join(folderPath, f)));
+    const eligible = folders.filter((entry) => {
+      const folderPath = path.join(SAIDA_DIR, entry.name);
+      if (step === "qualidade") return hasVideo(folderPath);
+      return hasVideo(folderPath) && fs.existsSync(path.join(folderPath, "audio.srt"));
+    });
+    if (!eligible.length) {
+      res.status(400).json({ error: `Nenhum episódio elegível para reprocessar a etapa "${step}" (vídeo + audio.srt).` });
+      return;
+    }
+
+    const labels: Record<string, string> = {
+      mapa: "mapas",
+      cortes: "cortes virais",
+      qualidade: "qualidades",
+    };
+    const job: VodJob = {
+      id: crypto.randomUUID(),
+      url: "",
+      title: `Reprocessar ${labels[step]} de todos os episódios`,
+      quality: "",
+      status: "running",
+      percent: 0,
+      speed: "",
+      eta: "",
+      downloadedBytes: "",
+      totalBytes: "",
+      startedAt: Date.now(),
+      pipeline: {
+        status: "running",
+        step: "reprocess_all",
+        stepLabel: `Iniciando lote de "${step}" para ${eligible.length} episódio(s)...`,
+        startedAt: Date.now(),
+      },
+    };
+    jobs.set(job.id, job);
+    void runGlobalReprocess(job, step);
+    res.status(202).json({ id: job.id, eligibleCount: eligible.length, skippedCount: folders.length - eligible.length });
   });
 
   // Re-executa UMA etapa de um episódio já preparado.
@@ -2539,6 +2658,10 @@ async function startServer() {
       const d = purchaseDoc.data() as Record<string, any>;
       if (d.uid !== uid) {
         res.status(403).json({ error: "Este apoio não pertence a você" });
+        return;
+      }
+      if (d.tipo === "vitalicio") {
+        res.status(400).json({ error: "O apoio vitalício é único e não tem cancelamento pelo portal." });
         return;
       }
       const customerId = typeof d.stripeCustomerId === "string" ? d.stripeCustomerId : "";

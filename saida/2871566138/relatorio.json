@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-10-01T08:34:48",
+  "gerado_em": "2026-10-01T12:59:46",
   "local": "japao",
   "local_pais": "japao",
   "local_cidade": "toquio",
@@ -14,20 +14,20 @@
     "thumbnail": "https://static-cdn.jtvnw.net/cf_vods/d3vd9lfkzbru3h/350579412227ff24af02_bakagaijinlive_316501705971_1789160772//thumb/thumb0-640x360.jpg",
     "duration_seconds": 9732,
     "duration_label": "2h42min",
-    "views": 37888,
+    "views": 37891,
     "views_label": "37.9k",
     "likes_estimado": 454,
     "likes_label": "454",
     "comentarios": 8726,
     "taxa_likes": 1.198,
-    "taxa_engajamento": 24.229,
-    "followers_canal": 248245,
+    "taxa_engajamento": 24.227,
+    "followers_canal": 248244,
     "comparacao_canal": {
-      "mediana_views": 20351.5,
-      "media_views": 22700.2,
-      "mediana_pares": 18643,
-      "views_vs_mediana_pct": 86.2,
-      "views_vs_media_pct": 66.9,
+      "mediana_views": 20358.0,
+      "media_views": 22710.0,
+      "mediana_pares": 18649,
+      "views_vs_mediana_pct": 86.1,
+      "views_vs_media_pct": 66.8,
       "views_vs_pares_pct": 103.2,
       "n_videos_canal": 4
     }
@@ -108,8 +108,8 @@
           "ficar",
           "vai ficar",
           "vai voltar",
-          "quando vai",
-          "vai fazer"
+          "vai fazer",
+          "quando vai"
         ],
         "n_comentarios": 508,
         "pct": 5.8
@@ -119,8 +119,8 @@
         "palavras_chave": [
           "live",
           "live gravada",
-          "faz live",
-          "fazer live"
+          "fazer live",
+          "faz live"
         ],
         "n_comentarios": 375,
         "pct": 4.3
@@ -103086,70 +103086,70 @@
         "minuto": 30,
         "tipo": "piada",
         "trecho": "que saudades",
-        "descricao": "Baka derruba lanternas amarelas e chama de 'lanterna abelha', caos puro que rende clipe engraçado."
+        "descricao": "Baka derruba lanternas e fala 'check this out' com microfone mutado, clássico desastre cômico."
       },
       {
         "inicio": "40:00",
         "minuto": 40,
         "tipo": "pergunta",
         "trecho": "Que passeio, José? Desculpa",
-        "descricao": "Ele se choca com japoneses atravessando fora da faixa às 6h e diz que o Japão caiu no conceito."
+        "descricao": "Ele se choca com japoneses atravessando fora da faixa às 6h, quebrando o mito da civilidade."
       },
       {
         "inicio": "50:00",
         "minuto": 50,
         "tipo": "piada",
         "trecho": "É, tudo cafona, né?",
-        "descricao": "Ele zoa produtos aleatórios tipo pokebolas e Narutos, soltando 'quem tem cu tem medo'."
+        "descricao": "Baka zoa produtos aleatórios tipo 'quem tem cu tem medo' e pokebolas, humor absurdo garantido."
       },
       {
         "inicio": "1:00:00",
         "minuto": 60,
         "tipo": "piada",
         "trecho": "Aí é foda",
-        "descricao": "Baka diz que trouxe a chuva do Brasil pro Japão e se chama de 'cunhudo' na frente de todos."
+        "descricao": "Ele culpa a chuva do Japão por trazer do Brasil e chama alguém de 'cunhudo', pura zoeira."
       },
       {
         "inicio": "1:10:00",
         "minuto": 70,
         "tipo": "piada",
         "trecho": "E outra pra punhetinha, porque eu também sou filho de Deus.",
-        "descricao": "Ele se agacha como japonês, conta moedas e reclama que todo mundo diz que ele parece uma lésbica."
+        "descricao": "Baka se agacha como japonês e admite parecer lésbica, auto-depreciação hilária."
       },
       {
         "inicio": "1:20:00",
         "minuto": 80,
         "tipo": "piada",
         "trecho": "Eu tinha uma tatuagem de lagartixa e fiz uma cicatriz em cima dela, legal, mano",
-        "descricao": "Ele filosofa sobre setembro chove enquanto um velho varre o chão na chuva, só ele, o corvo e o velho."
+        "descricao": "Ele filosofa sobre setembro chove e um velho varrendo na chuva, momento poético e engraçado."
       },
       {
         "inicio": "1:30:00",
         "minuto": 90,
         "tipo": "piada",
         "trecho": "Olha só, hein",
-        "descricao": "Baka zoa 'social credits' e diz que GTA 6 decepcionou por não dar pra comer a própria fimose."
+        "descricao": "Piada sobre social credits negando visto por atravessar fora do sinal, crítica social divertida."
       },
       {
         "inicio": "1:40:00",
         "minuto": 100,
         "tipo": "piada",
         "trecho": "Esse cara é bonitinho, me deixou passar",
-        "descricao": "Ele planeja andar até Harajuku, compara-se a doido com bíblia e já quer desculpa pra fechar a live."
+        "descricao": "Baka compara a si mesmo com maluco da bíblia e planeja andar até Harajuku, caos ambulante."
       },
       {
         "inicio": "1:50:00",
         "minuto": 110,
         "tipo": "piada",
         "trecho": "Acho que não vai ter nada aberto ainda",
-        "descricao": "Baka inventa 'Sexo 3.5: O Retorno do Bilal' e reclama de dor nas cócoras com chuva de conteúdo."
+        "descricao": "Ele inventa 'Sexo 3.5' e reclama de dor nas cócoras, humor nonsense no ponto."
       },
       {
         "inicio": "2:00:00",
         "minuto": 120,
         "tipo": "piada",
         "trecho": "Ah é? Vamos ver",
-        "descricao": "Ele se surpreende com 2h de live, acha lugar restritivo e brinca que vai morrer tentando filmar."
+        "descricao": "Baka celebra 2h de live, quase é pego filmando área restrita e solta 'baixa ditadura', ousadia pura."
       }
     ],
     "alertas": [
@@ -114811,7 +114811,7 @@
   "insights": [
     {
       "titulo": "Desempenho de views vs. canal",
-      "acao": "VOD com 37.9k views está acima da mediana do canal em 86.2% (mediana 20.4k)."
+      "acao": "VOD com 37.9k views está acima da mediana do canal em 86.1% (mediana 20.4k)."
     },
     {
       "titulo": "Clima do chat",
@@ -114823,7 +114823,7 @@
     },
     {
       "titulo": "Taxa de engajamento",
-      "acao": "Engajamento de 24.229% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
+      "acao": "Engajamento de 24.227% (likes+comentários/views). Publicações com call-to-action explícito tendem a subir essa taxa."
     },
     {
       "titulo": "Tema que mais engaja",

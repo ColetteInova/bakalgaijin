@@ -2117,11 +2117,15 @@ function renderComments() {
 // ---------------------------------------------------------------------------
 function applyCdnOverrides(map){
   if (!map || typeof map !== "object") return;
+  const prefix = typeof map["mapa/"] === "string" ? map["mapa/"] : "";
   const resolve = (name) => {
     if (!name) return name;
     if (map[name]) return map[name];
     const base = name.includes("/") ? name.split("/").pop() : name;
-    return map[base] || name;
+    if (map[base]) return map[base];
+    // prefixo de pasta (ex.: "mapa/" → base pública dos frames do mapa)
+    if (prefix && name.startsWith("mapa/")) return prefix + name.slice("mapa/".length);
+    return name;
   };
   FILES.video = resolve(FILES.video);
   FILES.audio = resolve(FILES.audio);
@@ -2136,7 +2140,7 @@ function applyCdnOverrides(map){
   MAP_STOPS.forEach((s) => { if (s.img) s.img = resolve(s.img); });
   const gpx = document.getElementById("gpxLink");
   if (gpx) {
-    const url = map["mapa/rota.gpx"];
+    const url = map["mapa/rota.gpx"] || (prefix ? prefix + "rota.gpx" : "");
     if (url) gpx.setAttribute("href", url);
   }
 }

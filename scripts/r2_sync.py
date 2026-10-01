@@ -16,7 +16,7 @@ Credenciais (variáveis de ambiente ou .env):
     R2_BUCKET               (padrão: bakalovers)
     R2_PREFIX               (padrão: analises)
     R2_PUBLIC_BASE          (base pública usada no cdn.json; padrão:
-                             https://pub-85988ab9688b40be9a59d8d917fc8535.r2.dev)
+                             https://cdn.bakalovers.com.br)
 
 Uso:
     python3 scripts/r2_sync.py               # sobe o que falta e grava cdn.json + local.json
@@ -179,26 +179,27 @@ def multipart_upload(path: Path, key: str) -> None:
 
 
 def update_cdn(folder: Path, public_base: str, urls: dict[str, str]) -> bool:
+    """Reescreve o cdn.json com as URLs públicas atuais.
+
+    Reconstruído do zero a partir dos arquivos de mídia presentes na pasta —
+    entradas órfãs (arquivos removidos) e chaves antigas somem junto.
+    """
     cdn_path = folder / "cdn.json"
-    cdn: dict[str, str] = {}
+    new_cdn = {rel: f"{public_base}/{quote(key, safe='/')}" for rel, key in urls.items()}
+    old: dict = {}
     if cdn_path.is_file():
         try:
-            cdn = json.loads(cdn_path.read_text(encoding="utf-8"))
+            loaded = json.loads(cdn_path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                old = loaded
         except json.JSONDecodeError:
-            cdn = {}
-        if not isinstance(cdn, dict):
-            cdn = {}
-    changed = False
-    for rel, key in urls.items():
-        url = f"{public_base}/{quote(key, safe='/')}"
-        if cdn.get(rel) != url:
-            cdn[rel] = url
-            changed = True
-    if changed:
-        cdn_path.write_text(
-            json.dumps(cdn, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-        )
-    return changed
+            old = {}
+    if old == new_cdn:
+        return False
+    cdn_path.write_text(
+        json.dumps(new_cdn, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return True
 
 
 def update_local_media(folder: Path, urls: dict[str, str]) -> bool:
@@ -248,7 +249,7 @@ def main() -> int:
         )
         return 1
     public_base = os.environ.get(
-        "R2_PUBLIC_BASE", "https://pub-85988ab9688b40be9a59d8d917fc8535.r2.dev"
+        "R2_PUBLIC_BASE", "https://cdn.bakalovers.com.br"
     ).rstrip("/")
 
     folders = sorted(f for f in SAIDA.iterdir() if f.is_dir())

@@ -5,7 +5,12 @@
     "apelido": "contato",
     "twitch": "",
     "email": "contato@coletteinova.com.br",
-    "apoios": [],
+    "apoios": [
+      {
+        "emoji": "👑",
+        "nome": "Bakalover Supremo"
+      }
+    ],
     "official": true,
     "createdAt": "2026-09-30T14:30:07.030Z"
   },

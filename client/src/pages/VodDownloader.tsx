@@ -58,6 +58,7 @@ interface VodJob {
     folder?: string;
     videoId?: string;
     error?: string;
+    startedAt?: number;
   };
 }
 
@@ -160,6 +161,9 @@ export default function VodDownloader() {
     }
   });
   const [skipCortes, setSkipCortes] = useState(false);
+  const [skipMapa, setSkipMapa] = useState(false);
+  const [batchStep, setBatchStep] = useState("mapa");
+  const [startingBatchReprocess, setStartingBatchReprocess] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchJobs = useCallback(async () => {
@@ -352,7 +356,9 @@ export default function VodDownloader() {
 
   const previousGlobalReprepareRef = useRef(false);
   useEffect(() => {
-    const running = jobs.some((j) => j.status === "running" && j.pipeline?.step === "reprepare_all");
+    const running = jobs.some(
+      (j) => j.status === "running" && (j.pipeline?.step === "reprepare_all" || j.pipeline?.step === "reprocess_all")
+    );
     if (previousGlobalReprepareRef.current && !running) fetchPrepared();
     previousGlobalReprepareRef.current = running;
   }, [jobs, fetchPrepared]);
@@ -379,12 +385,12 @@ export default function VodDownloader() {
       const res = await fetch("/api/vod/reprepare-all", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ skipCortes }),
+        body: JSON.stringify({ skipCortes, skipMapa }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao iniciar o re-preparo global");
       toast.success(
-        `Re-preparo iniciado para ${data.eligibleCount} episódio(s)${skipCortes ? " (sem cortes virais)" : ""}. Acompanhe em Downloads.`
+        `Re-preparo iniciado para ${data.eligibleCount} episódio(s)${skipCortes ? " (sem cortes virais)" : ""}${skipMapa ? " (sem mapas)" : ""}. Acompanhe em Downloads.`
       );
       if (data.skippedCount > 0) {
         toast.info(`${data.skippedCount} pasta(s) sem comentários ou transcrição serão puladas.`);
@@ -394,6 +400,31 @@ export default function VodDownloader() {
       toast.error(err instanceof Error ? err.message : "Erro ao iniciar o re-preparo global");
     } finally {
       setStartingGlobalReprepare(false);
+    }
+  };
+
+  const reprocessAllOfStep = async () => {
+    setStartingBatchReprocess(true);
+    try {
+      const res = await fetch("/api/vod/reprocess-all", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ step: batchStep }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao iniciar o reprocessamento em lote");
+      const labels: Record<string, string> = { mapa: "mapas", cortes: "cortes virais", qualidade: "qualidades" };
+      toast.success(
+        `Reprocessando ${labels[batchStep] ?? batchStep} de ${data.eligibleCount} episódio(s). Acompanhe em Downloads.`
+      );
+      if (data.skippedCount > 0) {
+        toast.info(`${data.skippedCount} pasta(s) sem vídeo ou transcrição serão puladas.`);
+      }
+      fetchJobs();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao iniciar o reprocessamento em lote");
+    } finally {
+      setStartingBatchReprocess(false);
     }
   };
 
@@ -428,6 +459,8 @@ export default function VodDownloader() {
 
   const globalReprepareJob = jobs.find((j) => j.pipeline?.step === "reprepare_all");
   const globalReprepareRunning = globalReprepareJob?.status === "running";
+  const batchReprocessJob = jobs.find((j) => j.pipeline?.step === "reprocess_all");
+  const batchReprocessRunning = batchReprocessJob?.status === "running";
   const anyJobRunning = jobs.some((j) => j.status === "running");
 
   // ---- Comentários do VOD ----
@@ -993,8 +1026,11 @@ export default function VodDownloader() {
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-slate-400">{prepared.length} episódio(s)</span>
                   {globalReprepareRunning && (
-                    <span className="text-xs text-purple-300 max-w-64 truncate" title={globalReprepareJob?.pipeline?.stepLabel}>
+                    <span className="text-xs text-purple-300 max-w-72 truncate" title={globalReprepareJob?.pipeline?.stepLabel}>
                       {globalReprepareJob?.pipeline?.stepLabel}
+                      {globalReprepareJob?.pipeline?.startedAt
+                        ? ` · ${Math.max(0, Math.round((Date.now() - globalReprepareJob.pipeline.startedAt) / 60000))} min decorridos`
+                        : ""}
                     </span>
                   )}
                   <Button
@@ -1020,6 +1056,47 @@ export default function VodDownloader() {
                     />
                     Pular cortes virais
                   </label>
+                  <label
+                    className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer select-none"
+                    title="Não refaz o mapa (frames/geolocalização/rota) — usa marcos aproximados e mantém o mapa atual"
+                  >
+                    <Checkbox
+                      checked={skipMapa}
+                      onCheckedChange={(checked) => setSkipMapa(checked === true)}
+                      className="border-slate-600 data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
+                    />
+                    Pular mapas
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={batchStep}
+                      onChange={(e) => setBatchStep(e.target.value)}
+                      disabled={batchReprocessRunning || anyJobRunning}
+                      className="h-8 px-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:ring-1 focus:ring-purple-500 disabled:opacity-50"
+                      title="Etapa a reprocessar em todos os episódios"
+                    >
+                      <option value="mapa">Mapas (geolocalização + rota)</option>
+                      <option value="cortes">Cortes virais</option>
+                      <option value="qualidade">Qualidades (360p/480p/720p)</option>
+                    </select>
+                    <Button
+                      size="sm"
+                      onClick={reprocessAllOfStep}
+                      disabled={prepared.length === 0 || loadingPrepared || startingBatchReprocess || batchReprocessRunning || anyJobRunning}
+                      className="h-8 px-3 text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium disabled:opacity-50"
+                      title={`Reprocessa a etapa "${batchStep}" em sequência para todos os episódios`}
+                    >
+                      {startingBatchReprocess || batchReprocessRunning
+                        ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                        : <RefreshCw className="w-3.5 h-3.5 mr-1" />}
+                      {batchReprocessRunning ? `Refazendo ${batchStep}...` : "Reprocessar lote"}
+                    </Button>
+                    {batchReprocessRunning && (
+                      <span className="text-xs text-indigo-300 max-w-64 truncate" title={batchReprocessJob?.pipeline?.stepLabel}>
+                        {batchReprocessJob?.pipeline?.stepLabel}
+                      </span>
+                    )}
+                  </div>
                   <Button
                     variant="ghost"
                     size="sm"

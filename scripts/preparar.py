@@ -3097,6 +3097,69 @@ def _write_map_gpx(folder: Path, stops: list[dict], route: list[list[float]] | N
     return dest
 
 
+def _write_map_kml(folder: Path, stops: list[dict], synced: list[dict] | None = None) -> Path | None:
+    """Exporta a rota em KML com <gx:Track> + timestamps: no Google Earth
+    (Pro ou web), a animação de tempo percorre a rota com um marcador andando.
+    """
+    if synced and len(synced) >= 2:
+        pts = [(float(p["lat"]), float(p["lng"]), float(p.get("t", i))) for i, p in enumerate(synced)]
+    else:
+        pts = [
+            (float(s["lat"]), float(s["lng"]), float(s.get("sec", i)))
+            for i, s in enumerate(stops)
+            if s.get("lat") is not None and s.get("lng") is not None
+        ]
+    if len(pts) < 2:
+        return None
+
+    # base de tempo: data de criação da live (relatorio.json) quando disponível
+    base_ts = datetime.datetime(2000, 1, 1, tzinfo=datetime.timezone.utc)
+    rel = folder / "relatorio.json"
+    if rel.is_file():
+        try:
+            created = ((json.loads(rel.read_text(encoding="utf-8")).get("metricas") or {}).get("created_at")) or ""
+            base_ts = datetime.datetime.fromisoformat(str(created).replace("Z", "+00:00")).astimezone(datetime.timezone.utc)
+        except Exception:  # noqa: BLE001
+            pass
+
+    whens: list[str] = []
+    coords: list[str] = []
+    for lat, lng, t in pts:
+        when = (base_ts + datetime.timedelta(seconds=max(0.0, t))).strftime("%Y-%m-%dT%H:%M:%SZ")
+        whens.append(f"        <when>{when}</when>")
+        coords.append(f"        <gx:coord>{lng:.6f} {lat:.6f} 0</gx:coord>")
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">',
+        "  <Document>",
+        "    <name>Rota da live — Baka Gaijin</name>",
+        "    <Style id=\"track\">",
+        "      <LineStyle><color>ff00aaff</color><width>4</width></LineStyle>",
+        "      <IconStyle>",
+        "        <scale>0.6</scale>",
+        "        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>",
+        "      </IconStyle>",
+        "    </Style>",
+        "    <Placemark>",
+        "      <name>Trajeto da live</name>",
+        "      <styleUrl>#track</styleUrl>",
+        "      <gx:Track>",
+        "        <altitudeMode>clampToGround</altitudeMode>",
+        *whens,
+        *coords,
+        "      </gx:Track>",
+        "    </Placemark>",
+        "  </Document>",
+        "</kml>",
+    ]
+    dest = folder / "mapa" / "rota.kml"
+    dest.parent.mkdir(exist_ok=True)
+    dest.write_text("\n".join(lines), encoding="utf-8")
+    print(f"  ✓ Mapa: rota animada exportada em mapa/rota.kml ({len(pts)} pontos com tempo)")
+    return dest
+
+
 MARKER_SPREAD_M = 16.0  # marcos colados (mesmo ponto) são afastados num anel
 
 COLLAPSE_MIN_M = 20.0  # marcos colapsados no MESMO ponto geocodificado: "desenrola"
@@ -3178,7 +3241,8 @@ def ensure_map_assets(
     - geoloc DeepSeek (OSINT por imagem): carregada do cache mapa/geoloc.json quando existir;
     - rota OSRM sincronizada (trecho a trecho, com tempo por micro-ponto):
       cacheada em mapa/osrm_route.json;
-    - rota.gpx: exportado para uso em uMap/JOSM/GPS.
+    - rota.gpx: exportado para uso em uMap/JOSM/GPS;
+    - rota.kml: exportado para o Google Earth (animação <gx:Track> com tempo).
 
     Retorna (stops, rota_sincronizada) — rota_sincronizada é lista de
     {lat, lng, t} ou None.
@@ -3197,6 +3261,7 @@ def ensure_map_assets(
         else [[s["lat"], s["lng"]] for s in stops]
     )
     _write_map_gpx(folder, stops, coords)
+    _write_map_kml(folder, stops, synced)
     return stops, synced
 
 
@@ -3632,7 +3697,11 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     map_local = report.get("local") or "japao"
     map_label = report.get("local_label") or MAP_CITIES.get(map_local, MAP_CITIES["japao"])["label"]
     map_stops = build_map_stops(srt_blocks or [], duration, map_local)
-    map_stops, map_synced = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
+    if os.environ.get("SKIP_MAPA") == "1":
+        map_synced = None
+        print("  SKIP_MAPA=1 — pulando frames/geoloc/rota do mapa (marcos aproximados)")
+    else:
+        map_stops, map_synced = ensure_map_assets(FOLDER, video_file, map_stops, map_local)
     # marcadores visíveis no mapa/carrossel: só a cada 5 min (análise usa 1/1 min)
     # cópia rasa: o spread de sobreposição não altera as coordenadas da rota
     map_stops_vis = [dict(s) for s in map_stops if s.get("visivel")]
@@ -3664,6 +3733,12 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         '<a class="btn" id="gpxLink" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)">'
         '<i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>'
         if (FOLDER / "mapa" / "rota.gpx").exists()
+        else ""
+    )
+    map_kml_btn = (
+        '<a class="btn" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth: animação do trajeto na linha do tempo">'
+        '<i class="fa-solid fa-earth-americas"></i> Google Earth (KML)</a>'
+        if (FOLDER / "mapa" / "rota.kml").exists()
         else ""
     )
     map_extra_html = build_map_extra_html(FOLDER, report, map_stops, map_extra_route)
@@ -4102,6 +4177,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         <i class="fa-solid fa-images"></i> Galeria de frames
       </button>
       __MAP_GPX_BTN__
+      __MAP_KML_BTN__
       <a class="btn gmaps-btn gmaps-primary" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
         <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
       </a>
@@ -5934,7 +6010,7 @@ function applyCdnOverrides(map){
   MAP_FRAMES.forEach((f) => { if (f.img) f.img = resolve(f.img); });
   const gpx = document.getElementById("gpxLink");
   if (gpx) {
-    const url = map["mapa/rota.gpx"] || (map["mapa/"] ? map["mapa/"] + "rota.gpx" : "");
+    const url = map["mapa/rota.gpx"] || (prefix ? prefix + "rota.gpx" : "");
     if (url) gpx.setAttribute("href", url);
   }
 }
@@ -5980,6 +6056,7 @@ boot();
         .replace("__MAP_TRIM_START__", str(MAP_TRIM_START))
         .replace("__MAP_TRIM_END__", str(MAP_TRIM_END))
         .replace("__MAP_GPX_BTN__", map_gpx_btn)
+        .replace("__MAP_KML_BTN__", map_kml_btn)
         .replace("__MAP_EXTRA_HTML__", map_extra_html)
         .replace(
             "__MAP_LABEL__",

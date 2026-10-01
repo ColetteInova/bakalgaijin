@@ -957,6 +957,10 @@ function createApp() {
         res.status(403).json({ error: "Este apoio não pertence a você" });
         return;
       }
+      if (d.tipo === "vitalicio") {
+        res.status(400).json({ error: "O apoio vitalício é único e não tem cancelamento pelo portal." });
+        return;
+      }
       const customerId = typeof d.stripeCustomerId === "string" ? d.stripeCustomerId : "";
       if (!customerId) {
         res.status(400).json({

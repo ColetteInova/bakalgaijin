@@ -5,6 +5,7 @@
 # Opções:
 #   DEEPSEEK_API_KEY="sk-..." ./scripts/repreparar_todos.sh   (mapa e textos do índice)
 #   SKIP_CORTES=1 ./scripts/repreparar_todos.sh               (pula o corte de trechos virais)
+#   SKIP_MAPA=1 ./scripts/repreparar_todos.sh                 (pula frames/geoloc/rota do mapa)
 #
 # Percorre cada subpasta de saida/ que tenha os pré-requisitos
 # (comentarios.json + audio.srt) e executa scripts/preparar.sh nela.
@@ -14,6 +15,7 @@ cd "$(dirname "$0")/.."
 
 SAIDA_DIR="saida"
 SKIP_CORTES="${SKIP_CORTES:-0}"
+SKIP_MAPA="${SKIP_MAPA:-0}"
 
 if [ ! -d "$SAIDA_DIR" ]; then
   echo "Pasta não encontrada: $SAIDA_DIR" >&2
@@ -35,8 +37,10 @@ OK=0
 FALHAS=0
 PULADOS=0
 export SKIP_INDEX_UPDATE=1
+i=0
 
 for DIR in "${PASTAS[@]}"; do
+  i=$((i + 1))
   PASTA="${DIR#$SAIDA_DIR/}"
 
   if [ ! -f "$DIR/comentarios.json" ] || [ ! -f "$DIR/audio.srt" ]; then
@@ -48,11 +52,15 @@ for DIR in "${PASTAS[@]}"; do
 
   echo ""
   echo "############################################################"
-  echo "==> Processando: $PASTA"
+  echo "==> Processando ($i/${#PASTAS[@]}): $PASTA"
   echo "############################################################"
 
   if [ "$SKIP_CORTES" = "1" ]; then
     export SKIP_CORTES=1
+  fi
+
+  if [ "$SKIP_MAPA" = "1" ]; then
+    export SKIP_MAPA=1
   fi
 
   if ./scripts/preparar.sh "$PASTA"; then

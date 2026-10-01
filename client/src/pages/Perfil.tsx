@@ -760,14 +760,16 @@ export default function Perfil() {
                                   ? ` · ${new Date(p.createdAt).toLocaleDateString("pt-BR")}`
                                   : ""}
                               </span>
-                              <button
-                                type="button"
-                                onClick={() => cancelPurchase(p)}
-                                disabled={cancelingId === p.id}
-                                className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-red-400/40 text-red-300 hover:bg-red-400/10 disabled:opacity-50 transition-colors"
-                              >
-                                {cancelingId === p.id ? "Abrindo..." : "Cancelar apoio"}
-                              </button>
+                              {p.tipo !== "vitalicio" && (
+                                <button
+                                  type="button"
+                                  onClick={() => cancelPurchase(p)}
+                                  disabled={cancelingId === p.id}
+                                  className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-red-400/40 text-red-300 hover:bg-red-400/10 disabled:opacity-50 transition-colors"
+                                >
+                                  {cancelingId === p.id ? "Abrindo..." : "Cancelar apoio"}
+                                </button>
+                              )}
                             </span>
                           </li>
                         ))}
@@ -826,19 +828,26 @@ export default function Perfil() {
                           <p className="text-sm font-semibold truncate">{p.nome}</p>
                         </div>
                         <p className="text-[11px] text-[#8b96b5] leading-snug">{p.desc || ""}</p>
-                        {bought ? (
+                        {p.tipo === "vitalicio" ? (
+                          <>
+                            <Button
+                              type="button"
+                              size="sm"
+                              onClick={() => buyProduct(p.id)}
+                              className="mt-auto h-8 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white text-xs font-semibold shadow-lg shadow-[#a855f7]/20"
+                            >
+                              Apoiar · R$ {p.preco.toFixed(2).replace(".", ",")}
+                            </Button>
+                            {bought && (
+                              <p className="text-[10px] text-[#8b96b5]">
+                                Você já apoia — pode apoiar quantas vezes quiser 💛
+                              </p>
+                            )}
+                          </>
+                        ) : bought ? (
                           <p className="mt-auto text-[11px] font-bold text-[#f59e0b]">
                             Você já apoia 💛
                           </p>
-                        ) : p.tipo === "vitalicio" ? (
-                          <Button
-                            type="button"
-                            size="sm"
-                            onClick={() => buyProduct(p.id)}
-                            className="mt-auto h-8 rounded-lg bg-gradient-to-r from-[#a855f7] to-[#ec4899] hover:from-[#9333ea] hover:to-[#db2777] text-white text-xs font-semibold shadow-lg shadow-[#a855f7]/20"
-                          >
-                            Apoiar · R$ {p.preco.toFixed(2).replace(".", ",")}
-                          </Button>
                         ) : (
                           <div className="mt-auto flex gap-2">
                             <Button
