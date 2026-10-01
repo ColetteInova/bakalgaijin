@@ -2916,7 +2916,7 @@ def _fetch_osrm_synced(
         # distância acumulada no trecho → tempo proporcional à distância
         cum = [0.0]
         for j in range(1, len(seg)):
-            cum.append(cum[-1] + _haversine_km([seg[j - 1], seg[j]]))
+            cum.append(cum[-1] + _route_km([seg[j - 1], seg[j]]))
         total = cum[-1]
         for j, coord in enumerate(seg):
             pct = cum[j] / total if total > 0 else j / max(1, len(seg) - 1)
@@ -3043,7 +3043,7 @@ REST_MIN = 6.0
 WALK_RATIO = WALK_EVERY_MIN / (WALK_EVERY_MIN + REST_MIN)  # ~71% do tempo andando
 
 
-def _haversine_km(pts: list[list[float]]) -> float:
+def _route_km(pts: list[list[float]]) -> float:
     """Distância total (km) percorrida numa rota de pontos [lat, lng]."""
     total = 0.0
     for i in range(1, len(pts)):
@@ -3211,7 +3211,7 @@ def build_map_extra_html(folder: Path, report: dict, stops: list[dict], route: l
 
     # esforço: distância pela rota OSRM, velocidade média, ritmo e calorias
     # o streamer para para descansar (chat/loja): anda 15 min e descansa 6 min
-    dist_km = _haversine_km(pts_route)
+    dist_km = _route_km(pts_route)
     active_sec = max(0, duration - MAP_TRIM_START - MAP_TRIM_END)
     active_h = active_sec / 3600.0
     walk_h = active_h * WALK_RATIO
