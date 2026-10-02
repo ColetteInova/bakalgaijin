@@ -12,7 +12,209 @@
       </IconStyle>
       <LabelStyle><scale>0.9</scale></LabelStyle>
     </Style>
+    <Placemark>
+      <name>Rota a pé (rota a pé (ruas))</name>
+      <styleUrl>#rota</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          139.701649,35.694051,0 139.701540,35.693763,0 139.701531,35.693735,0 139.701563,35.693728,0 139.701603,35.693719,0 139.701758,35.693684,0 139.701896,35.693653,0 139.702091,35.693609,0 139.702247,35.693574,0 139.702291,35.693551,0 139.702298,35.693549,0 139.702337,35.693541,0 139.702383,35.693530,0 139.702390,35.693529,0 139.702420,35.693534,0 139.702395,35.693508,0 139.702392,35.693500,0 139.702368,35.693431,0 139.702350,35.693379,0 139.702343,35.693357,0 139.702325,35.693308,0 139.702303,35.693244,0 139.702301,35.693239,0 139.702315,35.693236,0 139.702310,35.693224,0 139.702301,35.693199,0 139.702516,35.693151,0 139.702574,35.693138,0 139.702579,35.693137,0 139.702629,35.693125,0 139.702587,35.693053,0 139.702513,35.692929,0 139.702428,35.692787,0 139.702414,35.692763,0 139.702364,35.692681,0 139.702316,35.692600,0 139.702341,35.692590,0 139.702349,35.692587,0 139.702409,35.692562,0 139.702353,35.692469,0 139.702335,35.692439,0 139.702353,35.692469,0 139.702409,35.692562,0 139.702437,35.692609,0 139.702440,35.692614,0 139.702459,35.692645,0 139.702479,35.692679,0 139.702482,35.692684,0 139.702504,35.692727,0 139.702527,35.692772,0 139.702589,35.692872,0 139.702592,35.692877,0 139.702602,35.692892,0 139.702621,35.692884,0 139.702639,35.692877,0 139.702753,35.692829,0 139.702639,35.692877,0 139.702621,35.692884,0 139.702602,35.692892,0 139.702513,35.692929,0 139.702428,35.692787,0 139.702414,35.692763,0 139.702364,35.692681,0 139.702273,35.692715,0 139.702237,35.692729,0 139.702218,35.692736,0 139.702085,35.692792,0 139.702064,35.692801,0 139.702085,35.692792,0 139.702218,35.692736,0 139.702237,35.692729,0 139.702273,35.692715,0 139.702364,35.692681,0 139.702414,35.692763,0 139.702428,35.692787,0 139.702513,35.692929,0 139.702587,35.693053,0 139.702629,35.693125,0 139.702665,35.693116,0 139.702670,35.693114,0 139.702720,35.693101,0 139.702978,35.693032,0 139.703002,35.693026,0 139.703151,35.692986,0 139.703178,35.692986,0 139.703183,35.692985,0 139.703209,35.692978,0 139.703236,35.692971,0 139.703240,35.692969,0 139.703269,35.692960,0 139.703284,35.692991,0 139.703286,35.692995,0 139.703311,35.693054,0 139.703332,35.693103,0 139.703341,35.693125,0 139.703362,35.693174,0 139.703389,35.693236,0 139.703390,35.693239,0 139.703410,35.693285,0 139.703453,35.693268,0 139.703479,35.693313,0 139.703531,35.693426,0 139.703541,35.693450,0 139.703544,35.693455,0 139.703557,35.693484,0 139.703574,35.693522,0 139.703585,35.693532,0 139.703643,35.693657,0 139.703900,35.694214,0 139.703582,35.694297,0 139.703324,35.694365,0 139.703376,35.694470,0 139.703190,35.694515,0 139.703164,35.694521,0 139.702853,35.694596,0 139.702747,35.694381,0 139.702706,35.694298,0 139.702853,35.694596,0 139.702884,35.694679,0 139.702853,35.694596,0 139.702676,35.694639,0 139.702664,35.694605,0 139.702610,35.694487,0 139.702602,35.694478,0 139.702580,35.694434,0 139.702602,35.694478,0 139.702610,35.694487,0 139.702633,35.694537,0 139.702664,35.694605,0 139.702676,35.694639,0 139.702551,35.694669,0 139.702447,35.694694,0 139.702334,35.694721,0 139.702249,35.694492,0 139.702176,35.694294,0 139.702017,35.694333,0 139.701769,35.694394,0 139.701664,35.694092,0 139.701540,35.693763,0 139.701531,35.693735,0 139.701563,35.693728,0 139.701603,35.693719,0 139.701758,35.693684,0 139.701896,35.693653,0 139.702091,35.693609,0 139.702247,35.693574,0 139.702291,35.693551,0 139.702298,35.693549,0 139.702337,35.693541,0 139.702356,35.693578,0 139.702358,35.693583,0 139.702509,35.693891,0 139.702647,35.694178,0 139.702853,35.694596,0 139.702884,35.694679,0 139.702853,35.694596,0 139.702647,35.694178,0 139.702991,35.694095,0 139.703160,35.694054,0 139.702953,35.693646,0 139.702862,35.693463,0 139.702853,35.693446,0 139.702848,35.693424,0 139.702878,35.693417,0 139.702884,35.693416,0 139.702914,35.693427,0 139.703086,35.693377,0 139.703189,35.693348,0 139.703410,35.693285,0 139.703390,35.693239,0 139.703389,35.693236,0 139.703362,35.693174,0 139.703341,35.693125,0 139.703332,35.693103,0 139.703311,35.693054,0 139.703286,35.692995,0 139.703284,35.692991,0 139.703269,35.692960,0 139.703240,35.692969,0 139.703236,35.692971,0 139.703209,35.692978,0 139.703183,35.692985,0 139.703178,35.692986,0 139.703151,35.692986,0 139.703141,35.692942,0 139.703134,35.692944,0 139.703062,35.692828,0 139.703134,35.692944,0 139.703141,35.692942,0 139.703151,35.692986,0 139.703178,35.692986,0 139.703183,35.692985,0 139.703209,35.692978,0 139.703236,35.692971,0 139.703240,35.692969,0 139.703269,35.692960,0 139.703284,35.692991,0 139.703286,35.692995,0 139.703311,35.693054,0 139.703332,35.693103,0 139.703341,35.693125,0 139.703362,35.693174,0 139.703389,35.693236,0 139.703390,35.693239,0 139.703410,35.693285,0 139.703453,35.693268,0 139.703479,35.693313,0 139.703531,35.693426,0 139.703541,35.693450,0 139.703544,35.693455,0 139.703557,35.693484,0 139.703574,35.693522,0 139.703585,35.693532,0 139.703900,35.694214,0 139.704208,35.694878,0 139.704265,35.694863,0 139.704335,35.694844,0 139.704247,35.694651,0 139.704335,35.694844,0 139.704265,35.694863,0 139.704208,35.694878,0 139.704208,35.694909,0 139.704167,35.694944,0 139.704041,35.694974,0 139.703869,35.695014,0 139.703699,35.695055,0 139.703669,35.695061,0 139.703640,35.695068,0 139.703413,35.695122,0 139.703392,35.695128,0 139.703164,35.694521,0 139.703190,35.694515,0 139.702991,35.694095,0 139.702647,35.694178,0 139.702605,35.694188,0 139.702477,35.694220,0 139.702288,35.694267,0 139.702270,35.694271,0 139.702288,35.694267,0 139.702477,35.694220,0 139.702605,35.694188,0 139.702647,35.694178,0 139.702991,35.694095,0 139.703160,35.694054,0 139.702953,35.693646,0 139.702890,35.693520,0 139.702862,35.693463,0 139.702853,35.693446,0 139.702848,35.693424,0 139.702878,35.693417,0 139.702884,35.693416,0 139.702914,35.693427,0 139.703086,35.693377,0 139.703189,35.693348,0 139.703410,35.693285,0 139.703390,35.693239,0 139.703389,35.693236,0 139.703362,35.693174,0 139.703341,35.693125,0 139.703332,35.693103,0 139.703311,35.693054,0 139.703286,35.692995,0 139.703284,35.692991,0 139.703269,35.692960,0 139.703240,35.692969,0 139.703236,35.692971,0 139.703209,35.692978,0 139.703187,35.692942,0 139.703181,35.692932,0 139.703039,35.692705,0 139.702890,35.692467,0 139.702618,35.692033,0 139.702605,35.692010,0 139.702592,35.691991,0 139.702620,35.691978,0 139.702639,35.691967,0 139.702651,35.691929,0 139.702667,35.691876,0 139.702672,35.691857,0 139.702696,35.691780,0 139.702700,35.691750,0 139.702658,35.691770,0 139.702620,35.691787,0 139.702603,35.691741,0 139.702412,35.691236,0 139.702334,35.690907,0 139.702412,35.691236,0 139.702603,35.691741,0 139.702620,35.691787,0 139.702590,35.691800,0 139.702586,35.691802,0 139.702563,35.691812,0 139.702463,35.691858,0 139.702477,35.691884,0 139.702479,35.691888,0 139.702502,35.691934,0 139.702527,35.691984,0 139.702530,35.691989,0 139.702541,35.692012,0 139.702256,35.692139,0 139.702173,35.692185,0 139.702221,35.692247,0 139.702264,35.692319,0 139.702221,35.692247,0 139.702173,35.692185,0 139.702122,35.692210,0 139.702116,35.692213,0 139.702091,35.692223,0 139.702067,35.692234,0 139.702061,35.692236,0 139.702005,35.692263,0 139.701946,35.692290,0 139.701922,35.692257,0 139.701919,35.692252,0 139.701887,35.692208,0 139.701857,35.692166,0 139.701854,35.692162,0 139.701833,35.692131,0 139.701807,35.692096,0 139.701818,35.692062,0 139.701701,35.691860,0 139.701673,35.691844,0 139.701674,35.691835,0 139.701675,35.691829,0 139.701678,35.691807,0 139.701681,35.691786,0 139.701681,35.691757,0 139.701712,35.691735,0 139.701687,35.691651,0 139.701685,35.691583,0 139.701692,35.691511,0 139.701695,35.691503,0 139.701696,35.691407,0 139.701700,35.691381,0 139.701705,35.691344,0 139.701710,35.691308,0 139.701710,35.691303,0 139.701712,35.691288,0 139.701741,35.691255,0 139.701746,35.691215,0 139.701785,35.690908,0 139.701789,35.690872,0 139.701780,35.690829,0 139.702239,35.690786,0 139.702258,35.690804,0 139.702302,35.691000,0 139.702258,35.690804,0 139.702239,35.690786,0 139.701780,35.690829,0 139.701789,35.690872,0 139.701697,35.690864,0 139.701670,35.690862,0 139.701672,35.690838,0 139.701664,35.690817,0 139.701630,35.690791,0 139.701487,35.690721,0 139.701417,35.690703,0 139.701436,35.690654,0 139.701594,35.690259,0 139.701603,35.690238,0 139.701594,35.690259,0 139.701436,35.690654,0 139.701417,35.690703,0 139.701487,35.690721,0 139.701630,35.690791,0 139.701816,35.690773,0 139.702291,35.690727,0 139.702924,35.690683,0 139.702956,35.690827,0 139.703028,35.691146,0 139.702935,35.691159,0 139.702951,35.691201,0 139.702951,35.691201,0
+        </coordinates>
+      </LineString>
+    </Placemark>
     <Folder><name>Marcos da live</name><open>0</open>
+      <Placemark>
+        <name>0:12:05 — Não identificável</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori (próximo à entrada do Shinjuku I-Land Tower)&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70168380346828,35.69404241537604,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:17:05 — BIC CAMERA Shinjuku East Exit Store</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;BIC CAMERA Shinjuku East Exit Store • Don Quijote Shinjuku Kabukicho Store&lt;br&gt;A imagem mostra uma rua movimentada com muitos pedestres e edifícios comerciais iluminados por letreiros em japonês. É possível identificar o letreiro da 'BIC CAMERA' e, mais ao fundo, o icônico letreiro amarelo e vermelho do 'Don Quijote', ambos estabelecimentos conhecidos na área de Shinjuku. A arquitetura moderna e a grande quantidade de pessoas são características de Shinjuku-dori, uma das principais vias comerciais de Tóquio. A coordenada foi estimada para um ponto na Shinjuku-dori, próximo à saída leste da estação de Shinjuku e à entrada de Kabukichō, compatível com o fluxo de pedestres </description>
+        <Point>
+          <coordinates>139.70249783088184,35.692376287679075,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:22:05 — MARUHAN</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Chuo-dori&lt;/b&gt;&lt;br&gt;MARUHAN • TOHO CINEMAS&lt;br&gt;A imagem mostra claramente os letreiros dos estabelecimentos 'MARUHAN' e 'TOHO CINEMAS'. Ambos são pontos de referência conhecidos em Kabukichō, Shinjuku, Tóquio. A arquitetura moderna e a grande quantidade de pessoas na rua são consistentes com a área. A localização exata foi determinada pela proximidade desses dois estabelecimentos na Kabukicho Chuo-dori.</description>
+        <Point>
+          <coordinates>139.70280527777777,35.69291194444444,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:27:05 — 27:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70209275390624,35.692846230468746,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:32:05 — null</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.7035979296875,35.6936703515625,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:37:05 — はみだし企業</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai (歌舞伎町一番街)&lt;/b&gt;&lt;br&gt;はみだし企業&lt;br&gt;A imagem mostra uma rua estreita e movimentada, típica de Kabukichō, Shinjuku. A placa com caracteres japoneses 'はみだし企業' e o letreiro luminoso em forma de cruz são características comuns da área. A arquitetura dos prédios e a presença de motocicletas estacionadas também são consistentes com o ambiente de Kabukichō. A coordenada estimada é para o início da rua Kabukicho Ichibangai, uma área conhecida por ser um ponto de encontro e onde lives IRL são frequentemente realizadas.</description>
+        <Point>
+          <coordinates>139.70275,35.69438,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:42:05 — Kabukicho</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho&lt;/b&gt;&lt;br&gt;A imagem mostra um pôster em japonês com a frase '禁断の味！？幻の肉入荷！' (Sabor proibido!? Carne fantasma chegou!) e '猿の塩焼き' (Macaco grelhado com sal), com um preço de ¥5,000. Este tipo de publicidade peculiar e a arquitetura de tijolos à vista são características comuns em becos e ruas secundárias de Kabukichō, Shinjuku, Tóquio, onde há muitos estabelecimentos com temas exóticos e inusitados. A presença de um poste de luz e a parede de tijolos reforçam o ambiente de rua. A coordenada é uma estimativa para a área central de Kabukichō.</description>
+        <Point>
+          <coordinates>139.7027,35.6943,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:47:05 — PROGRESS</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai&lt;/b&gt;&lt;br&gt;PROGRESS&lt;br&gt;A loja 'PROGRESS' é claramente visível na imagem, um estabelecimento de lingerie conhecido em Kabukichō. A arquitetura dos edifícios e as placas de veículos com caracteres japoneses confirmam a localização em Tóquio. A rua estreita e o ambiente iluminado são típicos de Kabukichō, Shinjuku, e a coordenada corresponde à localização da loja PROGRESS na Kabukicho Ichibangai.</description>
+        <Point>
+          <coordinates>139.70296,35.69466,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:52:05 — 52:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai (歌舞伎町一番街)&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.7026294117647,35.69441764705882,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:57:05 — 57:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai (歌舞伎町一番街)&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.7025411764706,35.69456470588235,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:02:05 — Arcade/Centro de Jogos</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai (歌舞伎町一番街)&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.7024529411765,35.694711764705886,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:07:05 — Kabukicho</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho&lt;/b&gt;&lt;br&gt;A imagem é muito cortada e mostra apenas uma câmera de segurança e parte de uma placa luminosa azul com texto ilegível. A informação de que o streamer está em Shinjuku/Kabukichō, Tóquio, é a única pista para a localização. Sem mais elementos visuais, é impossível identificar estabelecimentos ou ruas específicas, mas a coordenada foi estimada para o centro de Kabukichō, Shinjuku, Tóquio, com base no contexto fornecido.</description>
+        <Point>
+          <coordinates>139.70194375,35.693653749999996,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:12:05 — Kabukicho Ichibangai</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai&lt;/b&gt;&lt;br&gt;A imagem mostra uma superfície de madeira que parece ser um balcão ou parapeito de um estabelecimento, com uma placa em japonês parcialmente visível ao fundo. Embora não haja nomes de ruas ou estabelecimentos claramente legíveis, o contexto fornecido (streamer Baka Gaijin em Tóquio, Shinjuku/Kabukichō, deslocamento a pé) e a arquitetura sugerem uma área comercial movimentada. A frase 'O lixo' pode indicar que ele está perto de uma lixeira ou em um local onde as pessoas descartam coisas, o que é comum em áreas de entretenimento como Kabukichō. A coordenada é uma estimativa para o centro de Kabu</description>
+        <Point>
+          <coordinates>139.70296,35.69466,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:17:05 — SUBNA</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai&lt;/b&gt;&lt;br&gt;SUBNA • Tsubohachi Shinjuku Golden Gai&lt;br&gt;A imagem mostra uma rua com estabelecimentos comerciais típicos de Tóquio, incluindo o letreiro 'SUBNA' e o nome 'Tsubohachi' (uma rede de izakayas). A arquitetura dos edifícios e a presença de sinalização tátil amarela no chão são características comuns no Japão. A localização foi confirmada pela identificação do Tsubohachi Shinjuku Golden Gai, que está em uma esquina no bairro de Kabukichō, Shinjuku.</description>
+        <Point>
+          <coordinates>139.70303562499998,35.69283875000001,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:22:05 — Kirin (caixas de cerveja)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Golden Gai (possivelmente Shinjuku Golden Gai)&lt;/b&gt;&lt;br&gt;Kirin (caixas de cerveja) • Estabelecimento de Ramen (placa 'No. 1 Ramen') • Muitos pequenos bares/restaurantes&lt;br&gt;A imagem mostra um beco estreito repleto de pequenos bares e restaurantes, com lanternas japonesas e letreiros em japonês, incluindo caixas de cerveja Kirin e uma placa de 'No. 1 Ramen'. Essa arquitetura e ambiente são características do Golden Gai em Shinjuku, Tóquio, uma área famosa por seus becos apertados e inúmeros micro-bares. A frase do streamer 'Bem silencioso' também se encaixa, pois esses becos podem ser mais calmos em certos horários.</description>
+        <Point>
+          <coordinates>139.70425,35.69465,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:27:05 — ゆで立てそば</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Omoide Yokocho (横丁 思い出)&lt;/b&gt;&lt;br&gt;ゆで立てそば&lt;br&gt;A imagem mostra um beco estreito e movimentado, característico de Omoide Yokocho, também conhecido como 'Memory Lane' ou 'Piss Alley', em Shinjuku, Tóquio. A placa no alto, embora parcialmente obscurecida, parece indicar '思い出横丁' (Omoide Yokocho). A arquitetura dos pequenos restaurantes e bares, com suas fachadas tradicionais e lanternas, é um forte indicativo. A placa vertical à direita com 'ゆで立てそば' (Yudetate Soba) é comum em estabelecimentos de soba na área.</description>
+        <Point>
+          <coordinates>139.70222916666665,35.69416,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:32:05 — li</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai&lt;/b&gt;&lt;br&gt;li • outros estabelecimentos comerciais com letreiros em japonês&lt;br&gt;A imagem mostra uma rua com arquitetura típica de Tóquio, com letreiros em japonês e um ambiente urbano movimentado. A presença de um letreiro 'li' e a característica da rua pavimentada com blocos retangulares são consistentes com a área de Kabukicho Ichibangai, um conhecido distrito de entretenimento em Shinjuku. A coordenada aproximada foi estimada com base na localização de estabelecimentos similares e na aparência geral da rua.</description>
+        <Point>
+          <coordinates>139.7028688888889,35.69352666666666,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:37:05 — ABC-MART</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;ABC-MART • BIC CAMERA&lt;br&gt;A imagem mostra um cruzamento movimentado em Tóquio. Os estabelecimentos 'ABC-MART' e 'BIC CAMERA' são claramente visíveis. A arquitetura dos prédios e as placas de rua são típicas de Shinjuku. A localização exata é o cruzamento da Shinjuku-dori com a Meiji-dori, em frente à loja BIC CAMERA Shinjuku East Exit.</description>
+        <Point>
+          <coordinates>139.70244,35.69089,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:42:05 — T-ZONE</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho&lt;/b&gt;&lt;br&gt;T-ZONE&lt;br&gt;A imagem mostra uma rua movimentada à noite, com arquitetura moderna e luminosa, típica de Shinjuku, Tóquio. O letreiro 'T-ZONE' é visível, um antigo varejista de eletrônicos japonês que tinha lojas em áreas comerciais como Kabukichō. A localização estimada é baseada na presença de estabelecimentos comerciais e na arquitetura que se alinha com a área de Kabukichō, Shinjuku.</description>
+        <Point>
+          <coordinates>139.7023265625,35.692293750000005,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:47:05 — Armários de Moedas (Coin Lockers)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70225012499998,35.6910075,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:52:05 — Não identificada com precisão</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70158666666666,35.69023333333333,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:57:05 — UNIQLO</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;UNIQLO&lt;br&gt;A loja UNIQLO é claramente visível na imagem, com seu logotipo e a fachada característica. A arquitetura moderna e a presença de táxis japoneses (visíveis ao fundo) confirmam o ambiente urbano de Tóquio. A localização da UNIQLO em Shinjuku-dori, uma rua principal em Shinjuku, é consistente com o contexto da live e o deslocamento a pé do streamer.</description>
+        <Point>
+          <coordinates>139.7028,35.69085,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:02:05 — Estação de trem/metrô (catracas de acesso)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70295,35.69123,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:03:05 — 2:03:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70295,35.69123,0</coordinates>
+        </Point>
+      </Placemark>
     </Folder>
   </Document>
 </kml>

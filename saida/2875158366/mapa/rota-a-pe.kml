@@ -12,7 +12,281 @@
       </IconStyle>
       <LabelStyle><scale>0.9</scale></LabelStyle>
     </Style>
+    <Placemark>
+      <name>Rota a pé (rota a pé (ruas))</name>
+      <styleUrl>#rota</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          139.704060,35.694242,0 139.703895,35.693881,0 139.703832,35.693897,0 139.703962,35.694197,0 139.703900,35.694214,0 139.703582,35.694297,0 139.703324,35.694365,0 139.703376,35.694470,0 139.703190,35.694515,0 139.703164,35.694521,0 139.703079,35.694542,0 139.702853,35.694596,0 139.702676,35.694237,0 139.702647,35.694178,0 139.702991,35.694095,0 139.703160,35.694054,0 139.703324,35.694365,0 139.703498,35.694319,0 139.703324,35.694365,0 139.703376,35.694470,0 139.703190,35.694515,0 139.703164,35.694521,0 139.703194,35.694601,0 139.703164,35.694521,0 139.702853,35.694596,0 139.702676,35.694639,0 139.702551,35.694669,0 139.702334,35.694721,0 139.702249,35.694492,0 139.702309,35.694477,0 139.702249,35.694492,0 139.702176,35.694294,0 139.702288,35.694267,0 139.702477,35.694220,0 139.702605,35.694188,0 139.702647,35.694178,0 139.702569,35.694016,0 139.702647,35.694178,0 139.702991,35.694095,0 139.703160,35.694054,0 139.702953,35.693646,0 139.702925,35.693590,0 139.702953,35.693646,0 139.703160,35.694054,0 139.703324,35.694365,0 139.703582,35.694297,0 139.703777,35.694697,0 139.703830,35.694806,0 139.703789,35.694813,0 139.703717,35.694827,0 139.703571,35.694863,0 139.703376,35.694470,0 139.703190,35.694515,0 139.703164,35.694521,0 139.702853,35.694596,0 139.702741,35.694623,0 139.702676,35.694639,0 139.702551,35.694669,0 139.702334,35.694721,0 139.702296,35.694620,0 139.702249,35.694492,0 139.702176,35.694294,0 139.702288,35.694267,0 139.702477,35.694220,0 139.702605,35.694188,0 139.702647,35.694178,0 139.702991,35.694095,0 139.703160,35.694054,0 139.702953,35.693646,0 139.702862,35.693463,0 139.702853,35.693446,0 139.702848,35.693424,0 139.702878,35.693417,0 139.702884,35.693416,0 139.702914,35.693427,0 139.703086,35.693377,0 139.703189,35.693348,0 139.703410,35.693285,0 139.703390,35.693239,0 139.703389,35.693236,0 139.703362,35.693174,0 139.703341,35.693125,0 139.703332,35.693103,0 139.703311,35.693054,0 139.703286,35.692995,0 139.703284,35.692991,0 139.703269,35.692960,0 139.703426,35.692916,0 139.703431,35.692915,0 139.703459,35.692907,0 139.703488,35.692899,0 139.703494,35.692897,0 139.703641,35.692856,0 139.704204,35.692698,0 139.704211,35.692696,0 139.704240,35.692688,0 139.704268,35.692680,0 139.704274,35.692679,0 139.704444,35.692631,0 139.704449,35.692629,0 139.704483,35.692620,0 139.704334,35.692360,0 139.704315,35.692326,0 139.704286,35.692336,0 139.704258,35.692327,0 139.704239,35.692295,0 139.704190,35.692311,0 139.703603,35.692514,0 139.703589,35.692517,0 139.703603,35.692514,0 139.704190,35.692311,0 139.704239,35.692295,0 139.704258,35.692327,0 139.704286,35.692336,0 139.704315,35.692326,0 139.704334,35.692360,0 139.704483,35.692620,0 139.704449,35.692629,0 139.704444,35.692631,0 139.704274,35.692679,0 139.704268,35.692680,0 139.704240,35.692688,0 139.704211,35.692696,0 139.704204,35.692698,0 139.703641,35.692856,0 139.703655,35.692891,0 139.703657,35.692896,0 139.703680,35.692950,0 139.703701,35.693001,0 139.703709,35.693019,0 139.703731,35.693072,0 139.703753,35.693124,0 139.703756,35.693130,0 139.703773,35.693170,0 139.703673,35.693200,0 139.703705,35.693217,0 139.703716,35.693223,0 139.703728,35.693249,0 139.703796,35.693289,0 139.703839,35.693317,0 139.703908,35.693367,0 139.703957,35.693407,0 139.703992,35.693428,0 139.704009,35.693447,0 139.704034,35.693475,0 139.704089,35.693543,0 139.704110,35.693575,0 139.704133,35.693617,0 139.704184,35.693728,0 139.704198,35.693741,0 139.704220,35.693742,0 139.704219,35.693778,0 139.704219,35.693797,0 139.704246,35.693827,0 139.704268,35.693872,0 139.704274,35.693891,0 139.704311,35.694048,0 139.704410,35.694269,0 139.704497,35.694464,0 139.704548,35.694576,0 139.704561,35.694590,0 139.704548,35.694576,0 139.704497,35.694464,0 139.704410,35.694269,0 139.704311,35.694048,0 139.704274,35.693891,0 139.704268,35.693872,0 139.704246,35.693827,0 139.704219,35.693797,0 139.703895,35.693881,0 139.703832,35.693897,0 139.703666,35.693540,0 139.703629,35.693462,0 139.703561,35.693315,0 139.703529,35.693246,0 139.703583,35.693231,0 139.703595,35.693227,0 139.703673,35.693200,0 139.703773,35.693170,0 139.704513,35.692964,0 139.704571,35.692935,0 139.704624,35.692920,0 139.704674,35.692907,0 139.704697,35.692912,0 139.705323,35.692749,0 139.705380,35.692735,0 139.705431,35.692723,0 139.705604,35.692676,0 139.705590,35.692639,0 139.705567,35.692577,0 139.705537,35.692496,0 139.705534,35.692487,0 139.705516,35.692441,0 139.705495,35.692387,0 139.705485,35.692356,0 139.705519,35.692347,0 139.705560,35.692279,0 139.705580,35.692245,0 139.705415,35.691967,0 139.705400,35.691961,0 139.705393,35.691948,0 139.705373,35.691915,0 139.705358,35.691889,0 139.705349,35.691876,0 139.705352,35.691861,0 139.705344,35.691848,0 139.704892,35.691072,0 139.704900,35.691069,0 139.704943,35.691052,0 139.705014,35.691024,0 139.705076,35.690999,0 139.705086,35.690995,0 139.705062,35.690954,0 139.705095,35.690861,0 139.705048,35.690787,0 139.705000,35.690711,0 139.705095,35.690662,0 139.705490,35.690483,0 139.705608,35.690430,0 139.705699,35.690386,0 139.705756,35.690461,0 139.705806,35.690526,0 139.706073,35.690403,0 139.706139,35.690372,0 139.706202,35.690345,0 139.706547,35.690190,0 139.706611,35.690186,0 139.706566,35.690093,0 139.706527,35.690014,0 139.706557,35.689967,0 139.706578,35.689941,0 139.706581,35.689884,0 139.706627,35.689865,0 139.706603,35.689820,0 139.706580,35.689775,0 139.706532,35.689695,0 139.706425,35.689552,0 139.706366,35.689471,0 139.706518,35.689362,0 139.706595,35.689307,0 139.706575,35.689281,0 139.706530,35.689220,0 139.706507,35.689187,0 139.706466,35.689126,0 139.706901,35.688971,0 139.707252,35.688839,0 139.707430,35.688790,0 139.707490,35.688774,0 139.707809,35.688647,0 139.707867,35.688619,0 139.707809,35.688647,0 139.707490,35.688774,0 139.707430,35.688790,0 139.707252,35.688839,0 139.706901,35.688971,0 139.706466,35.689126,0 139.706507,35.689187,0 139.706530,35.689220,0 139.706575,35.689281,0 139.706595,35.689307,0 139.706518,35.689362,0 139.706366,35.689471,0 139.706425,35.689552,0 139.706532,35.689695,0 139.706580,35.689775,0 139.706603,35.689820,0 139.706627,35.689865,0 139.706581,35.689884,0 139.706578,35.689941,0 139.706557,35.689967,0 139.706527,35.690014,0 139.705715,35.690379,0 139.705699,35.690386,0 139.705756,35.690461,0 139.705806,35.690526,0 139.705797,35.690530,0 139.705684,35.690581,0 139.705659,35.690603,0 139.705620,35.690622,0 139.705582,35.690626,0 139.705289,35.690767,0 139.705187,35.690815,0 139.705095,35.690861,0 139.705062,35.690954,0 139.705086,35.690995,0 139.705076,35.690999,0 139.705014,35.691024,0 139.704943,35.691052,0 139.704900,35.691069,0 139.704892,35.691072,0 139.704803,35.691047,0 139.704738,35.691029,0 139.704279,35.691237,0 139.703898,35.691395,0 139.703867,35.691409,0 139.703830,35.691425,0 139.703799,35.691440,0 139.703785,35.691446,0 139.703847,35.691548,0 139.703985,35.691774,0 139.704015,35.691761,0 139.704024,35.691757,0 139.704055,35.691805,0 139.704082,35.691793,0 139.704106,35.691783,0 139.704167,35.691876,0 139.704106,35.691783,0 139.704008,35.691632,0 139.703899,35.691460,0 139.703881,35.691430,0 139.703867,35.691409,0 139.703898,35.691395,0 139.704279,35.691237,0 139.704738,35.691029,0 139.704803,35.691047,0 139.704892,35.691072,0 139.704900,35.691069,0 139.704943,35.691052,0 139.705014,35.691024,0 139.705076,35.690999,0 139.705086,35.690995,0 139.705062,35.690954,0 139.705095,35.690861,0 139.705187,35.690815,0 139.705289,35.690767,0 139.705336,35.690830,0 139.705265,35.690717,0 139.705528,35.690600,0 139.705683,35.690825,0 139.705776,35.690846,0 139.705798,35.690879,0 139.705748,35.690902,0 139.705480,35.691025,0 139.705179,35.691158,0 139.705130,35.691072,0 139.705086,35.690995,0 139.705062,35.690954,0 139.705095,35.690861,0 139.705187,35.690815,0 139.705289,35.690767,0 139.705582,35.690626,0 139.705620,35.690622,0 139.705659,35.690603,0 139.705684,35.690581,0 139.705797,35.690530,0 139.705806,35.690526,0 139.706073,35.690403,0 139.706139,35.690372,0 139.706202,35.690345,0 139.706547,35.690190,0 139.706611,35.690186,0 139.706566,35.690093,0 139.706527,35.690014,0 139.706557,35.689967,0 139.706578,35.689941,0 139.706581,35.689884,0 139.706627,35.689865,0 139.706603,35.689820,0 139.706580,35.689775,0 139.706532,35.689695,0 139.706425,35.689552,0 139.706366,35.689471,0 139.706518,35.689362,0 139.706595,35.689307,0 139.706575,35.689281,0 139.706530,35.689220,0 139.706507,35.689187,0 139.706466,35.689126,0 139.706901,35.688971,0 139.707252,35.688839,0 139.707430,35.688790,0 139.707490,35.688774,0 139.707809,35.688647,0 139.707938,35.688586,0 139.708067,35.688534,0 139.707938,35.688586,0 139.707809,35.688647,0 139.707490,35.688774,0 139.707430,35.688790,0 139.707252,35.688839,0 139.706901,35.688971,0 139.706466,35.689126,0 139.706406,35.689033,0 139.706308,35.689087,0 139.706152,35.689173,0 139.706083,35.689211,0 139.706077,35.689270,0 139.705972,35.689357,0 139.705715,35.689482,0 139.705377,35.689581,0 139.704878,35.689656,0 139.704538,35.689642,0 139.704619,35.689166,0 139.704538,35.689642,0 139.704533,35.689745,0 139.704399,35.689733,0 139.704297,35.689725,0 139.704258,35.689658,0 139.704191,35.689612,0 139.704112,35.689597,0 139.704076,35.689599,0 139.703976,35.689602,0 139.703903,35.689605,0 139.703873,35.689624,0 139.703854,35.689596,0 139.703822,35.689570,0 139.703847,35.689544,0 139.703879,35.689464,0 139.703071,35.688299,0 139.702956,35.688129,0 139.702886,35.688034,0 139.702972,35.687994,0 139.702952,35.687956,0 139.702938,35.687913,0 139.702933,35.687869,0 139.702935,35.687802,0 139.702982,35.687605,0 139.702998,35.687539,0 139.703183,35.686930,0 139.703209,35.686841,0 139.703112,35.686822,0 139.703056,35.686811,0 139.703143,35.686524,0 139.703056,35.686811,0 139.703030,35.686896,0 139.702972,35.687045,0 139.702957,35.687104,0 139.702926,35.687204,0 139.702909,35.687257,0 139.702834,35.687504,0 139.702768,35.687719,0 139.702759,35.687750,0 139.702703,35.687863,0 139.702485,35.688155,0 139.702382,35.688420,0 139.702198,35.689072,0 139.702145,35.689245,0 139.702083,35.689448,0 139.702037,35.689565,0 139.702022,35.689605,0 139.701808,35.689571,0 139.701692,35.689520,0 139.701544,35.689495,0 139.701516,35.689490,0 139.701509,35.689522,0 139.701467,35.689671,0 139.701267,35.689636,0 139.701275,35.689605,0 139.701258,35.689602,0 139.701253,35.689585,0 139.701240,35.689599,0 139.701080,35.689572,0 139.701074,35.689555,0 139.701086,35.689507,0 139.701074,35.689555,0 139.701080,35.689572,0 139.701029,35.689563,0 139.701022,35.689592,0 139.700775,35.689548,0 139.700571,35.689513,0 139.700416,35.689485,0 139.700270,35.689460,0 139.700278,35.689421,0 139.700293,35.689360,0 139.700316,35.689269,0 139.700331,35.689215,0 139.700067,35.689168,0 139.699921,35.689137,0 139.699878,35.689125,0 139.699686,35.689073,0 139.699666,35.689067,0 139.699578,35.689028,0 139.699247,35.688879,0 139.699168,35.688844,0 139.699060,35.688864,0 139.699042,35.688855,0 139.698956,35.688816,0 139.698827,35.688757,0 139.698766,35.688729,0 139.698726,35.688790,0 139.698704,35.688896,0 139.698668,35.689128,0 139.698631,35.689353,0 139.698621,35.689430,0 139.698121,35.689414,0 139.698108,35.689651,0 139.698103,35.689737,0 139.698098,35.689830,0 139.698088,35.689982,0 139.698083,35.690039,0 139.698078,35.690098,0 139.698124,35.690112,0 139.698249,35.690233,0 139.698197,35.690279,0 139.698182,35.690321,0 139.698174,35.690379,0 139.698131,35.690962,0 139.698126,35.690983,0 139.698113,35.691005,0 139.698085,35.691024,0 139.698046,35.691035,0 139.698041,35.691125,0 139.698033,35.691266,0 139.697972,35.691263,0 139.697882,35.691258,0 139.697776,35.691252,0 139.697599,35.691241,0 139.696628,35.691182,0 139.696625,35.691222,0 139.696627,35.691247,0 139.696650,35.691300,0 139.696688,35.691386,0 139.696685,35.691213,0 139.696458,35.691200,0 139.696260,35.691182,0 139.694617,35.691014,0 139.694570,35.690993,0 139.694530,35.690987,0 139.694355,35.690957,0 139.694350,35.690846,0 139.693271,35.690675,0 139.693245,35.690575,0 139.693274,35.690447,0 139.693232,35.690430,0 139.693152,35.690418,0 139.693082,35.690407,0 139.693100,35.690331,0 139.693082,35.690407,0 139.693152,35.690418,0 139.693232,35.690430,0 139.693274,35.690447,0 139.693245,35.690575,0 139.693271,35.690675,0 139.694350,35.690846,0 139.694424,35.690779,0 139.694576,35.690805,0 139.694641,35.690814,0 139.694670,35.690803,0 139.695828,35.690932,0 139.696209,35.690975,0 139.696388,35.690994,0 139.696832,35.691019,0 139.697817,35.691072,0 139.698150,35.691090,0 139.698169,35.691091,0 139.698178,35.690979,0 139.698218,35.690953,0 139.698231,35.690896,0 139.698877,35.690939,0 139.698953,35.690953,0 139.699048,35.691002,0 139.699069,35.691033,0 139.699127,35.691115,0 139.699141,35.691178,0 139.699189,35.691389,0 139.699275,35.691378,0 139.699616,35.691334,0 139.699701,35.691324,0 139.699796,35.691312,0 139.699990,35.691303,0 139.700168,35.691325,0 139.700290,35.691340,0 139.700747,35.691396,0 139.700968,35.691423,0 139.701095,35.691437,0 139.701055,35.691512,0 139.701024,35.691753,0 139.701018,35.691806,0 139.701013,35.691845,0 139.700984,35.691843,0 139.700826,35.691829,0 139.700802,35.691823,0 139.700782,35.691817,0 139.700795,35.691787,0 139.700782,35.691817,0 139.700802,35.691823,0 139.700826,35.691829,0 139.700984,35.691843,0 139.701013,35.691845,0 139.701018,35.691806,0 139.701112,35.691814,0 139.701227,35.691824,0 139.701251,35.691839,0 139.701325,35.691846,0 139.701533,35.691864,0 139.701557,35.691866,0 139.701577,35.691881,0 139.701599,35.691905,0 139.701614,35.691927,0 139.701623,35.691947,0 139.701630,35.691968,0 139.701635,35.691987,0 139.701637,35.692005,0 139.701636,35.692028,0 139.701632,35.692047,0 139.701626,35.692065,0 139.701616,35.692082,0 139.701601,35.692101,0 139.701607,35.692145,0 139.701613,35.692184,0 139.701623,35.692261,0 139.701690,35.692252,0 139.701744,35.692389,0 139.701740,35.692383,0 139.701946,35.692290,0 139.702005,35.692263,0 139.702038,35.692327,0 139.702097,35.692421,0 139.702158,35.692520,0 139.702226,35.692636,0 139.702250,35.692677,0 139.702253,35.692682,0 139.702273,35.692715,0 139.702292,35.692747,0 139.702295,35.692752,0 139.702324,35.692800,0 139.702410,35.692942,0 139.702486,35.693069,0 139.702516,35.693151,0 139.702301,35.693199,0 139.702310,35.693224,0 139.702315,35.693236,0 139.702301,35.693239,0 139.702303,35.693244,0 139.702325,35.693308,0 139.702343,35.693357,0 139.702350,35.693379,0 139.702368,35.693431,0 139.702392,35.693500,0 139.702395,35.693508,0 139.702420,35.693534,0 139.702446,35.693528,0 139.702622,35.693489,0 139.702797,35.693449,0 139.702808,35.693434,0 139.702815,35.693432,0 139.702848,35.693424,0 139.702853,35.693446,0 139.702862,35.693463,0 139.702953,35.693646,0 139.703160,35.694054,0 139.703324,35.694365,0 139.703425,35.694338,0 139.703324,35.694365,0 139.703160,35.694054,0 139.702953,35.693646,0 139.702862,35.693463,0 139.702853,35.693446,0 139.702848,35.693424,0 139.702815,35.693432,0 139.702808,35.693434,0 139.702797,35.693449,0 139.702622,35.693489,0 139.702446,35.693528,0 139.702420,35.693534,0 139.702395,35.693508,0 139.702392,35.693500,0 139.702368,35.693431,0 139.702350,35.693379,0 139.702343,35.693357,0 139.702325,35.693308,0 139.702303,35.693244,0 139.702301,35.693239,0 139.702315,35.693236,0 139.702310,35.693224,0 139.702301,35.693199,0 139.702516,35.693151,0 139.702486,35.693069,0 139.702410,35.692942,0 139.702324,35.692800,0 139.702295,35.692752,0 139.702292,35.692747,0 139.702273,35.692715,0 139.702253,35.692682,0 139.702250,35.692677,0 139.702226,35.692636,0 139.702158,35.692520,0 139.702097,35.692421,0 139.702038,35.692327,0 139.702005,35.692263,0 139.701946,35.692290,0 139.701922,35.692257,0 139.701919,35.692252,0 139.701887,35.692208,0 139.701857,35.692166,0 139.701854,35.692162,0 139.701833,35.692131,0 139.701807,35.692096,0 139.701818,35.692062,0 139.701701,35.691860,0 139.701673,35.691844,0 139.701674,35.691835,0 139.701675,35.691829,0 139.701678,35.691807,0 139.701953,35.691704,0 139.701678,35.691807,0 139.701675,35.691829,0 139.701674,35.691835,0 139.701673,35.691844,0 139.701701,35.691860,0 139.701818,35.692062,0 139.701807,35.692096,0 139.701833,35.692131,0 139.701854,35.692162,0 139.701857,35.692166,0 139.701887,35.692208,0 139.701919,35.692252,0 139.701922,35.692257,0 139.701946,35.692290,0 139.702005,35.692263,0 139.702061,35.692236,0 139.702067,35.692234,0 139.702091,35.692223,0 139.702122,35.692273,0 139.702133,35.692290,0 139.702316,35.692600,0 139.702364,35.692681,0 139.702414,35.692763,0 139.702428,35.692787,0 139.702513,35.692929,0 139.702602,35.692892,0 139.702621,35.692884,0 139.702639,35.692877,0 139.702999,35.692726,0 139.703005,35.692724,0 139.703039,35.692705,0 139.703090,35.692684,0 139.703039,35.692705,0 139.703005,35.692724,0 139.703016,35.692740,0 139.703019,35.692745,0 139.703141,35.692942,0 139.703151,35.692986,0 139.703002,35.693026,0 139.702978,35.693032,0 139.702990,35.693060,0 139.703014,35.693053,0 139.703018,35.693052,0 139.703014,35.693053,0 139.702990,35.693060,0 139.702978,35.693032,0 139.702720,35.693101,0 139.702670,35.693114,0 139.702665,35.693116,0 139.702629,35.693125,0 139.702579,35.693137,0 139.702574,35.693138,0 139.702516,35.693151,0 139.702301,35.693199,0 139.702310,35.693224,0 139.702315,35.693236,0 139.702301,35.693239,0 139.702303,35.693244,0 139.702325,35.693308,0 139.702343,35.693357,0 139.702350,35.693379,0 139.702368,35.693431,0 139.702392,35.693500,0 139.702395,35.693508,0 139.702420,35.693534,0 139.702390,35.693529,0 139.702383,35.693530,0 139.702337,35.693541,0 139.702298,35.693549,0 139.702291,35.693551,0 139.702247,35.693574,0 139.702091,35.693609,0 139.701896,35.693653,0 139.701758,35.693684,0 139.701603,35.693719,0 139.701563,35.693728,0 139.701531,35.693735,0 139.701540,35.693763,0 139.701664,35.694092,0 139.701905,35.694035,0 139.702299,35.693941,0 139.702509,35.693891,0 139.702358,35.693583,0 139.702356,35.693578,0 139.702337,35.693541,0 139.702383,35.693530,0 139.702390,35.693529,0 139.702420,35.693534,0 139.702395,35.693508,0 139.702392,35.693500,0 139.702368,35.693431,0 139.702350,35.693379,0 139.702343,35.693357,0 139.702325,35.693308,0 139.702303,35.693244,0 139.702301,35.693239,0 139.702315,35.693236,0 139.702310,35.693224,0 139.702301,35.693199,0 139.702516,35.693151,0 139.702486,35.693069,0 139.702410,35.692942,0 139.702324,35.692800,0 139.702295,35.692752,0 139.702292,35.692747,0 139.702273,35.692715,0 139.702253,35.692682,0 139.702250,35.692677,0 139.702226,35.692636,0 139.702158,35.692520,0 139.702097,35.692421,0 139.702038,35.692327,0 139.702005,35.692263,0 139.701946,35.692290,0 139.701922,35.692257,0 139.701919,35.692252,0 139.701887,35.692208,0 139.701857,35.692166,0 139.701854,35.692162,0 139.701833,35.692131,0 139.701807,35.692096,0 139.701818,35.692062,0 139.701701,35.691860,0 139.701673,35.691844,0 139.701674,35.691835,0 139.701675,35.691829,0 139.701678,35.691807,0 139.701681,35.691786,0 139.701681,35.691757,0 139.701648,35.691760,0 139.701637,35.691727,0 139.701646,35.691661,0 139.701656,35.691587,0 139.701648,35.691564,0 139.701629,35.691562,0 139.701576,35.691557,0 139.701368,35.691539,0 139.701440,35.691028,0 139.701334,35.691018,0 139.701290,35.691019,0 139.701312,35.690872,0 139.701289,35.690869,0 139.701238,35.690841,0 139.701140,35.690831,0 139.701087,35.690813,0 139.701012,35.690807,0 139.700976,35.690804,0 139.700983,35.690751,0 139.700938,35.690746,0 139.700947,35.690687,0 139.700938,35.690746,0 139.700983,35.690751,0 139.700976,35.690804,0 139.701012,35.690807,0 139.701087,35.690813,0 139.701140,35.690831,0 139.701238,35.690841,0 139.701289,35.690869,0 139.701312,35.690872,0 139.701290,35.691019,0 139.701334,35.691018,0 139.701440,35.691028,0 139.701646,35.691047,0 139.701693,35.691051,0 139.701712,35.691053,0 139.701706,35.691099,0 139.701708,35.691123,0 139.701701,35.691176,0 139.701696,35.691211,0 139.701665,35.691208,0 139.701659,35.691208,0 139.701705,35.691225,0 139.701699,35.691269,0 139.701710,35.691308,0 139.701705,35.691344,0 139.701896,35.691315,0 139.702312,35.691251,0 139.702412,35.691236,0 139.702511,35.691216,0 139.702935,35.691159,0
+        </coordinates>
+      </LineString>
+    </Placemark>
     <Folder><name>Marcos da live</name><open>0</open>
+      <Placemark>
+        <name>0:12:05 — Golden Gai</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Golden Gai&lt;/b&gt;&lt;br&gt;A imagem mostra um beco estreito e apertado, com unidades de ar condicionado expostas e paredes de metal corrugado, características típicas da arquitetura de Golden Gai em Shinjuku, Tóquio. Este local é conhecido por seus inúmeros pequenos bares e becos labirínticos. A frase do streamer 'Baka você anda com faca nesses becos?' também reforça a ideia de um local com becos estreitos e potencialmente escondidos, o que é um traço marcante de Golden Gai. A coordenada é uma estimativa central para a área de Golden Gai.</description>
+        <Point>
+          <coordinates>139.7042,35.6942,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:17:05 — 17:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Seibu Shinjuku Ekimae Dori&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.7031,35.694599999999994,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:22:05 — おきなわ ハイサイ酒場 (Okinawa Haisai Sakaba)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai&lt;/b&gt;&lt;br&gt;おきなわ ハイサイ酒場 (Okinawa Haisai Sakaba) • 浜ちゃん (Hamachan)&lt;br&gt;A imagem mostra uma rua estreita com estabelecimentos comerciais típicos de Tóquio, com letreiros em japonês. O estabelecimento 'おきなわ ハイサイ酒場' (Okinawa Haisai Sakaba) e '浜ちゃん' (Hamachan) são visíveis. A arquitetura e o estilo dos letreiros são consistentes com a área de Kabukichō em Shinjuku. A coordenada foi estimada com base na localização desses estabelecimentos na Kabukicho Ichibangai.</description>
+        <Point>
+          <coordinates>139.70261722222222,35.69425555555556,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:27:05 — 武蔵武骨相傳 (Musashi Bukotsu Souden)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai (新宿ゴールデン街)&lt;/b&gt;&lt;br&gt;武蔵武骨相傳 (Musashi Bukotsu Souden) • 焼肉屋 (Yakiniku-ya)&lt;br&gt;A imagem mostra uma rua estreita com edifícios de arquitetura japonesa típica, muitos letreiros em japonês e uma estrutura elevada de trem ou metrô ao fundo, características de Tóquio. O letreiro '武蔵武骨相傳' (Musashi Bukotsu Souden) e a aparência geral dos bares e restaurantes apertados são muito consistentes com a área de Golden Gai em Shinjuku, conhecida por suas vielas e pequenos estabelecimentos. A coordenada estimada corresponde a uma das ruas dentro do complexo de Golden Gai.</description>
+        <Point>
+          <coordinates>139.70344999999998,35.6942,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:32:05 — Beco de Kabukichō (possivelmente Golden Gai)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Beco de Kabukichō (possivelmente Golden Gai)&lt;/b&gt;&lt;br&gt;A imagem mostra um beco estreito e apertado, com fiação exposta e lixo acumulado, características comuns dos becos de Kabukichō, especialmente na área de Golden Gai, conhecida por seus pequenos bares. A placa de 'proibido fumar' em japonês na parede à esquerda reforça a localização no Japão. A sujeira e a desorganização são típicas de áreas de serviço ou fundos de estabelecimentos em regiões movimentadas de Tóquio. A coordenada é uma estimativa para um beco genérico em Golden Gai, Shinjuku.</description>
+        <Point>
+          <coordinates>139.7032,35.6946,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:37:05 — Coca-Cola vending machine</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho Ichibangai&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70232555555555,35.69452111111111,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:42:05 — 新栄会</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificada com certeza, mas é um beco/rua secundária e&lt;/b&gt;&lt;br&gt;新栄会 • とんかつ&lt;br&gt;A imagem mostra um beco estreito típico de áreas comerciais densas no Japão, como Kabukichō em Shinjuku. Os letreiros visíveis '新栄会' (Shin'eikai) e 'とんかつ' (Tonkatsu - um tipo de prato japonês) são escritos em japonês, confirmando a localização. A arquitetura dos edifícios e a presença de cones de trânsito com sinalização japonesa reforçam a identificação. A coordenada é uma estimativa para um beco na área de Kabukichō, Shinjuku, compatível com o deslocamento a pé.</description>
+        <Point>
+          <coordinates>139.7024111111111,35.69406666666667,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:47:05 — とろ一 (Toroichi)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai&lt;/b&gt;&lt;br&gt;とろ一 (Toroichi)&lt;br&gt;A imagem mostra um beco estreito com várias lojas fechadas, toldos vermelhos e lanternas penduradas, características típicas do bairro de Golden Gai em Shinjuku, Tóquio. A placa visível com os caracteres japoneses 'とろ一' (Toroichi) e o número '24' (indicando 24 horas) é de um restaurante de sushi/izakaya que se localiza dentro do Golden Gai. A arquitetura e o ambiente são inconfundíveis com essa área.</description>
+        <Point>
+          <coordinates>139.70274166666667,35.69365,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:52:05 — 52:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70391333333333,35.694653333333335,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:57:05 — Não identificada com clareza</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70273555555553,35.69460888888889,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:02:05 — Não identificável</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.702275,35.694625,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:07:05 — Hanazono Shrine (Santuário Hanazono)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificável diretamente na imagem&lt;/b&gt;&lt;br&gt;Hanazono Shrine (Santuário Hanazono)&lt;br&gt;A imagem mostra claramente a arquitetura de um santuário japonês, com a cor vermelha característica e as lanternas penduradas. A estátua e o estilo do jardim são consistentes com o Hanazono Shrine em Shinjuku, Tóquio. A localização estimada corresponde à área do santuário, que é um ponto conhecido em Kabukichō.</description>
+        <Point>
+          <coordinates>139.703625,35.692625,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:12:05 — Santuário Hanazono Jinja</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70445,35.69466,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:17:05 — 1:17:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku Golden Gai&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.7036498,35.6934608,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:22:05 — Sanrio</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinobazu-dori Ave.&lt;/b&gt;&lt;br&gt;Sanrio • Natural Advance • カラオケ館 (Karaoke Kan) • エスパス (ESPACE)&lt;br&gt;A placa de rua claramente indica 'Shinobazu-dori Ave.' e o número da rota '437'. A loja Sanrio é visível, com personagens como Hello Kitty e Pompompurin, o que se alinha com a frase do streamer 'Ah, tem um pompom pudim ali'. A arquitetura dos edifícios e as placas em japonês confirmam a localização em Tóquio. A coordenada foi estimada no cruzamento da Shinobazu-dori Ave. com a Shinjuku-dori, próximo à loja Sanrio.</description>
+        <Point>
+          <coordinates>139.7054495,35.69042422222222,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:27:05 — Não identificável</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificável com precisão&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.706425125,35.68914919135803,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:32:05 — Não identificável com certeza</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não aplicável (dentro de um complexo de templo)&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70778235025148,35.68850092804281,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:37:05 — Não identificável na imagem</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificável na imagem&lt;/b&gt;&lt;br&gt;A imagem mostra um lago com barcos de pedal em formato de cisne/pato, característicos do Shinjuku Gyoen National Garden ou do Chidorigafuchi Moat, ambos em Tóquio. Dada a menção de Shinjuku/Kabukichō no prompt, e a presença de prédios ao fundo, o Shinjuku Gyoen é uma localização muito provável. A frase do streamer 'É cisne isso? É pato? Sei lá' reforça a presença desses barcos. A coordenada é uma estimativa para a área do lago dentro do Shinjuku Gyoen.</description>
+        <Point>
+          <coordinates>139.7042156902911,35.69185536555375,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:42:05 — Parque Shinjuku Gyoen (próximo ao lago)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Parque Shinjuku Gyoen (próximo ao lago)&lt;/b&gt;&lt;br&gt;A imagem mostra um lago com pedalinhos e uma paisagem urbana ao fundo, incluindo edifícios altos. Esta vista é característica do Parque Shinjuku Gyoen, em Tóquio, especificamente a área do lago. A presença de pedalinhos coloridos é um forte indicativo deste local. A coordenada fornecida aponta para a margem do lago dentro do parque, compatível com o deslocamento a pé.</description>
+        <Point>
+          <coordinates>139.7057706701017,35.69093516748944,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:47:05 — Não identificável, mas dentro do Shinjuku Gyoen National Gar</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificável, mas dentro do Shinjuku Gyoen National Gar&lt;/b&gt;&lt;br&gt;A imagem mostra um lago com pedalinhos e uma passarela de madeira, cercado por vegetação e edifícios ao fundo. Esta paisagem é característica do Shinjuku Gyoen National Garden, um grande parque em Tóquio. A presença dos pedalinhos no lago é um forte indicativo. A coordenada estimada corresponde ao lago dentro do parque.</description>
+        <Point>
+          <coordinates>139.7079991209568,35.68842188991541,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:52:05 — não identificada (caminho dentro do parque)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;não identificada (caminho dentro do parque)&lt;/b&gt;&lt;br&gt;A imagem mostra um lago com pedalinhos e uma passarela para pedestres, cercado por vegetação e edifícios ao fundo. Esta paisagem é característica do Parque Nacional Shinjuku Gyoen, especificamente a área do lago. A presença de pedalinhos coloridos e a arquitetura dos edifícios ao fundo são consistentes com a localização em Tóquio, próximo a Shinjuku. A coordenada é uma estimativa do centro do lago no parque.</description>
+        <Point>
+          <coordinates>139.7046858593764,35.68917316275312,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:57:05 — Não identificável</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Meiji-Jingu&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70297604900912,35.68649054567162,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:02:05 — ココカラファイン (Cocokarafine)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificável diretamente na imagem&lt;/b&gt;&lt;br&gt;ココカラファイン (Cocokarafine)&lt;br&gt;A imagem mostra uma vasta rede de trilhos de trem e fiação aérea, típica de grandes estações ferroviárias no Japão. A frase do streamer 'Olha os trilhos dos trens' corrobora isso. Ao fundo, é possível ver um letreiro vermelho com caracteres japoneses que parecem formar 'ココカラファイン' (Cocokarafine), uma rede de drogarias comum no Japão. A densidade dos trilhos e a arquitetura sugerem a área próxima à Estação Shinjuku, um dos maiores e mais complexos centros ferroviários do mundo, que se encaixa perfeitamente com a descrição de Tóquio (Shinjuku/Kabukichō) e o deslocamento a pé. A coordenada estimad</description>
+        <Point>
+          <coordinates>139.7010810703821,35.68951885939276,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:07:05 — Não identificada</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificável diretamente na imagem&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.69812571389326,35.68973780143896,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:12:05 — Não identificada, provavelmente um caminho dentro de um parq</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Não identificada, provavelmente um caminho dentro de um parq&lt;/b&gt;&lt;br&gt;A imagem mostra um caminho pavimentado em um ambiente verde, com árvores e arbustos, sugerindo um parque ou área verde. Não há estabelecimentos comerciais, placas de rua ou trânsito visíveis para identificar uma rua específica. A coordenada estimada é para o Shinjuku Gyoen National Garden, que é uma grande área verde em Shinjuku, compatível com o cenário e a informação de que o streamer está em Tóquio (Shinjuku/Kabukichō).</description>
+        <Point>
+          <coordinates>139.6931225,35.69030583333333,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:17:05 — Pachinko &amp; Slot ESPACE</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;Pachinko &amp; Slot ESPACE • Sugi Pharmacy (スギ薬局) • TSUTSUMI&lt;br&gt;A imagem mostra um cruzamento movimentado em Tóquio, com a presença de lojas como 'Pachinko &amp; Slot ESPACE' e 'Sugi Pharmacy', ambas com letreiros em japonês. A arquitetura dos edifícios e o tipo de veículos são típicos do Japão. A loja 'TSUTSUMI' também é visível. A localização exata é o cruzamento da Shinjuku-dori com a Meiji-dori, em Shinjuku, próximo à estação de Shinjuku, um local conhecido por suas casas de pachinko e lojas de departamento.</description>
+        <Point>
+          <coordinates>139.70069208984376,35.69163823567709,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:22:05 — Asahi Beer (lanternas)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Golden Gai&lt;/b&gt;&lt;br&gt;Asahi Beer (lanternas) • おなべちゃん (Onabe-chan) • らんだむ (Random)&lt;br&gt;A imagem mostra um beco estreito com arquitetura densa e fiação exposta, característica de áreas como Golden Gai em Shinjuku, Tóquio. As lanternas da Asahi Beer e os letreiros em japonês de estabelecimentos como 'Onabe-chan' e 'Random' confirmam a localização no Japão. A área é conhecida por seus pequenos bares e becos, compatível com o cenário da imagem. A coordenada é uma estimativa central para o Golden Gai.</description>
+        <Point>
+          <coordinates>139.70344999999998,35.6944,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:27:05 — Uniqlo</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori (新宿通り)&lt;/b&gt;&lt;br&gt;Uniqlo • atre&lt;br&gt;A imagem mostra claramente o logotipo da loja 'Uniqlo' em um prédio branco à direita. Ao fundo, sob a estrutura elevada do trem, é possível ver o nome 'atre', que é uma rede de shoppings e estações no Japão. A estrutura elevada é característica das linhas de trem em Shinjuku. A frase do streamer 'A farmácia está aberta já' sugere que há uma farmácia próxima, o que é comum em áreas comerciais movimentadas como Shinjuku-dori. A coordenada estimada corresponde à localização de uma Uniqlo próxima à estação de Shinjuku, na Shinjuku-dori, com a linha de trem elevada ao fundo.</description>
+        <Point>
+          <coordinates>139.7018925,35.6915975,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:32:05 — Wendy's First Kitchen</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Kabukicho&lt;/b&gt;&lt;br&gt;Wendy's First Kitchen&lt;br&gt;A imagem mostra o streamer descendo uma escadaria que leva a uma rua movimentada. À direita, é claramente visível a fachada de um 'Wendy's First Kitchen', uma rede de fast-food comum no Japão. A arquitetura e o tipo de táxi (com a inscrição 'GO') são consistentes com Tóquio. A localização exata corresponde à entrada da estação Seibu-Shinjuku, que fica na área de Kabukicho, conhecida por suas escadarias e estabelecimentos comerciais.</description>
+        <Point>
+          <coordinates>139.703111484375,35.692680390625,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:37:05 — não identificada</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Golden Gai (Shinjuku Golden Street)&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>139.70301864875,35.69305002125,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:42:05 — La Cocorico Shinjuku (ラ・ココリコ 新宿)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Meiji-dori (明治通り)&lt;/b&gt;&lt;br&gt;La Cocorico Shinjuku (ラ・ココリコ 新宿) • Don Quijote Shinjuku Kabukicho (ドン・キホーテ 新宿歌舞伎町店)&lt;br&gt;A imagem mostra a calçada da rua Meiji-dori, com o restaurante La Cocorico Shinjuku claramente visível à esquerda. Do outro lado da rua, é possível identificar a fachada vermelha e branca do Don Quijote Shinjuku Kabukicho. A arquitetura e o estilo da rua são consistentes com a área de Shinjuku, Tóquio. A frase do streamer 'Aqui os caras fecham o beco' pode se referir a alguma das ruas menores ou becos que se conectam à Meiji-dori na região de Kabukichō.</description>
+        <Point>
+          <coordinates>139.70229437916666,35.69392816527778,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:47:05 — Mizuho Bank</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori (新宿通り)&lt;/b&gt;&lt;br&gt;Mizuho Bank • Shinjuku-dori Building&lt;br&gt;A imagem mostra um viaduto de pedestres sobre uma grande avenida, com um cruzamento movimentado. O prédio do Mizuho Bank é claramente visível à direita, e a arquitetura dos edifícios e a sinalização de trânsito são típicas de Tóquio. A localização corresponde ao cruzamento da Shinjuku-dori com a Meiji-dori, uma área conhecida em Shinjuku, Tóquio, com o streamer provavelmente no viaduto de pedestres que conecta a estação Shinjuku com a área comercial.</description>
+        <Point>
+          <coordinates>139.70092910066666,35.69069730644445,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:49:05 — まるか (Maruka)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Shinjuku-dori&lt;/b&gt;&lt;br&gt;まるか (Maruka) • 鳥貴族 (Torikizoku) • CALUNA&lt;br&gt;A imagem mostra a rua molhada, indicando chuva. O letreiro 'まるか' (Maruka) é claramente visível no prédio à direita, e abaixo dele, um restaurante com o nome '鳥貴族' (Torikizoku) pode ser identificado. Há também uma placa luminosa com 'CALUNA'. A arquitetura dos edifícios e as placas em japonês confirmam a localização em Tóquio. A frase do streamer 'Vou entrar junto com um japonês para o trabalho' sugere um ambiente urbano movimentado. A combinação desses elementos, especialmente os nomes dos estabelecimentos, permite a geolocalização precisa na Shinjuku-dori, próximo ao cruzamento com a Meiji-do</description>
+        <Point>
+          <coordinates>139.70295,35.69123,0</coordinates>
+        </Point>
+      </Placemark>
     </Folder>
   </Document>
 </kml>

@@ -1,0 +1,1875 @@
+{
+  "local": "japao",
+  "bairro": "",
+  "inicio": "",
+  "provider": "gemini",
+  "v": 4,
+  "725": {
+    "nome": "Golden Gai",
+    "rua": "Golden Gai",
+    "lat": 35.6942,
+    "lng": 139.7042,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e apertado, com unidades de ar condicionado expostas e paredes de metal corrugado, características típicas da arquitetura de Golden Gai em Shinjuku, Tóquio. Este local é conhecido por seus inúmeros pequenos bares e becos labirínticos. A frase do streamer 'Baka você anda com faca nesses becos?' também reforça a ideia de um local com becos estreitos e potencialmente escondidos, o que é um traço marcante de Golden Gai. A coordenada é uma estimativa central para a área de Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "785": {
+    "nome": "Não identificável",
+    "rua": "Golden Gai",
+    "lat": 35.69428,
+    "lng": 139.70398,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "845": {
+    "nome": "Não identificável com certeza",
+    "rua": "Golden Gai",
+    "lat": 35.69436,
+    "lng": 139.70376,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "905": {
+    "nome": "Não identificável com certeza",
+    "rua": "Golden Gai",
+    "lat": 35.69444,
+    "lng": 139.70353999999998,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "965": {
+    "nome": "Seibu Shinjuku Ekimae Dori",
+    "rua": "Seibu Shinjuku Ekimae Dori",
+    "lat": 35.69452,
+    "lng": 139.70332,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento com uma estrutura elevada, típica de viadutos ou linhas de trem elevadas em Tóquio. A placa rosa ao fundo, embora ilegível, tem o formato e a cor de anúncios imobiliários comuns no Japão. A arquitetura dos edifícios e o estilo das faixas de pedestres são consistentes com Tóquio. A localização foi confirmada como o cruzamento da Seibu Shinjuku Ekimae Dori com a Okubo Dori, próximo à estação Seibu-Shinjuku, uma área movimentada em Shinjuku/Kabukichō, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "1025": {
+    "nome": "17:05",
+    "rua": "Seibu Shinjuku Ekimae Dori",
+    "lat": 35.694599999999994,
+    "lng": 139.7031,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1085": {
+    "nome": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "rua": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "lat": 35.69468,
+    "lng": 139.70288,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e pavimentada com tijolos, típica de becos e ruas secundárias em áreas comerciais do Japão. As placas de sinalização brancas com caracteres japoneses (que indicam 'proibido estacionar' ou 'proibido parar') são comuns em Tóquio, especialmente em Kabukichō. A arquitetura dos edifícios, com várias lojas e letreiros verticais ao fundo, é característica da região. A coordenada estimada corresponde a um beco dentro da área de Kabukicho Ichibangai, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "1145": {
+    "nome": "Bar Golden",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.694653333333335,
+    "lng": 139.70195333333334,
+    "estabelecimentos": [
+      "Bar Golden",
+      "Bar Hanamichi"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com arquitetura típica de Shinjuku Golden Gai, conhecida por seus pequenos bares. É possível ver placas com caracteres japoneses e o estilo das construções é consistente com a área. A presença de um viaduto ao fundo também é característica da região, que possui linhas de trem elevadas. A localização estimada é dentro do labirinto de ruas do Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "1205": {
+    "nome": "20:05",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69425222222222,
+    "lng": 139.7022188888889,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1265": {
+    "nome": "Hoppy",
+    "rua": "Não identificável com certeza",
+    "lat": 35.69385111111111,
+    "lng": 139.70248444444445,
+    "estabelecimentos": [
+      "Hoppy"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com calçada de blocos e uma persiana de loja fechada. Há um adesivo com a palavra 'Hoppy' visível na persiana, que é uma marca de bebida popular no Japão, frequentemente associada a izakayas e bares. A arquitetura e o estilo da calçada são consistentes com áreas urbanas no Japão, como Shinjuku/Kabukichō. A coordenada é uma estimativa para uma rua genérica em Kabukichō, Shinjuku, onde tais estabelecimentos e ambiente são comuns, mas a rua exata não pode ser determinada apenas com esta imagem.",
+    "skip": false,
+    "osint": true
+  },
+  "1325": {
+    "nome": "おきなわ ハイサイ酒場 (Okinawa Haisai Sakaba)",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.69425555555556,
+    "lng": 139.70261722222222,
+    "estabelecimentos": [
+      "おきなわ ハイサイ酒場 (Okinawa Haisai Sakaba)",
+      "浜ちゃん (Hamachan)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com estabelecimentos comerciais típicos de Tóquio, com letreiros em japonês. O estabelecimento 'おきなわ ハイサイ酒場' (Okinawa Haisai Sakaba) e '浜ちゃん' (Hamachan) são visíveis. A arquitetura e o estilo dos letreiros são consistentes com a área de Kabukichō em Shinjuku. A coordenada foi estimada com base na localização desses estabelecimentos na Kabukicho Ichibangai.",
+    "skip": false,
+    "osint": true
+  },
+  "1385": {
+    "nome": "Bar Baka Gaijin (possível referência ao streamer)",
+    "rua": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "lat": 35.694427777777776,
+    "lng": 139.70340861111112,
+    "estabelecimentos": [
+      "Bar Baka Gaijin (possível referência ao streamer)",
+      "Estabelecimento com lanternas japonesas (chouchin) e caracteres japoneses"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e úmida, típica de Kabukichō, Shinjuku, Tóquio. A arquitetura dos edifícios, as placas com caracteres japoneses e as lanternas penduradas são características da região. Embora não haja uma placa de rua explícita, a combinação desses elementos, juntamente com o contexto fornecido de que o streamer está em Shinjuku/Kabukichō, permite identificar a área como Kabukicho Ichibangai, uma das ruas principais do distrito. A coordenada é uma estimativa para o início da rua, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "1445": {
+    "nome": "大江戸",
+    "rua": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "lat": 35.6946,
+    "lng": 139.7042,
+    "estabelecimentos": [
+      "大江戸",
+      "やきとん 80",
+      "浦王",
+      "別",
+      "やきとん"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada, característica das vielas de Kabukichō, Shinjuku. Vários estabelecimentos com letreiros em japonês são visíveis, incluindo '大江戸' (Oedo) e 'やきとん 80' (Yakiton 80), que são bares/restaurantes típicos da área. A arquitetura dos edifícios e a presença de uma estrutura elevada de trem ou metrô ao fundo são consistentes com a região de Golden Gai, conhecida por seus becos e pequenos bares. A coordenada é uma estimativa para o coração de Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "1505": {
+    "nome": "寿司つまさき (Sushi Tsumasaki)",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69466,
+    "lng": 139.70425,
+    "estabelecimentos": [
+      "寿司つまさき (Sushi Tsumasaki)",
+      "レモンサワー (Lemon Sour)",
+      "田舎っぺ (Inakappe)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com arquitetura típica de Tóquio, especialmente da área de Kabukichō/Golden Gai, com muitos letreiros e estabelecimentos pequenos. O letreiro '寿司つまさき' (Sushi Tsumasaki) é claramente visível, e a rua 'Shinjuku Golden Gai' é conhecida por esse tipo de ambiente. A coordenada foi estimada com base na localização do Sushi Tsumasaki dentro do Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "1565": {
+    "nome": "Bar Hopping Tour",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.6938,
+    "lng": 139.7042,
+    "estabelecimentos": [
+      "Bar Hopping Tour",
+      "Golden Gai Bar"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada, com edifícios de arquitetura japonesa típica, muitos com persianas metálicas fechadas, indicando um horário de menor movimento ou estabelecimentos fechados. À direita, há um letreiro vermelho vertical com caracteres japoneses e a frase 'Bar Hopping Tour', que é uma atividade popular na área de Golden Gai. A estrutura elevada ao fundo é um viaduto de trem, característico da região de Shinjuku, próximo ao Golden Gai. A coordenada estimada corresponde a uma das ruas dentro do complexo de Golden Gai, conhecido por seus bares e ruas estreitas.",
+    "skip": false,
+    "osint": true
+  },
+  "1625": {
+    "nome": "武蔵武骨相傳 (Musashi Bukotsu Souden)",
+    "rua": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "lat": 35.6942,
+    "lng": 139.70344999999998,
+    "estabelecimentos": [
+      "武蔵武骨相傳 (Musashi Bukotsu Souden)",
+      "焼肉屋 (Yakiniku-ya)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com edifícios de arquitetura japonesa típica, muitos letreiros em japonês e uma estrutura elevada de trem ou metrô ao fundo, características de Tóquio. O letreiro '武蔵武骨相傳' (Musashi Bukotsu Souden) e a aparência geral dos bares e restaurantes apertados são muito consistentes com a área de Golden Gai em Shinjuku, conhecida por suas vielas e pequenos estabelecimentos. A coordenada estimada corresponde a uma das ruas dentro do complexo de Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "1685": {
+    "nome": "Não identificável com precisão",
+    "rua": "Não identificável com precisão",
+    "lat": 35.694045,
+    "lng": 139.70385,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e sujo, típico de áreas comerciais densas em Tóquio, como Kabukichō em Shinjuku. A presença de unidades externas de ar condicionado empilhadas e a arquitetura dos edifícios são características comuns da região. Embora não haja placas de rua ou nomes de estabelecimentos claramente visíveis, o contexto geral e a informação de que o streamer está em Shinjuku/Kabukichō sugerem um beco secundário na área. A coordenada é uma estimativa para um beco genérico em Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "1745": {
+    "nome": "おとなのおもちゃ (Otona no Omocha - Brinquedos Adultos)",
+    "rua": "Golden Gai G2 Street",
+    "lat": 35.69389,
+    "lng": 139.70425,
+    "estabelecimentos": [
+      "おとなのおもちゃ (Otona no Omocha - Brinquedos Adultos)",
+      "らんたん (Rantan)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e característico da área de Golden Gai em Shinjuku, Tóquio. A placa 'おとなのおもちゃ' (Otona no Omocha) é um forte indicador, pois há um estabelecimento com esse nome na Golden Gai G2 Street. A arquitetura densa, a fiação exposta e a presença de pequenos bares e estabelecimentos apertados são típicos dessa região. A coordenada estimada corresponde a um ponto dentro da Golden Gai G2 Street, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "1805": {
+    "nome": "らんたん (Rantan)",
+    "rua": "Golden Gai G2 Street",
+    "lat": 35.6942,
+    "lng": 139.70425,
+    "estabelecimentos": [
+      "らんたん (Rantan)",
+      "おとなのおもちゃ (Otona no Omocha - Sex Shop)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico da área de Golden Gai em Shinjuku, Tóquio. É possível identificar o nome 'らんたん' (Rantan) em uma placa, que é um bar conhecido na região. Mais adiante, há uma placa vermelha com 'おとなのおもちゃ' (Otona no Omocha), indicando um sex shop, comum em Kabukichō. A arquitetura densa, a fiação exposta e a presença de bares pequenos confirmam a localização em Golden Gai, especificamente na Golden Gai G2 Street, um dos becos mais estreitos e característicos.",
+    "skip": false,
+    "osint": true
+  },
+  "1865": {
+    "nome": "Golden Gai",
+    "rua": "Golden Gai",
+    "lat": 35.6944,
+    "lng": 139.70372500000002,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e apertado, repleto de unidades externas de ar condicionado empilhadas e lixo, uma característica comum dos becos de serviço e passagens secundárias na área de Golden Gai em Shinjuku. A arquitetura densa e a desordem são típicas dessa região, conhecida por seus pequenos bares e ruas labirínticas. A localização estimada é um beco dentro de Golden Gai, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "1925": {
+    "nome": "Beco de Kabukichō (possivelmente Golden Gai)",
+    "rua": "Beco de Kabukichō (possivelmente Golden Gai)",
+    "lat": 35.6946,
+    "lng": 139.7032,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e apertado, com fiação exposta e lixo acumulado, características comuns dos becos de Kabukichō, especialmente na área de Golden Gai, conhecida por seus pequenos bares. A placa de 'proibido fumar' em japonês na parede à esquerda reforça a localização no Japão. A sujeira e a desorganização são típicas de áreas de serviço ou fundos de estabelecimentos em regiões movimentadas de Tóquio. A coordenada é uma estimativa para um beco genérico em Golden Gai, Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "1985": {
+    "nome": "Kabukicho",
+    "rua": "Kabukicho",
+    "lat": 35.694607500000004,
+    "lng": 139.7022225,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com grafites nas paredes e persianas metálicas fechadas em um dos lados, características comuns de ruelas secundárias em Kabukichō, Shinjuku. As lanternas japonesas penduradas na fachada do estabelecimento à direita reforçam a localização no Japão. A menção do streamer estar em Shinjuku/Kabukichō corrobora a análise visual. A coordenada estimada é para um beco típico na área.",
+    "skip": false,
+    "osint": true
+  },
+  "2045": {
+    "nome": "GAME",
+    "rua": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "lat": 35.694615,
+    "lng": 139.70124500000003,
+    "estabelecimentos": [
+      "GAME",
+      "Estabelecimentos com letreiros em japonês (não legíveis)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A arquitetura estreita das ruas, os letreiros em japonês e a menção de Shinjuku/Kabukichō no prompt são fortes indicadores de Tóquio. A frase do streamer 'Então sinta-se privilegiado de poder ver esta rua wide' sugere uma rua normalmente estreita, o que é característico de Golden Gai. A loja 'GAME' com a fachada vermelha é um ponto de referência conhecido na área, embora a rua principal seja mais conhecida pelos bares. A coordenada é uma estimativa para o início de Golden Gai, compatível com um deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "2105": {
+    "nome": "Omoide Yokocho (横丁 思い出)",
+    "rua": "Omoide Yokocho (横丁 思い出)",
+    "lat": 35.6944075,
+    "lng": 139.7019725,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com barracas de comida e pequenos estabelecimentos, muitos deles fechados ou cobertos por lonas azuis, o que é uma característica marcante de Omoide Yokocho (também conhecido como Piss Alley) em Shinjuku. A arquitetura e o estilo das lojas são consistentes com essa área. A frase 'Prega funk' não oferece contexto geográfico, mas a imagem é inconfundível para quem conhece a região.",
+    "skip": false,
+    "osint": true
+  },
+  "2165": {
+    "nome": "SOUVENIR",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.69448166666666,
+    "lng": 139.70113833333335,
+    "estabelecimentos": [
+      "SOUVENIR",
+      "CRAFT BEER",
+      "天天鮮果 (Tiāntiān Xiāngguǒ - Frutas Frescas Diárias)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com estabelecimentos comerciais fechados, cobertos por lonas azuis, e cones de trânsito. É possível identificar as palavras 'SOUVENIR' e 'CRAFT BEER' em inglês, e caracteres japoneses que parecem ser '天天鮮果' (Tiāntiān Xiāngguǒ), indicando uma loja de frutas. A arquitetura e os caracteres são consistentes com Tóquio. A área de Kabukichō Ichibangai é conhecida por ter muitas lojas e barracas de rua que fecham dessa forma, especialmente durante a manhã ou em dias de chuva. A coordenada é uma estimativa para o início da rua Kabukicho Ichibangai, compatível com o contexto de ",
+    "skip": false,
+    "osint": true
+  },
+  "2225": {
+    "nome": "Coca-Cola vending machine",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.69452111111111,
+    "lng": 139.70232555555555,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2285": {
+    "nome": "Omoide Yokocho (横丁 思い出)",
+    "rua": "Omoide Yokocho (横丁 思い出)",
+    "lat": 35.694560555555555,
+    "lng": 139.70351277777777,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com barracas de comida e pequenos estabelecimentos de ambos os lados, característico de um 'yokocho' japonês. A arquitetura e o ambiente úmido são consistentes com Omoide Yokocho, também conhecido como 'Piss Alley', em Shinjuku, Tóquio. A estrutura do prédio alto e moderno ao fundo à direita, contrastando com as pequenas lojas, é um forte indicativo da área, que fica próxima à Estação Shinjuku. Embora não haja nomes de lojas legíveis, o estilo é inconfundível.",
+    "skip": false,
+    "osint": true
+  },
+  "2345": {
+    "nome": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "rua": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "lat": 35.6946,
+    "lng": 139.7047,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A arquitetura estreita das ruas, as fachadas dos edifícios com persianas metálicas fechadas e os toldos coloridos são características distintivas da área de Golden Gai em Shinjuku. Embora não haja nomes de estabelecimentos claramente visíveis, o estilo da rua e a presença de um pedestre com guarda-chuva em um dia chuvoso são consistentes com a atmosfera de Golden Gai, conhecida por seus pequenos bares e becos estreitos. A menção de Shinjuku/Kabukichō no prompt reforça essa localização, já que Golden Gai está dentro dessa área.",
+    "skip": false,
+    "osint": true
+  },
+  "2405": {
+    "nome": "鳥よ (Toriyo)",
+    "rua": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "lat": 35.6946,
+    "lng": 139.7037,
+    "estabelecimentos": [
+      "鳥よ (Toriyo)",
+      "GAME",
+      "TAX FREE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com vários estabelecimentos comerciais típicos de Tóquio, com letreiros em japonês. O estabelecimento '鳥よ (Toriyo)' é um conhecido izakaya (bar japonês) localizado na área de Golden Gai, em Shinjuku. A arquitetura dos edifícios e a presença de cones de trânsito e barreiras são consistentes com as ruas movimentadas e estreitas dessa região. A placa 'TAX FREE' também é comum em áreas turísticas de Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "2465": {
+    "nome": "Máquina de Vendas DyDo",
+    "rua": "Não identificável com certeza",
+    "lat": 35.6946,
+    "lng": 139.7027,
+    "estabelecimentos": [
+      "Máquina de Vendas DyDo",
+      "とんかつ (Tonkatsu - restaurante de porco empanado)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de áreas comerciais densas no Japão, com cones de trânsito e sinalização em japonês (incluindo '禁煙' - Proibido Fumar). A máquina de vendas da marca DyDo é comum no Japão. A placa 'とんかつ' (Tonkatsu) indica a presença de um restaurante. A arquitetura dos edifícios e a sujeira no chão são consistentes com becos de Kabukichō, Shinjuku. A coordenada é uma estimativa para um beco genérico na área de Kabukichō, dado que a rua exata não pode ser identificada.",
+    "skip": false,
+    "osint": true
+  },
+  "2525": {
+    "nome": "新栄会",
+    "rua": "Não identificada com certeza, mas é um beco/rua secundária e",
+    "lat": 35.69406666666667,
+    "lng": 139.7024111111111,
+    "estabelecimentos": [
+      "新栄会",
+      "とんかつ"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de áreas comerciais densas no Japão, como Kabukichō em Shinjuku. Os letreiros visíveis '新栄会' (Shin'eikai) e 'とんかつ' (Tonkatsu - um tipo de prato japonês) são escritos em japonês, confirmando a localização. A arquitetura dos edifícios e a presença de cones de trânsito com sinalização japonesa reforçam a identificação. A coordenada é uma estimativa para um beco na área de Kabukichō, Shinjuku, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "2585": {
+    "nome": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "rua": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "lat": 35.693533333333335,
+    "lng": 139.70212222222221,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A arquitetura e os sinais visíveis ao fundo, embora parcialmente obscurecidos, são consistentes com a área de Kabukichō, em Shinjuku, Tóquio. A entrada de Kabukicho Ichibangai, com seus arcos e estilo de construção, é reconhecível. A iluminação e os elementos de sinalização são típicos da região, confirmando o contexto de Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "2645": {
+    "nome": "44:05",
+    "rua": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "lat": 35.693355555555556,
+    "lng": 139.70234259259257,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2705": {
+    "nome": "Golden Gai",
+    "rua": "Golden Gai",
+    "lat": 35.69317777777778,
+    "lng": 139.70256296296296,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com lixeiras e uma arquitetura típica de Golden Gai, uma área conhecida por seus pequenos bares e ruas apertadas em Shinjuku, Tóquio. A placa vermelha com um desenho de peixe e a frase 'É um peixe de gravata?' dita pelo streamer, juntamente com o contexto de Kabukichō, reforçam a localização em Golden Gai. A coordenada aproximada foi estimada para o centro de Golden Gai, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "2765": {
+    "nome": "Izakaya (lanternas vermelhas e brancas com escrita japonesa)",
+    "rua": "Shinjuku-dori (possível)",
+    "lat": 35.693,
+    "lng": 139.70278333333334,
+    "estabelecimentos": [
+      "Izakaya (lanternas vermelhas e brancas com escrita japonesa)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua típica de Tóquio, com arquitetura moderna e edifícios comerciais. As lanternas vermelhas e brancas com escrita japonesa são características de izakayas ou outros estabelecimentos de comida. A presença de uma faixa de pedestres e um semáforo indica um cruzamento. A localização em Shinjuku/Kabukichō é consistente com a arquitetura e o tipo de estabelecimentos. A coordenada é uma estimativa aproximada dentro da área de Shinjuku, considerando um deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "2825": {
+    "nome": "とろ一 (Toroichi)",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69365,
+    "lng": 139.70274166666667,
+    "estabelecimentos": [
+      "とろ一 (Toroichi)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com várias lojas fechadas, toldos vermelhos e lanternas penduradas, características típicas do bairro de Golden Gai em Shinjuku, Tóquio. A placa visível com os caracteres japoneses 'とろ一' (Toroichi) e o número '24' (indicando 24 horas) é de um restaurante de sushi/izakaya que se localiza dentro do Golden Gai. A arquitetura e o ambiente são inconfundíveis com essa área.",
+    "skip": false,
+    "osint": true
+  },
+  "2885": {
+    "nome": "POKKA SAPPORO (máquina de venda automática)",
+    "rua": "Kabukicho",
+    "lat": 35.694165,
+    "lng": 139.70368083333335,
+    "estabelecimentos": [
+      "POKKA SAPPORO (máquina de venda automática)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma máquina de venda automática da marca POKKA SAPPORO, comum no Japão. A arquitetura de madeira ao lado e a presença de uma máquina de venda automática na rua são características típicas de Tóquio, especialmente em áreas movimentadas como Kabukichō. Embora não haja placas de rua visíveis, a máquina de venda automática é um forte indicador do ambiente urbano japonês. A coordenada é uma estimativa para a área de Kabukichō, Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "2945": {
+    "nome": "Cafe DANKE",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69468,
+    "lng": 139.70462,
+    "estabelecimentos": [
+      "Cafe DANKE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer em uma rua estreita com placas em japonês e o nome 'Cafe DANKE' visível. O estilo arquitetônico e a presença de cafés pequenos são característicos da área de Golden Gai em Shinjuku, Tóquio. A localização estimada é baseada na identificação do Cafe DANKE, que possui várias unidades, mas o contexto de rua estreita e o ambiente noturno sugerem a área de Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "3005": {
+    "nome": "50:05",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69467111111111,
+    "lng": 139.70438444444446,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3065": {
+    "nome": "51:05",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69466222222222,
+    "lng": 139.70414888888888,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3125": {
+    "nome": "52:05",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.694653333333335,
+    "lng": 139.70391333333333,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3185": {
+    "nome": "53:05",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69464444444444,
+    "lng": 139.70367777777778,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3245": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69463555555556,
+    "lng": 139.7034422222222,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3305": {
+    "nome": "Não identificada",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.694626666666665,
+    "lng": 139.70320666666666,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3365": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69461777777778,
+    "lng": 139.7029711111111,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3425": {
+    "nome": "Não identificada com clareza",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69460888888889,
+    "lng": 139.70273555555553,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3485": {
+    "nome": "Máquinas de venda automática (vending machines)",
+    "rua": "Não identificável com precisão",
+    "lat": 35.6946,
+    "lng": 139.7025,
+    "estabelecimentos": [
+      "Máquinas de venda automática (vending machines)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de áreas urbanas densas no Japão, com múltiplas máquinas de venda automática de bebidas, comuns em Tóquio. A arquitetura dos edifícios e a fiação exposta são características da região de Shinjuku/Kabukichō. Embora o nome exato da rua não seja visível, a localização estimada é um beco próximo à Shinjuku Golden Gai, uma área conhecida por seus becos e bares pequenos.",
+    "skip": false,
+    "osint": true
+  },
+  "3545": {
+    "nome": "Gift from KOBE",
+    "rua": "Kabukicho",
+    "lat": 35.69462,
+    "lng": 139.7028,
+    "estabelecimentos": [
+      "Gift from KOBE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer em uma área externa, com uma placa visível que diz 'Gift from KOBE' e 'Butter blend coffee'. Embora a rua exata não seja claramente visível, a menção de 'Kobe' em um contexto de café é comum em Tóquio, especialmente em áreas movimentadas como Kabukichō, Shinjuku. A arquitetura e a iluminação sugerem uma área comercial urbana no Japão. A coordenada é uma estimativa para a área de Kabukichō, Shinjuku, onde o streamer mencionou estar.",
+    "skip": false,
+    "osint": true
+  },
+  "3605": {
+    "nome": "Não identificada",
+    "rua": "Kabukicho",
+    "lat": 35.69461,
+    "lng": 139.70265,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3665": {
+    "nome": "Danke Original Coffee",
+    "rua": "Kabukicho",
+    "lat": 35.6946,
+    "lng": 139.7025,
+    "estabelecimentos": [
+      "Danke Original Coffee"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer em uma rua com grafites na parede à esquerda e um cartaz de café à direita. O cartaz exibe 'DANKE Original' e caracteres japoneses, indicando um café ou loja de café. A arquitetura e os caracteres japoneses são consistentes com Tóquio, especificamente a área de Shinjuku/Kabukichō, onde o streamer mencionou estar. A coordenada é uma estimativa aproximada de um ponto na rua Kabukicho, compatível com o contexto de um passeio a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "3725": {
+    "nome": "Não identificável",
+    "rua": "Kabukicho",
+    "lat": 35.694625,
+    "lng": 139.702275,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3785": {
+    "nome": "SECOM",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.69465,
+    "lng": 139.70205,
+    "estabelecimentos": [
+      "SECOM",
+      "第二木OS部",
+      "本部"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com estabelecimentos comerciais fechados e pichações nas portas de metal, características comuns em becos e ruas secundárias de Kabukichō, Shinjuku. A placa 'SECOM' é uma empresa de segurança japonesa e a sinalização em japonês '第二木OS部 本部' (Daini Ki OS-bu Honbu) indica um escritório ou sede. A arquitetura e o ambiente geral são consistentes com as ruas de Shinjuku, especialmente na área de Kabukichō, conhecida por suas vielas e estabelecimentos noturnos. A coordenada é uma estimativa para um beco na Kabukicho Ichibangai, que se encaixa na descrição.",
+    "skip": false,
+    "osint": true
+  },
+  "3845": {
+    "nome": "Não identificável, mas é a entrada de um templo/santuário",
+    "rua": "Não identificável, mas é a entrada de um templo/santuário",
+    "lat": 35.6946,
+    "lng": 139.7029,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma escadaria com corrimãos vermelhos, típica de templos e santuários japoneses. Há uma faixa vertical com escrita japonesa que menciona '彼岸法要' (Higan Hōyō), um serviço budista realizado durante os equinócios, e '秋分の日' (Shūbun no Hi), o Dia do Equinócio de Outono. A arquitetura e a sinalização são consistentes com um templo em Tóquio. A localização estimada é a entrada do Santuário Hanazono Jinja, que possui uma escadaria semelhante e está localizado em Shinjuku, área mencionada no contexto.",
+    "skip": false,
+    "osint": true
+  },
+  "3905": {
+    "nome": "大摩利天 (Daimariten)",
+    "rua": "não identificada",
+    "lat": 35.694075,
+    "lng": 139.703475,
+    "estabelecimentos": [
+      "大摩利天 (Daimariten)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma entrada com arquitetura tradicional japonesa, incluindo um portão vermelho e um jardim. Um banner vertical vermelho com caracteres japoneses '大摩利天' (Daimariten) está visível, indicando um estabelecimento. Embora a rua exata não seja identificável, a arquitetura e o contexto da live em Shinjuku/Kabukichō sugerem uma área com becos e estabelecimentos tradicionais. A coordenada é uma estimativa para uma área com características semelhantes em Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "3965": {
+    "nome": "現金問屋 二木の菓子 (Nikino Kashi - Atacadista de Doces)",
+    "rua": "Kabukicho",
+    "lat": 35.69355,
+    "lng": 139.70405,
+    "estabelecimentos": [
+      "現金問屋 二木の菓子 (Nikino Kashi - Atacadista de Doces)",
+      "天龍寺 (Tenryu-ji)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um pequeno santuário com muitas lanternas e uma bandeira vermelha com caracteres japoneses, típico de templos ou santuários no Japão. Ao fundo, é visível uma grande placa vermelha com os dizeres '現金問屋 二木の菓子' (Nikino Kashi - Atacadista de Doces), que é uma loja conhecida em Tóquio. A presença do santuário Tenryu-ji e da loja Nikino Kashi, juntamente com a arquitetura e a vegetação, confirmam a localização em Kabukicho, Shinjuku, Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "4025": {
+    "nome": "Hanazono Shrine (Santuário Hanazono)",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.692625,
+    "lng": 139.703625,
+    "estabelecimentos": [
+      "Hanazono Shrine (Santuário Hanazono)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente a arquitetura de um santuário japonês, com a cor vermelha característica e as lanternas penduradas. A estátua e o estilo do jardim são consistentes com o Hanazono Shrine em Shinjuku, Tóquio. A localização estimada corresponde à área do santuário, que é um ponto conhecido em Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "4085": {
+    "nome": "Não identificável com certeza, mas provavelmente dentro ou n",
+    "rua": "Não identificável com certeza, mas provavelmente dentro ou n",
+    "lat": 35.69336666666667,
+    "lng": 139.70326666666665,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma máquina de venda automática típica do Japão e, mais proeminente, uma área com inúmeros 'omikuji' (fortunas em papel) amarrados, o que é uma prática comum em santuários xintoístas e templos budistas. A parte superior da placa à esquerda parece ter caracteres japoneses que remetem a um parque ou jardim (園). Considerando o contexto de Shinjuku/Kabukichō, o Santuário Hanazono Jinja é um local provável com essas características. A coordenada é uma estimativa para o Santuário Hanazono Jinja.",
+    "skip": false,
+    "osint": true
+  },
+  "4145": {
+    "nome": "Templo Sensoji",
+    "rua": "Não identificável com certeza, mas provavelmente dentro ou n",
+    "lat": 35.693797777777775,
+    "lng": 139.70360444444444,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4205": {
+    "nome": "Karaoke no Tetsujin",
+    "rua": "Kabukicho Ichibangai (entrada de um beco lateral)",
+    "lat": 35.69422888888889,
+    "lng": 139.70394222222222,
+    "estabelecimentos": [
+      "Karaoke no Tetsujin",
+      "Don Quijote (possível, pela placa azul e branca)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma entrada de escadas que leva a uma rua com estabelecimentos comerciais típicos de Kabukichō, Shinjuku. As lanternas vermelhas e a arquitetura tradicional japonesa, junto com os letreiros em japonês, confirmam a localização. O número de telefone '3623-2011' visível em um dos estabelecimentos é um prefixo de Tóquio. A presença de um possível Don Quijote e Karaoke no Tetsujin são marcadores comuns na área de Kabukichō. A coordenada é uma estimativa para a entrada de um dos muitos becos e vielas que levam à rua principal Kabukicho Ichibangai.",
+    "skip": false,
+    "osint": true
+  },
+  "4265": {
+    "nome": "Marishiten Tokudaiji Temple (摩利支天 徳大寺)",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69466,
+    "lng": 139.70428,
+    "estabelecimentos": [
+      "Marishiten Tokudaiji Temple (摩利支天 徳大寺)",
+      "TOKYO SHOES",
+      "MIKI NO KASHI (三木の菓子)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente a entrada do Templo Marishiten Tokudaiji (摩利支天 徳大寺), um marco conhecido em Kabukichō, Shinjuku. A rua estreita com lojas ao redor, incluindo 'TOKYO SHOES' e 'MIKI NO KASHI', é característica da área de Golden Gai, adjacente ao templo. A arquitetura e os caracteres japoneses confirmam a localização em Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "4325": {
+    "nome": "Santuário Hanazono Jinja",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69466,
+    "lng": 139.70445,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4385": {
+    "nome": "Shinjuku Golden Gai",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69466,
+    "lng": 139.70462,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com estabelecimentos de portas fechadas (provavelmente bares ou pequenos restaurantes, característicos do Golden Gai), com uma estrutura elevada de viaduto ou linha de trem acima. A arquitetura e o ambiente são muito consistentes com a área de Shinjuku Golden Gai, conhecida por suas vielas e pequenos bares. A frase do streamer 'Nossa, tem um donkey mesmo aqui, é verdade' pode se referir a um 'Don Quijote' (Donki), uma rede de lojas de departamento japonesa, que tem uma unidade próxima ao Golden Gai, reforçando a localização em Kabukichō/Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "4445": {
+    "nome": "Popcorn Factory",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69468,
+    "lng": 139.70423,
+    "estabelecimentos": [
+      "Popcorn Factory"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com persianas de metal verdes e cinzas, típicas das vielas de bares e restaurantes em Golden Gai, Shinjuku. O letreiro 'Popcorn Factory' é visível à esquerda, e a arquitetura geral, incluindo as máquinas de venda automática e a pessoa com guarda-chuva, é consistente com a área de Kabukichō, Tóquio. A coordenada aponta para o coração de Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "4505": {
+    "nome": "上野中央商店街 (Ueno Chuo Shotengai - Galeria Comercial Central de ",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.6942736,
+    "lng": 139.7040366,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4565": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.6938672,
+    "lng": 139.7038432,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4625": {
+    "nome": "1:17:05",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.6934608,
+    "lng": 139.7036498,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4685": {
+    "nome": "Não identificável com certeza, mas provavelmente uma rua sec",
+    "rua": "Não identificável com certeza, mas provavelmente uma rua sec",
+    "lat": 35.6930544,
+    "lng": 139.7034564,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de rua com barracas ou pequenos estabelecimentos comerciais, característicos de mercados ou áreas de comércio popular. Os cartazes com pratos de comida e preços em ienes (¥) indicam claramente o Japão. A arquitetura e o estilo das barracas são consistentes com áreas como Kabukichō em Shinjuku, Tóquio, que possui muitos becos e ruas secundárias com esse tipo de comércio. A coordenada é uma estimativa para uma área de comércio em Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "4745": {
+    "nome": "ABC-MART",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.692648000000005,
+    "lng": 139.703263,
+    "estabelecimentos": [
+      "ABC-MART",
+      "FamilyMart"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com edifícios comerciais típicos de Tóquio, com placas em japonês. É possível identificar claramente a loja 'ABC-MART' e um 'FamilyMart' ao fundo. A arquitetura e o estilo da rua, com a presença de vans de entrega e sinalização de trânsito japonesa (sinal de 'Pare' no chão), são consistentes com a área de Shinjuku Golden Gai, conhecida por suas ruas estreitas e bares. A coordenada estimada corresponde a essa área.",
+    "skip": false,
+    "osint": true
+  },
+  "4805": {
+    "nome": "FamilyMart",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69190674074074,
+    "lng": 139.70399183333333,
+    "estabelecimentos": [
+      "FamilyMart",
+      "Sukiya",
+      "Matsuya"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com faixas de pedestres e edifícios comerciais típicos de Tóquio. Os estabelecimentos visíveis, como FamilyMart, Sukiya e Matsuya, são redes de lojas de conveniência e restaurantes de fast-food muito comuns no Japão. A arquitetura dos prédios e a sinalização de trânsito também são consistentes com a região de Shinjuku, Tóquio. A coordenada estimada corresponde a um trecho da Shinjuku-dori, uma das principais ruas da área, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "4865": {
+    "nome": "1:21:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69116548148148,
+    "lng": 139.70472066666667,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4925": {
+    "nome": "Sanrio",
+    "rua": "Shinobazu-dori Ave.",
+    "lat": 35.69042422222222,
+    "lng": 139.7054495,
+    "estabelecimentos": [
+      "Sanrio",
+      "Natural Advance",
+      "カラオケ館 (Karaoke Kan)",
+      "エスパス (ESPACE)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A placa de rua claramente indica 'Shinobazu-dori Ave.' e o número da rota '437'. A loja Sanrio é visível, com personagens como Hello Kitty e Pompompurin, o que se alinha com a frase do streamer 'Ah, tem um pompom pudim ali'. A arquitetura dos edifícios e as placas em japonês confirmam a localização em Tóquio. A coordenada foi estimada no cruzamento da Shinobazu-dori Ave. com a Shinjuku-dori, próximo à loja Sanrio.",
+    "skip": false,
+    "osint": true
+  },
+  "4985": {
+    "nome": "マツモトキヨシ (Matsumoto Kiyoshi)",
+    "rua": "Shinobazu-dori Ave.",
+    "lat": 35.69002858024692,
+    "lng": 139.70548097222223,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "5045": {
+    "nome": "HOTEL",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.68963293827161,
+    "lng": 139.70551244444445,
+    "estabelecimentos": [
+      "HOTEL",
+      "ルノアール (Renoir)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de rua movimentado, com pedestres usando guarda-chuvas, indicando chuva. A placa vertical 'HOTEL' e o letreiro 'ルノアール' (Renoir, uma conhecida rede de cafeterias japonesa) são visíveis. A arquitetura moderna e a presença de árvores densas ao fundo são consistentes com áreas urbanas de Tóquio. A localização estimada é na Meiji-dori, próximo à estação de Shinjuku, onde há um Hotel e um Café Renoir, e a frase do streamer sobre 'ver o rio' pode se referir ao rio Kanda, que corre próximo a essa área.",
+    "skip": false,
+    "osint": true
+  },
+  "5105": {
+    "nome": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.68901917283951,
+    "lng": 139.70604744444444,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um caminho pavimentado em um parque, com vegetação densa, um lago com plantas aquáticas (provavelmente lótus) e, ao fundo, uma estrutura que lembra um templo japonês ou um edifício tradicional dentro de um jardim. A presença de pessoas com guarda-chuvas indica chuva. A arquitetura ao fundo e a vegetação são consistentes com o Shinjuku Gyoen National Garden em Tóquio. A coordenada estimada é para uma área dentro do parque, próxima ao lago e a edifícios tradicionais.",
+    "skip": false,
+    "osint": true
+  },
+  "5165": {
+    "nome": "Não identificável com precisão",
+    "rua": "Não identificável com precisão",
+    "lat": 35.68840540740741,
+    "lng": 139.70658244444445,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o Shinjuku Central Park e o Edifício Park Hyatt Tokyo ao fundo, com um pagode tradicional japonês (possivelmente o Shinjuku Junisha Kumano Shrine) em primeiro plano à direita. A arquitetura dos edifícios e o pagode são característicos de Tóquio, especificamente da área de Shinjuku. A coordenada é uma estimativa do ponto de vista do parque, olhando para o Park Hyatt Tokyo e o pagode.",
+    "skip": false,
+    "osint": true
+  },
+  "5225": {
+    "nome": "Não identificável",
+    "rua": "Não identificável com precisão",
+    "lat": 35.68914919135803,
+    "lng": 139.706425125,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "5285": {
+    "nome": "Shinjuku Gyoen National Garden",
+    "rua": "Shinjuku Gyoen National Garden",
+    "lat": 35.68989297530864,
+    "lng": 139.70626780555557,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área verde com um lago ou corpo d'água com plantas aquáticas (provavelmente lótus) à esquerda, e uma passarela/estrada à direita. A arquitetura ao fundo, embora embaçada, sugere edifícios modernos. A descrição da live como sendo em Shinjuku/Kabukichō, Tóquio, e a presença de um grande parque com essas características, aponta para o Shinjuku Gyoen National Garden, especificamente a área próxima ao lago. A coordenada estimada corresponde a uma passarela dentro do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "5345": {
+    "nome": "1:29:05",
+    "rua": "Shinjuku Gyoen National Garden",
+    "lat": 35.6894380734644,
+    "lng": 139.70683086419754,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "5405": {
+    "nome": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.68898317162017,
+    "lng": 139.70739392283951,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de parque com árvores, vegetação aquática (possivelmente lótus), pessoas com guarda-chuvas e um caminho pavimentado. A arquitetura de fundo é mínima e parece ser de estruturas de parque. A descrição inicial menciona que o streamer está em Tóquio (Shinjuku/Kabukichō). O Shinjuku Gyoen National Garden é um grande parque nessa área, conhecido por sua beleza natural e caminhos. A frase do streamer 'Caralho, isso aqui que é fitinhos, rapaziada' sugere um ambiente de lazer e natureza. A coordenada estimada aponta para uma área central dentro do Shinjuku Gyoen National Gar",
+    "skip": false,
+    "osint": true
+  },
+  "5465": {
+    "nome": "Santuário Hanazono Jinja (parte do complexo)",
+    "rua": "Não aplicável (dentro de um complexo de templo)",
+    "lat": 35.688528269775944,
+    "lng": 139.7079569814815,
+    "estabelecimentos": [
+      "Santuário Hanazono Jinja (parte do complexo)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um caminho dentro de um complexo de templo japonês, com arquitetura tradicional (telhados curvos, lanternas penduradas) e barracas de rua típicas de eventos ou mercados em templos. A presença de um prédio alto moderno ao fundo, contrastando com a arquitetura tradicional, é característica da área de Shinjuku, Tóquio. A frase do streamer 'O cabra tá apreciando a natureza' e o ambiente verde corroboram a localização em um santuário. A coordenada corresponde à entrada do Santuário Hanazono Jinja, que se encaixa perfeitamente na descrição e no contexto de Shinjuku/Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "5525": {
+    "nome": "Não identificável com certeza",
+    "rua": "Não aplicável (dentro de um complexo de templo)",
+    "lat": 35.68850092804281,
+    "lng": 139.70778235025148,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "5585": {
+    "nome": "Shinjuku Gyoen National Garden",
+    "rua": "Shinjuku Gyoen National Garden",
+    "lat": 35.68847358630967,
+    "lng": 139.7076077190215,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um grande lago com plantas aquáticas (provavelmente lótus), característico do Shinjuku Gyoen National Garden em Tóquio. Ao fundo, é possível ver edifícios altos e uma estrutura que se assemelha a uma entrada de parque ou estação de trem, consistente com a área ao redor do jardim. A vegetação exuberante e a presença de água confirmam a localização em um parque ou jardim botânico.",
+    "skip": false,
+    "osint": true
+  },
+  "5645": {
+    "nome": "Entrada do Parque Shinjuku Gyoen",
+    "rua": "Não identificada, mas é uma entrada de parque",
+    "lat": 35.68844624457653,
+    "lng": 139.70743308779151,
+    "estabelecimentos": [
+      "Entrada do Parque Shinjuku Gyoen"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma entrada de parque com uma bilheteria e máquinas de venda automática. A arquitetura e os sinais em japonês indicam o Japão. A pesquisa por 'Shinjuku Gyoen National Garden' revela uma entrada semelhante, especificamente a entrada Okido Gate, que corresponde à estrutura e ao ambiente. A coordenada é aproximada da entrada do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "5705": {
+    "nome": "1:35:05",
+    "rua": "Não identificada, mas é uma entrada de parque",
+    "lat": 35.6897490633344,
+    "lng": 139.70641777339586,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "5765": {
+    "nome": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.691051882092275,
+    "lng": 139.70540245900017,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com barcos de pedal e edifícios altos ao fundo, característicos da paisagem urbana de Tóquio. A presença de um caminho de terra batida e vegetação exuberante, juntamente com os barcos de pedal, sugere fortemente que o streamer está dentro de um parque com um lago. O Shinjuku Gyoen National Garden, localizado em Shinjuku, Tóquio, possui um lago com barcos de pedal e oferece vistas para os arranha-céus da cidade, o que se alinha perfeitamente com a imagem. A coordenada é uma estimativa do centro do lago no parque.",
+    "skip": false,
+    "osint": true
+  },
+  "5825": {
+    "nome": "Não identificável na imagem",
+    "rua": "Não identificável na imagem",
+    "lat": 35.69185536555375,
+    "lng": 139.7042156902911,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com barcos de pedal em formato de cisne/pato, característicos do Shinjuku Gyoen National Garden ou do Chidorigafuchi Moat, ambos em Tóquio. Dada a menção de Shinjuku/Kabukichō no prompt, e a presença de prédios ao fundo, o Shinjuku Gyoen é uma localização muito provável. A frase do streamer 'É cisne isso? É pato? Sei lá' reforça a presença desses barcos. A coordenada é uma estimativa para a área do lago dentro do Shinjuku Gyoen.",
+    "skip": false,
+    "osint": true
+  },
+  "5885": {
+    "nome": "não identificável diretamente, mas adjacente ao Parque Shinj",
+    "rua": "não identificável diretamente, mas adjacente ao Parque Shinj",
+    "lat": 35.69307526967822,
+    "lng": 139.70343641286104,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com barcos de pedal coloridos (alguns submersos), característicos do Shinjuku Gyoen National Garden. Os edifícios ao fundo e a vegetação são consistentes com a paisagem urbana de Tóquio, especificamente a área de Shinjuku. A coordenada estimada corresponde à localização do lago dentro do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "5945": {
+    "nome": "Kanda River (神田川)",
+    "rua": "Kanda River (神田川)",
+    "lat": 35.69275286561355,
+    "lng": 139.70400565894823,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer em uma passarela de madeira ao lado de um canal ou rio com vegetação densa nas margens. A frase 'Cadê os peixes aqui pra jogar um pãozinho?' sugere um corpo d'água. A arquitetura e a vegetação são consistentes com áreas verdes urbanas em Tóquio. Dada a informação de que o streamer está em Shinjuku/Kabukichō, a localização mais provável para uma cena como essa é ao longo do Kanda River, que atravessa essa região e possui várias passarelas e áreas verdes adjacentes. A coordenada é uma estimativa de um ponto genérico ao longo do rio Kanda em Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6005": {
+    "nome": "não identificada (dentro de um parque)",
+    "rua": "não identificada (dentro de um parque)",
+    "lat": 35.69243046154888,
+    "lng": 139.70457490503543,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um deck de madeira com um corrimão, com um corpo d'água ou área verde à frente e árvores ao fundo. Há um edifício moderno com grandes janelas de vidro visível à direita. A arquitetura e a vegetação são consistentes com áreas urbanas verdes no Japão. A localização provável é o Shinjuku Gyoen National Garden, especificamente perto do Taiwan Pavilion ou da área do lago, que se encaixa na descrição de um ambiente de parque em Tóquio, Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6065": {
+    "nome": "não identificável, mas adjacente ao lago",
+    "rua": "não identificável, mas adjacente ao lago",
+    "lat": 35.69146009496015,
+    "lng": 139.70531114426143,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com pedalinhos ao fundo e edifícios altos característicos de uma área urbana densa. A presença de pedalinhos em formato de cisne é um forte indicativo do Shinjuku Gyoen National Garden ou do Chidorigafuchi Moat, ambos em Tóquio. A arquitetura dos edifícios ao fundo e a vegetação são consistentes com a paisagem urbana de Tóquio. A coordenada estimada corresponde à área do Shinjuku Gyoen National Garden, que é um grande parque com um lago e pedalinhos, compatível com o contexto da live em Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6125": {
+    "nome": "Parque Shinjuku Gyoen (próximo ao lago)",
+    "rua": "Parque Shinjuku Gyoen (próximo ao lago)",
+    "lat": 35.69093516748944,
+    "lng": 139.7057706701017,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com pedalinhos e uma paisagem urbana ao fundo, incluindo edifícios altos. Esta vista é característica do Parque Shinjuku Gyoen, em Tóquio, especificamente a área do lago. A presença de pedalinhos coloridos é um forte indicativo deste local. A coordenada fornecida aponta para a margem do lago dentro do parque, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "6185": {
+    "nome": "1:43:05",
+    "rua": "Parque Shinjuku Gyoen (próximo ao lago)",
+    "lat": 35.690410240018736,
+    "lng": 139.706230195942,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6245": {
+    "nome": "Não identificável, mas adjacente ao lago",
+    "rua": "Parque Shinjuku Gyoen (próximo ao lago)",
+    "lat": 35.68988531254803,
+    "lng": 139.7066897217823,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6305": {
+    "nome": "Não identificável",
+    "rua": "Parque Shinjuku Gyoen (próximo ao lago)",
+    "lat": 35.68936038507732,
+    "lng": 139.70714924762262,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6365": {
+    "nome": "Não identificável, área de parque/jardim",
+    "rua": "Não identificável, área de parque/jardim",
+    "lat": 35.688835457606615,
+    "lng": 139.7076087734629,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de parque ou jardim com um deck de madeira e um corpo d'água, possivelmente um lago ou canal. Ao fundo, é possível ver edifícios altos e modernos, característicos da área de Shinjuku, Tóquio. A arquitetura dos edifícios e a vegetação são consistentes com parques urbanos japoneses. A coordenada estimada é para o Shinjuku Gyoen National Garden, que se encaixa na descrição de um grande parque com edifícios altos ao redor.",
+    "skip": false,
+    "osint": true
+  },
+  "6425": {
+    "nome": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.68842188991541,
+    "lng": 139.7079991209568,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com pedalinhos e uma passarela de madeira, cercado por vegetação e edifícios ao fundo. Esta paisagem é característica do Shinjuku Gyoen National Garden, um grande parque em Tóquio. A presença dos pedalinhos no lago é um forte indicativo. A coordenada estimada corresponde ao lago dentro do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "6485": {
+    "nome": "1:48:05",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.688863976496414,
+    "lng": 139.7072899382475,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6545": {
+    "nome": "1:49:05",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.68930606307742,
+    "lng": 139.7065807555382,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6605": {
+    "nome": "Não identificável, mas adjacente ao lago",
+    "rua": "Não identificável, mas adjacente ao lago",
+    "lat": 35.68974814965842,
+    "lng": 139.7058715728289,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com barcos de pedal (alguns em formato de cisne, característicos de parques japoneses) e edifícios ao fundo, sob um céu nublado/chuvoso. A descrição menciona que o streamer está em Tóquio (Shinjuku/Kabukichō). O lago com barcos de pedal mais proeminente e compatível com a área de Shinjuku é o Shinjuku Gyoen National Garden, especificamente o lago dentro do parque. A coordenada é uma estimativa do lago dentro do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "6665": {
+    "nome": "Não identificável, mas adjacente ao Shinjuku Gyoen National ",
+    "rua": "Não identificável, mas adjacente ao Shinjuku Gyoen National ",
+    "lat": 35.69055415357569,
+    "lng": 139.70562324978766,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com edifícios altos ao fundo, característicos da arquitetura moderna de Tóquio. A presença de um lago com essa configuração e os edifícios ao redor, especialmente o arranha-céu à esquerda, são consistentes com a vista do Shinjuku Gyoen National Garden, um grande parque com lagos no coração de Tóquio, próximo à área de Shinjuku. As boias na água sugerem uma área de contenção ou demarcação dentro do lago.",
+    "skip": false,
+    "osint": true
+  },
+  "6725": {
+    "nome": "não identificada (caminho dentro do parque)",
+    "rua": "não identificada (caminho dentro do parque)",
+    "lat": 35.68917316275312,
+    "lng": 139.7046858593764,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um lago com pedalinhos e uma passarela para pedestres, cercado por vegetação e edifícios ao fundo. Esta paisagem é característica do Parque Nacional Shinjuku Gyoen, especificamente a área do lago. A presença de pedalinhos coloridos e a arquitetura dos edifícios ao fundo são consistentes com a localização em Tóquio, próximo a Shinjuku. A coordenada é uma estimativa do centro do lago no parque.",
+    "skip": false,
+    "osint": true
+  },
+  "6785": {
+    "nome": "Não identificável, provavelmente uma trilha ou caminho dentr",
+    "rua": "não identificada (caminho dentro do parque)",
+    "lat": 35.68788855863451,
+    "lng": 139.70427523031714,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6845": {
+    "nome": "Santuário Hanazono Jinja (área de acesso)",
+    "rua": "Não identificável diretamente, mas é uma área de acesso ao s",
+    "lat": 35.68660395451591,
+    "lng": 139.7038646012579,
+    "estabelecimentos": [
+      "Santuário Hanazono Jinja (área de acesso)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A arquitetura visível, com as cores vermelho e amarelo e o estilo de telhado, é característica de templos e santuários japoneses. A estrutura em arco e as escadas vermelhas são muito semelhantes à entrada do Santuário Hanazono Jinja, localizado em Shinjuku, Tóquio. A frase do streamer sobre 'cheirão de fumaça' é consistente com a presença de incenso em santuários. A coordenada é aproximada da entrada principal do santuário.",
+    "skip": false,
+    "osint": true
+  },
+  "6905": {
+    "nome": "Shinjuku-dori",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68616810964127,
+    "lng": 139.7036198834956,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o topo do edifício do Isetan Shinjuku, um famoso departamento de lojas em Tóquio, com sua característica cúpula verde e o ornamento dourado no topo. O edifício alto ao lado é o Shinjuku Park Tower. A frase do streamer 'É Finial o nome disso aqui? Não lembro' se refere ao ornamento no topo da cúpula. A localização é na Shinjuku-dori, uma das principais ruas comerciais de Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6965": {
+    "nome": "Meiji-Jingu",
+    "rua": "Meiji-Jingu",
+    "lat": 35.685732264766635,
+    "lng": 139.7033751657333,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a entrada para o Santuário Meiji Jingu, com a escadaria característica e a área pavimentada em frente. A vegetação densa e o estilo arquitetônico ao fundo são consistentes com o ambiente do santuário. A frase 'Vou subir' dita pelo streamer reforça a ideia de que ele está prestes a subir a escadaria para o santuário.",
+    "skip": false,
+    "osint": true
+  },
+  "7025": {
+    "nome": "Não identificável",
+    "rua": "Meiji-Jingu",
+    "lat": 35.68649054567162,
+    "lng": 139.70297604900912,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7085": {
+    "nome": "Não identificável",
+    "rua": "Meiji-Jingu",
+    "lat": 35.68724882657661,
+    "lng": 139.70257693228496,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7145": {
+    "nome": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.68800710748159,
+    "lng": 139.7021778155608,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de parque ou jardim, com árvores frondosas, caminhos pavimentados e sem tráfego veicular, o que é consistente com o Shinjuku Gyoen National Garden. A arquitetura de um pequeno quiosque ou estrutura à direita, juntamente com a vegetação, sugere um espaço público verde. A ausência de placas de rua ou estabelecimentos comerciais típicos de Kabukichō reforça a localização dentro de um parque. A coordenada é uma estimativa do centro do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "7205": {
+    "nome": "UENO 3153",
+    "rua": "Não identificável, mas dentro do Shinjuku Gyoen National Gar",
+    "lat": 35.68876538838657,
+    "lng": 139.70177869883662,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7265": {
+    "nome": "Não identificável com certeza",
+    "rua": "Não identificável com certeza",
+    "lat": 35.68952366929155,
+    "lng": 139.70137958211245,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de parque ou área verde, com uma construção que parece ser um banheiro público ou uma pequena instalação de serviço. Não há placas de rua, nomes de estabelecimentos comerciais ou pontos turísticos distintivos visíveis. A arquitetura da construção é simples e genérica. A coordenada fornecida é uma estimativa para uma área dentro do Shinjuku Gyoen National Garden, que é um grande parque em Shinjuku, Tóquio, e é compatível com o cenário de uma caminhada a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "7325": {
+    "nome": "ココカラファイン (Cocokarafine)",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.68951885939276,
+    "lng": 139.7010810703821,
+    "estabelecimentos": [
+      "ココカラファイン (Cocokarafine)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma vasta rede de trilhos de trem e fiação aérea, típica de grandes estações ferroviárias no Japão. A frase do streamer 'Olha os trilhos dos trens' corrobora isso. Ao fundo, é possível ver um letreiro vermelho com caracteres japoneses que parecem formar 'ココカラファイン' (Cocokarafine), uma rede de drogarias comum no Japão. A densidade dos trilhos e a arquitetura sugerem a área próxima à Estação Shinjuku, um dos maiores e mais complexos centros ferroviários do mundo, que se encaixa perfeitamente com a descrição de Tóquio (Shinjuku/Kabukichō) e o deslocamento a pé. A coordenada estimad",
+    "skip": false,
+    "osint": true
+  },
+  "7385": {
+    "nome": "P-Park",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.689562647802,
+    "lng": 139.7004899990843,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7445": {
+    "nome": "Não identificável",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.68960643621124,
+    "lng": 139.69989892778656,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7505": {
+    "nome": "2:05:05",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.68965022462048,
+    "lng": 139.69930785648882,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7565": {
+    "nome": "2:06:05",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.689694013029715,
+    "lng": 139.69871678519104,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7625": {
+    "nome": "Não identificada",
+    "rua": "Não identificável diretamente na imagem",
+    "lat": 35.68973780143896,
+    "lng": 139.69812571389326,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7685": {
+    "nome": "OIOI (Marui) Shinjuku Main Building",
+    "rua": "Shinjuku Southern Terrace (passarela sobre a estação)",
+    "lat": 35.689781589848195,
+    "lng": 139.6975346425955,
+    "estabelecimentos": [
+      "OIOI (Marui) Shinjuku Main Building",
+      "Shinjuku Mylord",
+      "Odakyu Department Store"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma vista elevada de uma área urbana com prédios comerciais e uma linha de trem abaixo. O logotipo 'OIOI' (Marui) é claramente visível, um grande departamento de lojas japonês. A arquitetura e o estilo dos prédios são típicos de Tóquio. A presença de uma linha de trem elevada e a vista dos edifícios 'OIOI Shinjuku Main Building', 'Shinjuku Mylord' e 'Odakyu Department Store' indicam que o streamer está na passarela Shinjuku Southern Terrace, que passa sobre a Estação Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "7745": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku Southern Terrace (passarela sobre a estação)",
+    "lat": 35.68991265071948,
+    "lng": 139.69643160694665,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7805": {
+    "nome": "Takashimaya Times Square",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.69004371159076,
+    "lng": 139.69532857129775,
+    "estabelecimentos": [
+      "Takashimaya Times Square",
+      "Starbucks (logo S verde)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um caminho pedestre ajardinado, característico do Shinjuku Southern Terrace, um calçadão elevado. Ao fundo, é possível ver o edifício Takashimaya Times Square e o logotipo verde de um Starbucks, ambos pontos de referência conhecidos nesta área. A arquitetura e o ambiente verde são consistentes com essa localização em Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "7865": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.69017477246204,
+    "lng": 139.69422553564885,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7925": {
+    "nome": "Não identificada, provavelmente um caminho dentro de um parq",
+    "rua": "Não identificada, provavelmente um caminho dentro de um parq",
+    "lat": 35.69030583333333,
+    "lng": 139.6931225,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um caminho pavimentado em um ambiente verde, com árvores e arbustos, sugerindo um parque ou área verde. Não há estabelecimentos comerciais, placas de rua ou trânsito visíveis para identificar uma rua específica. A coordenada estimada é para o Shinjuku Gyoen National Garden, que é uma grande área verde em Shinjuku, compatível com o cenário e a informação de que o streamer está em Tóquio (Shinjuku/Kabukichō).",
+    "skip": false,
+    "osint": true
+  },
+  "7985": {
+    "nome": "Shinjuku Central Park",
+    "rua": "Shinjuku Central Park",
+    "lat": 35.69030166666667,
+    "lng": 139.69390625,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área verde com caminhos pavimentados e escadas, típica de um parque urbano. A presença de árvores densas e a arquitetura dos edifícios ao fundo, embora distantes, são consistentes com a área de Shinjuku Central Park. A superfície molhada sugere que choveu recentemente, o que é comum em Tóquio. A localização estimada é dentro do Shinjuku Central Park, próximo a uma das entradas ou caminhos internos.",
+    "skip": false,
+    "osint": true
+  },
+  "8045": {
+    "nome": "Shinjuku Central Park",
+    "rua": "Shinjuku Central Park",
+    "lat": 35.69034846354167,
+    "lng": 139.695558984375,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área de parque com uma fonte de água e uma estátua de sapo, além de árvores e pavimentação característica de áreas verdes urbanas. A menção de Shinjuku/Kabukichō no prompt, combinada com a arquitetura e o estilo do parque, sugere fortemente que o streamer está no Shinjuku Central Park, que possui elementos semelhantes. A coordenada é uma estimativa para o centro do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "8105": {
+    "nome": "Shinjuku Central Park (Shinjuku Chuo Koen)",
+    "rua": "Shinjuku Central Park (Shinjuku Chuo Koen)",
+    "lat": 35.69040342447917,
+    "lng": 139.6973541015625,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passarela de pedestres em um parque, com árvores e vegetação exuberante, e o chão molhado pela chuva. A arquitetura e o ambiente verde são consistentes com o Shinjuku Central Park (Shinjuku Chuo Koen), um grande parque localizado próximo à área de Shinjuku e Kabukichō em Tóquio. Não há estabelecimentos comerciais visíveis, apenas a paisagem do parque.",
+    "skip": false,
+    "osint": true
+  },
+  "8165": {
+    "nome": "PASELA",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69095649739584,
+    "lng": 139.6991251953125,
+    "estabelecimentos": [
+      "PASELA",
+      "Karaoke Pasela",
+      "HONEY YURIKA"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento movimentado em uma área urbana. O letreiro 'PASELA' é claramente visível, que é uma rede de karaokê popular no Japão. A arquitetura dos edifícios e os veículos são típicos de Tóquio. A frase do streamer sobre 'trem-bala' reforça a localização no Japão. A localização exata foi identificada como o cruzamento da Shinjuku-dori, próximo ao Shinjuku Toho Building, onde há um Pasela.",
+    "skip": false,
+    "osint": true
+  },
+  "8225": {
+    "nome": "Pachinko & Slot ESPACE",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69163823567709,
+    "lng": 139.70069208984376,
+    "estabelecimentos": [
+      "Pachinko & Slot ESPACE",
+      "Sugi Pharmacy (スギ薬局)",
+      "TSUTSUMI"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento movimentado em Tóquio, com a presença de lojas como 'Pachinko & Slot ESPACE' e 'Sugi Pharmacy', ambas com letreiros em japonês. A arquitetura dos edifícios e o tipo de veículos são típicos do Japão. A loja 'TSUTSUMI' também é visível. A localização exata é o cruzamento da Shinjuku-dori com a Meiji-dori, em Shinjuku, próximo à estação de Shinjuku, um local conhecido por suas casas de pachinko e lojas de departamento.",
+    "skip": false,
+    "osint": true
+  },
+  "8285": {
+    "nome": "TSUTSUMI",
+    "rua": "Shinjuku-dori",
+    "lat": 35.692324111328126,
+    "lng": 139.70206079101564,
+    "estabelecimentos": [
+      "TSUTSUMI",
+      "GAME GAME SOFT",
+      "ドン・キホーテ (Don Quijote)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento movimentado com placas de lojas em japonês, incluindo 'TSUTSUMI' e 'GAME GAME SOFT'. Um táxi com o logotipo 'S.RIDE' é visível, um serviço comum em Tóquio. A arquitetura dos edifícios e a sinalização de trânsito são típicas do Japão. A presença de um Don Quijote (ドン・キホーテ) e a menção de Shinjuku/Kabukichō no prompt, combinadas com a identificação do cruzamento de Shinjuku-dori e Meiji-dori, confirmam a localização. A coordenada é aproximada do cruzamento.",
+    "skip": false,
+    "osint": true
+  },
+  "8345": {
+    "nome": "廻転寿司 一寿し",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69296455240885,
+    "lng": 139.7029377685547,
+    "estabelecimentos": [
+      "廻転寿司 一寿し",
+      "福屋余市"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com muitos banners e lanternas japonesas, característico da área de Golden Gai em Shinjuku. É possível identificar o nome '廻転寿司 一寿し' (Kaiten Sushi Ichijushi) em um dos banners e '福屋余市' (Fukuya Yoichi) em uma placa, ambos estabelecimentos conhecidos na região. A arquitetura e o ambiente são consistentes com a área de Kabukichō/Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "8405": {
+    "nome": "Golden Gai",
+    "rua": "Golden Gai",
+    "lat": 35.693604993489586,
+    "lng": 139.70381474609374,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e molhado, com muitas caixas de bebidas empilhadas e fachadas de estabelecimentos com persianas abaixadas, características típicas da área de Golden Gai em Kabukichō, Shinjuku. A arquitetura dos edifícios, a sinalização em japonês (incluindo a placa de 'No Smoking') e a bicicleta estacionada são consistentes com o ambiente de Tóquio. A coordenada estimada é para o centro de Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "8465": {
+    "nome": "Slot",
+    "rua": "Shinjuku Golden Gai (possivelmente uma das vielas menores)",
+    "lat": 35.6942,
+    "lng": 139.7042,
+    "estabelecimentos": [
+      "Slot",
+      "焼肉 冷麺館 (Yakiniku Reimenkan)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada, com estabelecimentos pequenos e coloridos, muitos com letreiros em japonês e um estilo arquitetônico típico de áreas de entretenimento noturno em Tóquio. A presença de um viaduto de trem elevado ao fundo é uma característica marcante de Shinjuku, especialmente perto da área de Kabukichō e Golden Gai. O letreiro 'Slot' e o 'Yakiniku Reimenkan' são comuns nessas áreas. A coordenada estimada é para o coração de Golden Gai, que se encaixa perfeitamente com a descrição do ambiente e o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "8525": {
+    "nome": "Asahi Beer (lanternas)",
+    "rua": "Golden Gai",
+    "lat": 35.6944,
+    "lng": 139.70344999999998,
+    "estabelecimentos": [
+      "Asahi Beer (lanternas)",
+      "おなべちゃん (Onabe-chan)",
+      "らんだむ (Random)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com arquitetura densa e fiação exposta, característica de áreas como Golden Gai em Shinjuku, Tóquio. As lanternas da Asahi Beer e os letreiros em japonês de estabelecimentos como 'Onabe-chan' e 'Random' confirmam a localização no Japão. A área é conhecida por seus pequenos bares e becos, compatível com o cenário da imagem. A coordenada é uma estimativa central para o Golden Gai.",
+    "skip": false,
+    "osint": true
+  },
+  "8585": {
+    "nome": "らぁたん (Raa-tan)",
+    "rua": "Não identificável com precisão",
+    "lat": 35.6946,
+    "lng": 139.7027,
+    "estabelecimentos": [
+      "らぁたん (Raa-tan)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de áreas comerciais densas no Japão, como Kabukichō em Shinjuku. O letreiro 'らぁたん' (Raa-tan) é visível, indicando um estabelecimento comercial. A arquitetura com fiação exposta, unidades de ar condicionado externas e a presença de grafites e adesivos em uma porta são características comuns de becos em Tóquio. A coordenada estimada aponta para um beco próximo à área principal de Kabukichō, compatível com o ambiente mostrado e o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "8645": {
+    "nome": "らんたん (Rantan)",
+    "rua": "Não identificável com precisão",
+    "lat": 35.693625555555556,
+    "lng": 139.70225888888888,
+    "estabelecimentos": [
+      "らんたん (Rantan)",
+      "おとなのおもちゃ (Otona no Omocha - Loja de Brinquedos Adultos)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito típico de Kabukichō, Shinjuku, Tóquio. Os estabelecimentos 'Rantan' (らんたん) e 'Otona no Omocha' (おとなのおもちゃ - Loja de Brinquedos Adultos) são visíveis, com o último sendo um tipo de negócio comum na área. A arquitetura com fiação exposta e a presença de cones de trânsito em um espaço apertado reforçam a localização em um beco secundário de Kabukichō. A coordenada é uma estimativa para um beco próximo ao centro de Kabukichō, compatível com a descrição.",
+    "skip": false,
+    "osint": true
+  },
+  "8705": {
+    "nome": "Não identificável",
+    "rua": "Não identificável com precisão",
+    "lat": 35.69265111111111,
+    "lng": 139.70181777777776,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8765": {
+    "nome": "Golden Gai (Shinjuku Golden Street)",
+    "rua": "Golden Gai (Shinjuku Golden Street)",
+    "lat": 35.691676666666666,
+    "lng": 139.70137666666668,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e apertado, com edifícios antigos e muitos aparelhos de ar condicionado visíveis nas paredes, característicos da arquitetura de Golden Gai em Shinjuku. A frase do streamer 'Ele é full bares LGBTQIA+' reforça a localização, já que Golden Gai é conhecido por seus pequenos bares, muitos deles frequentados pela comunidade LGBTQIA+. A estrutura elevada ao fundo é provavelmente parte da linha de trem ou metrô que passa sobre a área.",
+    "skip": false,
+    "osint": true
+  },
+  "8825": {
+    "nome": "Uniqlo",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.6915975,
+    "lng": 139.7018925,
+    "estabelecimentos": [
+      "Uniqlo",
+      "atre"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente o logotipo da loja 'Uniqlo' em um prédio branco à direita. Ao fundo, sob a estrutura elevada do trem, é possível ver o nome 'atre', que é uma rede de shoppings e estações no Japão. A estrutura elevada é característica das linhas de trem em Shinjuku. A frase do streamer 'A farmácia está aberta já' sugere que há uma farmácia próxima, o que é comum em áreas comerciais movimentadas como Shinjuku-dori. A coordenada estimada corresponde à localização de uma Uniqlo próxima à estação de Shinjuku, na Shinjuku-dori, com a linha de trem elevada ao fundo.",
+    "skip": false,
+    "osint": true
+  },
+  "8885": {
+    "nome": "Ueno Sta.",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.69161412109375,
+    "lng": 139.70205416015625,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8945": {
+    "nome": "Ueno Station",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.6916307421875,
+    "lng": 139.70221582031252,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9005": {
+    "nome": "Famima!! (FamilyMart)",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69164736328125,
+    "lng": 139.70237748046875,
+    "estabelecimentos": [
+      "Famima!! (FamilyMart)",
+      "Shinjuku Alta"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área externa com o icônico arco vermelho da entrada da Shinjuku Alta, um conhecido centro comercial em Shinjuku. A loja de conveniência Famima!! (FamilyMart) também é visível. O padrão do piso e a arquitetura dos edifícios são consistentes com a área de Shinjuku, Tóquio, especificamente no cruzamento da Shinjuku-dori com a Meiji-dori, onde a Shinjuku Alta está localizada.",
+    "skip": false,
+    "osint": true
+  },
+  "9065": {
+    "nome": "八百吉 (Yaokichi)",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.692163876953124,
+    "lng": 139.70274448242188,
+    "estabelecimentos": [
+      "八百吉 (Yaokichi)",
+      "鳥貴族 (Torikizoku)",
+      "大戸屋 (Ootoya)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passarela elevada sobre uma rua movimentada com tráfego de veículos. É possível identificar placas de estabelecimentos comerciais japoneses como '八百吉 (Yaokichi)', '鳥貴族 (Torikizoku)' e '大戸屋 (Ootoya)'. A arquitetura da passarela e dos prédios ao redor é típica de Tóquio, especificamente na área de Shinjuku. A frase do streamer 'A passarela...' corrobora a identificação da estrutura. A coordenada estimada corresponde à passarela sobre a Shinjuku-dori, próxima à estação de Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "9125": {
+    "nome": "Wendy's First Kitchen",
+    "rua": "Kabukicho",
+    "lat": 35.692680390625,
+    "lng": 139.703111484375,
+    "estabelecimentos": [
+      "Wendy's First Kitchen"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer descendo uma escadaria que leva a uma rua movimentada. À direita, é claramente visível a fachada de um 'Wendy's First Kitchen', uma rede de fast-food comum no Japão. A arquitetura e o tipo de táxi (com a inscrição 'GO') são consistentes com Tóquio. A localização exata corresponde à entrada da estação Seibu-Shinjuku, que fica na área de Kabukicho, conhecida por suas escadarias e estabelecimentos comerciais.",
+    "skip": false,
+    "osint": true
+  },
+  "9185": {
+    "nome": "LIVE MAX",
+    "rua": "Kabukicho",
+    "lat": 35.693238914062505,
+    "lng": 139.7033042734375,
+    "estabelecimentos": [
+      "LIVE MAX",
+      "UN",
+      "潮閣軒",
+      "一青松"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua típica de Tóquio, com a arquitetura e sinalização características. Os estabelecimentos 'LIVE MAX', 'UN', '潮閣軒' e '一青松' são visíveis em letreiros verticais. A presença de táxis pretos com detalhes amarelos e a barreira de proteção amarela são comuns na região de Kabukichō, Shinjuku. A coordenada estimada é próxima à área central de Kabukichō, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "9245": {
+    "nome": "馬酔木 (Asebi)",
+    "rua": "Golden Gai (Shinjuku Golden Street)",
+    "lat": 35.6937974375,
+    "lng": 139.70349706250002,
+    "estabelecimentos": [
+      "馬酔木 (Asebi)",
+      "ナスケン (Nasuken)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com edifícios antigos e densamente construídos, característico da área de Golden Gai em Shinjuku, Tóquio. A placa com os caracteres japoneses '馬酔木' (Asebi) e 'ナスケン' (Nasuken) são nomes de bares conhecidos nesta área. A arquitetura e a presença de bicicletas estacionadas também são consistentes com o ambiente de Golden Gai, um famoso distrito de bares em Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "9305": {
+    "nome": "Não identificável com certeza",
+    "rua": "Golden Gai (Shinjuku Golden Street)",
+    "lat": 35.69354829875,
+    "lng": 139.70333759125003,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9365": {
+    "nome": "Não identificável",
+    "rua": "Golden Gai (Shinjuku Golden Street)",
+    "lat": 35.69329916,
+    "lng": 139.70317812000002,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9425": {
+    "nome": "não identificada",
+    "rua": "Golden Gai (Shinjuku Golden Street)",
+    "lat": 35.69305002125,
+    "lng": 139.70301864875,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9485": {
+    "nome": "ホテル福屋 (Hotel Fukuya)",
+    "rua": "não identificada",
+    "lat": 35.6928008825,
+    "lng": 139.70285917750002,
+    "estabelecimentos": [
+      "ホテル福屋 (Hotel Fukuya)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a entrada de um estabelecimento com uma placa que claramente exibe 'ホテル福屋', que se traduz como 'Hotel Fukuya'. Embora a rua exata não seja visível, a presença de um hotel com esse nome em Shinjuku/Kabukichō, Tóquio, permite uma geolocalização precisa. A coordenada fornecida corresponde à localização do Hotel Fukuya em Kabukichō, Shinjuku, Tóquio, que é compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "9545": {
+    "nome": "Beisia",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.69255174375,
+    "lng": 139.70269970625,
+    "estabelecimentos": [
+      "Beisia",
+      "CAINZ",
+      "Tokyo Kensetsu Center (東京建設センター)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente os logotipos das lojas 'Beisia' e 'CAINZ' em um edifício, e o nome 'Tokyo Kensetsu Center' em japonês. A arquitetura do prédio e a presença de uma via elevada (expressway) são características comuns em Tóquio. A localização exata foi determinada pela identificação desses estabelecimentos na Shinjuku-dori, próximo à interseção com a Metropolitan Expressway Route 4 Shinjuku Line.",
+    "skip": false,
+    "osint": true
+  },
+  "9605": {
+    "nome": "Times Parking",
+    "rua": "não identificável",
+    "lat": 35.69258449583334,
+    "lng": 139.7028831375,
+    "estabelecimentos": [
+      "Times Parking"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um estacionamento da rede 'Times Parking', identificável pelo logotipo azul e amarelo. A arquitetura dos edifícios e as máquinas de venda automática são típicas do Japão. Embora a rua exata não seja visível, a presença de um estacionamento 'Times Parking' em Shinjuku, Tóquio, permite estimar uma coordenada aproximada compatível com a área de Kabukichō e o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "9665": {
+    "nome": "não identificada",
+    "rua": "não identificável",
+    "lat": 35.693256330555556,
+    "lng": 139.70258875833332,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9725": {
+    "nome": "La Cocorico Shinjuku (ラ・ココリコ 新宿)",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.69392816527778,
+    "lng": 139.70229437916666,
+    "estabelecimentos": [
+      "La Cocorico Shinjuku (ラ・ココリコ 新宿)",
+      "Don Quijote Shinjuku Kabukicho (ドン・キホーテ 新宿歌舞伎町店)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a calçada da rua Meiji-dori, com o restaurante La Cocorico Shinjuku claramente visível à esquerda. Do outro lado da rua, é possível identificar a fachada vermelha e branca do Don Quijote Shinjuku Kabukicho. A arquitetura e o estilo da rua são consistentes com a área de Shinjuku, Tóquio. A frase do streamer 'Aqui os caras fecham o beco' pode se referir a alguma das ruas menores ou becos que se conectam à Meiji-dori na região de Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "9785": {
+    "nome": "Horee (possível hotel ou estabelecimento)",
+    "rua": "Não identificável com certeza",
+    "lat": 35.693086532222225,
+    "lng": 139.70264550333331,
+    "estabelecimentos": [
+      "Horee (possível hotel ou estabelecimento)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada com piso tátil, comum no Japão, e um carro com a logo da Honda, uma marca japonesa. Há um letreiro parcialmente visível com 'Horee', que pode ser um hotel ou outro estabelecimento. A arquitetura dos prédios ao fundo é típica de áreas urbanas japonesas. A localização em Shinjuku/Kabukichō é consistente com o ambiente urbano e a presença de estabelecimentos comerciais. A coordenada é uma estimativa aproximada dentro da área de Kabukichō, Shinjuku, onde o streamer Baka Gaijin costuma fazer lives.",
+    "skip": false,
+    "osint": true
+  },
+  "9845": {
+    "nome": "Não identificável com precisão",
+    "rua": "Não identificável com certeza",
+    "lat": 35.69248922577778,
+    "lng": 139.70221640266664,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9905": {
+    "nome": "2:45:05",
+    "rua": "Não identificável com certeza",
+    "lat": 35.69189191933334,
+    "lng": 139.70178730199999,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9965": {
+    "nome": "Marui (OIOI)",
+    "rua": "Não identificável com certeza",
+    "lat": 35.691294612888896,
+    "lng": 139.70135820133333,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "10025": {
+    "nome": "Mizuho Bank",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.69069730644445,
+    "lng": 139.70092910066666,
+    "estabelecimentos": [
+      "Mizuho Bank",
+      "Shinjuku-dori Building"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um viaduto de pedestres sobre uma grande avenida, com um cruzamento movimentado. O prédio do Mizuho Bank é claramente visível à direita, e a arquitetura dos edifícios e a sinalização de trânsito são típicas de Tóquio. A localização corresponde ao cruzamento da Shinjuku-dori com a Meiji-dori, uma área conhecida em Shinjuku, Tóquio, com o streamer provavelmente no viaduto de pedestres que conecta a estação Shinjuku com a área comercial.",
+    "skip": false,
+    "osint": true
+  },
+  "10085": {
+    "nome": "Mitsu Sumitomo Bank",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69096365322223,
+    "lng": 139.70193955033332,
+    "estabelecimentos": [
+      "Mitsu Sumitomo Bank",
+      "Mizuho Bank"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área de pedestres com arquitetura moderna e o piso característico de algumas áreas de Shinjuku. É possível ver o logotipo do Mitsu Sumitomo Bank e, mais ao fundo, o do Mizuho Bank, ambos bancos japoneses comuns na região. A frase do streamer 'Isso aqui desce pra que lado, hein?' sugere que ele está em uma área elevada ou em um ponto de transição. A coordenada estimada corresponde à área de pedestres próxima à saída leste da Estação Shinjuku, na Shinjuku-dori, que se encaixa perfeitamente com o contexto de Kabukichō e o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "10145": {
+    "nome": "まるか (Maruka)",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69123,
+    "lng": 139.70295,
+    "estabelecimentos": [
+      "まるか (Maruka)",
+      "鳥貴族 (Torikizoku)",
+      "CALUNA"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a rua molhada, indicando chuva. O letreiro 'まるか' (Maruka) é claramente visível no prédio à direita, e abaixo dele, um restaurante com o nome '鳥貴族' (Torikizoku) pode ser identificado. Há também uma placa luminosa com 'CALUNA'. A arquitetura dos edifícios e as placas em japonês confirmam a localização em Tóquio. A frase do streamer 'Vou entrar junto com um japonês para o trabalho' sugere um ambiente urbano movimentado. A combinação desses elementos, especialmente os nomes dos estabelecimentos, permite a geolocalização precisa na Shinjuku-dori, próximo ao cruzamento com a Meiji-do",
+    "skip": false,
+    "osint": true
+  }
+}

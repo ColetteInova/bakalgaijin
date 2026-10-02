@@ -2577,6 +2577,12 @@ def _bairro_boxes(folder: Path, local: str, bairros: list[str]) -> list[tuple[fl
 
 
 def _in_boxes(lat: float, lng: float, boxes: list[tuple[float, float, float, float]]) -> bool:
+    # Sem bairro definido (boxes vazio), não há restrição de área: tudo passa.
+    # (Antes o any() retornava False com lista vazia e descartava TODAS as
+    # coordenadas válidas de episódios sem bairro — por isso os mapas do
+    # Japão ficavam sem marcos.)
+    if not boxes:
+        return True
     return any(
         lat_min <= lat <= lat_max and lng_min <= lng <= lng_max
         for lat_min, lat_max, lng_min, lng_max in boxes

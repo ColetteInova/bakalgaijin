@@ -1,0 +1,1769 @@
+{
+  "local": "japao",
+  "bairro": "",
+  "inicio": "",
+  "provider": "gemini",
+  "v": 4,
+  "725": {
+    "nome": "null",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.6870949618575,
+    "lng": 139.69926610687304,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "785": {
+    "nome": "Shinjuku Southern Terrace",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.6870949618575,
+    "lng": 139.69926610687304,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passarela elevada para pedestres e uma rodovia abaixo, com guindastes de construção ao fundo. Esta é uma vista característica da área de Shinjuku Southern Terrace, que se conecta à Estação Shinjuku. A rodovia abaixo é a National Route 20 (Koshu Kaido). A arquitetura moderna e a presença de obras são consistentes com o desenvolvimento urbano de Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "845": {
+    "nome": "Shinjuku Southern Terrace",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.687628538735,
+    "lng": 139.69968809160545,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passarela elevada com uma arquitetura moderna e limpa, típica da área de Shinjuku Southern Terrace, adjacente à Estação Shinjuku. A estrutura elevada e o design dos corrimãos são consistentes com as passarelas de pedestres que conectam a estação a edifícios comerciais e hotéis na região. A ausência de tráfego veicular e a presença de uma coluna decorada com folhagem (comum em áreas urbanas japonesas para embelezamento) reforçam a localização em uma área de pedestres bem cuidada.",
+    "skip": false,
+    "osint": true
+  },
+  "905": {
+    "nome": "15:05",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.68798160463,
+    "lng": 139.69980407851895,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "965": {
+    "nome": "16:05",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.688334670525,
+    "lng": 139.69992006543248,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1025": {
+    "nome": "Shinjuku Mylord",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.68868773642,
+    "lng": 139.70003605234598,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1085": {
+    "nome": "18:05",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.689040802315,
+    "lng": 139.70015203925948,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1145": {
+    "nome": "19:05",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.689393868210004,
+    "lng": 139.700268026173,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1205": {
+    "nome": "FamilyMart",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.689746934105,
+    "lng": 139.7003840130865,
+    "estabelecimentos": [
+      "FamilyMart",
+      "Don Quijote (mencionado pelo streamer)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com arquitetura típica de Tóquio. É possível ver uma loja de conveniência FamilyMart à direita. A frase do streamer sobre o Don Quijote ser 24 horas, combinada com a localização em Shinjuku/Kabukichō, sugere a área próxima ao Don Quijote de Shinjuku. A rua parece ser a Shinjuku-dori, uma via principal na região, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "1265": {
+    "nome": "Não identificada, mas em área de passagem sob viaduto/estrut",
+    "rua": "Não identificada, mas em área de passagem sob viaduto/estrut",
+    "lat": 35.6901,
+    "lng": 139.7005,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área de passagem para pedestres sob uma estrutura elevada, possivelmente um viaduto ou linha de trem/metrô. A presença de barreiras de construção e a arquitetura moderna com pilares de concreto são consistentes com áreas urbanas de Tóquio, especialmente em Shinjuku, que possui muitas estruturas elevadas e áreas em desenvolvimento/reforma. A frase do streamer 'Será que vai cair debaixo da ponte?' reforça a ideia de estar sob uma estrutura elevada. A coordenada é uma estimativa para uma área genérica sob viadutos em Shinjuku, próxima a Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "1325": {
+    "nome": "Não identificável",
+    "rua": "Não identificada, mas em área de passagem sob viaduto/estrut",
+    "lat": 35.6901,
+    "lng": 139.70145000000002,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1385": {
+    "nome": "Shinjuku-dori",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6901,
+    "lng": 139.7024,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passarela elevada para pedestres, característica da arquitetura urbana de Tóquio, especialmente em áreas movimentadas como Shinjuku. A presença de uma rua larga e a estrutura da passarela são consistentes com a área próxima à Estação Shinjuku, onde a Shinjuku-dori é uma via principal. A coordenada estimada corresponde a um ponto na Shinjuku-dori, próximo a uma passarela elevada, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "1445": {
+    "nome": "Loja de conveniência (provavelmente FamilyMart ou 7-Eleven)",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6883956,
+    "lng": 139.7021972,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1505": {
+    "nome": "25:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6866912,
+    "lng": 139.70199440000002,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1565": {
+    "nome": "Não identificável com certeza",
+    "rua": "Shinjuku-dori",
+    "lat": 35.684986800000004,
+    "lng": 139.70179160000004,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1625": {
+    "nome": "Shinjuku Southern Terrace",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.6832824,
+    "lng": 139.70158880000002,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área externa pavimentada com um corrimão e vegetação à esquerda, e uma grande escadaria à direita, com barreiras de fila. A arquitetura moderna e a presença de uma grande escadaria são características da Shinjuku Southern Terrace, uma área de pedestres elevada perto da Estação Shinjuku. A frase do streamer 'vai estar tudo fechado ainda' sugere um horário matutino ou de baixa atividade, compatível com a ausência de pessoas e o aspecto de estabelecimentos fechados ao fundo. A localização é consistente com o contexto de Tóquio (Shinjuku/Kabukichō) e deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "1685": {
+    "nome": "Shinjuku Station South East Exit",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6826557,
+    "lng": 139.7017059,
+    "estabelecimentos": [
+      "Shinjuku Station South East Exit"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma entrada para uma estação de metrô/trem com escadas rolantes, característica comum em grandes estações japonesas. A arquitetura moderna e a presença de sinalização tátil no chão são típicas do Japão. A localização foi confirmada como a entrada sudeste da Estação de Shinjuku, que se conecta à Shinjuku-dori, uma área movimentada e compatível com o contexto de Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "1745": {
+    "nome": "Banh Mi Star",
+    "rua": "Shinjuku Southern Terrace",
+    "lat": 35.68293135,
+    "lng": 139.70176370000001,
+    "estabelecimentos": [
+      "Banh Mi Star",
+      "Starbucks"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um complexo moderno com arquitetura distinta, incluindo uma escadaria amarela e lojas como 'Banh Mi Star' e o logotipo do 'Starbucks'. Esta área é reconhecível como o Shinjuku Southern Terrace, um calçadão elevado que conecta a Estação Shinjuku a vários edifícios e shoppings. A presença dessas lojas e a arquitetura correspondem perfeitamente a essa localização em Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "1805": {
+    "nome": "Shibuya Scramble Square",
+    "rua": "Shibuya Scramble Square",
+    "lat": 35.68369905,
+    "lng": 139.7018269125,
+    "estabelecimentos": [
+      "Shibuya Scramble Square"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente a entrada do complexo Shibuya Scramble Square, com o nome visível na fachada. A arquitetura moderna e a presença de uma grande praça/área de pedestres são características do local. A coordenada corresponde à localização exata do Shibuya Scramble Square, um ponto turístico e comercial proeminente em Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "1865": {
+    "nome": "ALBA",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6815482625,
+    "lng": 139.70172699687498,
+    "estabelecimentos": [
+      "ALBA",
+      "サワヤ (Sawaya)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um viaduto para pedestres característico de Tóquio, com edifícios comerciais ao fundo. O letreiro 'ALBA' é visível, uma loja de eletrônicos japonesa. A arquitetura moderna e a sinalização em japonês confirmam a localização. A coordenada é aproximada para a passarela sobre a Shinjuku-dori, perto da estação de Shinjuku, área compatível com o deslocamento a pé em Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "1925": {
+    "nome": "32:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68089024777778,
+    "lng": 139.70176932527775,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "1985": {
+    "nome": "Não identificável com precisão",
+    "rua": "Shinjuku-dori",
+    "lat": 35.680232233055555,
+    "lng": 139.70181165368055,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2045": {
+    "nome": "Mizuho Bank (みずほ銀行)",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.679574218333336,
+    "lng": 139.70185398208332,
+    "estabelecimentos": [
+      "Mizuho Bank (みずほ銀行)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área sob um viaduto ou estrutura elevada, com um ônibus verde típico de Tóquio (Keio Bus ou similar) e uma placa com caracteres japoneses. É possível ver o logotipo do Mizuho Bank (みずほ銀行) ao fundo, um banco japonês comum. A arquitetura e o tipo de transporte público são consistentes com Tóquio, especificamente na área de Shinjuku, onde há muitas estruturas elevadas e viadutos. A coordenada estimada é próxima à estação de Shinjuku, na Shinjuku-dori, que se encaixa na descrição de um trajeto a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "2105": {
+    "nome": "Não identificável pela imagem",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.68064995481481,
+    "lng": 139.70205445564812,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2165": {
+    "nome": "Indeed",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68172569129629,
+    "lng": 139.70225492921296,
+    "estabelecimentos": [
+      "Indeed"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um outdoor da 'Indeed' com caracteres japoneses, indicando o Japão. As flores de cerejeira estilizadas no chão são um forte indício da cultura japonesa. A arquitetura moderna e a presença de uma calçada tátil amarela são comuns em Tóquio. A localização específica é na Shinjuku-dori, próximo à saída leste da estação de Shinjuku, uma área conhecida por ter construções e anúncios como os vistos na imagem.",
+    "skip": false,
+    "osint": true
+  },
+  "2225": {
+    "nome": "Starbucks",
+    "rua": "Shibuya Crossing (cruzamento de ruas)",
+    "lat": 35.68430628592593,
+    "lng": 139.70247533613426,
+    "estabelecimentos": [
+      "Starbucks",
+      "Tsutaya",
+      "Aoba Clinic",
+      "Gast",
+      "Hinamitsu",
+      "Salonpas"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente o famoso Shibuya Crossing em Tóquio, um dos cruzamentos mais movimentados do mundo. Os estabelecimentos visíveis como Starbucks e Tsutaya são marcos conhecidos neste local. A arquitetura dos edifícios e os anúncios em japonês confirmam a localização. A presença de ônibus e a faixa de pedestres em diagonal são características distintivas do cruzamento.",
+    "skip": false,
+    "osint": true
+  },
+  "2285": {
+    "nome": "IKEA",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68708265476852,
+    "lng": 139.7026223642477,
+    "estabelecimentos": [
+      "IKEA",
+      "Starbucks",
+      "DMM.com",
+      "大黒堂 (Daikokudo)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento movimentado em Tóquio, com a presença de lojas conhecidas como IKEA e Starbucks. A placa '大黒堂' (Daikokudo) é visível, e a arquitetura dos edifícios é típica da região de Shinjuku. A localização exata é o cruzamento da Shinjuku-dori com a Meiji-dori, um ponto conhecido em Kabukichō, Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "2345": {
+    "nome": "DPS DAYS PLUS SOUNDS",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.68938497912037,
+    "lng": 139.70289016042247,
+    "estabelecimentos": [
+      "DPS DAYS PLUS SOUNDS",
+      "POKEMON ONEPIECE TCG SHOP",
+      "ソレイユ (Soleil)",
+      "tutu-anna"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com estabelecimentos comerciais típicos de Shinjuku, Kabukichō. O letreiro 'POKEMON ONEPIECE TCG SHOP' e 'DPS DAYS PLUS SOUNDS' são visíveis à esquerda. A loja 'tutu-anna' é reconhecível à direita. A arquitetura dos edifícios e a presença de lojas de TCG são características da área de Shinjuku Golden Gai, conhecida por suas ruas estreitas e bares. A coordenada estimada corresponde a um ponto na Shinjuku Golden Gai, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "2405": {
+    "nome": "FamilyMart",
+    "rua": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "lat": 35.69116431542824,
+    "lng": 139.70329706936053,
+    "estabelecimentos": [
+      "FamilyMart",
+      "Burger King",
+      "Matsumoto Kiyoshi (松本清)",
+      "Riraku (りらく)",
+      "Karaoke Kan (カラオケ館)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com diversas lojas e letreiros em japonês, característicos de Tóquio. É possível identificar claramente uma loja FamilyMart e um Burger King, além de um Matsumoto Kiyoshi e um Karaoke Kan. A arquitetura dos edifícios e a presença de letreiros luminosos são típicas de Kabukichō, Shinjuku. A rua é a Kabukicho Ichibangai, uma das principais vias do distrito.",
+    "skip": false,
+    "osint": true
+  },
+  "2465": {
+    "nome": "Burger King",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.69210446441347,
+    "lng": 139.70347834799725,
+    "estabelecimentos": [
+      "Burger King",
+      "Samurai",
+      "99yen shop"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente de rua noturno, com lixo espalhado, característico de áreas de vida noturna em Tóquio. O letreiro do Burger King é claramente visível à direita, e outros letreiros em japonês, incluindo um que parece ser 'Samurai' e um '99yen shop', confirmam a localização no Japão. A arquitetura dos edifícios e a presença desses tipos de estabelecimentos são consistentes com a área de Kabukichō em Shinjuku. A coordenada estimada é para a Kabukicho Ichibangai, uma rua principal da região.",
+    "skip": false,
+    "osint": true
+  },
+  "2525": {
+    "nome": "鳥たまご (Tori Tamago)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6930446133987,
+    "lng": 139.703659626634,
+    "estabelecimentos": [
+      "鳥たまご (Tori Tamago)",
+      "すず (Suzu)",
+      "LARRY'S"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e movimentada, típica de Kabukichō, Shinjuku, Tóquio. Os letreiros em japonês e a arquitetura dos edifícios são consistentes com a área. Os estabelecimentos '鳥たまご (Tori Tamago)', 'すず (Suzu)' e 'LARRY'S' são visíveis e podem ser localizados na Shinjuku Golden Gai G2 Street, uma área conhecida por seus bares e becos estreitos.",
+    "skip": false,
+    "osint": true
+  },
+  "2585": {
+    "nome": "43:05",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6930249302576,
+    "lng": 139.70358045742023,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2645": {
+    "nome": "Loja de Souvenirs",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.693005247116496,
+    "lng": 139.70350128820647,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2705": {
+    "nome": "Don Quijote (Donki)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6929855639754,
+    "lng": 139.7034221189927,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2765": {
+    "nome": "DK たまごっちマスコットキーホルダー (Tamagotchi Mascot Keychain)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.692965880834294,
+    "lng": 139.70334294977894,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2825": {
+    "nome": "47:05",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.692946197693196,
+    "lng": 139.70326378056518,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2885": {
+    "nome": "Sanrio",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6929265145521,
+    "lng": 139.70318461135142,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "2945": {
+    "nome": "Don Quijote (Donki)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.692906831410994,
+    "lng": 139.70310544213766,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3005": {
+    "nome": "Don Quijote Shibuya",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6928871482699,
+    "lng": 139.70302627292386,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3065": {
+    "nome": "Loja de conveniência/souvenirs (provavelmente Don Quijote ou",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6928674651288,
+    "lng": 139.7029471037101,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3125": {
+    "nome": "Loja de conveniência/supermercado",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.692847781987695,
+    "lng": 139.70286793449634,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3185": {
+    "nome": "53:05",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6928280988466,
+    "lng": 139.70278876528258,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3245": {
+    "nome": "Don Quijote (Donki)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6928084157055,
+    "lng": 139.70270959606881,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3305": {
+    "nome": "Megadonki Shibuya Honten",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.692788732564395,
+    "lng": 139.70263042685505,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3365": {
+    "nome": "Don Quijote (Donki)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.6927690494233,
+    "lng": 139.7025512576413,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3425": {
+    "nome": "Don Quijote (Donki)",
+    "rua": "Shinjuku Golden Gai G2 Street",
+    "lat": 35.69274936628219,
+    "lng": 139.70247208842753,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3485": {
+    "nome": "SHIBUYA",
+    "rua": "Kabukicho Ichibangai (歌舞伎町一番街)",
+    "lat": 35.692729683141096,
+    "lng": 139.70239291921376,
+    "estabelecimentos": [
+      "SHIBUYA",
+      "BAR",
+      "APIA"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com arquitetura típica de Tóquio, com grandes letreiros luminosos. É possível ver a palavra 'SHIBUYA' em um dos letreiros, o que indica a proximidade ou referência a essa área. A presença de um caminhão de entrega japonês e cones de trânsito verdes reforça o ambiente urbano japonês. A rua pavimentada e os estabelecimentos comerciais são consistentes com a área de Kabukichō, em Shinjuku. A coordenada estimada é para a Kabukicho Ichibangai, uma rua principal e movimentada da região.",
+    "skip": false,
+    "osint": true
+  },
+  "3545": {
+    "nome": "DAIWA ROYNET HOTEL",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.69218934157055,
+    "lng": 139.70230039710688,
+    "estabelecimentos": [
+      "DAIWA ROYNET HOTEL",
+      "カラオケ (Karaoke)",
+      "ドン・キホーテ (Don Quijote)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua típica de Tóquio, com placas em japonês e arquitetura vertical. É possível ver o logotipo do 'DAIWA ROYNET HOTEL' e 'カラオケ' (Karaoke) em edifícios ao fundo. A presença de uma faixa tátil amarela no chão é comum no Japão. A rua estreita e a densidade de edifícios comerciais são características de Kabukichō, Shinjuku. A coordenada é uma estimativa para o início da Kabukicho Ichibangai, compatível com os estabelecimentos visíveis.",
+    "skip": false,
+    "osint": true
+  },
+  "3605": {
+    "nome": "Bar",
+    "rua": "Shinjuku Golden Gai G2-dori",
+    "lat": 35.691649,
+    "lng": 139.702207875,
+    "estabelecimentos": [
+      "Bar",
+      "Restaurante"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita de paralelepípedos com arquitetura típica de bares e restaurantes do Golden Gai em Shinjuku. As placas em japonês e a estética geral são consistentes com a área. A placa à esquerda com caracteres japoneses e uma seta vermelha é um indicativo de um dos becos do Golden Gai, especificamente o G2-dori, que é conhecido por sua inclinação e escadas de madeira em alguns estabelecimentos.",
+    "skip": false,
+    "osint": true
+  },
+  "3665": {
+    "nome": "LOEWE",
+    "rua": "Shinjuku Southern Terrace (passagem)",
+    "lat": 35.691299199999996,
+    "lng": 139.7025263,
+    "estabelecimentos": [
+      "LOEWE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma passagem externa com lojas de alto padrão. O logotipo 'LOEWE' é claramente visível em uma das lojas. A arquitetura moderna e o tipo de calçamento são consistentes com a área de Shinjuku Southern Terrace, um complexo comercial e de escritórios em Tóquio. A coordenada corresponde à localização da loja LOEWE dentro do complexo.",
+    "skip": false,
+    "osint": true
+  },
+  "3725": {
+    "nome": "1:02:05",
+    "rua": "Shinjuku Southern Terrace (passagem)",
+    "lat": 35.690949399999994,
+    "lng": 139.70284472499998,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3785": {
+    "nome": "1:03:05",
+    "rua": "Shinjuku Southern Terrace (passagem)",
+    "lat": 35.6905996,
+    "lng": 139.70316315,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3845": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku Southern Terrace (passagem)",
+    "lat": 35.690249800000004,
+    "lng": 139.703481575,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "3905": {
+    "nome": "Isetan Shinjuku Store",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6899,
+    "lng": 139.7038,
+    "estabelecimentos": [
+      "Isetan Shinjuku Store",
+      "Starbucks Coffee"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com arquitetura típica japonesa e um cruzamento de pedestres. O edifício à direita, com o logotipo 'I' estilizado, é o Isetan Shinjuku Store, um famoso centro comercial. A presença de um Starbucks Coffee nas proximidades é comum em áreas comerciais movimentadas. A localização é compatível com o deslocamento a pé em Shinjuku, Tóquio, especificamente na Shinjuku-dori, uma das principais vias da região.",
+    "skip": false,
+    "osint": true
+  },
+  "3965": {
+    "nome": "Máquina de Vendas Suntory",
+    "rua": "Shinjuku-dori",
+    "lat": 35.689933333333336,
+    "lng": 139.70358333333334,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4025": {
+    "nome": "1:07:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68996666666667,
+    "lng": 139.70336666666665,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4085": {
+    "nome": "1:08:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69,
+    "lng": 139.70315,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4145": {
+    "nome": "1:09:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69003333333333,
+    "lng": 139.7029333333333,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4205": {
+    "nome": "FamilyMart",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69006666666667,
+    "lng": 139.70271666666665,
+    "estabelecimentos": [
+      "FamilyMart",
+      "デナント募集 (Denanto Boshu - Aluguel de inquilino)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com arquitetura típica japonesa, incluindo um prédio em construção com uma placa de 'Denanto Boshu' (aluguel de inquilino) e o logotipo da FamilyMart ao fundo. A placa de trânsito japonesa com o caractere '止まれ' (Tomare - Pare) é claramente visível no chão. A combinação desses elementos, especialmente a proximidade com o FamilyMart e a arquitetura, aponta para a área de Shinjuku Golden Gai, conhecida por suas ruas estreitas e bares. A coordenada estimada é um ponto provável dentro dessa área, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "4265": {
+    "nome": "Sunkus (antigo) / FamilyMart",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6901,
+    "lng": 139.7025,
+    "estabelecimentos": [
+      "Sunkus (antigo) / FamilyMart",
+      "50. (possível entrada de estacionamento/edifício)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com arquitetura típica japonesa, incluindo a sinalização de trânsito (placa de 'proibido entrar' em japonês) e a calçada tátil amarela. O banner verde com 'S' e a entrada com '50.' são consistentes com a área de Shinjuku, Tóquio. A placa azul vertical à direita da placa de 'proibido entrar' indica '新宿区' (Shinjuku-ku) e '新宿通り' (Shinjuku-dori), confirmando a localização na Shinjuku-dori, próximo ao Shinjuku-ku Office.",
+    "skip": false,
+    "osint": true
+  },
+  "4325": {
+    "nome": "Tokyu Hands",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69083,
+    "lng": 139.70289,
+    "estabelecimentos": [
+      "Tokyu Hands"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a entrada de uma loja Tokyu Hands, identificada pelo logotipo 'HANDS 50th'. A placa 'TOKYU SECURITY' também é visível. A arquitetura e o contexto urbano são consistentes com Tóquio, especificamente a área de Shinjuku, onde há uma Tokyu Hands na Shinjuku-dori. A coordenada corresponde à localização da Tokyu Hands Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "4385": {
+    "nome": "Tokyu Hands",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69018,
+    "lng": 139.70281,
+    "estabelecimentos": [
+      "Tokyu Hands"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente o logotipo da loja 'Hands' (anteriormente Tokyu Hands) e uma faixa comemorativa de '50th', indicando o 50º aniversário da loja. A arquitetura moderna e a presença de sinalização em japonês confirmam a localização em Tóquio. A coordenada estimada corresponde à entrada da Tokyu Hands Shinjuku, que fica na Shinjuku-dori.",
+    "skip": false,
+    "osint": true
+  },
+  "4445": {
+    "nome": "1:14:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69058265306123,
+    "lng": 139.70293112244897,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4505": {
+    "nome": "1:15:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69098530612245,
+    "lng": 139.70305224489795,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4565": {
+    "nome": "1:16:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69138795918367,
+    "lng": 139.70317336734695,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4625": {
+    "nome": "1:17:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6917906122449,
+    "lng": 139.70329448979592,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4685": {
+    "nome": "1:18:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69219326530613,
+    "lng": 139.7034156122449,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "4745": {
+    "nome": "NEW OPEN",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69259591836735,
+    "lng": 139.70353673469387,
+    "estabelecimentos": [
+      "NEW OPEN",
+      "AGE",
+      "ドン・キホーテ (Don Quijote)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com estabelecimentos comerciais típicos de Tóquio. O letreiro 'NEW OPEN' e 'AGE' são visíveis, e a arquitetura dos prédios é característica da região de Shinjuku. A presença de um Don Quijote (ドン・キホーテ) ao fundo, um varejista japonês muito popular, e a placa de trânsito japonesa confirmam a localização. A coordenada é uma estimativa para a Shinjuku-dori, uma das principais ruas de Shinjuku, compatível com o contexto de Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "4805": {
+    "nome": "Don Quijote Shinjuku Kabukicho",
+    "rua": "Shinjuku-dori",
+    "lat": 35.691997602040814,
+    "lng": 139.70383283163267,
+    "estabelecimentos": [
+      "Don Quijote Shinjuku Kabukicho"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua molhada, indicando chuva recente. Ao fundo, é possível ver a fachada de um estabelecimento com cores vibrantes e o que parece ser o logotipo do 'Don Quijote', uma famosa rede de lojas de desconto no Japão. A arquitetura e as placas de sinalização em japonês confirmam a localização em Tóquio. A área de Shinjuku/Kabukichō é conhecida por ter uma loja Don Quijote proeminente na Shinjuku-dori, que corresponde ao cenário urbano da imagem.",
+    "skip": false,
+    "osint": true
+  },
+  "4865": {
+    "nome": "Bar Hanamichi (花道)",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69139928571428,
+    "lng": 139.70412892857144,
+    "estabelecimentos": [
+      "Bar Hanamichi (花道)",
+      "Bar Nagi (凪)",
+      "Bar Gyoza (餃子)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com vários bares e restaurantes típicos da área de Golden Gai em Shinjuku. É possível identificar letreiros em japonês que parecem ser de bares como 'Hanamichi', 'Nagi' e 'Gyoza'. A arquitetura dos edifícios e a presença de andaimes em um prédio em construção com um banner em japonês ('テナント募集中' - 'Locação de inquilinos') são consistentes com a área de Kabukichō/Golden Gai. A coordenada estimada corresponde a um ponto na rua principal de Golden Gai, onde o streamer estaria caminhando.",
+    "skip": false,
+    "osint": true
+  },
+  "4925": {
+    "nome": "Isetan Shinjuku Store (伊勢丹新宿店)",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.69050464285714,
+    "lng": 139.70417946428572,
+    "estabelecimentos": [
+      "Isetan Shinjuku Store (伊勢丹新宿店)",
+      "Shinjuku Marui Main Building (新宿マルイ本館)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com calçadas bem cuidadas e edifícios modernos, característicos de Tóquio. À direita, é possível ver a fachada do Isetan Shinjuku Store, um famoso departamento de lojas. À esquerda, há um edifício que se assemelha ao Shinjuku Marui Main Building. A presença de faixas de pedestres e a arquitetura confirmam a localização na Shinjuku-dori, uma das principais avenidas de Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "4985": {
+    "nome": "EKIMISE",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.69068232142857,
+    "lng": 139.70312973214286,
+    "estabelecimentos": [
+      "EKIMISE",
+      "Shinjuku Marui Main Building"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento com um ônibus típico japonês e a arquitetura de edifícios comerciais. O letreiro 'EKIMISE' é visível em um dos prédios, e o grande edifício à direita é o Shinjuku Marui Main Building. A rua principal é a Meiji-dori, cruzando com a Shinjuku-dori, um ponto conhecido em Shinjuku, Tóquio. A frase do streamer sobre atravessar no vermelho reforça a presença em um cruzamento movimentado.",
+    "skip": false,
+    "osint": true
+  },
+  "5045": {
+    "nome": "LOGS",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69086,
+    "lng": 139.70208,
+    "estabelecimentos": [
+      "LOGS",
+      "LA LUNA",
+      "Marlboro"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita com calçada de tijolos e edifícios comerciais típicos de Tóquio. É possível identificar os nomes de estabelecimentos como 'LOGS', 'LA LUNA' e um anúncio de 'Marlboro', que são comuns na área de Shinjuku. A arquitetura e o estilo da rua são consistentes com a Shinjuku-dori, especificamente próximo à área de Kabukichō, onde o streamer Baka Gaijin costuma fazer lives. A coordenada estimada corresponde a um trecho da Shinjuku-dori com características semelhantes.",
+    "skip": false,
+    "osint": true
+  },
+  "5105": {
+    "nome": "Build the Culture",
+    "rua": "Shinjuku-dori",
+    "lat": 35.690830000000005,
+    "lng": 139.70314,
+    "estabelecimentos": [
+      "Build the Culture",
+      "Foster + Partners",
+      "LOVE ENGINE",
+      "TAXI GO"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um táxi preto com o logotipo 'TAXI GO', comum em Tóquio. Ao fundo, há um canteiro de obras com placas de empresas como 'Build the Culture' e 'Foster + Partners', e um banner 'LOVE ENGINE'. A arquitetura e o estilo das placas são típicos do Japão. A localização é próxima ao cruzamento da Shinjuku-dori com a Meiji-dori, em Shinjuku, Tóquio, onde há várias construções e estabelecimentos comerciais.",
+    "skip": false,
+    "osint": true
+  },
+  "5165": {
+    "nome": "ZARA",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69056625,
+    "lng": 139.70124375,
+    "estabelecimentos": [
+      "ZARA",
+      "SENSE OF PLACE by URBAN RESEARCH",
+      "ALPEN"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento movimentado com a loja ZARA claramente visível ao fundo, um ponto de referência conhecido em Shinjuku. Outras lojas como 'SENSE OF PLACE by URBAN RESEARCH' e 'ALPEN' também são identificáveis. A arquitetura dos edifícios e as placas de trânsito são típicas de Tóquio. A localização corresponde ao cruzamento da Shinjuku-dori com a Meiji-dori, uma área central de Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "5225": {
+    "nome": "FamilyMart",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69095125,
+    "lng": 139.70026812499998,
+    "estabelecimentos": [
+      "FamilyMart",
+      "SFNSE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento com faixas de pedestres típicas do Japão. À esquerda, é visível uma loja FamilyMart e um letreiro com 'SFNSE'. O tipo de ônibus e a arquitetura dos edifícios são consistentes com Tóquio. A localização específica é o cruzamento da Shinjuku-dori com a Meiji-dori, próximo à estação de Shinjuku, uma área conhecida por ter várias lojas FamilyMart e edifícios comerciais.",
+    "skip": false,
+    "osint": true
+  },
+  "5285": {
+    "nome": "ZARA",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6916434375,
+    "lng": 139.70019937499998,
+    "estabelecimentos": [
+      "ZARA",
+      "ALIVE"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a loja ZARA, que é um ponto de referência conhecido em Shinjuku. A arquitetura dos prédios e as placas em japonês confirmam a localização em Tóquio. A placa de proibição de fumar na rua e o estilo da calçada são típicos do Japão. A coordenada foi estimada para a ZARA Shinjuku, na Shinjuku-dori.",
+    "skip": false,
+    "osint": true
+  },
+  "5345": {
+    "nome": "Shinjuku Central Park Bicycle Parking Tunnel",
+    "rua": "Shinjuku Central Park Bicycle Parking Tunnel",
+    "lat": 35.6923975,
+    "lng": 139.70059093749998,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um túnel de pedestres e bicicletas com estacionamento para bicicletas em ambos os lados. A arte na parede do túnel e a sinalização em japonês são consistentes com a localização em Tóquio. A estrutura do túnel e a presença de bicicletas estacionadas são características do túnel de estacionamento de bicicletas do Parque Central de Shinjuku, que conecta a área de Kabukichō ao parque. A coordenada é para a entrada do túnel.",
+    "skip": false,
+    "osint": true
+  },
+  "5405": {
+    "nome": "Beco Gourmet (mencionado no chat)",
+    "rua": "Kabukicho",
+    "lat": 35.6931515625,
+    "lng": 139.70098249999998,
+    "estabelecimentos": [
+      "Beco Gourmet (mencionado no chat)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma lanterna japonesa tradicional e um kanji que parece ser parte de um nome de estabelecimento. O chat menciona 'Beco Gourmet', o que é consistente com a área de Kabukichō, conhecida por seus becos e estabelecimentos de comida. A coordenada é uma estimativa para um beco típico em Kabukichō, Shinjuku, Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "5465": {
+    "nome": "Kabukicho",
+    "rua": "Kabukicho",
+    "lat": 35.69387578125,
+    "lng": 139.70184124999997,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com arquitetura típica japonesa, incluindo letreiros em japonês (um deles parece dizer 'Yottette'). O contexto da live indica que o streamer está em Shinjuku/Kabukichō, uma área conhecida por seus becos e estabelecimentos comerciais. A coordenada é uma estimativa para um beco genérico em Kabukichō, compatível com o ambiente mostrado e o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "5525": {
+    "nome": "Não identificada (beco)",
+    "rua": "Não identificada (beco)",
+    "lat": 35.69336163194445,
+    "lng": 139.70210527777775,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito, típico de Kabukichō, Shinjuku, Tóquio. Há placas de 'No Smoking' em japonês e um cone de trânsito azul e branco, comum no Japão. A arquitetura dos edifícios e a fiação exposta também são características da região. A coordenada é uma estimativa para um beco genérico em Kabukichō, dada a falta de identificadores específicos de rua ou estabelecimentos.",
+    "skip": false,
+    "osint": true
+  },
+  "5585": {
+    "nome": "1:33:05",
+    "rua": "Não identificada (beco)",
+    "lat": 35.692847482638896,
+    "lng": 139.70236930555552,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "5645": {
+    "nome": "Golden Gai (possivelmente Shinjuku Golden Gai)",
+    "rua": "Golden Gai (possivelmente Shinjuku Golden Gai)",
+    "lat": 35.69233333333334,
+    "lng": 139.70263333333332,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com lanternas japonesas amarelas e brancas penduradas, placas com caracteres japoneses e sinais de 'proibido fumar'. A arquitetura densa e o estilo das lanternas são características marcantes da área de Golden Gai em Shinjuku, conhecida por seus pequenos bares e ruas estreitas. As placas de banheiro (homem/mulher) e o estilo geral do ambiente reforçam a localização em um beco de entretenimento noturno típico de Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "5705": {
+    "nome": "Shinjuku-dori (próximo à entrada do Shinjuku Subnade)",
+    "rua": "Shinjuku-dori (próximo à entrada do Shinjuku Subnade)",
+    "lat": 35.691566666666674,
+    "lng": 139.70251666666667,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com um viaduto elevado ao fundo, característico da área de Shinjuku, Tóquio. A arquitetura do prédio à esquerda, com portas de correr de madeira e vidro, é comum no Japão. A presença de um viaduto elevado e a aparência geral do ambiente sugerem uma área urbana densa, como Shinjuku. A coordenada estimada é próxima à entrada do Shinjuku Subnade, que se encaixa na descrição de um beco sob um viaduto.",
+    "skip": false,
+    "osint": true
+  },
+  "5765": {
+    "nome": "LOAX",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6908,
+    "lng": 139.7024,
+    "estabelecimentos": [
+      "LOAX",
+      "LOAX Shinjuku"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com edifícios altos e uma faixa de pedestres característica do Japão. O letreiro 'LOAX' é claramente visível em um dos edifícios, que é uma loja de eletrônicos conhecida em Tóquio. A arquitetura e o estilo da rua são consistentes com a área de Shinjuku. A coordenada estimada corresponde ao cruzamento da Shinjuku-dori com a Meiji-dori, onde há uma loja LOAX.",
+    "skip": false,
+    "osint": true
+  },
+  "5825": {
+    "nome": "Taiyaki Kanda Daruma",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69085,
+    "lng": 139.70245,
+    "estabelecimentos": [
+      "Taiyaki Kanda Daruma",
+      "Mega Big (Loteria)",
+      "Shinjuku Clinic"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a rua Shinjuku-dori em Shinjuku, Tóquio. É possível identificar a loja 'Taiyaki Kanda Daruma' e uma loteria 'Mega Big' com a fachada verde. A arquitetura dos edifícios e os veículos são típicos do Japão. A coordenada foi estimada com base na localização desses estabelecimentos na Shinjuku-dori, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "5885": {
+    "nome": "McDonald's",
+    "rua": "Shinjuku-dori",
+    "lat": 35.690675,
+    "lng": 139.703325,
+    "estabelecimentos": [
+      "McDonald's",
+      "KARAOKE BIG ECHO",
+      "BEAUTY LABO"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente a fachada de um McDonald's e um Karaokê Big Echo, ambos estabelecimentos muito comuns em Tóquio. A arquitetura dos prédios e a sinalização em japonês confirmam a localização. A presença desses estabelecimentos e a menção de Shinjuku/Kabukichō no prompt, junto com a aparência da rua, indicam que o streamer está na Shinjuku-dori, uma rua principal na área de Shinjuku. A coordenada aproximada foi estimada com base na localização desses estabelecimentos na Shinjuku-dori.",
+    "skip": false,
+    "osint": true
+  },
+  "5945": {
+    "nome": "Isetan Shinjuku",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.6905875,
+    "lng": 139.7028625,
+    "estabelecimentos": [
+      "Isetan Shinjuku",
+      "Louis Vuitton"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga e movimentada, com arquitetura moderna típica de Tóquio. É possível ver a fachada do Isetan Shinjuku, uma famosa loja de departamentos, e um letreiro da Louis Vuitton. A rua é a Shinjuku-dori, uma das principais vias comerciais de Shinjuku, compatível com o contexto de Kabukichō. A coordenada estimada é em frente ao Isetan Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6005": {
+    "nome": "さくらクリニック (Sakura Clinic)",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69116875,
+    "lng": 139.70253125,
+    "estabelecimentos": [
+      "さくらクリニック (Sakura Clinic)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com um caminhão de lixo japonês e uma faixa de pedestres. No fundo, é visível uma placa de um estabelecimento com caracteres japoneses 'さくらクリニック' (Sakura Clinic). A arquitetura dos prédios e a presença de passarelas elevadas são típicas de grandes centros urbanos no Japão, como Shinjuku, Tóquio. A localização estimada é baseada na identificação da Sakura Clinic em Shinjuku-dori, uma rua principal na área.",
+    "skip": false,
+    "osint": true
+  },
+  "6065": {
+    "nome": "Starbucks",
+    "rua": "Shinjuku-dori",
+    "lat": 35.691971875,
+    "lng": 139.702715625,
+    "estabelecimentos": [
+      "Starbucks",
+      "Diesel"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento movimentado com estabelecimentos comerciais facilmente reconhecíveis como Starbucks e Diesel. A arquitetura moderna e a presença de uma via elevada são características de grandes avenidas em Tóquio. A localização exata é o cruzamento da Shinjuku-dori com a Meiji-dori, próximo à saída leste da estação de Shinjuku, um ponto conhecido e compatível com o deslocamento a pé em Shinjuku/Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "6125": {
+    "nome": "METRO PA",
+    "rua": "Kabukicho",
+    "lat": 35.6917246875,
+    "lng": 139.7028228125,
+    "estabelecimentos": [
+      "METRO PA"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um letreiro azul com as palavras 'METRO PA'. Embora não seja um nome completo, a combinação de 'Metro' e 'Pa' é um indicativo forte de uma estação de metrô ou um estacionamento subterrâneo. Dada a informação de que o streamer está em Shinjuku/Kabukichō, Tóquio, e se deslocando a pé, a presença de uma entrada de metrô é consistente com a área. A arquitetura moderna ao fundo também se alinha com a paisagem urbana de Tóquio. A coordenada estimada é próxima à entrada do metrô na área de Kabukicho.",
+    "skip": false,
+    "osint": true
+  },
+  "6185": {
+    "nome": "Kabukicho",
+    "rua": "Kabukicho",
+    "lat": 35.6914775,
+    "lng": 139.70292999999998,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com calçada e veículos, indicando um ambiente externo. A arquitetura dos edifícios ao fundo, o estilo dos veículos e a presença de pessoas com guarda-chuvas em um dia chuvoso são consistentes com o ambiente urbano de Tóquio. Embora não haja placas de rua ou nomes de estabelecimentos claramente visíveis, a descrição do streamer de estar em Shinjuku/Kabukichō e a aparência geral da área se encaixam com essa região. A coordenada é uma estimativa aproximada para Kabukicho, Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6245": {
+    "nome": "Clarks",
+    "rua": "Shinjuku-dori",
+    "lat": 35.6921674074074,
+    "lng": 139.7032285185185,
+    "estabelecimentos": [
+      "Clarks"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer caminhando em uma calçada larga e bem cuidada, típica de grandes centros urbanos japoneses. À esquerda, há uma estrutura elevada que parece ser parte de uma passarela ou viaduto. À direita, é possível ver a fachada de uma loja com o logotipo 'Clarks' parcialmente visível. A arquitetura moderna e a presença de uma passarela elevada são consistentes com a área de Shinjuku, Tóquio, especificamente na Shinjuku-dori, próximo à estação Shinjuku-sanchome, onde há uma loja Clarks e estruturas elevadas.",
+    "skip": false,
+    "osint": true
+  },
+  "6305": {
+    "nome": "Não identificável",
+    "rua": "Shinjuku-dori",
+    "lat": 35.692857314814816,
+    "lng": 139.70352703703702,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6365": {
+    "nome": "RANGOLI",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69354722222222,
+    "lng": 139.70382555555557,
+    "estabelecimentos": [
+      "RANGOLI"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada típica de Tóquio, com barreiras de proteção e árvores. O estabelecimento 'RANGOLI' é visível ao fundo, um restaurante indiano conhecido em Shinjuku. A arquitetura dos edifícios e o tipo de mobiliário urbano são consistentes com a área de Shinjuku, Tóquio. A coordenada foi estimada com base na localização do restaurante Rangoli na Shinjuku-dori, que se alinha com a perspectiva da imagem.",
+    "skip": false,
+    "osint": true
+  },
+  "6425": {
+    "nome": "FamilyMart",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.693333611111115,
+    "lng": 139.7040527777778,
+    "estabelecimentos": [
+      "FamilyMart",
+      "UNIQLO (possível)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua urbana com arquitetura moderna e placas em japonês, confirmando Tóquio. O letreiro 'FamilyMart' é claramente visível ao fundo. A arquitetura de vidro de um prédio à direita sugere uma loja de departamento ou grande varejista, possivelmente uma UNIQLO. A presença de uma faixa de pedestres e a disposição da calçada e da rua são consistentes com a Meiji-dori na área de Shinjuku, próximo à estação de Shinjuku-sanchome, onde há um FamilyMart e grandes lojas.",
+    "skip": false,
+    "osint": true
+  },
+  "6485": {
+    "nome": "IKEA",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.69254680555556,
+    "lng": 139.7041513888889,
+    "estabelecimentos": [
+      "IKEA",
+      "PLAZA",
+      "Suntory"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma parada de ônibus típica japonesa e edifícios com arquitetura moderna. O logotipo da IKEA é claramente visível no topo de um prédio, e o nome 'PLAZA' também aparece. A placa 'Suntory' é visível em um outdoor. A combinação desses elementos, especialmente a presença da IKEA e PLAZA em um contexto urbano japonês, aponta para a Meiji-dori em Shinjuku, Tóquio, onde há uma loja IKEA e outros estabelecimentos comerciais. A coordenada corresponde à área próxima à estação de Shinjuku, na Meiji-dori, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "6545": {
+    "nome": "Bic Camera Shinjuku East Exit Store (ビックカメラ新宿東口店)",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.69232425347222,
+    "lng": 139.70380461805559,
+    "estabelecimentos": [
+      "Bic Camera Shinjuku East Exit Store (ビックカメラ新宿東口店)",
+      "Mister Donut (ミスタードーナツ)",
+      "FamilyMart (ファミリーマート)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com edifícios modernos e placas em japonês, características de Tóquio. O edifício à esquerda com a placa 'Bic Camera' e 'Mister Donut' é claramente identificável como a Bic Camera Shinjuku East Exit Store, que fica na Meiji-dori. A arquitetura e o tipo de veículos também são consistentes com o Japão. A coordenada foi estimada com base na localização da Bic Camera Shinjuku East Exit Store na Meiji-dori.",
+    "skip": false,
+    "osint": true
+  },
+  "6605": {
+    "nome": "Dr. Martens",
+    "rua": "Meiji-dori",
+    "lat": 35.68930640842014,
+    "lng": 139.70368288628475,
+    "estabelecimentos": [
+      "Dr. Martens",
+      "Kebab Shop",
+      "WEX"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com edifícios comerciais típicos de Tóquio. É possível identificar a loja 'Dr. Martens' e um 'Kebab Shop' na calçada oposta. A van branca com o logotipo 'WEX' também é visível. A arquitetura dos prédios e a sinalização são consistentes com a área de Shinjuku, Tóquio. A rua é a Meiji-dori, uma via principal que passa por Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6665": {
+    "nome": "Bala",
+    "rua": "Meiji-dori",
+    "lat": 35.68720458260995,
+    "lng": 139.7036924754051,
+    "estabelecimentos": [
+      "Bala",
+      "Hello Japan"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com edifícios comerciais modernos, típicos de áreas urbanas de Tóquio. O táxi preto com 'S.RIDE' é um serviço de táxi comum na cidade. A loja 'Bala' e 'Hello Japan' são visíveis. A arquitetura e o tipo de sinalização são consistentes com a área de Shinjuku, especificamente a Meiji-dori, uma via principal que conecta várias partes da cidade.",
+    "skip": false,
+    "osint": true
+  },
+  "6725": {
+    "nome": "ZENITH",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68664304080664,
+    "lng": 139.70359375779643,
+    "estabelecimentos": [
+      "ZENITH",
+      "BIC CAMERA (possível)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com arquitetura moderna e placas em japonês, características de Tóquio. O edifício à esquerda exibe o logotipo 'ZENITH', uma marca de relógios de luxo. A arquitetura do prédio à esquerda, com sua fachada de vidro facetada, é muito semelhante ao edifício da Zenith em Shinjuku. Ao fundo, uma placa grande com caracteres japoneses e o que parece ser o logotipo da 'BIC CAMERA' (uma grande loja de eletrônicos japonesa) reforça a localização em Shinjuku, próximo à estação. A coordenada estimada corresponde a um ponto na Shinjuku-dori, em frente à loja Zenith.",
+    "skip": false,
+    "osint": true
+  },
+  "6785": {
+    "nome": "Laforet Harajuku",
+    "rua": "Meiji-dori",
+    "lat": 35.687197636361525,
+    "lng": 139.70343761983096,
+    "estabelecimentos": [
+      "Laforet Harajuku"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente o edifício 'Laforet Harajuku', um conhecido centro comercial em Tóquio. A rua em primeiro plano, com a faixa vermelha para pedestres, é a Meiji-dori, e o cruzamento visível é com a Omotesando-dori. A arquitetura e os sinais de trânsito são típicos do Japão, confirmando a localização em Tóquio. A coordenada corresponde ao cruzamento em frente ao Laforet Harajuku.",
+    "skip": false,
+    "osint": true
+  },
+  "6845": {
+    "nome": "1:54:05",
+    "rua": "Meiji-dori",
+    "lat": 35.687875353128334,
+    "lng": 139.70237184518368,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "6905": {
+    "nome": "Shinjuku Marui Main Building",
+    "rua": "Shinjuku-dori",
+    "lat": 35.68855306989514,
+    "lng": 139.70130607053636,
+    "estabelecimentos": [
+      "Shinjuku Marui Main Building",
+      "Isetan Shinjuku"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra o streamer em frente ao Shinjuku Marui Main Building, que possui uma fachada de vidro e uma calçada com um padrão de blocos característico. A placa visível 'Shinjuku Marui' confirma a localização. Ao fundo, é possível ver a arquitetura típica de grandes lojas de departamento de Shinjuku, como o Isetan, e a sinalização de trânsito japonesa. A coordenada corresponde à entrada principal do Shinjuku Marui Main Building na Shinjuku-dori.",
+    "skip": false,
+    "osint": true
+  },
+  "6965": {
+    "nome": "Samsung Galaxy",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.689678574844635,
+    "lng": 139.7007450152252,
+    "estabelecimentos": [
+      "Samsung Galaxy",
+      "BIC CAMERA (ビックカメラ)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a rua Shinjuku-dori em Tóquio, com a loja Samsung Galaxy claramente visível à esquerda e o logotipo da BIC CAMERA (ビックカメラ) ao fundo à direita. A arquitetura moderna e o estilo dos veículos são típicos do Japão. A localização estimada é em Shinjuku, um bairro comercial movimentado, compatível com o contexto da live em Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "7025": {
+    "nome": "FamilyMart",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69028747898664,
+    "lng": 139.6993969505835,
+    "estabelecimentos": [
+      "FamilyMart"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A placa de 'PRIVATE AREA NO ENTRY' é um indicativo comum em áreas de construção ou acesso restrito no Japão. Ao fundo, é possível ver um letreiro vermelho que se assemelha ao logotipo da FamilyMart, uma rede de lojas de conveniência muito presente em Tóquio. A arquitetura dos prédios e o estilo da rua são consistentes com a área de Shinjuku. A coordenada foi estimada com base na localização de uma FamilyMart na Shinjuku-dori, próxima a Kabukichō, que corresponde ao ambiente e contexto da live.",
+    "skip": false,
+    "osint": true
+  },
+  "7085": {
+    "nome": "Shinjuku Central Park Avenue (新宿中央公園通り)",
+    "rua": "Shinjuku Central Park Avenue (新宿中央公園通り)",
+    "lat": 35.690447671083376,
+    "lng": 139.69920617327338,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com edifícios modernos de vidro, típicos da área de Shinjuku. A placa de trânsito azul e branca com um 'P' e um círculo vermelho cortado indica uma área de estacionamento restrito, comum no Japão. A arquitetura e o tipo de veículos (caminhonete azul e van branca) são consistentes com Tóquio. A localização exata é na Shinjuku Central Park Avenue, próximo ao Shinjuku Central Park, uma área que o streamer Baka Gaijin frequentemente visita em suas lives.",
+    "skip": false,
+    "osint": true
+  },
+  "7145": {
+    "nome": "Meiji-dori",
+    "rua": "Meiji-dori",
+    "lat": 35.690878219240666,
+    "lng": 139.6996921738756,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com calçadas bem cuidadas e sinalização tátil amarela, comum no Japão. Há um ponto de ônibus com um poste verde característico de Tóquio. A arquitetura dos prédios é moderna e há um caminhão com design japonês. A localização é consistente com a Meiji-dori, uma rua principal em Shinjuku, Tóquio, conhecida por seus edifícios comerciais e pontos de ônibus.",
+    "skip": false,
+    "osint": true
+  },
+  "7205": {
+    "nome": "Tokyo Metropolitan Government Building No. 2 (東京都庁第二本庁舎)",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.691785010421796,
+    "lng": 139.70046699968128,
+    "estabelecimentos": [
+      "Tokyo Metropolitan Government Building No. 2 (東京都庁第二本庁舎)",
+      "Shinjuku Chuo Park (新宿中央公園)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua com calçada tátil amarela, comum no Japão. À esquerda, há um prédio grande e uma viatura policial estacionada, indicando uma área governamental ou de grande porte. A arquitetura moderna e a presença de uma estrutura triangular distintiva ao fundo (parte do Shinjuku Chuo Park ou de um edifício próximo) são compatíveis com a área de Shinjuku. A localização estimada é na Meiji-dori, próximo ao Tokyo Metropolitan Government Building No. 2 e ao Shinjuku Chuo Park, o que se alinha com o contexto de Tóquio e Shinjuku/Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "7265": {
+    "nome": "Doremi (ドレミ)",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.69265731008762,
+    "lng": 139.7012008907744,
+    "estabelecimentos": [
+      "Doremi (ドレミ)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um cruzamento com uma passarela de pedestres elevada. O edifício ao fundo tem um letreiro 'Doremi' e um número de telefone '03-5774-7501', que é um prefixo de Tóquio. A arquitetura e o tipo de veículos são consistentes com o Japão. Este local específico é o cruzamento da Meiji-dori com a Shinjuku-dori, próximo à estação Shinjuku-sanchome, onde a passarela é uma característica marcante.",
+    "skip": false,
+    "osint": true
+  },
+  "7325": {
+    "nome": "MIZUHO",
+    "rua": "Kabukicho",
+    "lat": 35.69351236399578,
+    "lng": 139.70191431451124,
+    "estabelecimentos": [
+      "MIZUHO"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a fachada de um banco Mizuho, uma instituição financeira japonesa comum em Tóquio. A arquitetura e as marcações táteis amarelas no chão são características de ruas japonesas. A área de Kabukichō em Shinjuku é conhecida por ter muitos estabelecimentos comerciais e bancos, e a presença do Mizuho é um forte indicativo. A coordenada é uma estimativa para a área de Kabukichō onde o banco Mizuho é visível.",
+    "skip": false,
+    "osint": true
+  },
+  "7385": {
+    "nome": "BEAMS",
+    "rua": "Meiji-dori (próximo à interseção com a rua sem nome onde fic",
+    "lat": 35.69436741790395,
+    "lng": 139.70262773824808,
+    "estabelecimentos": [
+      "BEAMS"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A loja 'BEAMS' é claramente visível na imagem, com sua fachada preta e janelas grandes. A arquitetura e a sinalização de rua (placa azul com caracteres japoneses e a faixa tátil amarela) são típicas de Tóquio. A localização da BEAMS em Shinjuku, próxima à Meiji-dori, é um ponto conhecido e compatível com o contexto de Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "7445": {
+    "nome": "7-Eleven",
+    "rua": "Kabukicho",
+    "lat": 35.693373708951974,
+    "lng": 139.70275136912403,
+    "estabelecimentos": [
+      "7-Eleven"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com uma arquitetura típica de Tóquio, incluindo uma loja de conveniência 7-Eleven visível ao fundo. A frase do streamer 'beco coberto' e o contexto de Shinjuku/Kabukichō reforçam a localização em um dos muitos becos e vielas da região. A coordenada aproximada é para um beco próximo à rua principal de Kabukicho, compatível com o ambiente e a presença do 7-Eleven.",
+    "skip": false,
+    "osint": true
+  },
+  "7505": {
+    "nome": "Agência imobiliária (cartazes de imóveis para alugar/venda)",
+    "rua": "Não identificável",
+    "lat": 35.69349435447599,
+    "lng": 139.70260693456203,
+    "estabelecimentos": [
+      "Agência imobiliária (cartazes de imóveis para alugar/venda)",
+      "7-Eleven (reflexo na vitrine)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra cartazes de imóveis para alugar/venda em japonês, indicando uma agência imobiliária. O reflexo na vitrine parece ser de uma loja de conveniência 7-Eleven. Embora a rua exata não seja visível, a presença de uma agência imobiliária e uma 7-Eleven é comum em áreas urbanas como Shinjuku, Tóquio, onde o streamer Baka Gaijin costuma fazer lives. A coordenada é uma estimativa geral para a área de Kabukichō, Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "7565": {
+    "nome": "Rua desconhecida (beco/passagem)",
+    "rua": "Rua desconhecida (beco/passagem)",
+    "lat": 35.693615,
+    "lng": 139.70246250000002,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito e úmido, com arquitetura moderna e vegetação densa nas laterais, típica de áreas residenciais ou comerciais secundárias em Tóquio. Não há placas de rua ou nomes de estabelecimentos claramente visíveis que permitam uma identificação precisa da rua. No entanto, a placa no chão com caracteres japoneses e o estilo arquitetônico reforçam a localização em Tóquio. A coordenada é uma estimativa para um beco em Shinjuku, próximo a Kabukichō, compatível com o cenário.",
+    "skip": false,
+    "osint": true
+  },
+  "7625": {
+    "nome": "MARIE (loja rosa)",
+    "rua": "Kabukicho",
+    "lat": 35.69387625,
+    "lng": 139.70253437500003,
+    "estabelecimentos": [
+      "MARIE (loja rosa)"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A arquitetura das construções e a presença de postes de energia com fiação aérea são características comuns em Tóquio. A loja rosa com o nome 'MARIE' (parcialmente visível) e o estilo da rua estreita com calçadas elevadas são consistentes com a área de Kabukichō, Shinjuku. A coordenada estimada é para uma rua lateral próxima à área principal de Kabukichō, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "7685": {
+    "nome": "BABYLON",
+    "rua": "Kabukicho",
+    "lat": 35.69333678571429,
+    "lng": 139.70258660714288,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7745": {
+    "nome": "Não identificável",
+    "rua": "Kabukicho",
+    "lat": 35.69279732142857,
+    "lng": 139.70263883928573,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7805": {
+    "nome": "Kabukicho",
+    "rua": "Kabukicho",
+    "lat": 35.692257857142856,
+    "lng": 139.70269107142857,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada, típica de Tóquio, com arquitetura japonesa. O painel azul à esquerda exibe texto em japonês e francês, indicando uma loja de perfumes ou cosméticos. A presença de um banner com um homem em terno à direita, comum em áreas comerciais como Kabukichō, e a ausência de carros ou transporte público visível, sugerem uma rua secundária ou beco. A coordenada é uma estimativa para uma rua secundária em Kabukichō, Shinjuku, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "7865": {
+    "nome": "Brazilian Sandwich",
+    "rua": "Kabukicho",
+    "lat": 35.692046285714284,
+    "lng": 139.70261285714287,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7925": {
+    "nome": "2:12:05",
+    "rua": "Kabukicho",
+    "lat": 35.69183471428572,
+    "lng": 139.70253464285713,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "7985": {
+    "nome": "Não identificável",
+    "rua": "Kabukicho",
+    "lat": 35.691623142857146,
+    "lng": 139.70245642857142,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8045": {
+    "nome": "Shinjuku-dori",
+    "rua": "Shinjuku-dori",
+    "lat": 35.691411571428574,
+    "lng": 139.70237821428572,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada molhada com piso tátil característico do Japão. A placa parcialmente visível no abrigo de ônibus tem caracteres japoneses e a frase 'Please smoke in the smoking area' em inglês, indicando um local público no Japão. A arquitetura dos prédios ao fundo e a presença de um abrigo de ônibus moderno são consistentes com áreas urbanas de Tóquio, especificamente Shinjuku. A coordenada é uma estimativa para a Shinjuku-dori, uma das principais ruas da região, compatível com o contexto de deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "8105": {
+    "nome": "Starbucks",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.6912,
+    "lng": 139.7023,
+    "estabelecimentos": [
+      "Starbucks",
+      "ABC-MART",
+      "GU",
+      "UNIQLO"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com edifícios comerciais modernos, característicos de Tóquio. É possível identificar claramente os logotipos da Starbucks, ABC-MART, GU e UNIQLO. A arquitetura e o estilo das placas de trânsito são típicos do Japão. A presença dessas lojas em sequência, especialmente o Starbucks no prédio que se assemelha ao 'Shinjuku Flags' ou um prédio similar na área, e a faixa vermelha na rua, são fortes indicadores da Meiji-dori, próximo à estação de Shinjuku.",
+    "skip": false,
+    "osint": true
+  },
+  "8165": {
+    "nome": "Galaxy",
+    "rua": "Meiji-dori (明治通り)",
+    "lat": 35.69176,
+    "lng": 139.70295,
+    "estabelecimentos": [
+      "Galaxy",
+      "Onitsuka Tiger",
+      "COSMO"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua larga com calçadas, prédios comerciais e um caminhão de entrega típico japonês. É possível identificar claramente a loja 'Galaxy' e 'Onitsuka Tiger' em letreiros grandes. A arquitetura moderna e a presença de poças d'água indicam um dia chuvoso. A localização é confirmada como Meiji-dori em Shinjuku, Tóquio, pela presença dessas lojas e o contexto da live do streamer na área.",
+    "skip": false,
+    "osint": true
+  },
+  "8225": {
+    "nome": "Coca-Cola",
+    "rua": "Shinjuku-dori",
+    "lat": 35.692573333333335,
+    "lng": 139.70336666666665,
+    "estabelecimentos": [
+      "Coca-Cola"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua movimentada com características urbanas japonesas, incluindo um caminhão da Coca-Cola com design específico para o Japão e um caminhão de lixo com o logotipo 'KIKAN'. A arquitetura dos edifícios e a sinalização de trânsito são consistentes com Tóquio. A localização foi estimada na Shinjuku-dori, uma rua principal em Shinjuku, Tóquio, que corresponde ao ambiente e ao contexto de Kabukichō.",
+    "skip": false,
+    "osint": true
+  },
+  "8285": {
+    "nome": "2:18:05",
+    "rua": "Shinjuku-dori",
+    "lat": 35.69325055555556,
+    "lng": 139.70316377777777,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8345": {
+    "nome": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "rua": "Shinjuku Golden Gai (新宿ゴールデン街)",
+    "lat": 35.69392777777778,
+    "lng": 139.70296088888887,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um beco estreito com calçamento de paralelepípedos e edifícios de dois andares com toldos e fachadas comerciais, muitos deles fechados com persianas metálicas. Esta arquitetura é muito característica da área de Shinjuku Golden Gai, conhecida por seus pequenos bares e ruas estreitas. A iluminação e o estilo dos edifícios são consistentes com essa área de Tóquio.",
+    "skip": false,
+    "osint": true
+  },
+  "8405": {
+    "nome": "Zelig",
+    "rua": "Kabukicho",
+    "lat": 35.69359486111111,
+    "lng": 139.70308055555554,
+    "estabelecimentos": [
+      "Zelig",
+      "Cafe Crepe Co., Ltd.",
+      "Lulu Blanche",
+      "High Five Tattoo",
+      "Ninja Harajuku"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um poste com várias placas de estabelecimentos comerciais. Os nomes 'Zelig', 'Cafe Crepe Co., Ltd.', 'Lulu Blanche', 'High Five Tattoo' e 'Ninja Harajuku' são claramente visíveis. A combinação desses estabelecimentos, especialmente 'High Five Tattoo' e 'Ninja Harajuku', é um forte indicador da área de Kabukicho, Shinjuku, em Tóquio. A arquitetura do prédio ao fundo, com tijolos claros e janelas verticais, é consistente com a região. A coordenada foi estimada com base na localização desses estabelecimentos na área de Kabukicho.",
+    "skip": false,
+    "osint": true
+  },
+  "8465": {
+    "nome": "KINNY",
+    "rua": "Shinjuku Golden Gai",
+    "lat": 35.69095428819445,
+    "lng": 139.70310909722224,
+    "estabelecimentos": [
+      "KINNY",
+      "Moff Animal World"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua estreita e molhada, típica de áreas comerciais em Tóquio. Os anúncios de 'KINNY' e 'Moff Animal World' são visíveis em um painel rosa, com '2F' indicando o segundo andar. A arquitetura e o estilo dos anúncios são consistentes com a área de Kabukichō, especificamente próximo ao Golden Gai, conhecido por suas ruas estreitas e estabelecimentos de entretenimento. A coordenada é aproximada para a entrada de um prédio comercial com escadas que levam ao segundo andar, onde esses tipos de estabelecimentos costumam estar.",
+    "skip": false,
+    "osint": true
+  },
+  "8525": {
+    "nome": "SWEET PALACE",
+    "rua": "Shinjuku Promenade Park",
+    "lat": 35.6888616015625,
+    "lng": 139.70311553125,
+    "estabelecimentos": [
+      "SWEET PALACE",
+      "AFTER HOURS"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua pavimentada com tijolos, típica de áreas comerciais no Japão. O letreiro 'SWEET PALACE' é visível, e a arquitetura do prédio ao fundo, com a placa 'AFTER HOURS' e os caracteres japoneses, confirma a localização em Tóquio. A presença de um expositor de produtos Pokémon na calçada é comum em áreas de grande movimento como Shinjuku. A coordenada é compatível com o Shinjuku Promenade Park, uma área de pedestres com estabelecimentos comerciais.",
+    "skip": false,
+    "osint": true
+  },
+  "8585": {
+    "nome": "Pet Paradise",
+    "rua": "Kabukicho Ichibangai",
+    "lat": 35.68668134960937,
+    "lng": 139.7028440671875,
+    "estabelecimentos": [
+      "Pet Paradise",
+      "SECOM"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma rua típica de Tóquio, com calçadas estreitas e edifícios comerciais. O estabelecimento 'Pet Paradise' é visível na persiana metálica de uma loja fechada. A arquitetura e o estilo das placas ao fundo são consistentes com a área de Kabukichō, Shinjuku. A presença do logotipo 'SECOM' (empresa de segurança japonesa) é um forte indicador. A coordenada estimada é para a Kabukicho Ichibangai, uma rua principal da área, compatível com o deslocamento a pé do streamer.",
+    "skip": false,
+    "osint": true
+  },
+  "8645": {
+    "nome": "Fugo Harajuku",
+    "rua": "Takeshita Street (竹下通り)",
+    "lat": 35.685031910097656,
+    "lng": 139.70243151720314,
+    "estabelecimentos": [
+      "Fugo Harajuku",
+      "McDonald's"
+    ],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra a Takeshita Street em Harajuku, Tóquio. O letreiro 'Fugo Harajuku' é claramente visível, e a arquitetura da rua, com a passarela elevada ao fundo e o calçamento característico, é inconfundível. A menção do streamer ao 'McDonald's' também se alinha com a presença de um McDonald's próximo a esta rua. A coordenada aponta para o início da Takeshita Street, compatível com o deslocamento a pé.",
+    "skip": false,
+    "osint": true
+  },
+  "8705": {
+    "nome": "Desconhecida",
+    "rua": "Takeshita Street (竹下通り)",
+    "lat": 35.68392433081562,
+    "lng": 139.70280197203252,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8765": {
+    "nome": "2:26:05",
+    "rua": "Takeshita Street (竹下通り)",
+    "lat": 35.68281675153359,
+    "lng": 139.70317242686187,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8825": {
+    "nome": "Shinjuku-dori (新宿通り)",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.68170917225156,
+    "lng": 139.70354288169125,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma calçada com piso tátil amarelo, comum no Japão, e pessoas com guarda-chuvas transparentes, também característicos. A arquitetura do prédio à esquerda, com grandes janelas e o estilo geral da rua, é consistente com áreas comerciais de Tóquio. Embora não haja nomes de estabelecimentos claramente visíveis, a localização em Shinjuku/Kabukichō, conforme o contexto fornecido, e a aparência da rua, sugerem a Shinjuku-dori, uma das principais vias da região. A coordenada estimada corresponde a um trecho dessa rua.",
+    "skip": false,
+    "osint": true
+  },
+  "8885": {
+    "nome": "Kitanomaru Park",
+    "rua": "Shinjuku-dori (新宿通り)",
+    "lat": 35.68103300317312,
+    "lng": 139.70453036267048,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "8945": {
+    "nome": "Meiji Jingu Omotesando (caminho de acesso ao santuário)",
+    "rua": "Meiji Jingu Omotesando (caminho de acesso ao santuário)",
+    "lat": 35.68035683409468,
+    "lng": 139.70551784364974,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra claramente um grande portão Torii de madeira, característico de santuários xintoístas no Japão. A arquitetura do Torii e o ambiente arborizado com um caminho de cascalho são idênticos ao acesso principal do Santuário Meiji Jingu, localizado em Shibuya, Tóquio. A localização estimada corresponde ao segundo grande Torii no caminho de entrada para o santuário.",
+    "skip": false,
+    "osint": true
+  },
+  "9005": {
+    "nome": "Não identificável",
+    "rua": "Meiji Jingu Omotesando (caminho de acesso ao santuário)",
+    "lat": 35.67970568004757,
+    "lng": 139.70653509716857,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9065": {
+    "nome": "2:31:05",
+    "rua": "Meiji Jingu Omotesando (caminho de acesso ao santuário)",
+    "lat": 35.67905452600046,
+    "lng": 139.70755235068737,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9125": {
+    "nome": "Não identificável com precisão, mas dentro da área do Santuá",
+    "rua": "Não identificável com precisão, mas dentro da área do Santuá",
+    "lat": 35.67840337195335,
+    "lng": 139.7085696042062,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra um ambiente arborizado com uma estrutura de madeira tradicional japonesa, que se assemelha a um torii ou parte de um templo/santuário. A arquitetura e a vegetação são consistentes com a entrada ou os arredores do Santuário Meiji Jingu em Tóquio, que é uma grande área verde. A presença de pilares de madeira e a pavimentação de cascalho são características comuns do local. A coordenada fornecida é uma estimativa para a área de entrada do santuário.",
+    "skip": false,
+    "osint": true
+  },
+  "9185": {
+    "nome": "Meiji Jingu Gaien (caminho de acesso)",
+    "rua": "Meiji Jingu Gaien (caminho de acesso)",
+    "lat": 35.67799693884737,
+    "lng": 139.7095782758847,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma alameda arborizada com um caminho pavimentado e uma estrada de cascalho adjacente, características típicas do acesso ao Santuário Meiji Jingu. A densa vegetação e a ausência de edifícios comerciais ou residenciais confirmam que se trata de uma área de parque ou santuário. A localização em Tóquio, Shinjuku/Kabukichō, e a descrição de um streamer caminhando, são consistentes com o acesso ao Santuário Meiji Jingu, que fica próximo a essas áreas.",
+    "skip": false,
+    "osint": true
+  },
+  "9245": {
+    "nome": "2:34:05",
+    "rua": "Meiji Jingu Gaien (caminho de acesso)",
+    "lat": 35.67759050574139,
+    "lng": 139.71058694756317,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  },
+  "9305": {
+    "nome": "Meiji Jingu Gaien (próximo à entrada do santuário)",
+    "rua": "Meiji Jingu Gaien (próximo à entrada do santuário)",
+    "lat": 35.67718407263542,
+    "lng": 139.71159561924168,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área arborizada com um caminho pavimentado e o que parece ser um grande pilar de madeira, característico dos torii (portões de santuários xintoístas) japoneses. Há também uma lanterna de pedra tradicional (ishidoro) e sinalização em japonês. A arquitetura e o ambiente são consistentes com a entrada do Santuário Meiji Jingu, que fica em uma grande área verde em Tóquio, próximo a Shinjuku. A coordenada estimada é para a entrada principal do santuário.",
+    "skip": false,
+    "osint": true
+  },
+  "9365": {
+    "nome": "Meiji Jingu Gaien (外苑)",
+    "rua": "Meiji Jingu Gaien (外苑)",
+    "lat": 35.6769,
+    "lng": 139.7126,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "A imagem mostra uma área verde com uma entrada que se assemelha a um parque ou santuário. A arquitetura do telhado visível ao fundo, a cerca e a sinalização amarela são características comuns no Japão. A faixa tátil amarela no chão é um padrão japonês. A localização é consistente com a área de Shinjuku/Kabukichō, especificamente próximo ao Meiji Jingu Gaien, um grande complexo de parques e instalações esportivas.",
+    "skip": false,
+    "osint": true
+  },
+  "9425": {
+    "nome": "2:37:05",
+    "rua": "Meiji Jingu Gaien (外苑)",
+    "lat": 35.6769,
+    "lng": 139.7126,
+    "estabelecimentos": [],
+    "confianca": "baixa",
+    "justificativa": "Local fechado/interior — posição interpolada entre pontos de rua",
+    "skip": false
+  }
+}
