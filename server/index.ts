@@ -527,13 +527,22 @@ async function startServer() {
       res.status(503).json({ error: "Webhook do Stripe não configurado" });
       return;
     }
-    if (!sig || !verifyStripeSignature(req.body as Buffer, sig, secret)) {
+    // No Cloud Functions 2ª geração o runtime pré-analisa o corpo JSON
+    // (req.body vira objeto e req._body fica true, fazendo o express.raw
+    // pular), mas preserva os bytes crus em req.rawBody — é ele que usamos
+    // para verificar a assinatura HMAC do Stripe.
+    const rawBody: Buffer = Buffer.isBuffer((req as any).rawBody)
+      ? (req as any).rawBody
+      : Buffer.isBuffer(req.body)
+        ? req.body
+        : Buffer.from(typeof req.body === "string" ? req.body : "", "utf8");
+    if (!sig || !verifyStripeSignature(rawBody, sig, secret)) {
       res.status(401).json({ error: "Assinatura inválida" });
       return;
     }
     let event: any;
     try {
-      event = JSON.parse((req.body as Buffer).toString("utf8"));
+      event = JSON.parse(rawBody.toString("utf8"));
     } catch {
       res.status(400).json({ error: "Corpo inválido" });
       return;
@@ -566,6 +575,8 @@ async function startServer() {
         const stripeCustomerId = typeof session.customer === "string" ? session.customer : "";
         const stripeSubscriptionId =
           typeof session.subscription === "string" ? session.subscription : "";
+        const stripePaymentIntentId =
+          typeof session.payment_intent === "string" ? session.payment_intent : "";
         const periodo = typeof metadata.periodo === "string" ? metadata.periodo : "";
         const anual = product.tipo === "mensal" && periodo === "anual" && !!product.precoAnual;
         const preco = anual ? (product.precoAnual as number) : product.preco;
@@ -605,6 +616,7 @@ async function startServer() {
           stripeSessionId,
           stripeCustomerId,
           stripeSubscriptionId,
+          stripePaymentIntentId,
           status: "ativo",
           createdAt: FieldValue.serverTimestamp(),
         });
@@ -716,6 +728,60 @@ async function startServer() {
       } catch (error) {
         console.warn("[stripe] falha ao processar retomada:", error);
         res.status(500).json({ error: "Falha ao processar a retomada" });
+        return;
+      }
+    }
+
+    // Estorno (charge.refunded): remove o apoio do usuário dos apoios.
+    if (event.type === "charge.refunded") {
+      try {
+        const charge = (event.data?.object ?? {}) as Record<string, any>;
+        const paymentIntent = typeof charge.payment_intent === "string" ? charge.payment_intent : "";
+        const customerId = typeof charge.customer === "string" ? charge.customer : "";
+        if (!firebaseReady || (!paymentIntent && !customerId)) {
+          res.status(400).json({ error: "charge sem payment_intent/customer" });
+          return;
+        }
+        if (paymentIntent) {
+          const byIntent = await getFirestore()
+            .collection("support_purchases")
+            .where("stripePaymentIntentId", "==", paymentIntent)
+            .limit(1)
+            .get();
+          if (!byIntent.empty) {
+            const d = byIntent.docs[0].data() as Record<string, any>;
+            const uid = typeof d.uid === "string" ? d.uid : "";
+            await byIntent.docs[0].ref.delete();
+            if (uid) await syncPublicSupportMirror(uid);
+            console.log(`[stripe] estorno: apoio removido (payment_intent ${paymentIntent})`);
+            res.json({ received: true });
+            return;
+          }
+        }
+        if (customerId) {
+          const byCustomer = await getFirestore()
+            .collection("support_purchases")
+            .where("stripeCustomerId", "==", customerId)
+            .get();
+          if (!byCustomer.empty) {
+            const uids = new Set<string>();
+            for (const doc of byCustomer.docs) {
+              const d = doc.data() as Record<string, any>;
+              if (typeof d.uid === "string") uids.add(d.uid);
+              await doc.ref.delete();
+            }
+            for (const uid of uids) await syncPublicSupportMirror(uid);
+            console.log(`[stripe] estorno: apoio(s) removido(s) por customer ${customerId}`);
+            res.json({ received: true });
+            return;
+          }
+        }
+        console.log(`[stripe] estorno sem apoio correspondente (pi=${paymentIntent}, cus=${customerId})`);
+        res.json({ received: true, notFound: true });
+        return;
+      } catch (error) {
+        console.warn("[stripe] falha ao processar estorno:", error);
+        res.status(500).json({ error: "Falha ao processar o estorno" });
         return;
       }
     }
