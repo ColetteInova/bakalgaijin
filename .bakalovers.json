@@ -1,43 +1,30 @@
 [
   {
-    "id": "XGoFLzFwJPRzm8eceJofnm9n6sD3",
-    "nome": "Rafael Colette",
-    "apelido": "contato",
-    "twitch": "",
+    "id": "twitch:coletteinova",
+    "nome": "coletteinova",
+    "apelido": "coletteinova",
+    "twitch": "coletteinova",
     "email": "contato@coletteinova.com.br",
+    "avatar": "https://static-cdn.jtvnw.net/jtv_user_pictures/9b873eba-22a8-4209-82dd-a7caf91dcbb6-profile_image-300x300.png",
     "apoios": [
-      {
-        "emoji": "👑",
-        "nome": "Bakalover Supremo"
-      },
       {
         "emoji": "🩲",
         "nome": "Calcinha no Prédio"
       },
       {
-        "emoji": "👑",
-        "nome": "Bakalover Supremo"
+        "nome": "Atualização Sexo 2",
+        "emoji": "🔥"
       },
       {
         "emoji": "✊",
         "nome": "Punhetaço"
       },
       {
-        "emoji": "🔥",
-        "nome": "Atualização Sexo 2"
+        "nome": "Bakalover Supremo",
+        "emoji": "👑"
       }
     ],
     "official": true,
-    "createdAt": "2026-09-30T14:30:07.030Z"
-  },
-  {
-    "id": "twitch:coletteinova",
-    "nome": "Rafael Colette",
-    "apelido": "coletteinova",
-    "twitch": "coletteinova",
-    "email": "contato@coletteinova.com.br",
-    "apoios": [],
-    "official": true,
-    "createdAt": "2026-09-30T14:13:28.115Z"
+    "createdAt": "2026-10-02T16:39:32.819Z"
   }
 ]
