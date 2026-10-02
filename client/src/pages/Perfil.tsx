@@ -4,14 +4,14 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/lib/api";
 import {
-    getIdToken,
-    initFirebase,
-    signInWithGoogle,
-    signOutFirebase,
-    watchAuth,
+  getIdToken,
+  initFirebase,
+  signInWithGoogle,
+  signOutFirebase,
+  watchAuth,
 } from "@/lib/firebase";
 import type { User } from "firebase/auth";
-import { ArrowLeft, CheckCircle2, Heart, Loader2, LogOut, Mail, Twitch, UserRound } from "lucide-react";
+import { ArrowLeft, Check, CheckCircle2, Heart, Loader2, LogOut, Mail, Pencil, Twitch, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
@@ -97,6 +97,10 @@ export default function Perfil() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(false);
   const [savingNotify, setSavingNotify] = useState(false);
+  // Edição inline do nome (lápis → Salvar no mesmo botão)
+  const [editingNome, setEditingNome] = useState(false);
+  const [nomeDraft, setNomeDraft] = useState("");
+  const [savingNome, setSavingNome] = useState(false);
   const [, setLocation] = useLocation();
   // Apoios (produtos virtuais) do usuário
   const [purchases, setPurchases] = useState<SupportPurchase[]>([]);
@@ -492,6 +496,47 @@ export default function Perfil() {
     setProfile(null);
   }
 
+  function startEditNome() {
+    if (!profile) return;
+    setNomeDraft(profile.nome || "");
+    setEditingNome(true);
+  }
+
+  async function saveNome() {
+    if (!profile) return;
+    const nome = nomeDraft.trim();
+    if (!nome) {
+      toast.error("O nome não pode ficar vazio.");
+      return;
+    }
+    setSavingNome(true);
+    try {
+      const isTwitch = !!twitchSession;
+      const token = isTwitch ? null : await getIdToken();
+      const res = await fetch(api("/api/auth/profile"), {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(
+          isTwitch
+            ? { nome, twitchAccessToken: twitchSession.accessToken }
+            : { nome }
+        ),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Falha ao salvar o nome.");
+      setProfile(data);
+      setEditingNome(false);
+      toast.success("Nome atualizado! ✏️");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Falha ao salvar o nome.");
+    } finally {
+      setSavingNome(false);
+    }
+  }
+
   const loggedIn = !!user || !!twitchSession;
   const checking = !firebaseChecked || !twitchChecked;
 
@@ -685,10 +730,52 @@ export default function Perfil() {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-3 rounded-xl bg-[#0f172a] border border-[#26304d] p-3.5">
                     <UserRound className="w-4 h-4 text-[#8b96b5] shrink-0" />
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-[11px] text-[#8b96b5]">Nome</p>
-                      <p className="text-sm truncate">{profile.nome || "—"}</p>
+                      {editingNome ? (
+                        <input
+                          value={nomeDraft}
+                          onChange={(e) => setNomeDraft(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") void saveNome();
+                            if (e.key === "Escape") setEditingNome(false);
+                          }}
+                          placeholder="Seu nome"
+                          maxLength={40}
+                          autoFocus
+                          className="mt-1 w-full rounded-lg bg-[#1a2138] border border-[#334155] px-2 py-1 text-sm text-[#eef2ff] outline-none focus:border-[#a855f7]"
+                        />
+                      ) : (
+                        <p className="text-sm truncate">{profile.nome || "—"}</p>
+                      )}
                     </div>
+                    {editingNome ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => void saveNome()}
+                        disabled={savingNome}
+                        className="shrink-0 border-[#26304d] bg-[#1a2138]/70 hover:bg-[#1a2138] text-[#cbd5e1] text-xs"
+                      >
+                        {savingNome ? (
+                          <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                        ) : (
+                          <Check className="w-3.5 h-3.5 mr-1" />
+                        )}
+                        Salvar
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={startEditNome}
+                        className="shrink-0 border-[#26304d] bg-[#1a2138]/70 hover:bg-[#1a2138] text-[#cbd5e1] text-xs"
+                      >
+                        <Pencil className="w-3.5 h-3.5 mr-1" /> Editar
+                      </Button>
+                    )}
                   </div>
                   <div className="flex items-center gap-3 rounded-xl bg-[#0f172a] border border-[#26304d] p-3.5">
                     <Mail className="w-4 h-4 text-[#8b96b5] shrink-0" />

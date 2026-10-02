@@ -2227,7 +2227,15 @@ async function startServer() {
 
   // Resolve a identidade autenticada: Google (ID token do Firebase) ou
   // Twitch (access token validado na própria Twitch, fora do Firebase Auth).
-  async function resolveProfileIdentity(req: express.Request) {
+  async function resolveProfileIdentity(req: express.Request): Promise<{
+    uid: string;
+    provider: string;
+    login?: string;
+    displayName?: string;
+    email?: string;
+    profileImageUrl?: string;
+    userId?: string;
+  }> {
     const authHeader = String(req.headers.authorization || "");
     const idToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
     const queryToken = typeof req.query.twitchAccessToken === "string" ? req.query.twitchAccessToken : "";
@@ -2235,11 +2243,25 @@ async function startServer() {
     const twitchAccessToken = bodyToken || queryToken;
     if (twitchAccessToken) {
       const twitchUser = await fetchTwitchUser(twitchAccessToken);
-      return { uid: `twitch:${twitchUser.login.toLowerCase()}`, provider: "twitch" };
+      return {
+        uid: `twitch:${twitchUser.login.toLowerCase()}`,
+        provider: "twitch",
+        login: twitchUser.login,
+        displayName: twitchUser.displayName,
+        email: twitchUser.email,
+        profileImageUrl: twitchUser.profileImageUrl,
+        userId: twitchUser.userId,
+      };
     }
     if (idToken) {
       const decoded = await getAuth().verifyIdToken(idToken);
-      return { uid: decoded.uid, provider: decoded.firebase.sign_in_provider || "unknown" };
+      return {
+        uid: decoded.uid,
+        provider: decoded.firebase.sign_in_provider || "unknown",
+        displayName: typeof decoded.name === "string" ? decoded.name : "",
+        email: typeof decoded.email === "string" ? decoded.email : "",
+        profileImageUrl: typeof decoded.picture === "string" ? decoded.picture : "",
+      };
     }
     throw new Error("Sessão inválida");
   }
@@ -2251,14 +2273,68 @@ async function startServer() {
       return;
     }
     try {
-      const { uid } = await resolveProfileIdentity(req);
+      const identity = await resolveProfileIdentity(req);
+      const { uid } = identity;
       const doc = await getFirestore().collection("bakalovers").doc(uid).get();
       if (!doc.exists) {
-        res.status(404).json({ error: "Cadastro não encontrado" });
+        // Auto-cadastro: cria o perfil na hora com os dados da identidade
+        // (login Twitch ou nome/e-mail do Google) em vez de devolver 404.
+        const login = typeof identity.login === "string" ? identity.login : "";
+        const nome =
+          (typeof identity.displayName === "string" && identity.displayName) ||
+          login ||
+          (uid.startsWith("twitch:") ? uid.slice(7) : "Bakalover");
+        const email = typeof identity.email === "string" ? identity.email : "";
+        const twitchUserId = typeof identity.userId === "string" ? identity.userId : "";
+        const twitchProfileImage =
+          typeof identity.profileImageUrl === "string" ? identity.profileImageUrl : "";
+        const now = FieldValue.serverTimestamp();
+        await getFirestore()
+          .collection("bakalovers")
+          .doc(uid)
+          .set({
+            uid,
+            nome,
+            email,
+            twitch: login,
+            twitchUserId,
+            twitchProfileImage,
+            notify: true,
+            provider: identity.provider,
+            status: "aprovado",
+            updatedAt: now,
+            createdAt: now,
+          });
+        void writePublicMirror(uid, nome, login);
+        res.setHeader("Set-Cookie", AUTH_COOKIE);
+        res.json({
+          uid,
+          nome,
+          email,
+          twitch: login,
+          twitchUserId,
+          twitchProfileImage,
+          notify: true,
+          provider: identity.provider,
+          status: "aprovado",
+        });
         return;
       }
+      // Perfil existe: refresca campos de identidade que vierem vazios
+      // (e-mail, avatar e userId da Twitch) sem sobrescrever o que o usuário editou.
+      const data = (doc.data() ?? {}) as Record<string, any>;
+      const patch: Record<string, unknown> = {};
+      if (identity.email && !data.email) patch.email = identity.email;
+      if (identity.profileImageUrl && !data.twitchProfileImage) {
+        patch.twitchProfileImage = identity.profileImageUrl;
+      }
+      if (identity.userId && !data.twitchUserId) patch.twitchUserId = identity.userId;
+      if (Object.keys(patch).length) {
+        patch.updatedAt = FieldValue.serverTimestamp();
+        await getFirestore().collection("bakalovers").doc(uid).set(patch, { merge: true });
+      }
       res.setHeader("Set-Cookie", AUTH_COOKIE);
-      res.json(doc.data());
+      res.json({ ...data, ...patch, updatedAt: undefined });
     } catch (error) {
       res.status(401).json({
         error: error instanceof Error ? error.message : "Falha ao carregar o perfil",
