@@ -46,6 +46,41 @@ SIGV4 = "aws:amz:auto:s3"
 SINGLE_PUT_LIMIT = 5 * 1024**3  # R2: PUT único até 5 GiB
 PART_SIZE = 1024**3  # 1 GiB por parte no multipart
 
+CONTENT_TYPES = {
+    ".mp4": "video/mp4",
+    ".wav": "audio/wav",
+    ".gpx": "application/gpx+xml",
+    ".kml": "application/vnd.google-earth.kml+xml",
+    ".srt": "text/plain; charset=utf-8",
+    ".jpg": "image/jpeg",
+}
+
+# Apenas estes arquivos devem ser SALVOS (download) em vez de abertos no
+# navegador quando o link do CDN é clicado: os botões de rota do dashboard.
+ROUTE_ATTACHMENT_FILES = (
+    "mapa/rota.gpx",
+    "mapa/rota.kml",
+    "mapa/rota-a-pe.kml",
+    "mapa/rota-a-pe.gpx",
+)
+
+
+def file_headers(path: Path) -> list[str]:
+    """Headers de upload para o objeto: Content-Type por extensão e, para os
+    arquivos de rota (gpx/kml), Content-Disposition: attachment — faz o
+    navegador BAIXAR em vez de abrir a página do arquivo."""
+    ext = path.suffix.lower()
+    headers: list[str] = []
+    ct = CONTENT_TYPES.get(ext)
+    if ct:
+        headers += ["-H", f"Content-Type: {ct}"]
+    if ext in (".gpx", ".kml"):
+        headers += [
+            "-H",
+            f'Content-Disposition: attachment; filename="{path.name}"',
+        ]
+    return headers
+
 
 def load_env(path: Path = ROOT / ".env") -> None:
     if not path.is_file():
@@ -98,9 +133,41 @@ def object_exists(key: str) -> bool:
 
 
 def put_file(path: Path, key: str) -> None:
-    r = curl(["--fail", "--upload-file", str(path), r2_url(key)])
+    r = curl([*file_headers(path), "--fail", "--upload-file", str(path), r2_url(key)])
     if r.returncode != 0:
         raise RuntimeError(f"upload falhou: {r.stderr.strip()[:500]}")
+
+
+def has_attachment_header(key: str) -> bool:
+    """Verifica se o objeto no R2 já tem Content-Disposition: attachment."""
+    r = curl(["-I", r2_url(key)])
+    if r.returncode != 0:
+        return False
+    for line in r.stdout.splitlines():
+        if line.lower().startswith("content-disposition:") and "attachment" in line.lower():
+            return True
+    return False
+
+
+def ensure_route_attachments(folder: Path, dry_run: bool) -> None:
+    """Garante que os 4 arquivos de rota do mapa tenham Content-Disposition:
+    attachment no R2 (senão o navegador abre o arquivo em vez de salvar)."""
+    for rel in ROUTE_ATTACHMENT_FILES:
+        path = folder / rel
+        if not path.is_file():
+            continue
+        key = f"{PREFIX}/{folder.name}/{rel}"
+        if has_attachment_header(key):
+            continue
+        size = path.stat().st_size
+        print(f"  [download] {rel} ({human(size)}) — definindo Content-Disposition")
+        if dry_run:
+            continue
+        try:
+            put_file(path, key)
+            print(f"  ok: {r2_url(key)}")
+        except RuntimeError as exc:
+            print(f"  [erro] {rel}: {exc}", file=sys.stderr)
 
 
 def multipart_upload(path: Path, key: str) -> None:
@@ -286,7 +353,9 @@ def main() -> int:
                 return 1
         if args.dry_run:
             print(f"  (dry-run) atualizaria {len(cdn_urls)} entradas do cdn.json")
+            ensure_route_attachments(folder, dry_run=True)
             continue
+        ensure_route_attachments(folder, dry_run=False)
         # frames do mapa (marco_XXXX.jpg): em vez de 100+ URLs no cdn.json,
         # grava UM prefixo de pasta ("mapa/") que o dashboard concatena com
         # o nome do jpg (local ou CDN).

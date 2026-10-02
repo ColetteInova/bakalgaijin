@@ -4,6 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Baka Gaijin — Fan Page 🇯🇵</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GN746JMC7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GN746JMC7');
+</script>
 <style>
   :root {
     --bg:#0b0f1a; --panel:#141a2e; --panel2:#1a2138; --border:#26304d;
@@ -813,7 +820,9 @@
         .map((m) => {
           const nome = esc(m.nome);
           const twitch = esc(m.twitch || "");
-          const inicial = ((twitch || nome || "B")[0] || "B").toUpperCase();
+          const avatar =
+            typeof m.avatar === "string" && m.avatar ? esc(m.avatar) : "";
+          const inicial = ((nome || twitch || "B")[0] || "B").toUpperCase();
           const links = twitch
             ? '<div class="bakalover-links"><a class="bakalover-link" href="https://twitch.tv/' +
               twitch + '" target="_blank" rel="noopener">' +
@@ -830,9 +839,17 @@
                 .join("") +
               "</div>"
             : "";
+          const avatarHtml =
+            '<div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">' +
+            inicial +
+            "</div>" +
+            (avatar
+              ? '<img class="bakalover-avatar" src="' +
+                avatar + '" alt="' + nome + '" loading="lazy" onerror="this.remove()" />'
+              : "") +
+            "</div>";
           return (
-            '<div class="bakalover-card"><div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">' +
-            inicial + "</div></div><div class=\"bakalover-name\">" + nome +
+            '<div class="bakalover-card">' + avatarHtml + '<div class="bakalover-name">' + nome +
             "</div>" + links + apoios +
             '<span class="bakalover-official">Bakalover Oficial</span></div>'
           );

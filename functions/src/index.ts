@@ -257,13 +257,16 @@ async function syncPublicSupportMirror(uid: string) {
 }
 
 // Espelho público no Firestore: contém apenas nome e twitch (nada sensível).
-async function writePublicMirror(uid: string, nome: string, twitch: string) {
+async function writePublicMirror(uid: string, nome: string, twitch: string, avatar = "") {
   if (!firebaseReady) return;
   try {
     await getFirestore()
       .collection("bakalovers_public")
       .doc(uid)
-      .set({ nome, ...(twitch ? { twitch } : {}) }, { merge: true });
+      .set(
+        { nome, ...(twitch ? { twitch } : {}), ...(avatar ? { avatar } : {}) },
+        { merge: true }
+      );
   } catch (error) {
     console.warn("[bakalovers] falha ao gravar espelho público:", error);
   }
@@ -591,16 +594,19 @@ function createApp() {
       let provider: string;
       let twitchLimpo = (twitch || "").trim().replace(/^@/, "");
       let firebaseEmail = "";
+      let avatarUrl = "";
       if (twitchAccessToken) {
         const twitchUser = await fetchTwitchUser(twitchAccessToken);
         uid = `twitch:${twitchUser.login.toLowerCase()}`;
         provider = "twitch";
         twitchLimpo = twitchUser.login;
+        avatarUrl = twitchUser.profileImageUrl;
       } else {
         const decoded = await getAuth().verifyIdToken(idToken);
         uid = decoded.uid;
         provider = decoded.firebase.sign_in_provider || "unknown";
         firebaseEmail = decoded.email || "";
+        avatarUrl = typeof decoded.picture === "string" ? decoded.picture : "";
       }
       const nomeLimpo = (nome || "").trim();
       if (!nomeLimpo) {
@@ -631,7 +637,7 @@ function createApp() {
           { merge: true }
         );
       // espelha nome/twitch na coleção pública (leitura liberada no site)
-      void writePublicMirror(uid, nomeLimpo, twitchLimpo);
+      void writePublicMirror(uid, nomeLimpo, twitchLimpo, avatarUrl);
       res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json({ ok: true, uid });
     } catch (error) {
@@ -721,7 +727,7 @@ function createApp() {
             updatedAt: now,
             createdAt: now,
           });
-        void writePublicMirror(uid, nome, login);
+        void writePublicMirror(uid, nome, login, twitchProfileImage);
         res.setHeader("Set-Cookie", AUTH_COOKIE);
         res.json({
           uid,
@@ -741,13 +747,28 @@ function createApp() {
       const data = (doc.data() ?? {}) as Record<string, any>;
       const patch: Record<string, unknown> = {};
       if (identity.email && !data.email) patch.email = identity.email;
-      if (identity.profileImageUrl && !data.twitchProfileImage) {
+      // Avatar da Twitch/Google: atualiza quando está faltando OU desatualizado
+      // (a Twitch pode trocar a foto; no login a identidade traz a URL atual).
+      if (
+        identity.profileImageUrl &&
+        identity.profileImageUrl !== data.twitchProfileImage
+      ) {
         patch.twitchProfileImage = identity.profileImageUrl;
       }
       if (identity.userId && !data.twitchUserId) patch.twitchUserId = identity.userId;
       if (Object.keys(patch).length) {
         patch.updatedAt = FieldValue.serverTimestamp();
         await getFirestore().collection("bakalovers").doc(uid).set(patch, { merge: true });
+      }
+      // mantém o espelho público (nome/twitch/avatar) em dia
+      if (typeof data.nome === "string") {
+        void writePublicMirror(
+          uid,
+          data.nome,
+          typeof data.twitch === "string" ? data.twitch : "",
+          (typeof patch.twitchProfileImage === "string" && patch.twitchProfileImage) ||
+            (typeof data.twitchProfileImage === "string" ? data.twitchProfileImage : "")
+        );
       }
       res.setHeader("Set-Cookie", AUTH_COOKIE);
       res.json({ ...data, ...patch, updatedAt: undefined });
@@ -799,7 +820,8 @@ function createApp() {
         void writePublicMirror(
           uid,
           typeof data.nome === "string" ? data.nome : "",
-          typeof data.twitch === "string" ? data.twitch : ""
+          typeof data.twitch === "string" ? data.twitch : "",
+          typeof data.twitchProfileImage === "string" ? data.twitchProfileImage : ""
         );
       }
       res.setHeader("Set-Cookie", AUTH_COOKIE);
@@ -835,6 +857,7 @@ function createApp() {
           id: doc.id,
           nome: typeof d.nome === "string" ? d.nome : doc.id,
           ...(typeof d.twitch === "string" && d.twitch ? { twitch: d.twitch } : {}),
+          ...(typeof d.avatar === "string" && d.avatar ? { avatar: d.avatar } : {}),
           ...(Array.isArray(d.apoios) && d.apoios.length ? { apoios: d.apoios } : {}),
           official: oficial.has(doc.id),
         };

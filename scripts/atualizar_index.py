@@ -523,9 +523,9 @@ def render_bakalovers() -> str:
     for member in members:
         nome = _escape(str(member.get("nome") or "").strip())
         apelido = _escape(str(member.get("apelido") or "").strip())
-        foto = str(member.get("foto") or "").strip()
+        foto = str(member.get("foto") or member.get("avatar") or "").strip()
         twitch = str(member.get("twitch") or "").strip()
-        inicial = _escape((str(member.get("apelido") or member.get("nome") or "B")[:1]).upper())
+        inicial = _escape((str(member.get("nome") or member.get("apelido") or "B")[:1]).upper())
         avatar = f'<div class="bakalover-avatar-wrap"><div class="bakalover-avatar-fallback">{inicial}</div>'
         if foto:
             avatar += (

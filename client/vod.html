@@ -8,6 +8,13 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>KotobaLive - Captura de Voz em Japonês e Tradução em Português</title>
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GN746JMC7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8GN746JMC7');
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,10 +29,6 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/vod-main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
   </body>
 
 </html>
