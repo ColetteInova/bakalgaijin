@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Rota a pé — Baka Gaijin (Liberdade)</name>
+    <open>1</open>
+    <Style id="rota">
+      <LineStyle><color>ff2f6bff</color><width>4</width></LineStyle>
+    </Style>
+    <Style id="marco">
+      <IconStyle><scale>0.8</scale>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>0.9</scale></LabelStyle>
+    </Style>
+    <Placemark>
+      <name>Rota a pé (rota a pé (ruas))</name>
+      <styleUrl>#rota</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          -46.634647,-23.557151,0 -46.634289,-23.557124,0 -46.634119,-23.557109,0 -46.634113,-23.557190,0 -46.634098,-23.557385,0 -46.634057,-23.557915,0 -46.634282,-23.557930,0 -46.634601,-23.556390,0 -46.634462,-23.556979,0 -46.634540,-23.556630,0 -46.635018,-23.557165,0 -46.635017,-23.557178,0 -46.634653,-23.557151,0 -46.634662,-23.557152,0 -46.634651,-23.557276,0 -46.635052,-23.556643,0 -46.635346,-23.555722,0 -46.635247,-23.555716,0 -46.635216,-23.556146,0 -46.635241,-23.555798,0 -46.635263,-23.555491,0 -46.635765,-23.555469,0 -46.635754,-23.555391,0 -46.635773,-23.555376,0 -46.635771,-23.555336,0 -46.635367,-23.554582,0 -46.635356,-23.554652,0 -46.635395,-23.554799,0 -46.635418,-23.554891,0 -46.635451,-23.554929,0 -46.635465,-23.554981,0 -46.635455,-23.555043,0 -46.635418,-23.555079,0 -46.635383,-23.555099,0 -46.635363,-23.555235,0 -46.635383,-23.555099,0 -46.635418,-23.555079,0 -46.635455,-23.555043,0 -46.635465,-23.554981,0 -46.635451,-23.554929,0 -46.635418,-23.554891,0 -46.635395,-23.554799,0 -46.635356,-23.554652,0 -46.635367,-23.554582,0 -46.635771,-23.555336,0 -46.635773,-23.555376,0 -46.635754,-23.555391,0 -46.635765,-23.555469,0 -46.635263,-23.555491,0 -46.635209,-23.556242,0 -46.635205,-23.556287,0 -46.635157,-23.556779,0 -46.635142,-23.557114,0 -46.635139,-23.557186,0 -46.635054,-23.557181,0 -46.634647,-23.557151,0 -46.634289,-23.557124,0 -46.634119,-23.557109,0 -46.634113,-23.557190,0 -46.634098,-23.557385,0 -46.634093,-23.557448,0 -46.634120,-23.557450,0 -46.634641,-23.556868,0 -46.634592,-23.556965,0 -46.634576,-23.557145,0 -46.634537,-23.557142,0 -46.634497,-23.557140,0 -46.634458,-23.557137,0 -46.634418,-23.557134,0 -46.634289,-23.557124,0 -46.634119,-23.557109,0 -46.634113,-23.557190,0 -46.634098,-23.557385,0 -46.634094,-23.557433,0 -46.634094,-23.557433,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Folder><name>Marcos da live</name><open>0</open>
+      <Placemark>
+        <name>0:12:05 — Rua da Glória</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua dos Estudantes&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63462,-23.55745,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:17:05 — Rua Galvão Bueno</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;O streamer está descendo a calçada característica com o mosaico tradicional de símbolos Tomoe (típico da Liberdade) na Rua Galvão Bueno. À esquerda, vê-se a parede com azulejos horizontais escuros e cinzas da lateral do Viaduto Cidade de Osaka / edificação adjacente, caminhando em direção ao cruzamento com a Rua Américo de Campos, onde se vê ao fundo os postes vermelhos orientais (suzuranto).</description>
+        <Point>
+          <coordinates>-46.6342825,-23.55793,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:22:05 — Galeria / Loja de colecionáveis e eletrônicos da Liberdade</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua dos Estudantes&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.6346011,-23.556389799999998,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:27:05 — Rua Galvão Bueno</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua dos Estudantes&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.634461599999995,-23.5569788,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:32:05 — Sogo Plaza Shopping</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua dos Estudantes&lt;/b&gt;&lt;br&gt;Sogo Plaza Shopping&lt;br&gt;O streamer está descendo a Rua dos Estudantes em direção à Rua Galvão Bueno/Praça da Liberdade. É visível o número 257 no edifício à direita e a entrada do Sogo Plaza Shopping ao fundo, além dos tradicionais postes/luminárias Suzuranto da Liberdade no cruzamento à frente.</description>
+        <Point>
+          <coordinates>-46.63454,-23.55663,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:37:05 — Viaduto Cidade de Osaka (Rua Galvão Bueno)</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Viaduto Cidade de Osaka (Rua Galvão Bueno)&lt;/b&gt;&lt;br&gt;O streamer está sobre o Viaduto Cidade de Osaka, na Rua Galvão Bueno, olhando em direção ao norte/noroeste por cima da Ligação Leste-Oeste (Viaduto Radial Leste). É possível ver a trincheira expressa abaixo e o viaduto da Rua São Paulo/Rua Conselheiro Furtado mais à frente. As sombras na pista mostram as distintas luminárias de estilo japonês (suzuranto) características do viaduto da Liberdade.</description>
+        <Point>
+          <coordinates>-46.63501825,-23.55716525,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:42:05 — Jardim Oriental</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Jardim Oriental da Liberdade (acesso pela Rua Galvão Bueno)&lt;/b&gt;&lt;br&gt;Jardim Oriental&lt;br&gt;O streamer está percorrendo o caminho estreito e arborizado do Jardim Oriental na Liberdade, com cercas de bambu características e vegetação densa ao lado do declive. Ao fundo e à direita, são visíveis as estruturas vermelhas tradicionais japonesas e construções no entorno da Rua Galvão Bueno. A pergunta do streamer ('Tem saída por aqui, mano?') reflete a trilha sem saída/caminho interno do próprio Jardim Oriental.</description>
+        <Point>
+          <coordinates>-46.634628,-23.557432,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:47:05 — 47:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.634650888888885,-23.557276333333334,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:52:05 — Cápsula</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua dos Aflitos&lt;/b&gt;&lt;br&gt;Cápsula • Laomaizi&lt;br&gt;O streamer está caminhando na Rua dos Aflitos, um conhecido beco de pedestres na Liberdade com fachadas e calçadas coloridas/pintadas. É visível à direita a loja temática Cápsula com seu mural pintado e à esquerda estabelecimentos como o restaurante Laomaizi. A via conecta a Rua Galvão Bueno com a Capela dos Aflitos.</description>
+        <Point>
+          <coordinates>-46.63505182083333,-23.556643262499996,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>0:57:05 — Ikesaki Cosméticos</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Ikesaki Cosméticos • McDonald's&lt;br&gt;O streamer caminha pela calçada da Rua Galvão Bueno em direção ao sul da Liberdade. Do outro lado da rua é visível a fachada vermelha e branca da loja Ikesaki Cosméticos (Rua Galvão Bueno, 37). À frente na mesma calçada nota-se a marquise e o totem com os arcos dourados do McDonald's (Rua Galvão Bueno, 55).</description>
+        <Point>
+          <coordinates>-46.635346,-23.555722000000003,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:02:05 — Banca de jornal/revistaria Galvão Bueno</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Banca de jornal/revistaria Galvão Bueno&lt;br&gt;O streamer está caminhando pela calçada da Rua Galvão Bueno, próximo a uma clássica banca de jornal com toldo curvado azul e mercadorias geek/japonesas. À esquerda, vê-se o longo muro grafitado e colorido característico desse trecho da Galvão Bueno em direção ao viaduto e à Praça da Liberdade.</description>
+        <Point>
+          <coordinates>-46.635132625,-23.5561405,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:07:05 — Empório Marukai</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Praça da Liberdade&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63525877734375,-23.555799546875,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:12:05 — Towa Empório Oriental</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Praça da Liberdade&lt;/b&gt;&lt;br&gt;Towa Empório Oriental • Estacionamento 24 Horas&lt;br&gt;O streamer está na calçada em frente ao famoso 'Towa Empório Oriental' (Praça da Liberdade, 268), bem no início da transição para a Rua Galvão Bueno. A imagem exibe as barracas da tradicional Feira da Liberdade à direita e a arquitetura oriental típica do bairro ao fundo. O piso avermelhado com blocos intertravados e o grande fluxo de pedestres confirmam o local exato na Praça da Liberdade.</description>
+        <Point>
+          <coordinates>-46.635397,-23.555239,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:17:05 — Feira da Liberdade</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Feira da Liberdade • Viaduto Cidade de Osaka&lt;br&gt;O streamer está caminhando sobre o Viaduto Cidade de Osaka / extensão da Rua Galvão Bueno, no bairro da Liberdade. Ao fundo é visível o icônico pórtico vermelho japonês (torii) com luminárias orientais (suzuranto) e diversas barracas de artesanato e feirantes ao longo do gradil vermelho do viaduto sobre a Radial Leste (Ligação Leste-Oeste).</description>
+        <Point>
+          <coordinates>-46.63462,-23.55745,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:22:05 — Rua Galvão Bueno</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;O streamer está caminhando na calçada em frente a um comércio com toldo escuro exibindo o número 169 e painéis com fotos de café, pão de queijo e sucos naturais. Na Rua Galvão Bueno, principal via comercial de pedestres da Liberdade, a numeração 169 corresponde a um ponto comercial/lanchonete entre a Rua dos Estudantes e a Rua Américo de Campos.</description>
+        <Point>
+          <coordinates>-46.63412,-23.55745,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:27:05 — 1:27:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63464090909091,-23.55686818181818,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:32:05 — 1:32:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63459242424242,-23.55696515151515,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:37:05 — Bairro da Liberdade</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.634543939393936,-23.55706212121212,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:42:05 — Restaurante asiático / hamburgueria oriental na Liberdade</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63449545454545,-23.55715909090909,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:47:05 — 1:47:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63444696969697,-23.55725606060606,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:52:05 — X-Karê</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63439848484848,-23.55735303030303,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1:57:05 — Hospital Leforte Liberdade</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua dos Estudantes&lt;/b&gt;&lt;br&gt;Hospital Leforte Liberdade • Izakaya Issa&lt;br&gt;O streamer está na faixa de pedestres da Rua dos Estudantes, cruzamento imediato com a Rua Galvão Bueno no bairro da Liberdade. Ao fundo é visível a fachada e placa do Hospital Leforte Liberdade, além de luminárias típicas 'suzuranto' e estabelecimentos característicos da esquina da Galvão Bueno com Estudantes.</description>
+        <Point>
+          <coordinates>-46.63435,-23.55745,0</coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>2:00:05 — 2:00:05</name>
+        <styleUrl>#marco</styleUrl>
+        <description>&lt;b&gt;Rua Galvão Bueno&lt;/b&gt;&lt;br&gt;Local fechado/interior — posição interpolada entre pontos de rua</description>
+        <Point>
+          <coordinates>-46.63435,-23.55745,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

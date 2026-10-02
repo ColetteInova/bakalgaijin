@@ -7,6 +7,7 @@
 #   SKIP_CORTES=1 ./scripts/repreparar_todos.sh               (pula o corte de trechos virais)
 #   SKIP_MAPA=1 ./scripts/repreparar_todos.sh                 (pula frames/geoloc/rota do mapa)
 #   SKIP_ANALISE=1 ./scripts/repreparar_todos.sh              (pula a análise — mantém relatório e dashboard)
+#   SKIP_R2=1 ./scripts/repreparar_todos.sh                   (pula o sync das mídias com o R2/CDN)
 #
 # Percorre cada subpasta de saida/ que tenha os pré-requisitos
 # (comentarios.json + audio.srt) e executa scripts/preparar.sh nela.
@@ -84,6 +85,20 @@ if python3 scripts/atualizar_index.py; then
 else
   echo "!! Falha ao atualizar $SAIDA_DIR/index.html" >&2
   FALHAS=$((FALHAS + 1))
+fi
+
+if [ "${SKIP_R2:-0}" = "1" ]; then
+  echo ""
+  echo "==> SKIP_R2=1 — pulando sincronização com o R2/CDN"
+else
+  echo ""
+  echo "==> Sincronizando mídias com o R2/CDN (cdn.json + local.json)"
+  if python3 scripts/r2_sync.py; then
+    echo "==> R2 sincronizado"
+  else
+    echo "!! Falha ao sincronizar com o R2" >&2
+    FALHAS=$((FALHAS + 1))
+  fi
 fi
 
 echo ""

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="bakalgaijin-mapa (rota a pé)" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>Rota a pé — Baka Gaijin</name></metadata>
+  <wpt lat="-23.557450" lon="-46.634620">
+    <name>0:12:05 — Rua da Glória</name>
+    <desc>Rua dos Estudantes</desc>
+  </wpt>
+  <wpt lat="-23.557930" lon="-46.634282">
+    <name>0:17:05 — Rua Galvão Bueno</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.556390" lon="-46.634601">
+    <name>0:22:05 — Galeria / Loja de colecionáveis e eletrônicos da Liberdade</name>
+    <desc>Rua dos Estudantes</desc>
+  </wpt>
+  <wpt lat="-23.556979" lon="-46.634462">
+    <name>0:27:05 — Rua Galvão Bueno</name>
+    <desc>Rua dos Estudantes</desc>
+  </wpt>
+  <wpt lat="-23.556630" lon="-46.634540">
+    <name>0:32:05 — Sogo Plaza Shopping</name>
+    <desc>Rua dos Estudantes · Sogo Plaza Shopping</desc>
+  </wpt>
+  <wpt lat="-23.557165" lon="-46.635018">
+    <name>0:37:05 — Viaduto Cidade de Osaka (Rua Galvão Bueno)</name>
+    <desc>Viaduto Cidade de Osaka (Rua Galvão Bueno)</desc>
+  </wpt>
+  <wpt lat="-23.557432" lon="-46.634628">
+    <name>0:42:05 — Jardim Oriental</name>
+    <desc>Jardim Oriental da Liberdade (acesso pela Rua Galvão Bueno) · Jardim Oriental</desc>
+  </wpt>
+  <wpt lat="-23.557276" lon="-46.634651">
+    <name>0:47:05 — 47:05</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.556643" lon="-46.635052">
+    <name>0:52:05 — Cápsula</name>
+    <desc>Rua dos Aflitos · Cápsula · Laomaizi</desc>
+  </wpt>
+  <wpt lat="-23.555722" lon="-46.635346">
+    <name>0:57:05 — Ikesaki Cosméticos</name>
+    <desc>Rua Galvão Bueno · Ikesaki Cosméticos · McDonald's</desc>
+  </wpt>
+  <wpt lat="-23.556141" lon="-46.635133">
+    <name>1:02:05 — Banca de jornal/revistaria Galvão Bueno</name>
+    <desc>Rua Galvão Bueno · Banca de jornal/revistaria Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.555800" lon="-46.635259">
+    <name>1:07:05 — Empório Marukai</name>
+    <desc>Praça da Liberdade</desc>
+  </wpt>
+  <wpt lat="-23.555239" lon="-46.635397">
+    <name>1:12:05 — Towa Empório Oriental</name>
+    <desc>Praça da Liberdade · Towa Empório Oriental · Estacionamento 24 Horas</desc>
+  </wpt>
+  <wpt lat="-23.557450" lon="-46.634620">
+    <name>1:17:05 — Feira da Liberdade</name>
+    <desc>Rua Galvão Bueno · Feira da Liberdade · Viaduto Cidade de Osaka</desc>
+  </wpt>
+  <wpt lat="-23.557450" lon="-46.634120">
+    <name>1:22:05 — Rua Galvão Bueno</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.556868" lon="-46.634641">
+    <name>1:27:05 — 1:27:05</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.556965" lon="-46.634592">
+    <name>1:32:05 — 1:32:05</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.557062" lon="-46.634544">
+    <name>1:37:05 — Bairro da Liberdade</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.557159" lon="-46.634495">
+    <name>1:42:05 — Restaurante asiático / hamburgueria oriental na Liberdade</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.557256" lon="-46.634447">
+    <name>1:47:05 — 1:47:05</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.557353" lon="-46.634398">
+    <name>1:52:05 — X-Karê</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <wpt lat="-23.557450" lon="-46.634350">
+    <name>1:57:05 — Hospital Leforte Liberdade</name>
+    <desc>Rua dos Estudantes · Hospital Leforte Liberdade · Izakaya Issa</desc>
+  </wpt>
+  <wpt lat="-23.557450" lon="-46.634350">
+    <name>2:00:05 — 2:00:05</name>
+    <desc>Rua Galvão Bueno</desc>
+  </wpt>
+  <trk>
+    <name>Rota a pé (sem voltas)</name>
+    <trkseg>
+      <trkpt lat="-23.557151" lon="-46.634647"/>
+      <trkpt lat="-23.557124" lon="-46.634289"/>
+      <trkpt lat="-23.557109" lon="-46.634119"/>
+      <trkpt lat="-23.557190" lon="-46.634113"/>
+      <trkpt lat="-23.557385" lon="-46.634098"/>
+      <trkpt lat="-23.557915" lon="-46.634057"/>
+      <trkpt lat="-23.557930" lon="-46.634282"/>
+      <trkpt lat="-23.556390" lon="-46.634601"/>
+      <trkpt lat="-23.556979" lon="-46.634462"/>
+      <trkpt lat="-23.556630" lon="-46.634540"/>
+      <trkpt lat="-23.557165" lon="-46.635018"/>
+      <trkpt lat="-23.557178" lon="-46.635017"/>
+      <trkpt lat="-23.557151" lon="-46.634653"/>
+      <trkpt lat="-23.557152" lon="-46.634662"/>
+      <trkpt lat="-23.557276" lon="-46.634651"/>
+      <trkpt lat="-23.556643" lon="-46.635052"/>
+      <trkpt lat="-23.555722" lon="-46.635346"/>
+      <trkpt lat="-23.555716" lon="-46.635247"/>
+      <trkpt lat="-23.556146" lon="-46.635216"/>
+      <trkpt lat="-23.555798" lon="-46.635241"/>
+      <trkpt lat="-23.555491" lon="-46.635263"/>
+      <trkpt lat="-23.555469" lon="-46.635765"/>
+      <trkpt lat="-23.555391" lon="-46.635754"/>
+      <trkpt lat="-23.555376" lon="-46.635773"/>
+      <trkpt lat="-23.555336" lon="-46.635771"/>
+      <trkpt lat="-23.554582" lon="-46.635367"/>
+      <trkpt lat="-23.554652" lon="-46.635356"/>
+      <trkpt lat="-23.554799" lon="-46.635395"/>
+      <trkpt lat="-23.554891" lon="-46.635418"/>
+      <trkpt lat="-23.554929" lon="-46.635451"/>
+      <trkpt lat="-23.554981" lon="-46.635465"/>
+      <trkpt lat="-23.555043" lon="-46.635455"/>
+      <trkpt lat="-23.555079" lon="-46.635418"/>
+      <trkpt lat="-23.555099" lon="-46.635383"/>
+      <trkpt lat="-23.555235" lon="-46.635363"/>
+      <trkpt lat="-23.555099" lon="-46.635383"/>
+      <trkpt lat="-23.555079" lon="-46.635418"/>
+      <trkpt lat="-23.555043" lon="-46.635455"/>
+      <trkpt lat="-23.554981" lon="-46.635465"/>
+      <trkpt lat="-23.554929" lon="-46.635451"/>
+      <trkpt lat="-23.554891" lon="-46.635418"/>
+      <trkpt lat="-23.554799" lon="-46.635395"/>
+      <trkpt lat="-23.554652" lon="-46.635356"/>
+      <trkpt lat="-23.554582" lon="-46.635367"/>
+      <trkpt lat="-23.555336" lon="-46.635771"/>
+      <trkpt lat="-23.555376" lon="-46.635773"/>
+      <trkpt lat="-23.555391" lon="-46.635754"/>
+      <trkpt lat="-23.555469" lon="-46.635765"/>
+      <trkpt lat="-23.555491" lon="-46.635263"/>
+      <trkpt lat="-23.556242" lon="-46.635209"/>
+      <trkpt lat="-23.556287" lon="-46.635205"/>
+      <trkpt lat="-23.556779" lon="-46.635157"/>
+      <trkpt lat="-23.557114" lon="-46.635142"/>
+      <trkpt lat="-23.557186" lon="-46.635139"/>
+      <trkpt lat="-23.557181" lon="-46.635054"/>
+      <trkpt lat="-23.557151" lon="-46.634647"/>
+      <trkpt lat="-23.557124" lon="-46.634289"/>
+      <trkpt lat="-23.557109" lon="-46.634119"/>
+      <trkpt lat="-23.557190" lon="-46.634113"/>
+      <trkpt lat="-23.557385" lon="-46.634098"/>
+      <trkpt lat="-23.557448" lon="-46.634093"/>
+      <trkpt lat="-23.557450" lon="-46.634120"/>
+      <trkpt lat="-23.556868" lon="-46.634641"/>
+      <trkpt lat="-23.556965" lon="-46.634592"/>
+      <trkpt lat="-23.557145" lon="-46.634576"/>
+      <trkpt lat="-23.557142" lon="-46.634537"/>
+      <trkpt lat="-23.557140" lon="-46.634497"/>
+      <trkpt lat="-23.557137" lon="-46.634458"/>
+      <trkpt lat="-23.557134" lon="-46.634418"/>
+      <trkpt lat="-23.557124" lon="-46.634289"/>
+      <trkpt lat="-23.557109" lon="-46.634119"/>
+      <trkpt lat="-23.557190" lon="-46.634113"/>
+      <trkpt lat="-23.557385" lon="-46.634098"/>
+      <trkpt lat="-23.557433" lon="-46.634094"/>
+      <trkpt lat="-23.557433" lon="-46.634094"/>
+    </trkseg>
+  </trk>
+</gpx>

@@ -9,10 +9,10 @@
 #
 # Uso:
 #   ./deploy-firebase.sh              # deploy do front + function (sem secrets)
-#   ./deploy-firebase.sh --secrets    # + envia as variáveis do .env como secrets
+#   ./deploy-firebase.sh --secrets    # + envia as variáveis do .env.prod como secrets
 #                                     #   do Firebase (Secret Manager) — necessário
 #                                     #   no PRIMEIRO deploy para a function ter
-#                                     #   STRIPE_SECRET_KEY etc.
+#                                     #   STRIPE_SECRET_KEY etc. (fallback: .env)
 #
 # Observações:
 #   - Cloud Functions exige o plano Blaze no Firebase.
@@ -55,13 +55,19 @@ if [ ! -d "node_modules" ]; then
   pnpm install
 fi
 
-# Envia cada variável do .env como secret do Firebase (Secret Manager).
-# O backend (Cloud Functions/Cloud Run) lê os valores de process.env.
+# Envia cada variável do .env.prod (ou $SECRETS_FILE) como secret do Firebase
+# (Secret Manager). O backend (Cloud Functions/Cloud Run) lê os valores de
+# process.env.
 upload_secrets() {
-  local file="${1:-.env}"
+  local file="${1:-${SECRETS_FILE:-.env.prod}}"
   if [ ! -f "$file" ]; then
-    echo "==> Sem $file — nenhum secret enviado."
-    return 0
+    if [ "$file" = ".env.prod" ] && [ -f ".env" ]; then
+      echo "==> Sem .env.prod — usando .env como fallback."
+      file=".env"
+    else
+      echo "==> Sem $file — nenhum secret enviado."
+      return 0
+    fi
   fi
   echo "==> Enviando secrets do $file para o projeto $PROJECT..."
   local key value line
@@ -87,6 +93,17 @@ upload_secrets() {
         FIREBASE_API_KEY|FIREBASE_AUTH_DOMAIN|FIREBASE_PROJECT_ID|FIREBASE_APP_ID)
           key="CLIENT_FIREBASE_${key#FIREBASE_}" ;;
       esac
+      # Se o secret já existe com o MESMO valor, pula (evita versão repetida).
+      # Se o CLI não conseguir ler o valor atual, segue com o set (comportamento
+      # antigo): não existe → cria a v1; valor diferente → nova versão.
+      current="$(npx --yes firebase-tools@latest functions:secrets:access "$key" --project "$PROJECT" 2>/dev/null | tr -d '\n' || true)"
+      if [ -z "$current" ]; then
+        current="$(npx --yes firebase-tools@latest functions:secrets:get "$key" --project "$PROJECT" 2>/dev/null | tail -n 1 | tr -d '\n' || true)"
+      fi
+      if [ -n "$current" ] && [ "$current" = "$value" ]; then
+        echo "    -> $key (mesmo valor — pulado)"
+        continue
+      fi
       printf '%s' "$value" > .secret-tmp
       echo "    -> $key"
       npx --yes firebase-tools@latest functions:secrets:set "$key" \
@@ -111,9 +128,23 @@ else
   VITE_ONLY_BAKALOVERS=1 pnpm exec vite build
 fi
 
+echo "==> Fanpage (saida/) na raiz do site — mídias ficam no CDN (R2)..."
+# O index do client vira /app.html (rotas /cadastro e /perfil via rewrite no firebase.json);
+# o index da fanpage assume a raiz. Mídias já no CDN (mapa/, cortes/, mp4/wav/gpx/kml/srt)
+# não sobem para o Firebase.
+mv dist/public/index.html dist/public/app.html
+if command -v rsync >/dev/null 2>&1; then
+  rsync -a --exclude "mapa/" --exclude "cortes/" \
+    --exclude "*.mp4" --exclude "*.wav" --exclude "*.gpx" --exclude "*.kml" --exclude "*.srt" \
+    saida/ dist/public/
+else
+  echo "!! rsync não encontrado — copiando saida/ por inteiro (mídias locais sobem junto)"
+  cp -R saida/. dist/public/
+fi
+
 echo "==> Build da Cloud Function (api)..."
 pnpm exec esbuild functions/src/index.ts \
-  --bundle --platform=node --target=node20 --format=cjs \
+  --bundle --platform=node --target=node24 --format=cjs \
   --packages=external --outfile=functions/lib/index.js
 
 echo "==> Deploy para o Firebase (projeto: $PROJECT)..."
@@ -125,6 +156,6 @@ echo "==> Pronto! Site publicado em https://$PROJECT.web.app"
 echo "    Páginas disponíveis: /cadastro e /perfil"
 echo "    API: https://$PROJECT.web.app/api/** (Cloud Function \"api\")"
 if [ "$WITH_SECRETS" = "0" ]; then
-  echo "    ATENÇÃO: rode com --secrets no primeiro deploy para enviar o .env"
+  echo "    ATENÇÃO: rode com --secrets no primeiro deploy para enviar o .env.prod"
 fi
 

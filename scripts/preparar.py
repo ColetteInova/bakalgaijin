@@ -3423,11 +3423,45 @@ def _apply_place(s: dict, place: dict) -> None:
             "https://www.google.com/maps/search/?api=1&query=Google&query_place_id="
             + str(place["place_id"])
         )
+    # coordenada EXATA do lugar (o Nearby Search já devolve geometry.location)
+    loc = (place.get("geometry") or {}).get("location") or {}
+    if loc.get("lat") and loc.get("lng"):
+        s["place_lat"] = float(loc["lat"])
+        s["place_lng"] = float(loc["lng"])
+
+
+PLACES_SNAP_MAX_M = 250.0  # alinha o marco ao lugar só se a distância for plausível
+
+
+def _snap_to_place(s: dict, max_m: float = PLACES_SNAP_MAX_M) -> bool:
+    """Move o marco para a coordenada exata do lugar (Google Places).
+
+    Só aplica se a distância for plausível (<= max_m) — evita arrastar o ponto
+    para um match errado do Nearby Search. Com o alinhamento, a confiança vira
+    "alta" (posição confirmada pelo Google) e o raio de incerteza diminui.
+    """
+    if s.get("place_lat") is None or s.get("place_lng") is None:
+        return False
+    if s.get("lat") is None or s.get("lng") is None:
+        return False
+    d_m = _haversine_km(float(s["lat"]), float(s["lng"]), float(s["place_lat"]), float(s["place_lng"])) * 1000.0
+    if d_m > max_m:
+        return False
+    s["lat"] = s["place_lat"]
+    s["lng"] = s["place_lng"]
+    s["confianca"] = "alta"
+    return True
 
 
 def _enrich_stops_with_places(folder: Path, stops: list[dict]) -> None:
     """Com GOOGLE_PLACES_API_KEY definida, busca o lugar de cada marco visível
-    e guarda no cache mapa/places.json (chave: sec do marco)."""
+    e guarda no cache mapa/places.json (chave: sec do marco).
+
+    Quando o Places acerta o lugar, o marco é ALINHADO à coordenada exata do
+    estabelecimento (geometry.location do Nearby Search) e a posição corrigida
+    volta para mapa/geoloc.json — daí em diante todos os consumidores (rota
+    OSRM, rota a pé, dashboard, KML/GPX) usam a coordenada certa.
+    """
     api_key = os.environ.get("GOOGLE_PLACES_API_KEY", "").strip()
     if not api_key:
         return
@@ -3441,6 +3475,7 @@ def _enrich_stops_with_places(folder: Path, stops: list[dict]) -> None:
         except json.JSONDecodeError:
             cache = {}
     changed = 0
+    snapped: dict[str, tuple[float, float]] = {}
     for s in stops:
         if not s.get("visivel") or s.get("lat") is None or s.get("lng") is None:
             continue
@@ -3448,6 +3483,8 @@ def _enrich_stops_with_places(folder: Path, stops: list[dict]) -> None:
         hit = cache.get(sec)
         if isinstance(hit, dict) and hit:
             _apply_place(s, hit)
+            if _snap_to_place(s):
+                snapped[sec] = (s["lat"], s["lng"])
             continue
         nome = str(s.get("nome") or "").strip()
         keyword = nome if nome and ":" not in nome else ""
@@ -3455,12 +3492,28 @@ def _enrich_stops_with_places(folder: Path, stops: list[dict]) -> None:
         if place:
             cache[sec] = place
             _apply_place(s, place)
+            if _snap_to_place(s):
+                snapped[sec] = (s["lat"], s["lng"])
             changed += 1
             time.sleep(0.4)  # quota da Places API
     if changed:
         cache_file.parent.mkdir(exist_ok=True)
         cache_file.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"  ✓ Places: {changed} marcos enriquecidos (mapa/places.json)")
+    # corrige as posições no cache de geolocalização (fonte única p/ rota/dash)
+    if snapped:
+        geoloc_path = folder / "mapa" / "geoloc.json"
+        try:
+            geo = json.loads(geoloc_path.read_text(encoding="utf-8"))
+            for sec, (lat, lng) in snapped.items():
+                if sec in geo and isinstance(geo[sec], dict):
+                    geo[sec]["lat"] = lat
+                    geo[sec]["lng"] = lng
+            geoloc_path.write_text(json.dumps(geo, ensure_ascii=False, indent=2), encoding="utf-8")
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [!] Places: falha ao gravar geoloc.json: {exc}", file=sys.stderr)
+    if snapped:
+        print(f"  ✓ Places: {len(snapped)} marcos alinhados à coordenada exata do lugar")
 
 
 def ensure_map_assets(
@@ -3495,6 +3548,20 @@ def ensure_map_assets(
     )
     _write_map_gpx(folder, stops, coords)
     _write_map_kml(folder, stops, synced)
+    # rota a pé sem voltas: KML (Google Earth/Maps) + GPX (OpenStreetMap/uMap)
+    try:
+        import gerar_kml_rota  # noqa: F401
+    except ImportError:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import gerar_kml_rota  # noqa: F401
+    try:
+        rota_pe = gerar_kml_rota.build_route_exports(folder, intervalo=5.0)
+        if "erro" in rota_pe:
+            print(f"  [!] Mapa: rota a pé não gerada: {rota_pe['erro']}", file=sys.stderr)
+        else:
+            print(f"  ✓ Mapa: rota a pé → rota-a-pe.kml + rota-a-pe.gpx ({rota_pe['pontos']} pontos)")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [!] Mapa: rota a pé falhou: {exc}", file=sys.stderr)
     return stops, synced
 
 
@@ -3552,6 +3619,22 @@ def _route_km(pts: list[list[float]]) -> float:
         a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlng / 2) ** 2
         total += 6371.0 * 2 * math.asin(min(1.0, math.sqrt(a)))
     return total
+
+
+def _load_rota_pe(folder: Path) -> list[list[float]]:
+    """Carrega a rota a pé (sem voltas) do cache mapa/valhalla_route.json.
+
+    [[lat, lng], ...] ou [] se ainda não foi gerada.
+    """
+    cache = folder / "mapa" / "valhalla_route.json"
+    if not cache.exists():
+        return []
+    try:
+        data = json.loads(cache.read_text(encoding="utf-8"))
+        coords = data.get("coords") or []
+        return [[float(c[0]), float(c[1])] for c in coords if len(c) >= 2]
+    except Exception:  # noqa: BLE001
+        return []
 
 
 def _reverse_geocode(folder: Path, lat: float, lng: float) -> dict:
@@ -3880,6 +3963,10 @@ def write_cdn_template(
         keys.setdefault("mapa/rota.gpx", "")
     if (folder / "mapa" / "rota.kml").exists():
         keys.setdefault("mapa/rota.kml", "")
+    if (folder / "mapa" / "rota-a-pe.gpx").exists():
+        keys.setdefault("mapa/rota-a-pe.gpx", "")
+    if (folder / "mapa" / "rota-a-pe.kml").exists():
+        keys.setdefault("mapa/rota-a-pe.kml", "")
     if any((folder / "mapa").glob("marco_*.jpg")):
         keys.setdefault("mapa/", "")
     if not keys:
@@ -4009,9 +4096,24 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
         else ""
     )
     map_kml_btn = (
-        '<a class="btn" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth (web, mobile ou Pro) — linha da rota + marcos">'
+        '<a class="btn" id="kmlLink" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth (web, mobile ou Pro) — linha da rota + marcos">'
         '<i class="fa-solid fa-earth-americas"></i> Google Earth (KML)</a>'
         if (FOLDER / "mapa" / "rota.kml").exists()
+        else ""
+    )
+    # rota a pé (sem voltas): linha verde no mapa + botões KML (Google) / GPX (OSM)
+    map_route_pe = _load_rota_pe(FOLDER)
+    map_route_pe_json = _json.dumps(map_route_pe, ensure_ascii=False)
+    map_pe_kml_btn = (
+        '<a class="btn" id="peKmlLink" href="mapa/rota-a-pe.kml" download="rota-a-pe.kml" title="Rota a pé sem voltas — importar no Google Earth ou Google My Maps (KML)">'
+        '<i class="fa-solid fa-person-walking"></i> A pé (Google KML)</a>'
+        if (FOLDER / "mapa" / "rota-a-pe.kml").exists()
+        else ""
+    )
+    map_pe_gpx_btn = (
+        '<a class="btn" id="peGpxLink" href="mapa/rota-a-pe.gpx" download="rota-a-pe.gpx" title="Rota a pé sem voltas — importar no OpenStreetMap/uMap/JOSM (GPX)">'
+        '<i class="fa-solid fa-map"></i> A pé (OSM GPX)</a>'
+        if (FOLDER / "mapa" / "rota-a-pe.gpx").exists()
         else ""
     )
     map_extra_html = build_map_extra_html(FOLDER, report, map_stops, map_extra_route)
@@ -4314,6 +4416,18 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     display: flex; gap: 6px;
   }
   .map-float-controls .btn { background: rgba(15,23,42,.92); }
+  /* área de downloads do mapa (separada das ações galeria/Google Maps) */
+  .map-downloads {
+    display: flex; flex-direction: column; gap: 8px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px; margin-bottom: 10px;
+  }
+  .map-downloads-title {
+    font-size: .7rem; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .05em;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .map-downloads-btns { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .map-carousel { margin-top:14px; }
   .map-carousel-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
   .map-car-title { font-size:.8rem; font-weight:700; color:#e2e8f0; }
@@ -4530,11 +4644,18 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
       <button class="btn" onclick="openFramesGallery()" title="Ver todos os frames da análise em sequência">
         <i class="fa-solid fa-images"></i> Galeria de frames
       </button>
-      __MAP_GPX_BTN__
-      __MAP_KML_BTN__
       <a class="btn gmaps-btn gmaps-primary" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
         <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
       </a>
+    </div>
+    <div class="map-downloads">
+      <span class="map-downloads-title"><i class="fa-solid fa-download"></i> Downloads</span>
+      <div class="map-downloads-btns">
+        __MAP_GPX_BTN__
+        __MAP_KML_BTN__
+        __MAP_PE_KML_BTN__
+        __MAP_PE_GPX_BTN__
+      </div>
     </div>
     <div class="grid two">
       <div class="map-shell"><div id="liveMap"></div>
@@ -4752,6 +4873,7 @@ const MAP_STOPS_ALL = __MAP_STOPS_ALL_JSON__;
 const MAP_FRAMES = __MAP_FRAMES_JSON__;
 const MAP_ROUTE = __MAP_ROUTE_JSON__;
 const MAP_ROUTE_TIMES = __MAP_ROUTE_TIMES__;
+const MAP_ROUTE_PE = __MAP_ROUTE_PE_JSON__;
 const MAP_TRIM_START = __MAP_TRIM_START__;
 const MAP_TRIM_END = __MAP_TRIM_END__;
 let MAP_VIDEO_DURATION = 0;
@@ -5236,6 +5358,11 @@ function initLiveMap() {
     attribution: "&copy; OpenStreetMap"
   }).addTo(liveMap);
 
+  // rota a pé (sem voltas malucas): linha verde sob os marcadores
+  if (MAP_ROUTE_PE && MAP_ROUTE_PE.length >= 2) {
+    L.polyline(MAP_ROUTE_PE, { color: "#22c55e", weight: 4, opacity: 0.75 }).addTo(liveMap);
+  }
+
   // raio de incerteza dos marcos: só aparece ao selecionar um ponto no mapa
   // (showStopRadius) — a geolocalização por frame tem margem de erro,
   // então o raio é mais honesto que uma linha "precisa"
@@ -5272,6 +5399,8 @@ function initLiveMap() {
     }).addTo(liveMap);
     const lojas = (s.estabelecimentos && s.estabelecimentos.length)
       ? `<div class="pq"><b>🏪 ${s.estabelecimentos.map(x => esc(x)).join(" · ")}</b></div>` : "";
+    const place = s.place_nome
+      ? `<div class="pq"><i class="fa-solid fa-location-crosshairs"></i> ${esc(s.place_nome)} <span class="muted">(Google Places · posição exata)</span></div>` : "";
     const rua = (s.rua && s.rua !== s.nome)
       ? `<div class="pq"><i class="fa-solid fa-road"></i> ${esc(s.rua)}</div>` : "";
     const conf = s.confianca
@@ -5281,6 +5410,7 @@ function initLiveMap() {
       ${isVis ? `<img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />` : ""}
       <div class="pt">${esc(s.nome)} ${conf}</div>
       ${rua}
+      ${place}
       <div class="pts">⏱ ${fmtClock(s.sec)} · na live</div>
       ${lojas}
       ${isVis ? `<div class="pq">${esc(s.frase || "")}</div>` : ""}
@@ -5290,7 +5420,7 @@ function initLiveMap() {
     m.on("click", () => {
       setActiveMarker(s.sec); // selecionado fica opaco; demais voltam a 0.3
       if (isVis) {
-        jumpToStop(MAP_STOPS[visIdx - 1]);
+        jumpToStop(s); // s é o PRÓPRIO marco clicado (evita closure sobre visIdx)
       } else {
         const media = (V.el && FILES.video) ? V : ((A.el && FILES.audio) ? A : null);
         if (media && media.el) {
@@ -5450,7 +5580,7 @@ function jumpToStop(s) {
     liveMap.flyTo([s.lat, s.lng], Math.max(liveMap.getZoom(), 17), { duration: .5 });
     showStopRadius(s);
   }
-  const idx = MAP_STOPS.indexOf(s);
+  const idx = MAP_STOPS.findIndex(x => x.sec === s.sec);
   document.querySelectorAll(".map-card").forEach(x => x.classList.remove("active"));
   const chip = document.querySelector(`.map-card[data-idx="${idx}"]`);
   if (chip) chip.classList.add("active");
@@ -5568,6 +5698,7 @@ function updateGoogleMap(s) {
 function mapFitAll() {
   if (!liveMap) return;
   const pts = MAP_STOPS_ALL.filter((s) => s.lat != null && s.lng != null).map((s) => [s.lat, s.lng]);
+  if (MAP_ROUTE_PE && MAP_ROUTE_PE.length) pts.push(...MAP_ROUTE_PE);
   if (!pts.length) return;
   liveMap.fitBounds(L.latLngBounds(pts), { padding: [30, 30] });
 }
@@ -6548,8 +6679,23 @@ function applyCdnOverrides(map){
   MAP_FRAMES.forEach((f) => { if (f.img) f.img = resolve(f.img); });
   const gpx = document.getElementById("gpxLink");
   if (gpx) {
-    const url = map["mapa/rota.gpx"] || (prefix ? prefix + "rota.gpx" : "");
+    const url = map["mapa/rota.gpx"] || "";
     if (url) gpx.setAttribute("href", url);
+  }
+  const kml = document.getElementById("kmlLink");
+  if (kml) {
+    const url = map["mapa/rota.kml"] || "";
+    if (url) kml.setAttribute("href", url);
+  }
+  const peKml = document.getElementById("peKmlLink");
+  if (peKml) {
+    const url = map["mapa/rota-a-pe.kml"] || "";
+    if (url) peKml.setAttribute("href", url);
+  }
+  const peGpx = document.getElementById("peGpxLink");
+  if (peGpx) {
+    const url = map["mapa/rota-a-pe.gpx"] || "";
+    if (url) peGpx.setAttribute("href", url);
   }
 }
 
@@ -6612,6 +6758,9 @@ resolveSupportCta();
         .replace("__MAP_TRIM_END__", str(MAP_TRIM_END))
         .replace("__MAP_GPX_BTN__", map_gpx_btn)
         .replace("__MAP_KML_BTN__", map_kml_btn)
+        .replace("__MAP_ROUTE_PE_JSON__", map_route_pe_json)
+        .replace("__MAP_PE_KML_BTN__", map_pe_kml_btn)
+        .replace("__MAP_PE_GPX_BTN__", map_pe_gpx_btn)
         .replace("__MAP_EXTRA_HTML__", map_extra_html)
         .replace(
             "__MAP_LABEL__",

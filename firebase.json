@@ -33,7 +33,10 @@
       "**/*.mp4",
       "**/*.wav",
       "**/*.gpx",
-      "**/*.srt"
+      "**/*.kml",
+      "**/*.srt",
+      "**/mapa/**",
+      "**/cortes/**"
     ],
     "rewrites": [
       {
@@ -42,6 +45,22 @@
           "functionId": "api",
           "region": "us-central1"
         }
+      },
+      {
+        "source": "/cadastro",
+        "destination": "/app.html"
+      },
+      {
+        "source": "/cadastro/**",
+        "destination": "/app.html"
+      },
+      {
+        "source": "/perfil",
+        "destination": "/app.html"
+      },
+      {
+        "source": "/perfil/**",
+        "destination": "/app.html"
       },
       {
         "source": "**",

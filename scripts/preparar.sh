@@ -14,6 +14,8 @@
 #   - relatorio.md      (relatório Markdown)
 #   - relatorio.csv     (comentários classificados em CSV)
 #   - dashboard.html    (página HTML interativa com toda a análise)
+#
+# Ao final, sincroniza as mídias com o R2/CDN (SKIP_R2=1 para pular).
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -91,6 +93,15 @@ else
   echo ""
   echo "==> Atualizando índice geral"
   "$PY" scripts/atualizar_index.py
+fi
+
+if [ "${SKIP_R2:-0}" = "1" ]; then
+  echo ""
+  echo "==> SKIP_R2=1 — pulando sincronização com o R2/CDN"
+else
+  echo ""
+  echo "==> Sincronizando mídias com o R2/CDN (cdn.json + local.json)"
+  "$PY" scripts/r2_sync.py --only "$PASTA"
 fi
 
 echo ""

@@ -63,7 +63,7 @@ echo "==> functions/.env.local com CLIENT_URL/SITE_URL do emulador"
 # 2) Build da function (esbuild → functions/lib/index.js)
 echo "==> Build da Cloud Function (api)..."
 pnpm exec esbuild functions/src/index.ts \
-  --bundle --platform=node --target=node20 --format=cjs \
+  --bundle --platform=node --target=node24 --format=cjs \
   --packages=external --outfile=functions/lib/index.js
 
 # 3) Dependências da function (o emulador executa com node local)
