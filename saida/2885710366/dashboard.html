@@ -532,9 +532,9 @@
       <span class="map-downloads-title"><i class="fa-solid fa-download"></i> Downloads</span>
       <div class="map-downloads-btns">
         <a class="btn" id="gpxLink" href="mapa/rota.gpx" download="rota.gpx" title="Baixar a rota estimada em GPX (uMap, JOSM, GPS)"><i class="fa-solid fa-download"></i> GPX (uMap/JOSM)</a>
-        <a class="btn" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth (web, mobile ou Pro) — linha da rota + marcos"><i class="fa-solid fa-earth-americas"></i> Google Earth (KML)</a>
-        <a class="btn" href="mapa/rota-a-pe.kml" download="rota-a-pe.kml" title="Rota a pé sem voltas — importar no Google Earth ou Google My Maps (KML)"><i class="fa-solid fa-person-walking"></i> A pé (Google KML)</a>
-        <a class="btn" href="mapa/rota-a-pe.gpx" download="rota-a-pe.gpx" title="Rota a pé sem voltas — importar no OpenStreetMap/uMap/JOSM (GPX)"><i class="fa-solid fa-map"></i> A pé (OSM GPX)</a>
+        <a class="btn" id="kmlLink" href="mapa/rota.kml" download="rota.kml" title="Abrir no Google Earth (web, mobile ou Pro) — linha da rota + marcos"><i class="fa-solid fa-earth-americas"></i> Google Earth (KML)</a>
+        <a class="btn" id="peKmlLink" href="mapa/rota-a-pe.kml" download="rota-a-pe.kml" title="Rota a pé sem voltas — importar no Google Earth ou Google My Maps (KML)"><i class="fa-solid fa-person-walking"></i> A pé (Google KML)</a>
+        <a class="btn" id="peGpxLink" href="mapa/rota-a-pe.gpx" download="rota-a-pe.gpx" title="Rota a pé sem voltas — importar no OpenStreetMap/uMap/JOSM (GPX)"><i class="fa-solid fa-map"></i> A pé (OSM GPX)</a>
       </div>
     </div>
     <div class="grid two">
@@ -2559,8 +2559,23 @@ function applyCdnOverrides(map){
   MAP_FRAMES.forEach((f) => { if (f.img) f.img = resolve(f.img); });
   const gpx = document.getElementById("gpxLink");
   if (gpx) {
-    const url = map["mapa/rota.gpx"] || (prefix ? prefix + "rota.gpx" : "");
+    const url = map["mapa/rota.gpx"] || "";
     if (url) gpx.setAttribute("href", url);
+  }
+  const kml = document.getElementById("kmlLink");
+  if (kml) {
+    const url = map["mapa/rota.kml"] || "";
+    if (url) kml.setAttribute("href", url);
+  }
+  const peKml = document.getElementById("peKmlLink");
+  if (peKml) {
+    const url = map["mapa/rota-a-pe.kml"] || "";
+    if (url) peKml.setAttribute("href", url);
+  }
+  const peGpx = document.getElementById("peGpxLink");
+  if (peGpx) {
+    const url = map["mapa/rota-a-pe.gpx"] || "";
+    if (url) peGpx.setAttribute("href", url);
   }
 }
 

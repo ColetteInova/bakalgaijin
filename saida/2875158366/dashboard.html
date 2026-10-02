@@ -296,6 +296,18 @@
     display: flex; gap: 6px;
   }
   .map-float-controls .btn { background: rgba(15,23,42,.92); }
+  /* área de downloads do mapa (separada das ações galeria/Google Maps) */
+  .map-downloads {
+    display: flex; flex-direction: column; gap: 8px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px; margin-bottom: 10px;
+  }
+  .map-downloads-title {
+    font-size: .7rem; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .05em;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .map-downloads-btns { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .map-carousel { margin-top:14px; }
   .map-carousel-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
   .map-car-title { font-size:.8rem; font-weight:700; color:#e2e8f0; }
@@ -512,11 +524,18 @@
       <button class="btn" onclick="openFramesGallery()" title="Ver todos os frames da análise em sequência">
         <i class="fa-solid fa-images"></i> Galeria de frames
       </button>
-      
-      
       <a class="btn gmaps-btn gmaps-primary" id="mapGmapsLink" href="#" target="_blank" rel="noopener" style="display:none">
         <i class="fa-solid fa-location-dot"></i> Abrir no Google Maps
       </a>
+    </div>
+    <div class="map-downloads">
+      <span class="map-downloads-title"><i class="fa-solid fa-download"></i> Downloads</span>
+      <div class="map-downloads-btns">
+        
+        
+        <a class="btn" id="peKmlLink" href="mapa/rota-a-pe.kml" download="rota-a-pe.kml" title="Rota a pé sem voltas — importar no Google Earth ou Google My Maps (KML)"><i class="fa-solid fa-person-walking"></i> A pé (Google KML)</a>
+        <a class="btn" id="peGpxLink" href="mapa/rota-a-pe.gpx" download="rota-a-pe.gpx" title="Rota a pé sem voltas — importar no OpenStreetMap/uMap/JOSM (GPX)"><i class="fa-solid fa-map"></i> A pé (OSM GPX)</a>
+      </div>
     </div>
     <div class="grid two">
       <div class="map-shell"><div id="liveMap"></div>
@@ -734,6 +753,7 @@ const MAP_STOPS_ALL = [];
 const MAP_FRAMES = [];
 const MAP_ROUTE = [];
 const MAP_ROUTE_TIMES = [];
+const MAP_ROUTE_PE = [];
 const MAP_TRIM_START = 720;
 const MAP_TRIM_END = 300;
 let MAP_VIDEO_DURATION = 0;
@@ -1218,6 +1238,11 @@ function initLiveMap() {
     attribution: "&copy; OpenStreetMap"
   }).addTo(liveMap);
 
+  // rota a pé (sem voltas malucas): linha verde sob os marcadores
+  if (MAP_ROUTE_PE && MAP_ROUTE_PE.length >= 2) {
+    L.polyline(MAP_ROUTE_PE, { color: "#22c55e", weight: 4, opacity: 0.75 }).addTo(liveMap);
+  }
+
   // raio de incerteza dos marcos: só aparece ao selecionar um ponto no mapa
   // (showStopRadius) — a geolocalização por frame tem margem de erro,
   // então o raio é mais honesto que uma linha "precisa"
@@ -1254,6 +1279,8 @@ function initLiveMap() {
     }).addTo(liveMap);
     const lojas = (s.estabelecimentos && s.estabelecimentos.length)
       ? `<div class="pq"><b>🏪 ${s.estabelecimentos.map(x => esc(x)).join(" · ")}</b></div>` : "";
+    const place = s.place_nome
+      ? `<div class="pq"><i class="fa-solid fa-location-crosshairs"></i> ${esc(s.place_nome)} <span class="muted">(Google Places · posição exata)</span></div>` : "";
     const rua = (s.rua && s.rua !== s.nome)
       ? `<div class="pq"><i class="fa-solid fa-road"></i> ${esc(s.rua)}</div>` : "";
     const conf = s.confianca
@@ -1263,6 +1290,7 @@ function initLiveMap() {
       ${isVis ? `<img src="${s.img}" alt="${esc(s.nome)}" onerror="this.style.display='none'" />` : ""}
       <div class="pt">${esc(s.nome)} ${conf}</div>
       ${rua}
+      ${place}
       <div class="pts">⏱ ${fmtClock(s.sec)} · na live</div>
       ${lojas}
       ${isVis ? `<div class="pq">${esc(s.frase || "")}</div>` : ""}
@@ -1272,7 +1300,7 @@ function initLiveMap() {
     m.on("click", () => {
       setActiveMarker(s.sec); // selecionado fica opaco; demais voltam a 0.3
       if (isVis) {
-        jumpToStop(MAP_STOPS[visIdx - 1]);
+        jumpToStop(s); // s é o PRÓPRIO marco clicado (evita closure sobre visIdx)
       } else {
         const media = (V.el && FILES.video) ? V : ((A.el && FILES.audio) ? A : null);
         if (media && media.el) {
@@ -1432,7 +1460,7 @@ function jumpToStop(s) {
     liveMap.flyTo([s.lat, s.lng], Math.max(liveMap.getZoom(), 17), { duration: .5 });
     showStopRadius(s);
   }
-  const idx = MAP_STOPS.indexOf(s);
+  const idx = MAP_STOPS.findIndex(x => x.sec === s.sec);
   document.querySelectorAll(".map-card").forEach(x => x.classList.remove("active"));
   const chip = document.querySelector(`.map-card[data-idx="${idx}"]`);
   if (chip) chip.classList.add("active");
@@ -1550,6 +1578,7 @@ function updateGoogleMap(s) {
 function mapFitAll() {
   if (!liveMap) return;
   const pts = MAP_STOPS_ALL.filter((s) => s.lat != null && s.lng != null).map((s) => [s.lat, s.lng]);
+  if (MAP_ROUTE_PE && MAP_ROUTE_PE.length) pts.push(...MAP_ROUTE_PE);
   if (!pts.length) return;
   liveMap.fitBounds(L.latLngBounds(pts), { padding: [30, 30] });
 }
@@ -2530,8 +2559,23 @@ function applyCdnOverrides(map){
   MAP_FRAMES.forEach((f) => { if (f.img) f.img = resolve(f.img); });
   const gpx = document.getElementById("gpxLink");
   if (gpx) {
-    const url = map["mapa/rota.gpx"] || (prefix ? prefix + "rota.gpx" : "");
+    const url = map["mapa/rota.gpx"] || "";
     if (url) gpx.setAttribute("href", url);
+  }
+  const kml = document.getElementById("kmlLink");
+  if (kml) {
+    const url = map["mapa/rota.kml"] || "";
+    if (url) kml.setAttribute("href", url);
+  }
+  const peKml = document.getElementById("peKmlLink");
+  if (peKml) {
+    const url = map["mapa/rota-a-pe.kml"] || "";
+    if (url) peKml.setAttribute("href", url);
+  }
+  const peGpx = document.getElementById("peGpxLink");
+  if (peGpx) {
+    const url = map["mapa/rota-a-pe.gpx"] || "";
+    if (url) peGpx.setAttribute("href", url);
   }
 }
 

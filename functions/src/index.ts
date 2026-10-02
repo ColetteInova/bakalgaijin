@@ -1025,3 +1025,5 @@ const app = createApp();
 
 // Expondo a function "api": o rewrite do Hosting manda /api/** para cá.
 export const api = onRequest({ region: "us-central1", timeoutSeconds: 120 }, app);
+
+// redeploy: força novas instâncias lerem a versão atual do secret TWITCH_OAUTH_REDIRECT_URI

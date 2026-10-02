@@ -356,25 +356,25 @@ def render_episodes(vods: list[dict], summaries: dict[str, str]) -> str:
             ("scissors", str(vod["cuts"]), "cortes"),
         ]
         stat_markup = "".join(
-            f'<div class="ep-stat"><span class="k"><img src="https://api.iconify.design/lucide/{icon}.svg?color=%23ffffff" alt="" width="14" height="14" loading="lazy" /> {value}</span><span class="v">{label}</span></div>'
+            f'<div class="ep-stat"><span class="k"><img src="icons/lucide/{icon}__ffffff.svg" alt="" width="14" height="14" loading="lazy" /> {value}</span><span class="v">{label}</span></div>'
             for icon, value, label in stats
         )
         extra_chips = sentiment
         if vod["local_label"]:
-            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/map-pin.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {_escape(vod["local_label"])}</span>'
+            extra_chips += f'<span class="ep-chip"><img src="icons/lucide/map-pin__cbd5e1.svg" alt="" width="12" height="12" loading="lazy" /> {_escape(vod["local_label"])}</span>'
         if vod["marcos"]:
-            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/map.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {vod["marcos"]} marcos</span>'
+            extra_chips += f'<span class="ep-chip"><img src="icons/lucide/map__cbd5e1.svg" alt="" width="12" height="12" loading="lazy" /> {vod["marcos"]} marcos</span>'
         if vod["estabelecimentos"]:
-            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/store.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {vod["estabelecimentos"]} lugares</span>'
+            extra_chips += f'<span class="ep-chip"><img src="icons/lucide/store__cbd5e1.svg" alt="" width="12" height="12" loading="lazy" /> {vod["estabelecimentos"]} lugares</span>'
         if vod["clima"] and vod["clima"]["temp_med"]:
             clima_text = f'{vod["clima"]["temp_med"]:.0f}°C'
             if vod["clima"]["precip"]:
                 clima_text += f' · {vod["clima"]["precip"]:.1f}mm'
-            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/thermometer.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {clima_text}</span>'
+            extra_chips += f'<span class="ep-chip"><img src="icons/lucide/thermometer__cbd5e1.svg" alt="" width="12" height="12" loading="lazy" /> {clima_text}</span>'
         if vod["top_commenter"]:
-            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/megaphone.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {_escape(vod["top_commenter"])}</span>'
+            extra_chips += f'<span class="ep-chip"><img src="icons/lucide/megaphone__cbd5e1.svg" alt="" width="12" height="12" loading="lazy" /> {_escape(vod["top_commenter"])}</span>'
         if vod["words_per_minute"]:
-            extra_chips += f'<span class="ep-chip"><img src="https://api.iconify.design/lucide/mic.svg?color=%23cbd5e1" alt="" width="12" height="12" loading="lazy" /> {vod["words_per_minute"]} pal/min</span>'
+            extra_chips += f'<span class="ep-chip"><img src="icons/lucide/mic__cbd5e1.svg" alt="" width="12" height="12" loading="lazy" /> {vod["words_per_minute"]} pal/min</span>'
         quote_markup = ""
         if vod["popular_comment"]:
             popular = vod["popular_comment"]

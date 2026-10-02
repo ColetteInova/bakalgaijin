@@ -30,7 +30,7 @@ const rename = {
   FIREBASE_PROJECT_ID: "CLIENT_FIREBASE_PROJECT_ID",
   FIREBASE_APP_ID: "CLIENT_FIREBASE_APP_ID",
 };
-const skip = new Set(["FIREBASE_SERVICE_ACCOUNT"]);
+const skip = new Set(["FIREBASE_SERVICE_ACCOUNT", "TWITCH_OAUTH_REDIRECT_URI"]);
 const out = [];
 for (const line of fs.readFileSync(".env", "utf8").split(/\r?\n/)) {
   const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);

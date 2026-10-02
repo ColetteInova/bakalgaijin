@@ -148,6 +148,10 @@ pnpm exec esbuild functions/src/index.ts \
   --packages=external --outfile=functions/lib/index.js
 
 echo "==> Deploy para o Firebase (projeto: $PROJECT)..."
+HOSTING_FILES=$(find dist/public -type f | wc -l | tr -d ' ')
+HOSTING_SIZE=$(du -sh dist/public | cut -f1)
+FUNCTIONS_SIZE=$(du -sh functions/lib | cut -f1 2>/dev/null || echo "?")
+echo "    Pacote do Hosting (dist/public): $HOSTING_SIZE em $HOSTING_FILES arquivos | bundle da function: $FUNCTIONS_SIZE"
 export GOOGLE_APPLICATION_CREDENTIALS="$CREDENTIALS"
 npx --yes firebase-tools@latest deploy --only hosting,functions,firestore:rules --project "$PROJECT"
 

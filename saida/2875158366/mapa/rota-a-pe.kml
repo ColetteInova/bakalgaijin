@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Rota a pé — Baka Gaijin (São Paulo)</name>
+    <open>1</open>
+    <Style id="rota">
+      <LineStyle><color>ff2f6bff</color><width>4</width></LineStyle>
+    </Style>
+    <Style id="marco">
+      <IconStyle><scale>0.8</scale>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>0.9</scale></LabelStyle>
+    </Style>
+    <Folder><name>Marcos da live</name><open>0</open>
+    </Folder>
+  </Document>
+</kml>
