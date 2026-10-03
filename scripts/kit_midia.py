@@ -17,11 +17,15 @@ Sem argumentos, gera o kit de todas as pastas de saida/.
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# stdout em arquivo (background) não buferiza: o tail do log mostra o progresso
+print = functools.partial(print, flush=True)  # noqa: A001
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))

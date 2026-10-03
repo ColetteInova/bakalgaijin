@@ -3984,6 +3984,47 @@ def write_cdn_template(
         print(f"  ✓ cdn.json atualizado (preencha com os links do CDN para o hosting)")
 
 
+def build_og_tags(report: dict, folder_name: str) -> tuple[str, str]:
+    """Metadados de compartilhamento (Open Graph / Twitter Cards) + título da página.
+
+    Retorna (og_tags_html, page_title) — usado pelo write_dashboard e pelo
+    regen "só head" de regerar_dashboards.py (--sem-geo).
+    """
+    metrics = report.get("metricas") or {}
+    vod_title = str(metrics.get("title") or "").strip() or "VOD"
+    page_title = f"{vod_title} · análise do rolê — Baka Gaijin"
+    total_comments = (report.get("comentarios") or {}).get("total_comentarios") or 0
+    views_label = str(metrics.get("views_label") or "").strip()
+    meta_bits = [
+        report.get("local_label") or "Japão",
+        str(metrics.get("duration_label") or "").strip(),
+        f"{views_label} views" if views_label else "",
+        f"{total_comments} comentários" if total_comments else "",
+    ]
+    og_desc = (
+        "Análise completa da live: "
+        + " · ".join(b for b in meta_bits if b)
+        + ". Mapa interativo da rota, momentos chave, cortes e clima do chat."
+    )
+    site_url = os.environ.get("SITE_URL", "https://www.bakalovers.com.br").rstrip("/")
+    og_url = f"{site_url}/{folder_name}/dashboard.html"
+    og_image = str(metrics.get("thumbnail") or "").strip() or f"{site_url}/logo-baka.png"
+    og_tags = (
+        '<meta name="description" content="{0}" />\n'
+        '<meta property="og:type" content="article" />\n'
+        '<meta property="og:site_name" content="Baka Gaijin · bakalovers.com.br" />\n'
+        '<meta property="og:title" content="{1}" />\n'
+        '<meta property="og:description" content="{0}" />\n'
+        '<meta property="og:url" content="{2}" />\n'
+        '<meta property="og:image" content="{3}" />\n'
+        '<meta name="twitter:card" content="summary_large_image" />\n'
+        '<meta name="twitter:title" content="{1}" />\n'
+        '<meta name="twitter:description" content="{0}" />\n'
+        '<meta name="twitter:image" content="{3}" />\n'
+    ).format(*(html_lib.escape(x) for x in (og_desc, page_title, og_url, og_image)))
+    return og_tags, page_title
+
+
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
     """Página HTML auto-contida (dados embutidos) com players + análise."""
     import json as _json
@@ -4126,38 +4167,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     map_extra_html = build_map_extra_html(FOLDER, report, map_stops, map_extra_route)
 
     # --- metadados de compartilhamento (Open Graph / Twitter Cards) ---
-    metrics = report.get("metricas") or {}
-    vod_title = str(metrics.get("title") or "").strip() or "VOD"
-    page_title = f"{vod_title} · análise do rolê — Baka Gaijin"
-    total_comments = (report.get("comentarios") or {}).get("total_comentarios") or 0
-    views_label = str(metrics.get("views_label") or "").strip()
-    meta_bits = [
-        report.get("local_label") or "Japão",
-        str(metrics.get("duration_label") or "").strip(),
-        f"{views_label} views" if views_label else "",
-        f"{total_comments} comentários" if total_comments else "",
-    ]
-    og_desc = (
-        "Análise completa da live: "
-        + " · ".join(b for b in meta_bits if b)
-        + ". Mapa interativo da rota, momentos chave, cortes e clima do chat."
-    )
-    site_url = os.environ.get("SITE_URL", "https://www.bakalovers.com.br").rstrip("/")
-    og_url = f"{site_url}/{FOLDER.name}/dashboard.html"
-    og_image = str(metrics.get("thumbnail") or "").strip() or f"{site_url}/logo-baka.png"
-    og_tags = (
-        '<meta name="description" content="{0}" />\n'
-        '<meta property="og:type" content="article" />\n'
-        '<meta property="og:site_name" content="Baka Gaijin · bakalovers.com.br" />\n'
-        '<meta property="og:title" content="{1}" />\n'
-        '<meta property="og:description" content="{0}" />\n'
-        '<meta property="og:url" content="{2}" />\n'
-        '<meta property="og:image" content="{3}" />\n'
-        '<meta name="twitter:card" content="summary_large_image" />\n'
-        '<meta name="twitter:title" content="{1}" />\n'
-        '<meta name="twitter:description" content="{0}" />\n'
-        '<meta name="twitter:image" content="{3}" />\n'
-    ).format(*(html_lib.escape(x) for x in (og_desc, page_title, og_url, og_image)))
+    og_tags, page_title = build_og_tags(report, FOLDER.name)
 
     html = r"""<!doctype html>
 <html lang="pt-BR">

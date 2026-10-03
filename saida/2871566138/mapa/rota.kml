@@ -34,7 +34,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku Southern Terrace — A imagem mostra uma área externa pavimentada com um corrimão e vegetação à esquerda, e uma grande escadaria à direita, com barreiras de fila. A arquitetura moderna e a presença de uma grande escadaria são características da Shinjuku Southern Terrace, uma área de pedestres elevada perto da Estação Shinjuku. A frase do streamer 'vai estar tudo fechado ainda' sugere um horário matutino ou de baixa atividade, compatível com a ausência de pessoas e o aspecto de estabelecimentos fechados ao fundo. A localização é consistente com o contexto de Tóquio (Shinjuku/Kabukichō) e deslocamento a pé.</description>
       <Point>
-        <coordinates>139.701974,35.686519,0</coordinates>
+        <coordinates>139.701906,35.685718,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -42,7 +42,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku-dori — Local fechado/interior — posição interpolada entre pontos de rua</description>
       <Point>
-        <coordinates>139.701781,35.682026,0</coordinates>
+        <coordinates>139.701763,35.681224,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -50,7 +50,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shibuya Crossing (cruzamento de ruas) — A imagem mostra claramente o famoso Shibuya Crossing em Tóquio, um dos cruzamentos mais movimentados do mundo. Os estabelecimentos visíveis como Starbucks e Tsutaya são marcos conhecidos neste local. A arquitetura dos edifícios e os anúncios em japonês confirmam a localização. A presença de ônibus e a faixa de pedestres em diagonal são características distintivas do cruzamento.</description>
       <Point>
-        <coordinates>139.702303,35.682436,0</coordinates>
+        <coordinates>139.702233,35.682443,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -58,7 +58,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku Golden Gai G2 Street — A imagem mostra uma rua estreita e movimentada, típica de Kabukichō, Shinjuku, Tóquio. Os letreiros em japonês e a arquitetura dos edifícios são consistentes com a área. Os estabelecimentos '鳥たまご (Tori Tamago)', 'すず (Suzu)' e 'LARRY'S' são visíveis e podem ser localizados na Shinjuku Golden Gai G2 Street, uma área conhecida por seus bares e becos estreitos.</description>
       <Point>
-        <coordinates>139.702797,35.686913,0</coordinates>
+        <coordinates>139.702785,35.686917,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -66,7 +66,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku Golden Gai G2 Street — Local fechado/interior — posição interpolada entre pontos de rua</description>
       <Point>
-        <coordinates>139.703201,35.691397,0</coordinates>
+        <coordinates>139.703198,35.691400,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -130,7 +130,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku-dori — A imagem mostra um cruzamento com faixas de pedestres típicas do Japão. À esquerda, é visível uma loja FamilyMart e um letreiro com 'SFNSE'. O tipo de ônibus e a arquitetura dos edifícios são consistentes com Tóquio. A localização específica é o cruzamento da Shinjuku-dori com a Meiji-dori, próximo à estação de Shinjuku, uma área conhecida por ter várias lojas FamilyMart e edifícios comerciais.</description>
       <Point>
-        <coordinates>139.700961,35.690845,0</coordinates>
+        <coordinates>139.700268,35.690951,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -162,7 +162,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Meiji-dori (明治通り) — A imagem mostra uma rua urbana com arquitetura moderna e placas em japonês, confirmando Tóquio. O letreiro 'FamilyMart' é claramente visível ao fundo. A arquitetura de vidro de um prédio à direita sugere uma loja de departamento ou grande varejista, possivelmente uma UNIQLO. A presença de uma faixa de pedestres e a disposição da calçada e da rua são consistentes com a Meiji-dori na área de Shinjuku, próximo à estação de Shinjuku-sanchome, onde há um FamilyMart e grandes lojas.</description>
       <Point>
-        <coordinates>139.704053,35.693334,0</coordinates>
+        <coordinates>139.703905,35.692839,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -170,7 +170,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku-dori — A imagem mostra uma rua larga com arquitetura moderna e placas em japonês, características de Tóquio. O edifício à esquerda exibe o logotipo 'ZENITH', uma marca de relógios de luxo. A arquitetura do prédio à esquerda, com sua fachada de vidro facetada, é muito semelhante ao edifício da Zenith em Shinjuku. Ao fundo, uma placa grande com caracteres japoneses e o que parece ser o logotipo da 'BIC CAMERA' (uma grande loja de eletrônicos japonesa) reforça a localização em Shinjuku, próximo à estação. A coordenada estimada corresponde a um ponto na Shinjuku-dori, em frente à loja Zenith.</description>
       <Point>
-        <coordinates>139.703716,35.689627,0</coordinates>
+        <coordinates>139.703648,35.688349,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -178,7 +178,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku-dori — A placa de 'PRIVATE AREA NO ENTRY' é um indicativo comum em áreas de construção ou acesso restrito no Japão. Ao fundo, é possível ver um letreiro vermelho que se assemelha ao logotipo da FamilyMart, uma rede de lojas de conveniência muito presente em Tóquio. A arquitetura dos prédios e o estilo da rua são consistentes com a área de Shinjuku. A coordenada foi estimada com base na localização de uma FamilyMart na Shinjuku-dori, próxima a Kabukichō, que corresponde ao ambiente e contexto da live.</description>
       <Point>
-        <coordinates>139.700250,35.689749,0</coordinates>
+        <coordinates>139.700059,35.689812,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -186,7 +186,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Kabukicho — A imagem mostra a fachada de um banco Mizuho, uma instituição financeira japonesa comum em Tóquio. A arquitetura e as marcações táteis amarelas no chão são características de ruas japonesas. A área de Kabukichō em Shinjuku é conhecida por ter muitos estabelecimentos comerciais e bancos, e a presença do Mizuho é um forte indicativo. A coordenada é uma estimativa para a área de Kabukichō onde o banco Mizuho é visível.</description>
       <Point>
-        <coordinates>139.701572,35.693103,0</coordinates>
+        <coordinates>139.701753,35.693320,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -218,7 +218,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku Promenade Park — A imagem mostra uma rua pavimentada com tijolos, típica de áreas comerciais no Japão. O letreiro 'SWEET PALACE' é visível, e a arquitetura do prédio ao fundo, com a placa 'AFTER HOURS' e os caracteres japoneses, confirma a localização em Tóquio. A presença de um expositor de produtos Pokémon na calçada é comum em áreas de grande movimento como Shinjuku. A coordenada é compatível com o Shinjuku Promenade Park, uma área de pedestres com estabelecimentos comerciais.</description>
       <Point>
-        <coordinates>139.703096,35.691796,0</coordinates>
+        <coordinates>139.702967,35.689805,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -226,7 +226,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Shinjuku-dori (新宿通り) — A imagem mostra uma calçada com piso tátil amarelo, comum no Japão, e pessoas com guarda-chuvas transparentes, também característicos. A arquitetura do prédio à esquerda, com grandes janelas e o estilo geral da rua, é consistente com áreas comerciais de Tóquio. Embora não haja nomes de estabelecimentos claramente visíveis, a localização em Shinjuku/Kabukichō, conforme o contexto fornecido, e a aparência da rua, sugerem a Shinjuku-dori, uma das principais vias da região. A coordenada estimada corresponde a um trecho dessa rua.</description>
       <Point>
-        <coordinates>139.703048,35.687307,0</coordinates>
+        <coordinates>139.703129,35.685324,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -234,7 +234,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Não identificável com precisão, mas dentro da área do Santuá — A imagem mostra um ambiente arborizado com uma estrutura de madeira tradicional japonesa, que se assemelha a um torii ou parte de um templo/santuário. A arquitetura e a vegetação são consistentes com a entrada ou os arredores do Santuário Meiji Jingu em Tóquio, que é uma grande área verde. A presença de pilares de madeira e a pavimentação de cascalho são características comuns do local. A coordenada fornecida é uma estimativa para a área de entrada do santuário.</description>
       <Point>
-        <coordinates>139.705068,35.683157,0</coordinates>
+        <coordinates>139.705702,35.681398,0</coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -242,7 +242,7 @@
       <styleUrl>#stop</styleUrl>
       <description>Meiji Jingu Gaien (外苑) — Local fechado/interior — posição interpolada entre pontos de rua</description>
       <Point>
-        <coordinates>139.708773,35.679834,0</coordinates>
+        <coordinates>139.709904,35.678490,0</coordinates>
       </Point>
     </Placemark>
   </Document>

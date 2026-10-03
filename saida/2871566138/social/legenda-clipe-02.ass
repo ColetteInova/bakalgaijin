@@ -1,0 +1,37 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,64,&H00FFFFFF,&H000000FF,&H00141414,&H96000000,-1,0,0,0,100,100,0,0,1,3,0,2,80,80,250,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:02.00,Default,,0,0,0,,Bem legal
+Dialogue: 0,0:00:02.00,0:00:08.00,Default,,0,0,0,,Tá dando pra me ouvir ou tá...
+Dialogue: 0,0:00:10.00,0:00:12.00,Default,,0,0,0,,Tá muito barulho aqui, né?
+Dialogue: 0,0:00:12.00,0:00:14.00,Default,,0,0,0,,Deixa eu sair do meio desse trânsito
+Dialogue: 0,0:00:14.00,0:00:16.00,Default,,0,0,0,,Se é que me permite, pra onde será que eu vou, hein?
+Dialogue: 0,0:00:17.00,0:00:18.00,Default,,0,0,0,,Bem, ô, eu vou
+Dialogue: 0,0:00:18.00,0:00:19.00,Default,,0,0,0,,Naquela direção ali, ó
+Dialogue: 0,0:00:19.00,0:00:22.00,Default,,0,0,0,,Aqui eu acho que é coberto ainda, não preciso nem do guardas
+Dialogue: 0,0:00:22.00,0:00:23.00,Default,,0,0,0,,Tá?
+Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0,0,0,,E o roteiro vai se criando
+Dialogue: 0,0:00:26.00,0:00:27.00,Default,,0,0,0,,Tá?
+Dialogue: 0,0:00:32.00,0:00:40.00,Default,,0,0,0,,Tá dando de 4
+Dialogue: 0,0:00:40.00,0:00:53.00,Default,,0,0,0,,Será que vai cair debaixo da ponte?
+Dialogue: 0,0:00:56.00,0:00:57.00,Default,,0,0,0,,Vamos ver
+Dialogue: 0,0:00:57.00,0:01:01.00,Default,,0,0,0,,Ah, eu vou ter que abrir aqui, não tem jeito
+Dialogue: 0,0:01:01.00,0:01:03.00,Default,,0,0,0,,Vou ter que abrir o guardas e o cozinha
+Dialogue: 0,0:01:03.00,0:01:04.00,Default,,0,0,0,,Olha como ele abre
+Dialogue: 0,0:01:04.00,0:01:06.00,Default,,0,0,0,,Ai, que saudades
+Dialogue: 0,0:01:06.00,0:01:12.00,Default,,0,0,0,,Por favor, vem pra Osasco casar comigo
+Dialogue: 0,0:01:12.00,0:01:18.00,Default,,0,0,0,,Tira a foto com o Kojima, por favor
+Dialogue: 0,0:01:18.00,0:01:21.00,Default,,0,0,0,,Tá
+Dialogue: 0,0:01:21.00,0:01:25.00,Default,,0,0,0,,Bom, deixa eu atravessar aqui
+Dialogue: 0,0:01:27.00,0:01:28.00,Default,,0,0,0,,Se é que eu me lembro bem, né?
+Dialogue: 0,0:01:28.00,0:01:29.00,Default,,0,0,0,,Dessa região
+Dialogue: 0,0:01:29.00,0:01:30.00,Default,,0,0,0,,Tudo vazio
