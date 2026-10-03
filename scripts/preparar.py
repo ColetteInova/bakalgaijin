@@ -21,6 +21,7 @@ import argparse
 import base64
 import datetime
 import hashlib
+import html as html_lib
 import json
 import math
 import os
@@ -4124,12 +4125,46 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
     )
     map_extra_html = build_map_extra_html(FOLDER, report, map_stops, map_extra_route)
 
+    # --- metadados de compartilhamento (Open Graph / Twitter Cards) ---
+    metrics = report.get("metricas") or {}
+    vod_title = str(metrics.get("title") or "").strip() or "VOD"
+    page_title = f"{vod_title} · análise do rolê — Baka Gaijin"
+    total_comments = (report.get("comentarios") or {}).get("total_comentarios") or 0
+    views_label = str(metrics.get("views_label") or "").strip()
+    meta_bits = [
+        report.get("local_label") or "Japão",
+        str(metrics.get("duration_label") or "").strip(),
+        f"{views_label} views" if views_label else "",
+        f"{total_comments} comentários" if total_comments else "",
+    ]
+    og_desc = (
+        "Análise completa da live: "
+        + " · ".join(b for b in meta_bits if b)
+        + ". Mapa interativo da rota, momentos chave, cortes e clima do chat."
+    )
+    site_url = os.environ.get("SITE_URL", "https://www.bakalovers.com.br").rstrip("/")
+    og_url = f"{site_url}/{FOLDER.name}/dashboard.html"
+    og_image = str(metrics.get("thumbnail") or "").strip() or f"{site_url}/logo-baka.png"
+    og_tags = (
+        '<meta name="description" content="{0}" />\n'
+        '<meta property="og:type" content="article" />\n'
+        '<meta property="og:site_name" content="Baka Gaijin · bakalovers.com.br" />\n'
+        '<meta property="og:title" content="{1}" />\n'
+        '<meta property="og:description" content="{0}" />\n'
+        '<meta property="og:url" content="{2}" />\n'
+        '<meta property="og:image" content="{3}" />\n'
+        '<meta name="twitter:card" content="summary_large_image" />\n'
+        '<meta name="twitter:title" content="{1}" />\n'
+        '<meta name="twitter:description" content="{0}" />\n'
+        '<meta name="twitter:image" content="{3}" />\n'
+    ).format(*(html_lib.escape(x) for x in (og_desc, page_title, og_url, og_image)))
+
     html = r"""<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dashboard — Análise de VOD</title>
+__OG_TAGS__<title>__PAGE_TITLE__</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -6753,6 +6788,8 @@ resolveSupportCta();
 
     html = (
         html.replace("__DATA_INLINE__", data_inline)
+        .replace("__OG_TAGS__", og_tags)
+        .replace("__PAGE_TITLE__", html_lib.escape(page_title))
         .replace("__FILES_JSON__", files_json)
         .replace("__CUES_JSON__", cues_json)
         .replace("__MAP_STOPS_JSON__", map_stops_json)
