@@ -1,0 +1,49 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,64,&H00FFFFFF,&H000000FF,&H00141414,&H96000000,-1,0,0,0,100,100,0,0,1,3,0,2,80,80,250,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:02.00,0:00:05.00,Default,,0,0,0,,Se for ver, está mal lotado ali, será que vai cair minha live?
+Dialogue: 0,0:00:05.00,0:00:07.00,Default,,0,0,0,,Está tudo bem com o sinal por enquanto?
+Dialogue: 0,0:00:07.00,0:00:09.00,Default,,0,0,0,,Eita porra, ele já está tendo quase aqui
+Dialogue: 0,0:00:10.00,0:00:12.00,Default,,0,0,0,,Eita porra
+Dialogue: 0,0:00:14.00,0:00:16.00,Default,,0,0,0,,Caralho, puta cara
+Dialogue: 0,0:00:16.00,0:00:18.00,Default,,0,0,0,,Não sabia que era tão fácil assim
+Dialogue: 0,0:00:20.00,0:00:22.00,Default,,0,0,0,,Vou ficar na fila de próximo
+Dialogue: 0,0:00:24.00,0:00:25.00,Default,,0,0,0,,Próximo
+Dialogue: 0,0:00:28.00,0:00:30.00,Default,,0,0,0,,O que é esse?
+Dialogue: 0,0:00:30.00,0:00:32.00,Default,,0,0,0,,Qual o canal?
+Dialogue: 0,0:00:32.00,0:00:34.00,Default,,0,0,0,,Baca Gaijin
+Dialogue: 0,0:00:34.00,0:00:35.00,Default,,0,0,0,,Qual o canal?
+Dialogue: 0,0:00:35.00,0:00:36.00,Default,,0,0,0,,Baca Gaijin
+Dialogue: 0,0:00:36.00,0:00:37.00,Default,,0,0,0,,Conhece?
+Dialogue: 0,0:00:37.00,0:00:38.00,Default,,0,0,0,,Não, não
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0,0,0,,Vou me inscrever agora
+Dialogue: 0,0:00:40.00,0:00:41.00,Default,,0,0,0,,É mesmo?
+Dialogue: 0,0:00:41.00,0:00:43.00,Default,,0,0,0,,Eu estou fazendo live na Twitch
+Dialogue: 0,0:00:43.00,0:00:45.00,Default,,0,0,0,,Ah, não é no Youtube?
+Dialogue: 0,0:00:45.00,0:00:47.00,Default,,0,0,0,,Eu vou te seguir lá
+Dialogue: 0,0:00:47.00,0:00:49.00,Default,,0,0,0,,Baka Baka
+Dialogue: 0,0:00:49.00,0:00:51.00,Default,,0,0,0,,Já deve aparecer aí
+Dialogue: 0,0:00:51.00,0:00:53.00,Default,,0,0,0,,Gaijin
+Dialogue: 0,0:00:53.00,0:00:57.00,Default,,0,0,0,,G-A-I-J-I-N
+Dialogue: 0,0:00:57.00,0:00:59.00,Default,,0,0,0,,I-N
+Dialogue: 0,0:00:59.00,0:01:01.00,Default,,0,0,0,,É com K né?
+Dialogue: 0,0:01:01.00,0:01:03.00,Default,,0,0,0,,Isso, é isso seu próprio
+Dialogue: 0,0:01:03.00,0:01:05.00,Default,,0,0,0,,Que isso? Eu já sou inscrito
+Dialogue: 0,0:01:05.00,0:01:07.00,Default,,0,0,0,,Aí ó, caramba, aí mostra pra caralho
+Dialogue: 0,0:01:07.00,0:01:09.00,Default,,0,0,0,,Mentira que tu é esse cara
+Dialogue: 0,0:01:09.00,0:01:11.00,Default,,0,0,0,,Mentira
+Dialogue: 0,0:01:11.00,0:01:13.00,Default,,0,0,0,,Caramba, eu te reconheci
+Dialogue: 0,0:01:13.00,0:01:16.00,Default,,0,0,0,,Você viu que era um streamer esquisito?
+Dialogue: 0,0:01:16.00,0:01:22.00,Default,,0,0,0,,Não, mas é porque quando você passou ali eu falei que conhecia esse cara de algum lugar
+Dialogue: 0,0:01:22.00,0:01:25.00,Default,,0,0,0,,É aquele que vai lá no Japão, vai lá no submundo do Japão
+Dialogue: 0,0:01:25.00,0:01:28.00,Default,,0,0,0,,É, acho que você não lembrava nada
+Dialogue: 0,0:01:28.00,0:01:30.00,Default,,0,0,0,,O cara vai entrar aqui?
