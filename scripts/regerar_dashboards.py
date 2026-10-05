@@ -11,9 +11,9 @@ Uso:
     .venv-ia/bin/python scripts/regerar_dashboards.py [pasta1 pasta2 ...] [--sem-geo]
 Sem argumentos, regera todas as pastas de saida/.
 
---sem-geo: atualiza SÓ o <head> (OG/Twitter Cards + título) e injeta os defaults
-de tooltip dos gráficos no dashboard.html já gerado — não roda geo/frames/rota/
-clima (nada pesado, segundos por pasta).
+--sem-geo: atualiza SÓ o <head> (OG/Twitter Cards + título + snippet do GA4) e
+injeta os defaults de tooltip dos gráficos no dashboard.html já gerado — não roda
+geo/frames/rota/clima (nada pesado, segundos por pasta).
 """
 import argparse
 import html
@@ -57,8 +57,8 @@ def _patch_chart_tooltips(text: str) -> str:
 
 
 def regerar_so_head(nome: str) -> bool:
-    """Atualiza SÓ o <head> (OG/Twitter Cards + título) e injeta os defaults de
-    tooltip dos gráficos — sem geo, frames ou rota."""
+    """Atualiza SÓ o <head> (OG/Twitter Cards + título + GA4) e injeta os
+    defaults de tooltip dos gráficos — sem geo, frames ou rota."""
     folder = ROOT / "saida" / nome
     dash = folder / "dashboard.html"
     rel = folder / "relatorio.json"
@@ -96,9 +96,10 @@ def regerar_so_head(nome: str) -> bool:
         count=1,
     )
     new_text = _patch_chart_tooltips(new_text)
+    new_text = preparar.ensure_analytics(new_text, report, folder.name)
     if new_text != text:
         dash.write_text(new_text, encoding="utf-8")
-        print(f"  ✓ {nome}/dashboard.html (só head + tooltips, sem geo)")
+        print(f"  ✓ {nome}/dashboard.html (só head + tooltips + analytics, sem geo)")
     else:
         print(f"  = {nome}/dashboard.html (já estava atualizado)")
     return True

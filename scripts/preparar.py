@@ -4025,6 +4025,62 @@ def build_og_tags(report: dict, folder_name: str) -> tuple[str, str]:
     return og_tags, page_title
 
 
+# Google Analytics 4 — mesmo ID de medição da fan page (saida/index.html) e do
+# app (client/index.html). Sobrescreva com GA_MEASUREMENT_ID no ambiente.
+GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "G-8GN746JMC7")
+# Marcador que torna a injeção idempotente (regerar_dashboards --sem-geo).
+GA_ANALYTICS_MARKER = "<!-- GA_ANALYTICS -->"
+
+
+def build_analytics_tags(report: dict, folder_name: str) -> str:
+    """Snippet do GA4 do dashboard, para saber quais análises foram acessadas.
+
+    Além do page_view padrão (page_path/page_title), dispara o evento
+    `dashboard_view` com vod_id/vod_titulo/local — assim dá para ranquear os
+    dashboards mais acessados direto nos relatórios do GA4.
+    """
+    if not GA_MEASUREMENT_ID:
+        return ""
+    metrics = report.get("metricas") or {}
+    params = json.dumps(
+        {
+            "vod_id": folder_name,
+            "vod_titulo": str(metrics.get("title") or "").strip() or "VOD",
+            "local": str(report.get("local_label") or "").strip(),
+        },
+        ensure_ascii=False,
+    ).replace("</", "<\\/")
+    return (
+        GA_ANALYTICS_MARKER + "\n"
+        f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>\n'
+        "<script>\n"
+        "  window.dataLayer = window.dataLayer || [];\n"
+        "  function gtag(){dataLayer.push(arguments);}\n"
+        '  gtag("js", new Date());\n'
+        f'  gtag("config", "{GA_MEASUREMENT_ID}");\n'
+        f'  gtag("event", "dashboard_view", {params});\n'
+        "</script>\n"
+    )
+
+
+def ensure_analytics(text: str, report: dict, folder_name: str) -> str:
+    """Injeta o GA4 no <head> se ainda não estiver presente (idempotente).
+
+    Usado pelo regen "só head" (regerar_dashboards.py --sem-geo) para atualizar
+    dashboards já gerados sem reprocessar o VOD.
+    """
+    if GA_ANALYTICS_MARKER in text or "googletagmanager.com/gtag/js" in text:
+        return text
+    snippet = build_analytics_tags(report, folder_name)
+    if not snippet:
+        return text
+    for pattern in (r"(</title>)", r"(<head[^>]*>)"):
+        text, n = re.subn(pattern, lambda m: m.group(1) + "\n" + snippet, text, count=1)
+        if n:
+            break
+    return text
+
+
 # Tooltips sempre visíveis ao passar o mouse (defaults globais do Chart.js).
 # O marcador CHART_TOOLTIP_DEFAULTS torna o patch idempotente (regerar_dashboards --sem-geo).
 CHART_TOOLTIP_DEFAULTS = """<script>
@@ -4185,6 +4241,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 
     # --- metadados de compartilhamento (Open Graph / Twitter Cards) ---
     og_tags, page_title = build_og_tags(report, FOLDER.name)
+    analytics_tags = build_analytics_tags(report, FOLDER.name)
 
     html = r"""<!doctype html>
 <html lang="pt-BR">
@@ -4192,7 +4249,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 __OG_TAGS__<title>__PAGE_TITLE__</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+__ANALYTICS__<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 __CHART_TOOLTIP_DEFAULTS__<script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -6816,6 +6873,7 @@ resolveSupportCta();
     html = (
         html.replace("__DATA_INLINE__", data_inline)
         .replace("__OG_TAGS__", og_tags)
+        .replace("__ANALYTICS__", analytics_tags)
         .replace("__PAGE_TITLE__", html_lib.escape(page_title))
         .replace("__CHART_TOOLTIP_DEFAULTS__", CHART_TOOLTIP_DEFAULTS)
         .replace("__FILES_JSON__", files_json)
