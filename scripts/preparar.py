@@ -4025,6 +4025,23 @@ def build_og_tags(report: dict, folder_name: str) -> tuple[str, str]:
     return og_tags, page_title
 
 
+# Tooltips sempre visíveis ao passar o mouse (defaults globais do Chart.js).
+# O marcador CHART_TOOLTIP_DEFAULTS torna o patch idempotente (regerar_dashboards --sem-geo).
+CHART_TOOLTIP_DEFAULTS = """<script>
+  // CHART_TOOLTIP_DEFAULTS — tooltips sempre ao passar o mouse (todos os gráficos)
+  Chart.defaults.interaction.intersect = false;
+  Chart.defaults.plugins.tooltip.intersect = false;
+  Chart.defaults.plugins.tooltip.backgroundColor = "rgba(30,41,59,.96)";
+  Chart.defaults.plugins.tooltip.titleColor = "#e2e8f0";
+  Chart.defaults.plugins.tooltip.bodyColor = "#cbd5e1";
+  Chart.defaults.plugins.tooltip.borderColor = "#334155";
+  Chart.defaults.plugins.tooltip.borderWidth = 1;
+  Chart.defaults.plugins.tooltip.padding = 10;
+  Chart.defaults.plugins.tooltip.cornerRadius = 8;
+</script>
+"""
+
+
 def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = None) -> None:
     """Página HTML auto-contida (dados embutidos) com players + análise."""
     import json as _json
@@ -4176,7 +4193,7 @@ def write_dashboard(report: dict, path: Path, srt_blocks: list[dict] | None = No
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 __OG_TAGS__<title>__PAGE_TITLE__</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
+__CHART_TOOLTIP_DEFAULTS__<script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -6800,6 +6817,7 @@ resolveSupportCta();
         html.replace("__DATA_INLINE__", data_inline)
         .replace("__OG_TAGS__", og_tags)
         .replace("__PAGE_TITLE__", html_lib.escape(page_title))
+        .replace("__CHART_TOOLTIP_DEFAULTS__", CHART_TOOLTIP_DEFAULTS)
         .replace("__FILES_JSON__", files_json)
         .replace("__CUES_JSON__", cues_json)
         .replace("__MAP_STOPS_JSON__", map_stops_json)

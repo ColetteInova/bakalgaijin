@@ -11,8 +11,9 @@ Uso:
     .venv-ia/bin/python scripts/regerar_dashboards.py [pasta1 pasta2 ...] [--sem-geo]
 Sem argumentos, regera todas as pastas de saida/.
 
---sem-geo: atualiza SÓ o <head> (OG/Twitter Cards + título) do dashboard.html
-já gerado — não roda geo/frames/rota/clima (nada pesado, segundos por pasta).
+--sem-geo: atualiza SÓ o <head> (OG/Twitter Cards + título) e injeta os defaults
+de tooltip dos gráficos no dashboard.html já gerado — não roda geo/frames/rota/
+clima (nada pesado, segundos por pasta).
 """
 import argparse
 import html
@@ -45,8 +46,19 @@ def regerar(nome: str) -> bool:
     return True
 
 
+def _patch_chart_tooltips(text: str) -> str:
+    """Injeta os defaults de tooltip do Chart.js após o script do CDN (idempotente)."""
+    if "CHART_TOOLTIP_DEFAULTS" in text:
+        return text
+    needle = '<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>'
+    if needle not in text:
+        return text
+    return text.replace(needle, needle + "\n" + preparar.CHART_TOOLTIP_DEFAULTS, 1)
+
+
 def regerar_so_head(nome: str) -> bool:
-    """Atualiza só o <head> (OG/Twitter Cards + título) — sem geo, frames ou rota."""
+    """Atualiza SÓ o <head> (OG/Twitter Cards + título) e injeta os defaults de
+    tooltip dos gráficos — sem geo, frames ou rota."""
     folder = ROOT / "saida" / nome
     dash = folder / "dashboard.html"
     rel = folder / "relatorio.json"
@@ -83,9 +95,10 @@ def regerar_so_head(nome: str) -> bool:
         new_text,
         count=1,
     )
+    new_text = _patch_chart_tooltips(new_text)
     if new_text != text:
         dash.write_text(new_text, encoding="utf-8")
-        print(f"  ✓ {nome}/dashboard.html (só head, sem geo)")
+        print(f"  ✓ {nome}/dashboard.html (só head + tooltips, sem geo)")
     else:
         print(f"  = {nome}/dashboard.html (já estava atualizado)")
     return True
